@@ -1,0 +1,64 @@
+import { describe, expect, it } from 'vitest';
+import type { RunResult, StrategySummary } from '../../engine/types';
+import { fmtNumber, fmtRate, parseSeedInput, randomSeed, resultRows } from './results';
+
+function fakeSummary(strategyId: string, over: Partial<StrategySummary> = {}): StrategySummary {
+  return {
+    strategyId,
+    combats: 4,
+    avgHpLost: 10.25,
+    avgTurnsToKill: 5.5,
+    deathRate: 0.25,
+    turnCapRate: 0,
+    hpLostCounts: [0, 0, 1, 0, 2, 1],
+    ...over,
+  };
+}
+
+const result: RunResult = {
+  gameVersion: 'v0.107.1',
+  config: {
+    characterId: 'ironclad',
+    deck: [],
+    enemyId: 'nibbit',
+    ascension: 0,
+    runSeed: 7,
+    strategies: [
+      { strategy: { id: 'a', name: 'Greedy', config: { kind: 'greedyDamage' } }, color: 'blue' },
+      { strategy: { id: 'b', name: 'Scared', config: { kind: 'block', allowThrough: 0 } }, color: 'red' },
+      { strategy: { id: 'c', name: 'Missing', config: { kind: 'block', allowThrough: 3 } }, color: 'pink' },
+    ],
+  },
+  summaries: [fakeSummary('b', { avgTurnsToKill: null }), fakeSummary('a')],
+};
+
+describe('results helpers', () => {
+  it('joins summaries to run strategies in run order', () => {
+    const rows = resultRows(result);
+    expect(rows.map((r) => [r.name, r.color, r.strategyIndex])).toEqual([
+      ['Greedy', 'blue', 0],
+      ['Scared', 'red', 1],
+    ]);
+    expect(rows[1]!.summary.avgTurnsToKill).toBeNull();
+  });
+
+  it('formats numbers and rates', () => {
+    expect(fmtNumber(10.25)).toBe('10.3');
+    expect(fmtNumber(null)).toBe('—');
+    expect(fmtRate(0.25)).toBe('25.0%');
+    expect(fmtRate(0)).toBe('0.0%');
+    expect(fmtRate(1)).toBe('100.0%');
+  });
+
+  it('random seeds are 32-bit', () => {
+    expect(randomSeed(() => 0)).toBe(0);
+    expect(randomSeed(() => 0.9999999999)).toBe(4294967295);
+  });
+
+  it('parses the seed input', () => {
+    expect(parseSeedInput('')).toBeNull();
+    expect(parseSeedInput(' 42 ')).toBe(42);
+    expect(parseSeedInput('4294967296')).toBeUndefined();
+    expect(parseSeedInput('-3')).toBeUndefined();
+  });
+});
