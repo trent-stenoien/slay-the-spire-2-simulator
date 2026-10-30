@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 6,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 8,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 6 damage. / Apply 3 Poison.",
   "upgradedDescription": "Deal 8 damage. / Apply 4 Poison.",
   "simulated": false,

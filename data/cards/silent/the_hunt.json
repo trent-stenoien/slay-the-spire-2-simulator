@@ -11,8 +11,22 @@
   "keywords": [
     "exhaust"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 10,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 15,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 10 damage. / If Fatal, gain an additional card reward. / Exhaust.",
   "upgradedDescription": "Deal 15 damage. / If Fatal, gain an additional card reward. / Exhaust.",
   "simulated": false,

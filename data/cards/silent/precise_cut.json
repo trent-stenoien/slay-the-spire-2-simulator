@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 13,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 16,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 13 damage. / Deals 2 less damage for each other card in your Hand.",
   "upgradedDescription": "Deal 16 damage. / Deals 2 less damage for each other card in your Hand.",
   "simulated": false,

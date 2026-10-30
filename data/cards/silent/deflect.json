@@ -9,11 +9,23 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 4
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 7
+      }
+    ]
+  },
   "description": "Gain 4 Block.",
   "upgradedDescription": "Gain 7 Block.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

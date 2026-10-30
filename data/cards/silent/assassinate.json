@@ -12,8 +12,30 @@
     "innate",
     "exhaust"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 10,
+      "hits": 1
+    },
+    {
+      "type": "applyVulnerable",
+      "amount": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 13,
+        "hits": 1
+      },
+      {
+        "type": "applyVulnerable",
+        "amount": 2
+      }
+    ]
+  },
   "description": "Innate. / Deal 10 damage. / Apply 1 Vulnerable. / Exhaust.",
   "upgradedDescription": "Innate. / Deal 13 damage. / Apply 2 Vulnerable. / Exhaust.",
   "simulated": false,

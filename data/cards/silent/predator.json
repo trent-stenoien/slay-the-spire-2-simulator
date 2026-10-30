@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 15,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 20,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 15 damage. / Next turn, draw 2 cards.",
   "upgradedDescription": "Deal 20 damage. / Next turn, draw 2 cards.",
   "simulated": false,

@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 9,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 12,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 9 damage. / Draw 1 card. / Discard 1 card.",
   "upgradedDescription": "Deal 12 damage. / Draw 1 card. / Discard 1 card.",
   "simulated": false,

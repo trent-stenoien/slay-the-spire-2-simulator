@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 15,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 19,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 15 damage. / Costs 1 less [E] for each Skill played this turn.",
   "upgradedDescription": "Deal 19 damage. / Costs 1 less [E] for each Skill played this turn.",
   "simulated": false,
