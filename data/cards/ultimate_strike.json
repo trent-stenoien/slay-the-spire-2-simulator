@@ -1,0 +1,12 @@
+{
+  "id": "ultimate_strike",
+  "code": "US",
+  "name": "Ultimate Strike",
+  "type": "attack",
+  "character": "colorless",
+  "cost": 1,
+  "keywords": [],
+  "effects": [{ "type": "attack", "damage": 14, "hits": 1 }],
+  "upgraded": { "effects": [{ "type": "attack", "damage": 20, "hits": 1 }] },
+  "lastUpdateVersion": "v0.107.1"
+}

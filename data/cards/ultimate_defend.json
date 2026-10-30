@@ -1,0 +1,12 @@
+{
+  "id": "ultimate_defend",
+  "code": "UD",
+  "name": "Ultimate Defend",
+  "type": "skill",
+  "character": "colorless",
+  "cost": 1,
+  "keywords": [],
+  "effects": [{ "type": "gainBlock", "amount": 11 }],
+  "upgraded": { "effects": [{ "type": "gainBlock", "amount": 15 }] },
+  "lastUpdateVersion": "v0.107.1"
+}
