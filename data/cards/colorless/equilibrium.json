@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 13
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 16
+      }
+    ]
+  },
   "description": "Gain 13 Block. / Retain your Hand this turn.",
   "upgradedDescription": "Gain 16 Block. / Retain your Hand this turn.",
   "simulated": false,

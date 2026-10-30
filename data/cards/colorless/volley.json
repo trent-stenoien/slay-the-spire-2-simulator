@@ -9,8 +9,22 @@
   "xCost": true,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 10,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 14,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 10 damage to a random enemy X times.",
   "upgradedDescription": "Deal 14 damage to a random enemy X times.",
   "simulated": false,

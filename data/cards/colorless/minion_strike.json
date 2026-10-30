@@ -11,8 +11,22 @@
   "keywords": [
     "exhaust"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 6,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 9,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 6 damage. / Draw 1 card. / Exhaust.",
   "upgradedDescription": "Deal 9 damage. / Draw 1 card. / Exhaust.",
   "simulated": false,

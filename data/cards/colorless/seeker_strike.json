@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 9,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 12,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 9 damage. / Choose 1 of 3 cards in your Draw Pile to add into your Hand.",
   "upgradedDescription": "Deal 12 damage. / Choose 1 of 3 cards in your Draw Pile to add into your Hand.",
   "simulated": false,

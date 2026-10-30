@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 7,
+      "hits": 2
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 9,
+        "hits": 2
+      }
+    ]
+  },
   "description": "Deal 7 damage to a random enemy twice.",
   "upgradedDescription": "Deal 9 damage to a random enemy twice.",
   "simulated": false,

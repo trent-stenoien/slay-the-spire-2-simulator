@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 10,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 12,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 10 damage. / Deals 5 additional damage for each unique debuff on the enemy.",
   "upgradedDescription": "Deal 12 damage. / Deals 8 additional damage for each unique debuff on the enemy.",
   "simulated": false,

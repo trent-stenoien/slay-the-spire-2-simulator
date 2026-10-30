@@ -12,8 +12,24 @@
     "innate",
     "exhaust"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 11,
+      "hits": 1,
+      "allEnemies": true
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 15,
+        "hits": 1,
+        "allEnemies": true
+      }
+    ]
+  },
   "description": "Innate. / Deal 11 damage to ALL enemies. / Exhaust.",
   "upgradedDescription": "Innate. / Deal 15 damage to ALL enemies. / Exhaust.",
   "simulated": false,

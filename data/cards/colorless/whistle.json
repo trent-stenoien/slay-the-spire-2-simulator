@@ -11,8 +11,22 @@
   "keywords": [
     "exhaust"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 33,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 44,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 33 damage. / Stun the enemy. / Exhaust.",
   "upgradedDescription": "Deal 44 damage. / Stun the enemy. / Exhaust.",
   "simulated": false,

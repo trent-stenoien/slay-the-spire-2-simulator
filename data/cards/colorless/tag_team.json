@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 11,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 15,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 11 damage. / The next Attack another player plays on the enemy is played an extra time.",
   "upgradedDescription": "Deal 15 damage. / The next Attack another player plays on the enemy is played an extra time.",
   "simulated": false,

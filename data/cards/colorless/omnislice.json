@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 8,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 11,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 8 damage. / Damage ALL other enemies equal to the damage dealt.",
   "upgradedDescription": "Deal 11 damage. / Damage ALL other enemies equal to the damage dealt.",
   "simulated": false,

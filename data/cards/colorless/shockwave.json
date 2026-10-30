@@ -11,11 +11,31 @@
   "keywords": [
     "exhaust"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "applyWeak",
+      "amount": 3
+    },
+    {
+      "type": "applyVulnerable",
+      "amount": 3
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "applyWeak",
+        "amount": 5
+      },
+      {
+        "type": "applyVulnerable",
+        "amount": 5
+      }
+    ]
+  },
   "description": "Apply 3 Weak and Vulnerable to ALL enemies. / Exhaust.",
   "upgradedDescription": "Apply 5 Weak and Vulnerable to ALL enemies. / Exhaust.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }
