@@ -1,0 +1,38 @@
+{
+  "id": "nibbit",
+  "code": "Nb",
+  "name": "Nibbit",
+  "act": 1,
+  "zone": "overgrowth",
+  "difficulty": "easy",
+  "hp": { "min": 42, "max": 46 },
+  "moves": {
+    "butt": { "name": "Butt", "effects": [{ "type": "attack", "damage": 12, "hits": 1 }] },
+    "hesitantStrike": {
+      "name": "Hesitant Strike",
+      "effects": [
+        { "type": "attack", "damage": 6, "hits": 1 },
+        { "type": "gainBlock", "amount": 5 }
+      ]
+    },
+    "hiss": { "name": "Hiss", "effects": [{ "type": "gainStrength", "amount": 2 }] }
+  },
+  "pattern": { "type": "cycle", "order": ["butt", "hesitantStrike", "hiss"], "start": "first" },
+  "ascension": {
+    "8": { "hp": { "min": 44, "max": 48 } },
+    "9": {
+      "moves": {
+        "butt": { "effects": [{ "type": "attack", "damage": 13, "hits": 1 }] },
+        "hesitantStrike": {
+          "effects": [
+            { "type": "attack", "damage": 7, "hits": 1 },
+            { "type": "gainBlock", "amount": 6 }
+          ]
+        },
+        "hiss": { "effects": [{ "type": "gainStrength", "amount": 3 }] }
+      }
+    }
+  },
+  "source": "slaythespire.wiki.gg",
+  "lastUpdateVersion": "0.0"
+}
