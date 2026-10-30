@@ -16,8 +16,12 @@ export type ValidationResult =
   | { ok: true; data: GameData }
   | { ok: false; errors: string[] };
 
-const CARD_TYPES = ['attack', 'skill', 'power', 'status', 'curse'] as const;
-const CARD_KEYWORDS = ['unplayable', 'ethereal', 'eternal', 'exhaust'] as const;
+const CARD_TYPES = ['attack', 'skill', 'power', 'status', 'curse', 'quest'] as const;
+const CARD_RARITIES = ['basic', 'common', 'uncommon', 'rare', 'ancient', 'event', 'token', 'status', 'curse', 'quest'] as const;
+const CARD_KEYWORDS = ['unplayable', 'ethereal', 'eternal', 'exhaust', 'retain', 'innate', 'sly'] as const;
+/** Keywords and effects the engine implements; a `simulated` card may use only these. */
+const SIMULATED_KEYWORDS = new Set(['unplayable', 'ethereal', 'eternal', 'exhaust']);
+const UNSIMULATED_EFFECTS = new Set(['gainStars']);
 const CHARACTER_CODES = ['I', 'S', 'D', 'N', 'R'] as const;
 const ZONES = ['overgrowth', 'underdocks'] as const;
 const DIFFICULTIES = ['easy', 'normal', 'elite', 'boss'] as const;
@@ -28,6 +32,7 @@ const AMOUNT_EFFECTS = [
   'applyVulnerable',
   'applyWeak',
   'applyFrail',
+  'gainStars',
 ] as const;
 const TWO_CHAR_CODE = /^[A-Za-z0-9]{2}$/;
 const NUMERIC_KEY = /^(0|[1-9][0-9]*)$/;
@@ -122,6 +127,7 @@ function checkEffects(r: Reporter, list: unknown, path: string): void {
     if (e.type === 'attack') {
       r.int(e, 'damage', 0, `${p}.damage`);
       r.int(e, 'hits', 1, `${p}.hits`);
+      if ('allEnemies' in e && e.allEnemies !== undefined) r.bool(e, 'allEnemies', `${p}.allEnemies`);
     } else if (
       typeof e.type === 'string' &&
       (AMOUNT_EFFECTS as readonly string[]).includes(e.type)
@@ -204,7 +210,32 @@ function checkCard(r: Reporter, c: Obj): void {
   r.str(c, 'name');
   r.oneOf(c, 'type', CARD_TYPES);
   r.oneOf(c, 'character', [...CHARACTER_CODES, 'colorless', 'shared']);
+  r.oneOf(c, 'rarity', CARD_RARITIES);
   if (c.cost !== null) r.int(c, 'cost', 0);
+  r.bool(c, 'xCost');
+  if (c.starCost !== null) r.int(c, 'starCost', 0);
+  r.str(c, 'description');
+  if (c.upgradedDescription !== null) r.str(c, 'upgradedDescription');
+  if ((c.upgraded === null) !== (c.upgradedDescription === null)) {
+    r.add('upgradedDescription', 'must be null exactly when "upgraded" is null');
+  }
+  r.bool(c, 'simulated');
+  r.bool(c, 'multiplayerOnly');
+  if (c.simulated === true) {
+    const lists: unknown[] = [c.keywords, c.effects];
+    if (isObj(c.upgraded)) lists.push(c.upgraded.keywords, c.upgraded.effects);
+    for (const list of lists) {
+      if (!Array.isArray(list)) continue;
+      for (const item of list) {
+        const name = typeof item === 'string' ? item : isObj(item) ? item.type : undefined;
+        if (typeof name !== 'string') continue;
+        const bad = typeof item === 'string' ? !SIMULATED_KEYWORDS.has(name) : UNSIMULATED_EFFECTS.has(name);
+        if (bad) r.add('simulated', `is true but the card uses "${name}", which the engine does not simulate`);
+      }
+    }
+    if (c.starCost !== null) r.add('simulated', 'is true but the card has a Star cost');
+    if (c.xCost === true) r.add('simulated', 'is true but X-cost cards are not simulated');
+  }
   checkKeywords(r, c.keywords, 'keywords');
   const unplayable = Array.isArray(c.keywords) && c.keywords.includes('unplayable');
   if (unplayable !== (c.cost === null)) {
@@ -217,6 +248,7 @@ function checkCard(r: Reporter, c: Obj): void {
     } else {
       const u = c.upgraded;
       if ('cost' in u && u.cost !== undefined) r.int(u, 'cost', 0, 'upgraded.cost');
+      if ('starCost' in u && u.starCost !== undefined) r.int(u, 'starCost', 0, 'upgraded.starCost');
       if ('effects' in u && u.effects !== undefined) checkEffects(r, u.effects, 'upgraded.effects');
       if ('keywords' in u && u.keywords !== undefined) checkKeywords(r, u.keywords, 'upgraded.keywords');
     }

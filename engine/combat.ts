@@ -140,6 +140,7 @@ export function simulateCombat(
   const addCard = (cardId: string, upgraded: boolean) => {
     const def = data.cards[cardId];
     if (!def) throw new Error(`Unknown card "${cardId}"`);
+    if (!def.simulated) throw new Error(`Card "${def.name}" is not supported by the simulator yet`);
     deck.push(makeCardInstance(def, upgraded, deck.length));
   };
   for (const entry of config.deck) {
@@ -243,6 +244,8 @@ export function simulateCombat(
         case 'applyFrail':
           applyDebuff(other, 'frail', e.amount);
           break;
+        case 'gainStars':
+          throw new Error('Stars are not simulated yet');
       }
     }
     return false;

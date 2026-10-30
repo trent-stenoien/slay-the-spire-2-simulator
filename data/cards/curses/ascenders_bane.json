@@ -3,10 +3,21 @@
   "code": "AB",
   "name": "Ascender's Bane",
   "type": "curse",
+  "rarity": "curse",
   "character": "colorless",
   "cost": null,
-  "keywords": ["unplayable", "ethereal", "eternal"],
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "unplayable",
+    "ethereal",
+    "eternal"
+  ],
   "effects": [],
   "upgraded": null,
+  "description": "Unplayable. Ethereal. Eternal.",
+  "upgradedDescription": null,
+  "simulated": true,
+  "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

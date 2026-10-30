@@ -3,10 +3,31 @@
   "code": "US",
   "name": "Ultimate Strike",
   "type": "attack",
+  "rarity": "uncommon",
   "character": "colorless",
   "cost": 1,
+  "xCost": false,
+  "starCost": null,
   "keywords": [],
-  "effects": [{ "type": "attack", "damage": 14, "hits": 1 }],
-  "upgraded": { "effects": [{ "type": "attack", "damage": 20, "hits": 1 }] },
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 14,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 20,
+        "hits": 1
+      }
+    ]
+  },
+  "description": "Deal 14 damage.",
+  "upgradedDescription": "Deal 20 damage.",
+  "simulated": true,
+  "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

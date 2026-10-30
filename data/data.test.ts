@@ -44,7 +44,7 @@ describe('real game data', () => {
   ];
 
   it.each(expected)('card $id has the wiki values', (card) => {
-    expect(gameData.cards[card.id]).toEqual({ ...card, lastUpdateVersion: VERSION });
+    expect(gameData.cards[card.id]).toMatchObject({ ...card, simulated: true, lastUpdateVersion: VERSION });
     expect(cardByCode(card.code)?.id).toBe(card.id);
   });
 
@@ -168,10 +168,23 @@ describe('validateGameData on broken fixtures', () => {
   it('reports unknown effect types and keywords', () => {
     const d = fixture();
     d.cards.bash.effects.push({ type: 'heal', amount: 3 });
-    d.cards.bash.keywords = ['retain'];
+    d.cards.bash.keywords = ['shiny'];
     const errs = errorsOf(d);
     expect(errs).toContainEqual(expect.stringMatching(/cards\/bash.*effects\[2\]\.type/));
     expect(errs).toContainEqual(expect.stringMatching(/cards\/bash.*keywords\[0\]/));
+  });
+
+  it('rejects simulated cards that use unsimulated mechanics', () => {
+    const d = fixture();
+    d.cards.bash.keywords = ['retain'];
+    d.cards.strike.effects.push({ type: 'gainStars', amount: 2 });
+    d.cards.defend.starCost = 1;
+    const errs = errorsOf(d);
+    expect(errs).toContainEqual(expect.stringMatching(/cards\/bash.*"simulated".*retain/));
+    expect(errs).toContainEqual(expect.stringMatching(/cards\/strike.*"simulated".*gainStars/));
+    expect(errs).toContainEqual(expect.stringMatching(/cards\/defend.*"simulated".*Star cost/));
+    d.cards.bash.simulated = false;
+    expect(errorsOf(d).some((e) => e.includes('cards/bash'))).toBe(false);
   });
 
   it('reports non-numeric ascension keys and overrides of unknown moves', () => {

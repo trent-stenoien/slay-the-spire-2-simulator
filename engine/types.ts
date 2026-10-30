@@ -34,13 +34,18 @@ export interface IntRange {
 // ---------------------------------------------------------------------------
 
 export type Effect =
-  /** Deal `damage` per hit, `hits` times. Strength and modifiers apply per hit. */
-  | { type: 'attack'; damage: number; hits: number }
+  /**
+   * Deal `damage` per hit, `hits` times. Strength and modifiers apply per hit.
+   * `allEnemies` marks area attacks; with one enemy (v1) it hits that enemy.
+   */
+  | { type: 'attack'; damage: number; hits: number; allEnemies?: boolean }
   | { type: 'gainBlock'; amount: number }
   | { type: 'gainStrength'; amount: number }
   | { type: 'applyVulnerable'; amount: number }
   | { type: 'applyWeak'; amount: number }
-  | { type: 'applyFrail'; amount: number };
+  | { type: 'applyFrail'; amount: number }
+  /** Regent's Stars resource. Recorded only; not simulated yet. */
+  | { type: 'gainStars'; amount: number };
 
 export type EffectType = Effect['type'];
 
@@ -50,9 +55,22 @@ export type DebuffKind = 'vulnerable' | 'weak' | 'frail';
 // Cards
 // ---------------------------------------------------------------------------
 
-export type CardType = 'attack' | 'skill' | 'power' | 'status' | 'curse';
+export type CardType = 'attack' | 'skill' | 'power' | 'status' | 'curse' | 'quest';
 
-export type CardKeyword = 'unplayable' | 'ethereal' | 'eternal' | 'exhaust';
+export type CardRarity =
+  | 'basic'
+  | 'common'
+  | 'uncommon'
+  | 'rare'
+  | 'ancient'
+  | 'event'
+  | 'token'
+  | 'status'
+  | 'curse'
+  | 'quest';
+
+/** Engine-simulated keywords: unplayable, ethereal, eternal, exhaust. The rest are recorded only. */
+export type CardKeyword = 'unplayable' | 'ethereal' | 'eternal' | 'exhaust' | 'retain' | 'innate' | 'sly';
 
 /**
  * What changes when a card is upgraded. Omitted fields keep the base value;
@@ -60,6 +78,7 @@ export type CardKeyword = 'unplayable' | 'ethereal' | 'eternal' | 'exhaust';
  */
 export interface CardUpgrade {
   cost?: number;
+  starCost?: number;
   effects?: Effect[];
   keywords?: CardKeyword[];
 }
@@ -73,12 +92,30 @@ export interface CardDef {
   type: CardType;
   /** "shared": basic cards every character uses (Strike, Defend). */
   character: CharacterCode | 'colorless' | 'shared';
-  /** Energy cost. `null` exactly when keywords include "unplayable". */
+  rarity: CardRarity;
+  /** Energy cost. `null` exactly when keywords include "unplayable". X-cost cards use 0 with `xCost: true`. */
   cost: number | null;
+  xCost: boolean;
+  /** Regent Stars cost; `null` when the card has none. */
+  starCost: number | null;
   keywords: CardKeyword[];
+  /**
+   * Structured effects in order. Complete when `simulated` is true; may be partial
+   * (or empty) otherwise, holding whatever the effect vocabulary can express.
+   */
   effects: Effect[];
   /** `null` when the card cannot be upgraded. */
   upgraded: CardUpgrade | null;
+  /** Card text as shown in game, base version. Energy shown as "[E]", Stars as "[STAR]". */
+  description: string;
+  /** Upgraded card text; `null` when the card cannot be upgraded. */
+  upgradedDescription: string | null;
+  /**
+   * True only when `effects` and keywords fully capture the card (base and upgraded)
+   * using mechanics the engine implements. Unsimulated cards can't be put in a deck.
+   */
+  simulated: boolean;
+  multiplayerOnly: boolean;
   /** Game version this entry was last checked against. */
   lastUpdateVersion: GameVersion;
 }

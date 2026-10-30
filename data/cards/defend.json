@@ -3,10 +3,29 @@
   "code": "De",
   "name": "Defend",
   "type": "skill",
+  "rarity": "basic",
   "character": "shared",
   "cost": 1,
+  "xCost": false,
+  "starCost": null,
   "keywords": [],
-  "effects": [{ "type": "gainBlock", "amount": 5 }],
-  "upgraded": { "effects": [{ "type": "gainBlock", "amount": 8 }] },
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 5
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 8
+      }
+    ]
+  },
+  "description": "Gain 5 Block.",
+  "upgradedDescription": "Gain 8 Block.",
+  "simulated": true,
+  "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

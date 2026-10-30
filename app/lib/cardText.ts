@@ -6,12 +6,18 @@ const KEYWORD_LABEL: Record<CardKeyword, string> = {
   ethereal: 'Ethereal',
   eternal: 'Eternal',
   exhaust: 'Exhaust',
+  retain: 'Retain',
+  innate: 'Innate',
+  sly: 'Sly',
 };
 
 export function effectText(e: Effect): string {
   switch (e.type) {
     case 'attack':
-      return e.hits === 1 ? `Deal ${e.damage} damage` : `Deal ${e.damage} damage ${e.hits} times`;
+      {
+      const target = e.allEnemies ? ' to ALL enemies' : '';
+      return e.hits === 1 ? `Deal ${e.damage} damage${target}` : `Deal ${e.damage} damage${target} ${e.hits} times`;
+    }
     case 'gainBlock':
       return `Gain ${e.amount} Block`;
     case 'gainStrength':
@@ -22,6 +28,8 @@ export function effectText(e: Effect): string {
       return `Apply ${e.amount} Weak`;
     case 'applyFrail':
       return `Apply ${e.amount} Frail`;
+    case 'gainStars':
+      return `Gain ${e.amount} Stars`;
   }
 }
 

@@ -5,6 +5,14 @@
 import type { CardDef, CharacterDef, EnemyDef, GameData, Manifest } from './types';
 
 const V = 'v0.107.1';
+const META = {
+  xCost: false,
+  starCost: null,
+  description: '',
+  upgradedDescription: '',
+  simulated: true,
+  multiplayerOnly: false,
+} as const;
 
 export const cards: Record<string, CardDef> = {
   strike: {
@@ -17,6 +25,8 @@ export const cards: Record<string, CardDef> = {
     keywords: [],
     effects: [{ type: 'attack', damage: 6, hits: 1 }],
     upgraded: { effects: [{ type: 'attack', damage: 9, hits: 1 }] },
+    rarity: 'basic',
+    ...META,
     lastUpdateVersion: V,
   },
   defend: {
@@ -29,6 +39,8 @@ export const cards: Record<string, CardDef> = {
     keywords: [],
     effects: [{ type: 'gainBlock', amount: 5 }],
     upgraded: { effects: [{ type: 'gainBlock', amount: 8 }] },
+    rarity: 'basic',
+    ...META,
     lastUpdateVersion: V,
   },
   bash: {
@@ -49,6 +61,8 @@ export const cards: Record<string, CardDef> = {
         { type: 'applyVulnerable', amount: 3 },
       ],
     },
+    rarity: 'basic',
+    ...META,
     lastUpdateVersion: V,
   },
   ultimate_strike: {
@@ -61,6 +75,8 @@ export const cards: Record<string, CardDef> = {
     keywords: [],
     effects: [{ type: 'attack', damage: 14, hits: 1 }],
     upgraded: { effects: [{ type: 'attack', damage: 20, hits: 1 }] },
+    rarity: 'basic',
+    ...META,
     lastUpdateVersion: V,
   },
   ultimate_defend: {
@@ -73,6 +89,8 @@ export const cards: Record<string, CardDef> = {
     keywords: [],
     effects: [{ type: 'gainBlock', amount: 11 }],
     upgraded: { effects: [{ type: 'gainBlock', amount: 15 }] },
+    rarity: 'basic',
+    ...META,
     lastUpdateVersion: V,
   },
   ascenders_bane: {
@@ -85,6 +103,8 @@ export const cards: Record<string, CardDef> = {
     keywords: ['unplayable', 'ethereal', 'eternal'],
     effects: [],
     upgraded: null,
+    rarity: 'basic',
+    ...META,
     lastUpdateVersion: V,
   },
 };

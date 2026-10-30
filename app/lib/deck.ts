@@ -4,7 +4,8 @@ import type { CardDef, Deck, GameData } from '../../engine/types';
 /**
  * Cards the deck builder offers for a character: its own cards plus
  * colorless ones, minus unplayable curses (Ascender's Bane is added by the
- * engine at A5+, never by hand). Sorted by name.
+ * engine at A5+, never by hand) and cards the engine can't simulate yet
+ * (or multiplayer-only cards). Sorted by name.
  */
 export function deckPool(data: GameData, characterId: string): CardDef[] {
   const code = data.characters[characterId]?.code;
@@ -12,6 +13,7 @@ export function deckPool(data: GameData, characterId: string): CardDef[] {
   return Object.values(data.cards)
     .filter((c) => c.character === code || c.character === 'colorless' || c.character === 'shared')
     .filter((c) => !(c.type === 'curse' && c.keywords.includes('unplayable')))
+    .filter((c) => c.simulated && !c.multiplayerOnly)
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
