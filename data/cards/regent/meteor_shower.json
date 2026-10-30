@@ -9,8 +9,40 @@
   "xCost": false,
   "starCost": 2,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 14,
+      "hits": 1,
+      "allEnemies": true
+    },
+    {
+      "type": "applyWeak",
+      "amount": 2
+    },
+    {
+      "type": "applyVulnerable",
+      "amount": 2
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 21,
+        "hits": 1,
+        "allEnemies": true
+      },
+      {
+        "type": "applyWeak",
+        "amount": 2
+      },
+      {
+        "type": "applyVulnerable",
+        "amount": 2
+      }
+    ]
+  },
   "description": "Deal 14 damage to ALL enemies. / Apply 2 Weak and Vulnerable to ALL enemies.",
   "upgradedDescription": "Deal 21 damage to ALL enemies. / Apply 2 Weak and Vulnerable to ALL enemies.",
   "simulated": false,

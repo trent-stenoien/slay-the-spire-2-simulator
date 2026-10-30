@@ -9,7 +9,14 @@
   "xCost": false,
   "starCost": 7,
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 7,
+      "hits": 7,
+      "allEnemies": true
+    }
+  ],
   "upgraded": {
     "cost": 1
   },

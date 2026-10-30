@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": 4,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 35,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 45,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 35 damage.",
   "upgradedDescription": "Deal 45 damage.",
   "simulated": false,

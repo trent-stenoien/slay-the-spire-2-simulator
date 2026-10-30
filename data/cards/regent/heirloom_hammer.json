@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 20,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 25,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 20 damage. / Choose a Colorless card in your Hand. Add a copy of that card into your Hand.",
   "upgradedDescription": "Deal 25 damage. / Choose a Colorless card in your Hand. Add a copy of that card into your Hand.",
   "simulated": false,

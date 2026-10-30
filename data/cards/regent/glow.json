@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainStars",
+      "amount": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainStars",
+        "amount": 2
+      }
+    ]
+  },
   "description": "Gain [STAR]. / Draw 1 card. / Next turn, draw 1 card.",
   "upgradedDescription": "Gain [STAR][STAR]. / Draw 1 card. / Next turn, draw 1 card.",
   "simulated": false,

@@ -9,7 +9,13 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 5,
+      "hits": 1
+    }
+  ],
   "upgraded": {},
   "description": "Deal 5 damage. / Deals 3 additional damage for each card you created this combat.",
   "upgradedDescription": "Deal 5 damage. / Deals 4 additional damage for each card you created this combat.",

@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": 2,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainStrength",
+      "amount": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainStrength",
+        "amount": 2
+      }
+    ]
+  },
   "description": "Gain 1 Strength. ALL enemies lose 1 Strength.",
   "upgradedDescription": "Gain 2 Strength. ALL enemies lose 1 Strength.",
   "simulated": false,

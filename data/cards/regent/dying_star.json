@@ -11,8 +11,24 @@
   "keywords": [
     "ethereal"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 9,
+      "hits": 1,
+      "allEnemies": true
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 11,
+        "hits": 1,
+        "allEnemies": true
+      }
+    ]
+  },
   "description": "Ethereal. / Deal 9 damage to ALL enemies. ALL enemies lose 9 Strength this turn.",
   "upgradedDescription": "Ethereal. / Deal 11 damage to ALL enemies. ALL enemies lose 11 Strength this turn.",
   "simulated": false,

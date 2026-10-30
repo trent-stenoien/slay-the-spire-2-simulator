@@ -11,8 +11,22 @@
   "keywords": [
     "exhaust"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 18,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 24,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 18 damage. / At the start of your turn, if this is in your Exhaust Pile, / play it. / Exhaust.",
   "upgradedDescription": "Deal 24 damage. / At the start of your turn, if this is in your Exhaust Pile, / play it. / Exhaust.",
   "simulated": false,

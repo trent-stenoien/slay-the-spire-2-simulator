@@ -9,8 +9,24 @@
   "xCost": false,
   "starCost": 3,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 6,
+      "hits": 2,
+      "allEnemies": true
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 8,
+        "hits": 2,
+        "allEnemies": true
+      }
+    ]
+  },
   "description": "Deal 6 damage to ALL enemies twice.",
   "upgradedDescription": "Deal 8 damage to ALL enemies twice.",
   "simulated": false,

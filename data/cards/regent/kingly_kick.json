@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 27,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 35,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 27 damage. / Whenever you draw this card, reduce its cost by 1.",
   "upgradedDescription": "Deal 35 damage. / Whenever you draw this card, reduce its cost by 1.",
   "simulated": false,

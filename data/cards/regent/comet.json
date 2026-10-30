@@ -9,8 +9,38 @@
   "xCost": false,
   "starCost": 5,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 33,
+      "hits": 1
+    },
+    {
+      "type": "applyWeak",
+      "amount": 3
+    },
+    {
+      "type": "applyVulnerable",
+      "amount": 3
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 44,
+        "hits": 1
+      },
+      {
+        "type": "applyWeak",
+        "amount": 3
+      },
+      {
+        "type": "applyVulnerable",
+        "amount": 3
+      }
+    ]
+  },
   "description": "Deal 33 damage. / Apply 3 Weak. / Apply 3 Vulnerable.",
   "upgradedDescription": "Deal 44 damage. / Apply 3 Weak. / Apply 3 Vulnerable.",
   "simulated": false,

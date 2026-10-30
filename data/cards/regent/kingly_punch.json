@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 8,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 10,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 8 damage. / Whenever you draw this card, increase its damage by 4 this combat.",
   "upgradedDescription": "Deal 10 damage. / Whenever you draw this card, increase its damage by 6 this combat.",
   "simulated": false,

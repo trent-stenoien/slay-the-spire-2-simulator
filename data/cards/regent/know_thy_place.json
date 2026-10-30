@@ -11,13 +11,22 @@
   "keywords": [
     "exhaust"
   ],
-  "effects": [],
+  "effects": [
+    {
+      "type": "applyWeak",
+      "amount": 1
+    },
+    {
+      "type": "applyVulnerable",
+      "amount": 1
+    }
+  ],
   "upgraded": {
     "keywords": []
   },
   "description": "Apply 1 Weak. / Apply 1 Vulnerable. / Exhaust.",
   "upgradedDescription": "Apply 1 Weak. / Apply 1 Vulnerable.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }
