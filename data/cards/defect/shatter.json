@@ -11,8 +11,24 @@
   "keywords": [
     "exhaust"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 7,
+      "hits": 1,
+      "allEnemies": true
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 11,
+        "hits": 1,
+        "allEnemies": true
+      }
+    ]
+  },
   "description": "Deal 7 damage to ALL enemies. / Evoke all of your Orbs twice. / Exhaust.",
   "upgradedDescription": "Deal 11 damage to ALL enemies. / Evoke all of your Orbs twice. / Exhaust.",
   "simulated": false,

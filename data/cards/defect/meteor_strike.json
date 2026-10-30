@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 24,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 30,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 24 damage. / Channel 3 Plasma.",
   "upgradedDescription": "Deal 30 damage. / Channel 3 Plasma.",
   "simulated": false,

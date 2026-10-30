@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 26,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 34,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 26 damage. / If this kills an enemy, gain [E][E][E].",
   "upgradedDescription": "Deal 34 damage. / If this kills an enemy, gain [E][E][E].",
   "simulated": false,

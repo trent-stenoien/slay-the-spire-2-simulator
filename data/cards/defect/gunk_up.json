@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 4,
+      "hits": 3
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 5,
+        "hits": 3
+      }
+    ]
+  },
   "description": "Deal 4 damage 3 times. / Add a Slimed into your Discard Pile.",
   "upgradedDescription": "Deal 5 damage 3 times. / Add a Slimed into your Discard Pile.",
   "simulated": false,

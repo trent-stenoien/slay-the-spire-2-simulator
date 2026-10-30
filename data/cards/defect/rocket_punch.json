@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 13,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 14,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 13 damage. / Draw 1 card. / Whenever you create a Status, reduce this card's cost by 1 [E] until played.",
   "upgradedDescription": "Deal 14 damage. / Draw 2 cards. / Whenever you create a Status, reduce this card's cost by 1 [E] until played.",
   "simulated": false,

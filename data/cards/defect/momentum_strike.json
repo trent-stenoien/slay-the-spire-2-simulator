@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 11,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 15,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 11 damage. / Reduce this card's cost to 0 [E].",
   "upgradedDescription": "Deal 15 damage. / Reduce this card's cost to 0 [E].",
   "simulated": false,

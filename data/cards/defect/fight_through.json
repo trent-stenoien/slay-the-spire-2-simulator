@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 13
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 17
+      }
+    ]
+  },
   "description": "Gain 13 Block. / Add 2 Wounds into your Discard Pile.",
   "upgradedDescription": "Gain 17 Block. / Add 2 Wounds into your Discard Pile.",
   "simulated": false,

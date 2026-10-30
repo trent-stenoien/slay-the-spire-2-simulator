@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 11
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 15
+      }
+    ]
+  },
   "description": "Gain 11 Block. / Channel 1 Dark.",
   "upgradedDescription": "Gain 15 Block. / Channel 1 Dark.",
   "simulated": false,

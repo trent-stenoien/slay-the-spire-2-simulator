@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 6
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 9
+      }
+    ]
+  },
   "description": "Gain 6 Block. / Channel 2 Frost.",
   "upgradedDescription": "Gain 9 Block. / Channel 2 Frost.",
   "simulated": false,

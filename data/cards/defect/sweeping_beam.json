@@ -9,8 +9,24 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 6,
+      "hits": 1,
+      "allEnemies": true
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 9,
+        "hits": 1,
+        "allEnemies": true
+      }
+    ]
+  },
   "description": "Deal 6 damage to ALL enemies. / Draw 1 card.",
   "upgradedDescription": "Deal 9 damage to ALL enemies. / Draw 1 card.",
   "simulated": false,

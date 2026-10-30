@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 7,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 10,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 7 damage. / Draw 4 cards. / Discard all cards drawn this way that do not cost 0 [E].",
   "upgradedDescription": "Deal 10 damage. / Draw 5 cards. / Discard all cards drawn this way that do not cost 0 [E].",
   "simulated": false,

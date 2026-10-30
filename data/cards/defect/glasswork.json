@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 5
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 8
+      }
+    ]
+  },
   "description": "Gain 5 Block. / Channel 1 Glass.",
   "upgradedDescription": "Gain 8 Block. / Channel 1 Glass.",
   "simulated": false,

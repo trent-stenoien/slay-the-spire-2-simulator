@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 7,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 10,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 7 damage. / Channel 1 Lightning.",
   "upgradedDescription": "Deal 10 damage. / Channel 1 Lightning.",
   "simulated": false,

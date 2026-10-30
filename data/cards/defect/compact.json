@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 6
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 7
+      }
+    ]
+  },
   "description": "Gain 6 Block. / Transform all Status cards in your Hand into Fuel.",
   "upgradedDescription": "Gain 7 Block. / Transform all Status cards in your Hand into Fuel+.",
   "simulated": false,

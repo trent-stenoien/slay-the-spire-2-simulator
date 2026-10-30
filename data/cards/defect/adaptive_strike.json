@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 18,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 23,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 18 damage. / Add a 0 [E] copy of this card into your Discard Pile.",
   "upgradedDescription": "Deal 23 damage. / Add a 0 [E] copy of this card into your Discard Pile.",
   "simulated": false,

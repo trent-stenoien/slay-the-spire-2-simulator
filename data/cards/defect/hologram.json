@@ -11,9 +11,20 @@
   "keywords": [
     "exhaust"
   ],
-  "effects": [],
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 3
+    }
+  ],
   "upgraded": {
-    "keywords": []
+    "keywords": [],
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 5
+      }
+    ]
   },
   "description": "Gain 3 Block. / Put a card from your Discard Pile into your Hand. / Exhaust.",
   "upgradedDescription": "Gain 5 Block. / Put a card from your Discard Pile into your Hand.",

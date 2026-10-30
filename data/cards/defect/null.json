@@ -9,8 +9,30 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 10,
+      "hits": 1
+    },
+    {
+      "type": "applyWeak",
+      "amount": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 13,
+        "hits": 1
+      },
+      {
+        "type": "applyWeak",
+        "amount": 2
+      }
+    ]
+  },
   "description": "Deal 10 damage. / Apply 1 Weak. / Channel 1 Dark.",
   "upgradedDescription": "Deal 13 damage. / Apply 2 Weak. / Channel 1 Dark.",
   "simulated": false,
