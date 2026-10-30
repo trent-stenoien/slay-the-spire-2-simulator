@@ -11,7 +11,12 @@
   "keywords": [
     "exhaust"
   ],
-  "effects": [],
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 1
+    }
+  ],
   "upgraded": {},
   "description": "Gain 1 Block. / Permanently increase this card's Block by 3. / Exhaust.",
   "upgradedDescription": "Gain 1 Block. / Permanently increase this card's Block by 4. / Exhaust.",

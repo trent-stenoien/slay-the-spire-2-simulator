@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 10,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 14,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 10 damage. / Put ALL 0[E] cards from your Discard Pile into your Hand.",
   "upgradedDescription": "Deal 14 damage. / Put ALL 0[E] cards from your Discard Pile into your Hand.",
   "simulated": false,

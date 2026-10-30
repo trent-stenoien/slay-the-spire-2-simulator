@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 6
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 9
+      }
+    ]
+  },
   "description": "Gain 6 Block. / Add a Dazed into your Discard Pile.",
   "upgradedDescription": "Gain 9 Block. / Add a Dazed into your Discard Pile.",
   "simulated": false,

@@ -9,8 +9,24 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 24,
+      "hits": 1,
+      "allEnemies": true
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 30,
+        "hits": 1,
+        "allEnemies": true
+      }
+    ]
+  },
   "description": "Deal 24 damage to ALL enemies. Lose 3 Focus this turn.",
   "upgradedDescription": "Deal 30 damage to ALL enemies. Lose 3 Focus this turn.",
   "simulated": false,

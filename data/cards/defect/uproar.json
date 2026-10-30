@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 6,
+      "hits": 2
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 8,
+        "hits": 2
+      }
+    ]
+  },
   "description": "Deal 6 damage twice. / Play a random Attack from your Draw Pile.",
   "upgradedDescription": "Deal 8 damage twice. / Play a random Attack from your Draw Pile.",
   "simulated": false,

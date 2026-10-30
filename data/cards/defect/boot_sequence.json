@@ -12,8 +12,20 @@
     "innate",
     "exhaust"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 10
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 13
+      }
+    ]
+  },
   "description": "Innate. / Gain 10 Block. / Exhaust.",
   "upgradedDescription": "Innate. / Gain 13 Block. / Exhaust.",
   "simulated": false,

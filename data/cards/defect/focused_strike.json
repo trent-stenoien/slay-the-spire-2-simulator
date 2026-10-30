@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 9,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 11,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 9 damage. / Gain 1 Focus this turn.",
   "upgradedDescription": "Deal 11 damage. / Gain 2 Focus this turn.",
   "simulated": false,

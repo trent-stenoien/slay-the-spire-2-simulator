@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 4
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 7
+      }
+    ]
+  },
   "description": "Gain 4 Block. / At the start of the next 2 turns, Channel 1 Lightning.",
   "upgradedDescription": "Gain 7 Block. / At the start of the next 2 turns, Channel 1 Lightning.",
   "simulated": false,

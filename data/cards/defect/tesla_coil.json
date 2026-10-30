@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 3,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 4,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 3 damage. / Trigger all Lightning against the enemy.",
   "upgradedDescription": "Deal 4 damage. / Trigger all Lightning against the enemy twice.",
   "simulated": false,
