@@ -11,8 +11,22 @@
   "keywords": [
     "retain"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 27,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 33,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Retain. / Deal 27 damage.",
   "upgradedDescription": "Retain. / Deal 33 damage.",
   "simulated": false,

@@ -11,11 +11,25 @@
   "keywords": [
     "ethereal"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 13,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 17,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Ethereal. / Deal 13 damage.",
   "upgradedDescription": "Ethereal. / Deal 17 damage.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

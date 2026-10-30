@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 8
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 11
+      }
+    ]
+  },
   "description": "Gain 8 Block. / Add a Soul into your Draw Pile.",
   "upgradedDescription": "Gain 11 Block. / Add a Soul into your Draw Pile.",
   "simulated": false,

@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 6
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 7
+      }
+    ]
+  },
   "description": "Gain 6 Block. / If you applied Doom this turn, gain Block 2 additional times.",
   "upgradedDescription": "Gain 7 Block. / If you applied Doom this turn, gain Block 2 additional times.",
   "simulated": false,

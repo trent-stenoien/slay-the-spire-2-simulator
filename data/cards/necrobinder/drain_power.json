@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 10,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 12,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 10 damage. / Upgrade 2 random cards in your Discard Pile.",
   "upgradedDescription": "Deal 12 damage. / Upgrade 3 random cards in your Discard Pile.",
   "simulated": false,

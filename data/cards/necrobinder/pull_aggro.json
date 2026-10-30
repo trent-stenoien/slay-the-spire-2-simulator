@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 7
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 9
+      }
+    ]
+  },
   "description": "Summon 4. / Gain 7 Block.",
   "upgradedDescription": "Summon 5. / Gain 9 Block.",
   "simulated": false,

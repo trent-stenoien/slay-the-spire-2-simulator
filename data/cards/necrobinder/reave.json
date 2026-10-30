@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 10,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 13,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 10 damage. / Add a Soul into your Draw Pile.",
   "upgradedDescription": "Deal 13 damage. / Add a Soul+ into your Draw Pile.",
   "simulated": false,
