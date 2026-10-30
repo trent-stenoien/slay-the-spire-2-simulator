@@ -119,6 +119,15 @@ describe('validateGameData on broken fixtures', () => {
     expect(errorsOf(d)).toContainEqual(expect.stringMatching(/characters\/ironclad.*"code"/));
   });
 
+  it('reports cost and "unplayable" disagreeing', () => {
+    const d = fixture();
+    d.cards.ascenders_bane.cost = 0;
+    d.cards.bash.cost = null;
+    const errs = errorsOf(d);
+    expect(errs).toContainEqual(expect.stringMatching(/cards\/ascenders_bane.*"cost"/));
+    expect(errs).toContainEqual(expect.stringMatching(/cards\/bash.*"cost"/));
+  });
+
   it('reports hp.min > hp.max', () => {
     const d = fixture();
     d.enemies.nibbit.hp = { min: 50, max: 40 };

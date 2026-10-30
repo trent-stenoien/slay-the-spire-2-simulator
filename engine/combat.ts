@@ -60,21 +60,15 @@ export function computeIntent(
   enemy: { strength: number; debuffs: Debuffs },
   player: { debuffs: Debuffs },
 ): EnemyIntent {
-  let damagePerHit = 0;
-  let hits = 0;
+  const attacks: EnemyIntent['attacks'] = [];
   let totalIncoming = 0;
-  let first = true;
   for (const e of move.effects) {
     if (e.type !== 'attack') continue;
     const dph = attackDamage(e.damage, enemy.strength, enemy.debuffs.weak, player.debuffs.vulnerable);
-    if (first) {
-      damagePerHit = dph;
-      first = false;
-    }
-    hits += e.hits;
+    attacks.push({ damagePerHit: dph, hits: e.hits });
     totalIncoming += dph * e.hits;
   }
-  return { moveId, name: move.name, damagePerHit, hits, totalIncoming };
+  return { moveId, name: move.name, attacks, totalIncoming };
 }
 
 /** Resolve a CardDef (optionally upgraded) into a CardInstance. */
@@ -266,7 +260,7 @@ export function simulateCombat(
     if (log) log.push({ t: 'draw', uid: card.uid, cardId: card.cardId });
     if (player.hand.length >= HAND_LIMIT) {
       player.discardPile.push(card);
-      if (log) log.push({ t: 'discard', uid: card.uid, cardId: card.cardId });
+      if (log) log.push({ t: 'discard', uid: card.uid, cardId: card.cardId, reason: 'handLimit' });
     } else {
       player.hand.push(card);
     }
@@ -277,7 +271,13 @@ export function simulateCombat(
 
   const finish = (outcome: Outcome): CombatResult => {
     const hpLost = player.maxHp - Math.max(player.hp, 0);
-    const result: CombatResult = { seed: config.seed, outcome, turns: state.turn, hpLost };
+    const result: CombatResult = {
+      seed: config.seed,
+      outcome,
+      turns: state.turn,
+      hpLost,
+      enemyHpRemaining: Math.max(enemy.hp, 0),
+    };
     if (log) {
       log.push({ t: 'combatEnd', outcome, turns: state.turn, hpLost });
       result.log = log;
@@ -332,7 +332,7 @@ export function simulateCombat(
         if (log) log.push({ t: 'exhaust', uid: card.uid, cardId: card.cardId, reason: 'ethereal' });
       } else {
         player.discardPile.push(card);
-        if (log) log.push({ t: 'discard', uid: card.uid, cardId: card.cardId });
+        if (log) log.push({ t: 'discard', uid: card.uid, cardId: card.cardId, reason: 'endOfTurn' });
       }
     }
     player.hand = [];

@@ -85,14 +85,14 @@ describe('rule helpers', () => {
     const i = computeIntent('hiss', { name: 'Hiss', effects: [{ type: 'gainStrength', amount: 2 }] },
       { strength: 0, debuffs: { vulnerable: 0, weak: 0, frail: 0 } },
       { debuffs: { vulnerable: 0, weak: 0, frail: 0 } });
-    expect(i).toEqual({ moveId: 'hiss', name: 'Hiss', damagePerHit: 0, hits: 0, totalIncoming: 0 });
+    expect(i).toEqual({ moveId: 'hiss', name: 'Hiss', attacks: [], totalIncoming: 0 });
   });
 
   it('computeIntent: multi-hit with Strength and player Vulnerable', () => {
     const i = computeIntent('x', { name: 'X', effects: [{ type: 'attack', damage: 2, hits: 2 }] },
       { strength: 2, debuffs: { vulnerable: 0, weak: 0, frail: 0 } },
       { debuffs: { vulnerable: 1, weak: 0, frail: 0 } });
-    expect(i).toMatchObject({ damagePerHit: 6, hits: 2, totalIncoming: 12 });
+    expect(i).toMatchObject({ attacks: [{ damagePerHit: 6, hits: 2 }], totalIncoming: 12 });
   });
 
   it('computeIntent: sums across several attack effects', () => {
@@ -100,7 +100,7 @@ describe('rule helpers', () => {
       name: 'X',
       effects: [{ type: 'attack', damage: 5, hits: 1 }, { type: 'gainBlock', amount: 3 }, { type: 'attack', damage: 3, hits: 2 }],
     }, { strength: 1, debuffs: { vulnerable: 0, weak: 0, frail: 0 } }, { debuffs: { vulnerable: 0, weak: 0, frail: 0 } });
-    expect(i).toMatchObject({ damagePerHit: 6, hits: 3, totalIncoming: 6 + 4 * 2 });
+    expect(i).toMatchObject({ attacks: [{ damagePerHit: 6, hits: 1 }, { damagePerHit: 4, hits: 2 }], totalIncoming: 6 + 4 * 2 });
   });
 
   it('makeCardInstance applies upgrades and nulls cost for unplayable', () => {
@@ -395,13 +395,15 @@ describe('end conditions', () => {
     const data = withEnemy(makeGameData(), dummy());
     const r = simulateCombat(data, cfg({ enemyId: 'dummy' }), passive, { log: true });
     expect(r).toMatchObject({ outcome: 'turnCap', turns: 100, hpLost: 0 });
+    expect(r.enemyHpRemaining).toBeGreaterThan(0);
+    expect(events(r.log, 'discard').every((e) => e.reason === 'endOfTurn' || e.reason === 'handLimit')).toBe(true);
     expect(r.log!.at(-1)).toEqual({ t: 'combatEnd', outcome: 'turnCap', turns: 100, hpLost: 0 });
   });
 
   it('win ends immediately when the enemy hits 0 HP', () => {
     const data = withEnemy(makeGameData(), makeEnemy('weak', 5, { wait: { name: 'Wait', effects: [] } }));
     const r = runCombat(data, cfg({ enemyId: 'weak' }), { log: true });
-    expect(r).toMatchObject({ outcome: 'win', turns: 1, hpLost: 0 });
+    expect(r).toMatchObject({ outcome: 'win', turns: 1, hpLost: 0, enemyHpRemaining: 0 });
     // Only one card played: combat stops on the kill.
     expect(events(r.log, 'play')).toHaveLength(1);
     expect(r.log!.at(-1)!.t).toBe('combatEnd');

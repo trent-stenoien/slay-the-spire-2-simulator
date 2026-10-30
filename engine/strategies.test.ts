@@ -33,7 +33,7 @@ function playTurn(config: StrategyConfig, hand: CardInstance[], incoming: number
       state,
       intent: {
         moveId: 'm', name: 'm',
-        damagePerHit: incoming, hits: incoming > 0 ? 1 : 0, totalIncoming: incoming,
+        attacks: incoming > 0 ? [{ damagePerHit: incoming, hits: 1 }] : [], totalIncoming: incoming,
       },
       playable: state.player.hand.filter((c) => c.cost !== null && c.cost <= state.player.energy),
     };

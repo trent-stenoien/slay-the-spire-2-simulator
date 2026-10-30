@@ -206,6 +206,10 @@ function checkCard(r: Reporter, c: Obj): void {
   r.oneOf(c, 'character', [...CHARACTER_CODES, 'colorless']);
   if (c.cost !== null) r.int(c, 'cost', 0);
   checkKeywords(r, c.keywords, 'keywords');
+  const unplayable = Array.isArray(c.keywords) && c.keywords.includes('unplayable');
+  if (unplayable !== (c.cost === null)) {
+    r.add('cost', 'must be null exactly when keywords include "unplayable"');
+  }
   checkEffects(r, c.effects, 'effects');
   if (c.upgraded !== null) {
     if (!isObj(c.upgraded)) {

@@ -13,7 +13,7 @@
 // Versions, codes, constants
 // ---------------------------------------------------------------------------
 
-/** A game patch version string, e.g. "0.7". */
+/** A game patch version string, e.g. "v0.107.1". */
 export type GameVersion = string;
 
 /** One-letter character codes used in URLs. */
@@ -54,7 +54,10 @@ export type CardType = 'attack' | 'skill' | 'power' | 'status' | 'curse';
 
 export type CardKeyword = 'unplayable' | 'ethereal' | 'eternal' | 'exhaust';
 
-/** What changes when a card is upgraded. Omitted fields keep the base value. */
+/**
+ * What changes when a card is upgraded. Omitted fields keep the base value;
+ * present fields (effects, keywords) replace the base list wholesale.
+ */
 export interface CardUpgrade {
   cost?: number;
   effects?: Effect[];
@@ -69,7 +72,7 @@ export interface CardDef {
   name: string;
   type: CardType;
   character: CharacterCode | 'colorless';
-  /** Energy cost. `null` for unplayable cards. */
+  /** Energy cost. `null` exactly when keywords include "unplayable". */
   cost: number | null;
   keywords: CardKeyword[];
   effects: Effect[];
@@ -232,10 +235,9 @@ export interface CombatState {
 export interface EnemyIntent {
   moveId: string;
   name: string;
-  /** Final damage per hit after Strength and modifiers; 0 if not attacking. */
-  damagePerHit: number;
-  hits: number;
-  /** damagePerHit × hits; 0 on non-attack turns. */
+  /** One entry per attack effect, in order; empty on non-attack turns. */
+  attacks: { damagePerHit: number; hits: number }[];
+  /** Sum of damagePerHit × hits over all attacks; 0 on non-attack turns. */
   totalIncoming: number;
 }
 
@@ -303,7 +305,7 @@ export type GameEvent =
   | { t: 'debuff'; side: Side; kind: DebuffKind; amount: number; total: number }
   | { t: 'debuffTick'; side: Side; kind: DebuffKind; total: number }
   | { t: 'exhaust'; uid: number; cardId: string; reason: 'ethereal' | 'keyword' }
-  | { t: 'discard'; uid: number; cardId: string }
+  | { t: 'discard'; uid: number; cardId: string; reason: 'endOfTurn' | 'handLimit' }
   | { t: 'enemyMove'; moveId: string; name: string }
   | { t: 'turnEnd'; turn: number; side: Side }
   | { t: 'combatEnd'; outcome: Outcome; turns: number; hpLost: number };
@@ -331,6 +333,8 @@ export interface CombatResult {
   turns: number;
   /** Max HP − final HP, measured before any end-of-combat healing. */
   hpLost: number;
+  /** Enemy HP at the end (0 on a win); useful for turn-cap analysis. */
+  enemyHpRemaining: number;
   /** Present only when requested (log viewer); omitted in bulk runs. */
   log?: GameEvent[];
 }
