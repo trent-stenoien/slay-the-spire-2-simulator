@@ -9,11 +9,31 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "applyWeak",
+      "amount": 2
+    },
+    {
+      "type": "gainBlock",
+      "amount": 11
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "applyWeak",
+        "amount": 3
+      },
+      {
+        "type": "gainBlock",
+        "amount": 14
+      }
+    ]
+  },
   "description": "Apply 2 Weak. / Gain 11 Block.",
   "upgradedDescription": "Apply 3 Weak. / Gain 14 Block.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

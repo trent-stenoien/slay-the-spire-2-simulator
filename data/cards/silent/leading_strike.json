@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 3,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 6,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 3 damage. / Add 2 Shivs into your Hand.",
   "upgradedDescription": "Deal 6 damage. / Add 2 Shivs into your Hand.",
   "simulated": false,

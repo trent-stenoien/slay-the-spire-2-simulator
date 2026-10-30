@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 8,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 10,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 8 damage. / Whenever you play a card this turn, the enemy loses 2 HP.",
   "upgradedDescription": "Deal 10 damage. / Whenever you play a card this turn, the enemy loses 3 HP.",
   "simulated": false,

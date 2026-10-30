@@ -9,7 +9,12 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 6
+    }
+  ],
   "upgraded": {},
   "description": "Gain 6 Block. / Add 1 Shiv into your Hand.",
   "upgradedDescription": "Gain 6 Block. / Add 2 Shivs into your Hand.",

@@ -9,8 +9,24 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 60,
+      "hits": 1,
+      "allEnemies": true
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 75,
+        "hits": 1,
+        "allEnemies": true
+      }
+    ]
+  },
   "description": "Can only be played if there are no cards in your Draw Pile. Deal 60 damage to ALL enemies.",
   "upgradedDescription": "Can only be played if there are no cards in your Draw Pile. Deal 75 damage to ALL enemies.",
   "simulated": false,

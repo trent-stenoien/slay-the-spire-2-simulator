@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 9,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 11,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 9 damage. / Deals 4 additional damage for each card discarded this turn.",
   "upgradedDescription": "Deal 11 damage. / Deals 5 additional damage for each card discarded this turn.",
   "simulated": false,

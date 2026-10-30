@@ -11,8 +11,20 @@
   "keywords": [
     "sly"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 6
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 9
+      }
+    ]
+  },
   "description": "Sly. / Gain 6 Block.",
   "upgradedDescription": "Sly. / Gain 9 Block.",
   "simulated": false,

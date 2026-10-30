@@ -11,8 +11,30 @@
   "keywords": [
     "innate"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 11,
+      "hits": 1
+    },
+    {
+      "type": "applyWeak",
+      "amount": 3
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 17,
+        "hits": 1
+      },
+      {
+        "type": "applyWeak",
+        "amount": 5
+      }
+    ]
+  },
   "description": "Innate. / Deal 11 damage. / Apply 3 Weak.",
   "upgradedDescription": "Innate. / Deal 17 damage. / Apply 5 Weak.",
   "simulated": false,

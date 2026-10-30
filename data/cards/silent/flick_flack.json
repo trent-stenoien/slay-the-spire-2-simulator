@@ -11,8 +11,24 @@
   "keywords": [
     "sly"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 7,
+      "hits": 1,
+      "allEnemies": true
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 9,
+        "hits": 1,
+        "allEnemies": true
+      }
+    ]
+  },
   "description": "Sly. / Deal 7 damage to ALL enemies.",
   "upgradedDescription": "Sly. / Deal 9 damage to ALL enemies.",
   "simulated": false,

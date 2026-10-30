@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "applyWeak",
+      "amount": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "applyWeak",
+        "amount": 2
+      }
+    ]
+  },
   "description": "Apply 4 Poison and 1 Weak to ALL enemies.",
   "upgradedDescription": "Apply 6 Poison and 2 Weak to ALL enemies.",
   "simulated": false,

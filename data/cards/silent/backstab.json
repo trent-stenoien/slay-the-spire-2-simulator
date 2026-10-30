@@ -12,8 +12,22 @@
     "innate",
     "exhaust"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 11,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 15,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Innate. / Deal 11 damage. / Exhaust.",
   "upgradedDescription": "Innate. / Deal 15 damage. / Exhaust.",
   "simulated": false,
