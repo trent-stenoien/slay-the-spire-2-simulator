@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 4
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 7
+      }
+    ]
+  },
   "description": "Gain 4 Block. / You receive 50% less damage from Vulnerable enemies this turn.",
   "upgradedDescription": "Gain 7 Block. / You receive 50% less damage from Vulnerable enemies this turn.",
   "simulated": false,

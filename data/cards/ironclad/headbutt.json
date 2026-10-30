@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 9,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 12,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 9 damage. / Put a card from your Discard Pile on top of your Draw Pile.",
   "upgradedDescription": "Deal 12 damage. / Put a card from your Discard Pile on top of your Draw Pile.",
   "simulated": false,

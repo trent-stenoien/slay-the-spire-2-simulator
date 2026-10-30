@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 60,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 72,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 60 damage. / Costs 1 less [E] for each card Exhausted this combat by ANYONE.",
   "upgradedDescription": "Deal 72 damage. / Costs 1 less [E] for each card Exhausted this combat by ANYONE.",
   "simulated": false,

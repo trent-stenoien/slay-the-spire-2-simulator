@@ -9,7 +9,13 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 6,
+      "hits": 1
+    }
+  ],
   "upgraded": {},
   "description": "Deal 6 damage. / Deals 2 additional damage for ALL your cards containing “Strike”.",
   "upgradedDescription": "Deal 6 damage. / Deals 3 additional damage for ALL your cards containing “Strike”.",

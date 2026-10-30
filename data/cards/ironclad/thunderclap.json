@@ -9,11 +9,35 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 4,
+      "hits": 1,
+      "allEnemies": true
+    },
+    {
+      "type": "applyVulnerable",
+      "amount": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 7,
+        "hits": 1,
+        "allEnemies": true
+      },
+      {
+        "type": "applyVulnerable",
+        "amount": 1
+      }
+    ]
+  },
   "description": "Deal 4 damage and apply 1 Vulnerable to ALL enemies.",
   "upgradedDescription": "Deal 7 damage and apply 1 Vulnerable to ALL enemies.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

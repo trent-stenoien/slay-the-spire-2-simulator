@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 18,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 24,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 18 damage. / Exhaust 1 card at random.",
   "upgradedDescription": "Deal 24 damage. / Exhaust 1 card at random.",
   "simulated": false,

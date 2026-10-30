@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 9,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 13,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 9 damage. Add a copy of this card into EVERYONE'S Discard Pile.",
   "upgradedDescription": "Deal 13 damage. Add a copy of this card into EVERYONE'S Discard Pile.",
   "simulated": false,

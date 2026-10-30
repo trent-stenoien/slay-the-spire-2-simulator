@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 12
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 16
+      }
+    ]
+  },
   "description": "Gain 12 Block. / Whenever you are attacked this turn, deal 4 damage back.",
   "upgradedDescription": "Gain 16 Block. / Whenever you are attacked this turn, deal 6 damage back.",
   "simulated": false,

@@ -11,11 +11,23 @@
   "keywords": [
     "exhaust"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "applyVulnerable",
+      "amount": 3
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "applyVulnerable",
+        "amount": 4
+      }
+    ]
+  },
   "description": "Apply 3 Vulnerable. / Exhaust.",
   "upgradedDescription": "Apply 4 Vulnerable. / Exhaust.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

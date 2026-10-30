@@ -9,8 +9,24 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 18,
+      "hits": 1,
+      "allEnemies": true
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 24,
+        "hits": 1,
+        "allEnemies": true
+      }
+    ]
+  },
   "description": "Deal 18 damage to ALL enemies. / At the end of your turn, if this is in your Exhaust Pile, play it.",
   "upgradedDescription": "Deal 24 damage to ALL enemies. / At the end of your turn, if this is in your Exhaust Pile, play it.",
   "simulated": false,

@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 14,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 20,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 14 damage. / The next Attack you play costs 0 [E].",
   "upgradedDescription": "Deal 20 damage. / The next Attack you play costs 0 [E].",
   "simulated": false,

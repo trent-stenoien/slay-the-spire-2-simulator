@@ -9,11 +9,33 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 20,
+      "hits": 1
+    },
+    {
+      "type": "applyVulnerable",
+      "amount": 5
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 30,
+        "hits": 1
+      },
+      {
+        "type": "applyVulnerable",
+        "amount": 7
+      }
+    ]
+  },
   "description": "Deal 20 damage. / Apply 5 Vulnerable.",
   "upgradedDescription": "Deal 30 damage. / Apply 7 Vulnerable.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }
