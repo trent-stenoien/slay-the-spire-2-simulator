@@ -9,10 +9,23 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 7,
+      "hits": 1
+    }
+  ],
   "upgraded": {
     "keywords": [
       "retain"
+    ],
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 9,
+        "hits": 1
+      }
     ]
   },
   "description": "Deal 7 damage. / Apply any debuffs on the enemy to ALL other enemies.",

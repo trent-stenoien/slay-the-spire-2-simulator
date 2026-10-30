@@ -11,8 +11,24 @@
   "keywords": [
     "retain"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 8,
+      "hits": 1,
+      "allEnemies": true
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 11,
+        "hits": 1,
+        "allEnemies": true
+      }
+    ]
+  },
   "description": "Retain. / Deal 8 damage to ALL enemies.",
   "upgradedDescription": "Retain. / Deal 11 damage to ALL enemies.",
   "simulated": false,

@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 7
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 9
+      }
+    ]
+  },
   "description": "Gain 7 Block. / Add a copy of this card into your Discard Pile.",
   "upgradedDescription": "Gain 9 Block. / Add a copy of this card into your Discard Pile.",
   "simulated": false,

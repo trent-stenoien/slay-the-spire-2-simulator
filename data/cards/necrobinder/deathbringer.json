@@ -9,7 +9,12 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "type": "applyWeak",
+      "amount": 1
+    }
+  ],
   "upgraded": {},
   "description": "Apply 21 Doom and 1 Weak to ALL enemies.",
   "upgradedDescription": "Apply 26 Doom and 1 Weak to ALL enemies.",

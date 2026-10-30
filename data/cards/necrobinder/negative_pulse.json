@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 5
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 6
+      }
+    ]
+  },
   "description": "Gain 5 Block. / Apply 7 Doom to ALL enemies.",
   "upgradedDescription": "Gain 6 Block. / Apply 11 Doom to ALL enemies.",
   "simulated": false,

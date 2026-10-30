@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 8,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 9,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 8 damage. / Deals 4 additional damage for each card drawn during your turn.",
   "upgradedDescription": "Deal 9 damage. / Deals 6 additional damage for each card drawn during your turn.",
   "simulated": false,

@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 10,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 12,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 10 damage. / Vulnerable and Weak are twice as effective against the enemy for the next 2 turns.",
   "upgradedDescription": "Deal 12 damage. / Vulnerable and Weak are twice as effective against the enemy for the next 3 turns.",
   "simulated": false,

@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 13,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 18,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 13 damage. / Add a Soul into your Draw Pile, Hand, and Discard Pile.",
   "upgradedDescription": "Deal 18 damage. / Add a Soul into your Draw Pile, Hand, and Discard Pile.",
   "simulated": false,

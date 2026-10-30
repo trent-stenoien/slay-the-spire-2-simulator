@@ -11,7 +11,13 @@
   "keywords": [
     "exhaust"
   ],
-  "effects": [],
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 13,
+      "hits": 1
+    }
+  ],
   "upgraded": {},
   "description": "Deal 13 damage. / Permanently increase this card's damage by 5. / Exhaust.",
   "upgradedDescription": "Deal 13 damage. / Permanently increase this card's damage by 7. / Exhaust.",

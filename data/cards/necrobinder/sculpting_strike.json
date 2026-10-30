@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 9,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 12,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 9 damage. / Add Ethereal to a card in your Hand.",
   "upgradedDescription": "Deal 12 damage. / Add Ethereal to a card in your Hand.",
   "simulated": false,

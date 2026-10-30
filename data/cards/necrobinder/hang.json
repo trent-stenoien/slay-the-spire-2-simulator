@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 10,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 13,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 10 damage. / Double the damage ALL Hang cards deal to this enemy.",
   "upgradedDescription": "Deal 13 damage. / Double the damage ALL Hang cards deal to this enemy.",
   "simulated": false,
