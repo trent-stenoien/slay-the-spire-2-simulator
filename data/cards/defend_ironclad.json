@@ -1,0 +1,12 @@
+{
+  "id": "defend_ironclad",
+  "code": "De",
+  "name": "Defend",
+  "type": "skill",
+  "character": "I",
+  "cost": 1,
+  "keywords": [],
+  "effects": [{ "type": "gainBlock", "amount": 5 }],
+  "upgraded": { "effects": [{ "type": "gainBlock", "amount": 8 }] },
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "bash",
+  "code": "Ba",
+  "name": "Bash",
+  "type": "attack",
+  "character": "I",
+  "cost": 2,
+  "keywords": [],
+  "effects": [
+    { "type": "attack", "damage": 8, "hits": 1 },
+    { "type": "applyVulnerable", "amount": 2 }
+  ],
+  "upgraded": {
+    "effects": [
+      { "type": "attack", "damage": 10, "hits": 1 },
+      { "type": "applyVulnerable", "amount": 3 }
+    ]
+  },
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "ascenders_bane",
+  "code": "AB",
+  "name": "Ascender's Bane",
+  "type": "curse",
+  "character": "colorless",
+  "cost": null,
+  "keywords": ["unplayable", "ethereal", "eternal"],
+  "effects": [],
+  "upgraded": null,
+  "lastUpdateVersion": "v0.107.1"
+}

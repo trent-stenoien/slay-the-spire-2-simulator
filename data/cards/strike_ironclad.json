@@ -1,0 +1,12 @@
+{
+  "id": "strike_ironclad",
+  "code": "St",
+  "name": "Strike",
+  "type": "attack",
+  "character": "I",
+  "cost": 1,
+  "keywords": [],
+  "effects": [{ "type": "attack", "damage": 6, "hits": 1 }],
+  "upgraded": { "effects": [{ "type": "attack", "damage": 9, "hits": 1 }] },
+  "lastUpdateVersion": "v0.107.1"
+}
