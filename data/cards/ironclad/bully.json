@@ -9,7 +9,13 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 4,
+      "hits": 1
+    }
+  ],
   "upgraded": {},
   "description": "Deal 4 damage. / Deals 2 additional damage for each Vulnerable on the enemy.",
   "upgradedDescription": "Deal 4 damage. / Deals 3 additional damage for each Vulnerable on the enemy.",

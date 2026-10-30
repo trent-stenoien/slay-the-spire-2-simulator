@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainStrength",
+      "amount": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainStrength",
+        "amount": 2
+      }
+    ]
+  },
   "description": "Lose 1 HP. / Exhaust 1 card. / Gain 1 Strength.",
   "upgradedDescription": "Lose 1 HP. / Exhaust 1 card. / Gain 2 Strength.",
   "simulated": false,

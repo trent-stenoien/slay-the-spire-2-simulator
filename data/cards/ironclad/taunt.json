@@ -9,11 +9,31 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 6
+    },
+    {
+      "type": "applyVulnerable",
+      "amount": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 7
+      },
+      {
+        "type": "applyVulnerable",
+        "amount": 2
+      }
+    ]
+  },
   "description": "Gain 6 Block. / Apply 1 Vulnerable.",
   "upgradedDescription": "Gain 7 Block. / Apply 2 Vulnerable.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

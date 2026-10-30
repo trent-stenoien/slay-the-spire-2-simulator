@@ -11,8 +11,22 @@
   "keywords": [
     "exhaust"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 10,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 12,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 10 damage. / If Fatal, raise your Max HP by 3. / Exhaust.",
   "upgradedDescription": "Deal 12 damage. / If Fatal, raise your Max HP by 4. / Exhaust.",
   "simulated": false,

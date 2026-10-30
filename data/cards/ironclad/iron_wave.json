@@ -9,11 +9,33 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 5
+    },
+    {
+      "type": "attack",
+      "damage": 5,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 7
+      },
+      {
+        "type": "attack",
+        "damage": 7,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Gain 5 Block. / Deal 5 damage.",
   "upgradedDescription": "Gain 7 Block. / Deal 7 damage.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

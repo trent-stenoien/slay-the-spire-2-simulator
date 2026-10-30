@@ -11,8 +11,20 @@
   "keywords": [
     "exhaust"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "applyVulnerable",
+      "amount": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "applyVulnerable",
+        "amount": 2
+      }
+    ]
+  },
   "description": "Apply 1 Vulnerable. / Gain 1 Strength for each Vulnerable on the enemy. / Exhaust.",
   "upgradedDescription": "Apply 2 Vulnerable. / Gain 1 Strength for each Vulnerable on the enemy. / Exhaust.",
   "simulated": false,

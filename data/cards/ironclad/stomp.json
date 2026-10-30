@@ -9,8 +9,24 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 12,
+      "hits": 1,
+      "allEnemies": true
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 15,
+        "hits": 1,
+        "allEnemies": true
+      }
+    ]
+  },
   "description": "Deal 12 damage to ALL enemies. / Costs 1 less [E] for each Attack played this turn.",
   "upgradedDescription": "Deal 15 damage to ALL enemies. / Costs 1 less [E] for each Attack played this turn.",
   "simulated": false,

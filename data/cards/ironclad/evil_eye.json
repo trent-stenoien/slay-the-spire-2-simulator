@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 8
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 11
+      }
+    ]
+  },
   "description": "Gain 8 Block. / Gain another 8 Block if you have Exhausted a card this turn.",
   "upgradedDescription": "Gain 11 Block. / Gain another 11 Block if you have Exhausted a card this turn.",
   "simulated": false,

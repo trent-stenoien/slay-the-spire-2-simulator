@@ -9,8 +9,30 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 5,
+      "hits": 2
+    },
+    {
+      "type": "gainStrength",
+      "amount": 3
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 6,
+        "hits": 2
+      },
+      {
+        "type": "gainStrength",
+        "amount": 4
+      }
+    ]
+  },
   "description": "Deal 5 damage twice. / Gain 3 Strength. / The enemy gains 1 Strength.",
   "upgradedDescription": "Deal 6 damage twice. / Gain 4 Strength. / The enemy gains 1 Strength.",
   "simulated": false,

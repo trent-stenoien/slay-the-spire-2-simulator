@@ -9,8 +9,24 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 9,
+      "hits": 1,
+      "allEnemies": true
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 13,
+        "hits": 1,
+        "allEnemies": true
+      }
+    ]
+  },
   "description": "Lose 1 HP. / Deal 9 damage to ALL enemies.",
   "upgradedDescription": "Lose 1 HP. / Deal 13 damage to ALL enemies.",
   "simulated": false,

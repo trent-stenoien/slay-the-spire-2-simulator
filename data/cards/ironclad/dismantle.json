@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 8,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 10,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 8 damage. / If the enemy is Vulnerable, hits twice.",
   "upgradedDescription": "Deal 10 damage. / If the enemy is Vulnerable, hits twice.",
   "simulated": false,

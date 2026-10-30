@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 7
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 9
+      }
+    ]
+  },
   "description": "Gain 7 Block. / Exhaust 1 card at random.",
   "upgradedDescription": "Gain 9 Block. / Exhaust 1 card.",
   "simulated": false,

@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 4,
+      "hits": 2
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 6,
+        "hits": 2
+      }
+    ]
+  },
   "description": "Deal 4 damage twice. / Exhaust a random Attack in your Hand and add its damage to this card.",
   "upgradedDescription": "Deal 6 damage twice. / Exhaust a random Attack in your Hand and add its damage to this card.",
   "simulated": false,

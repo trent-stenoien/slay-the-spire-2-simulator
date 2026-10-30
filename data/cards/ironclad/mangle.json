@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 20,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 26,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 20 damage. / Enemy loses 10 Strength this turn.",
   "upgradedDescription": "Deal 26 damage. / Enemy loses 15 Strength this turn.",
   "simulated": false,

@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 5,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 7,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 5 damage. / Hits an additional time for each time you lost HP this combat.",
   "upgradedDescription": "Deal 7 damage. / Hits an additional time for each time you lost HP this combat.",
   "simulated": false,

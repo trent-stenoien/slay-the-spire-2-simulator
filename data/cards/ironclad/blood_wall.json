@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 16
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 20
+      }
+    ]
+  },
   "description": "Lose 2 HP. / Gain 16 Block.",
   "upgradedDescription": "Lose 2 HP. / Gain 20 Block.",
   "simulated": false,

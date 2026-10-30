@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 15,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 20,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Lose 2 HP. / Deal 15 damage.",
   "upgradedDescription": "Lose 2 HP. / Deal 20 damage.",
   "simulated": false,

@@ -9,7 +9,12 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 5
+    }
+  ],
   "upgraded": {},
   "description": "Gain 5 Block. / Upgrade a card in your Hand.",
   "upgradedDescription": "Gain 5 Block. / Upgrade ALL cards in your Hand.",
