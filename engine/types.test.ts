@@ -5,7 +5,7 @@ import manifest from '../data/manifest.json';
 describe('shared constants', () => {
   it('match the v1 design', () => {
     expect(TURN_CAP).toBe(100);
-    expect(COMBATS_PER_RUN).toBe(1000);
+    expect(COMBATS_PER_RUN).toBe(10000);
     expect(MAX_STRATEGIES_PER_RUN).toBe(5);
   });
 

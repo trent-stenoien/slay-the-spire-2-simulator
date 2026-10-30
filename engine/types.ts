@@ -20,7 +20,7 @@ export type GameVersion = string;
 export type CharacterCode = 'I' | 'S' | 'D' | 'N' | 'R';
 
 export const TURN_CAP = 100;
-export const COMBATS_PER_RUN = 1000;
+export const COMBATS_PER_RUN = 10000;
 export const MAX_STRATEGIES_PER_RUN = 5;
 export const HAND_LIMIT = 10;
 

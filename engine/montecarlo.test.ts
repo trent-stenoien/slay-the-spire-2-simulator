@@ -3,6 +3,7 @@ import { gameData } from '../data/index';
 import { runCombat } from './combat';
 import { runCombatRange, runSimulationSync, summarize } from './montecarlo';
 import { deriveSeed } from './rng';
+import { COMBATS_PER_RUN } from './types';
 import type { CombatResult, RunConfig, StrategyConfig } from './types';
 
 const ironclad = gameData.characters['ironclad']!;
@@ -160,6 +161,6 @@ describe('runSimulationSync', () => {
 
   it('defaults to COMBATS_PER_RUN combats', () => {
     const run = runSimulationSync(gameData, runConfig([{ kind: 'greedyDamage' }]));
-    expect(run.summaries[0]!.combats).toBe(1000);
+    expect(run.summaries[0]!.combats).toBe(COMBATS_PER_RUN);
   });
 });
