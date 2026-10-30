@@ -1,9 +1,9 @@
 {
-  "id": "strike_ironclad",
+  "id": "strike",
   "code": "St",
   "name": "Strike",
   "type": "attack",
-  "character": "I",
+  "character": "shared",
   "cost": 1,
   "keywords": [],
   "effects": [{ "type": "attack", "damage": 6, "hits": 1 }],

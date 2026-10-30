@@ -8,7 +8,7 @@ Pages by `.github/workflows/deploy.yml` on push to `main`.
 
 - `engine/` — pure TypeScript. No React, no DOM, no imports from `app/`. Must run
   inside Web Workers and Vitest.
-- `data/` — hand-entered JSON: `manifest.json`, `cards/`, `enemies/`, `characters/`.
+- `data/` — hand-entered JSON: `manifest.json`, `cards/` (shared Strike/Defend at the top level; `ironclad/`, `colorless/`, `curses/` subfolders), `enemies/`, `characters/`.
   Source: slaythespire.wiki.gg (CC BY-SA 4.0; keep attribution in `data/LICENSE`).
 - `app/` — React UI, workers, charts. May import from `engine/` and `data/`.
 

@@ -50,8 +50,8 @@ function playTurn(config: StrategyConfig, hand: CardInstance[], incoming: number
   throw new Error('strategy never ended its turn');
 }
 
-const S = 'strike_ironclad';
-const D = 'defend_ironclad';
+const S = 'strike';
+const D = 'defend';
 const B = 'bash';
 
 function starterHand(): CardInstance[] {

@@ -6,8 +6,8 @@
   "energyPerTurn": 3,
   "drawPerTurn": 5,
   "startingDeck": [
-    { "cardId": "strike_ironclad", "upgraded": false, "count": 5 },
-    { "cardId": "defend_ironclad", "upgraded": false, "count": 4 },
+    { "cardId": "strike", "upgraded": false, "count": 5 },
+    { "cardId": "defend", "upgraded": false, "count": 4 },
     { "cardId": "bash", "upgraded": false, "count": 1 }
   ],
   "startingRelic": "Burning Blood",

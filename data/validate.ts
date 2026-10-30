@@ -203,7 +203,7 @@ function checkCard(r: Reporter, c: Obj): void {
   }
   r.str(c, 'name');
   r.oneOf(c, 'type', CARD_TYPES);
-  r.oneOf(c, 'character', [...CHARACTER_CODES, 'colorless']);
+  r.oneOf(c, 'character', [...CHARACTER_CODES, 'colorless', 'shared']);
   if (c.cost !== null) r.int(c, 'cost', 0);
   checkKeywords(r, c.keywords, 'keywords');
   const unplayable = Array.isArray(c.keywords) && c.keywords.includes('unplayable');

@@ -15,8 +15,8 @@ function cfg(overrides: Partial<CombatConfig> = {}): CombatConfig {
   return {
     characterId: 'ironclad',
     deck: [
-      { cardId: 'strike_ironclad', upgraded: false, count: 5 },
-      { cardId: 'defend_ironclad', upgraded: false, count: 4 },
+      { cardId: 'strike', upgraded: false, count: 5 },
+      { cardId: 'defend', upgraded: false, count: 4 },
       { cardId: 'bash', upgraded: false, count: 1 },
     ],
     enemyId: 'nibbit',
@@ -104,11 +104,11 @@ describe('rule helpers', () => {
   });
 
   it('makeCardInstance applies upgrades and nulls cost for unplayable', () => {
-    const s = makeCardInstance(cards.strike_ironclad!, true, 3);
+    const s = makeCardInstance(cards.strike!, true, 3);
     expect(s).toMatchObject({ uid: 3, upgraded: true, cost: 1, effects: [{ type: 'attack', damage: 9, hits: 1 }] });
-    const def: CardDef = { ...cards.strike_ironclad!, upgraded: { cost: 0, keywords: ['exhaust'] } };
+    const def: CardDef = { ...cards.strike!, upgraded: { cost: 0, keywords: ['exhaust'] } };
     expect(makeCardInstance(def, true, 0)).toMatchObject({ cost: 0, keywords: ['exhaust'], effects: [{ damage: 6 }] });
-    expect(makeCardInstance({ ...cards.strike_ironclad!, keywords: ['unplayable'] }, false, 0).cost).toBeNull();
+    expect(makeCardInstance({ ...cards.strike!, keywords: ['unplayable'] }, false, 0).cost).toBeNull();
     expect(() => makeCardInstance(cards.ascenders_bane!, true, 0)).toThrow();
   });
 });
@@ -157,7 +157,7 @@ describe('runCombat setup', () => {
   });
 
   it('assigns uids 0..n-1 and logs the start shuffle', () => {
-    const r = simulateCombat(makeGameData(), cfg({ deck: deckOf(['defend_ironclad', 10]) }), passive, { log: true });
+    const r = simulateCombat(makeGameData(), cfg({ deck: deckOf(['defend', 10]) }), passive, { log: true });
     expect(events(r.log, 'shuffle')[0]).toEqual({ t: 'shuffle', reason: 'start', count: 10 });
     const firstTen = events(r.log, 'draw').slice(0, 10).map((d) => d.uid);
     expect([...firstTen].sort((a, b) => a - b)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
@@ -191,8 +191,8 @@ describe('runCombat setup', () => {
 describe('damage rules in combat', () => {
   it('Vulnerable: Bash then Strike = 8 + 9; Vulnerable 2 lasts two player turns', () => {
     const data = withEnemy(makeGameData(), dummy());
-    const config = cfg({ enemyId: 'dummy', deck: deckOf(['bash', 1], ['strike_ironclad', 4]) });
-    const strat = scripted((turn) => (turn === 1 ? ['bash', 'strike_ironclad'] : turn <= 3 ? ['strike_ironclad'] : []));
+    const config = cfg({ enemyId: 'dummy', deck: deckOf(['bash', 1], ['strike', 4]) });
+    const strat = scripted((turn) => (turn === 1 ? ['bash', 'strike'] : turn <= 3 ? ['strike'] : []));
     const r = simulateCombat(data, config, strat, { log: true });
     const log = r.log!;
     expect(events(log, 'damage').slice(0, 4).map((d) => d.amount)).toEqual([8, 9, 9, 6]);
@@ -213,12 +213,12 @@ describe('damage rules in combat', () => {
       decide(view) {
         intents.push(view.intent.totalIncoming);
         // Play one Defend on turn 2 only.
-        const d = view.playable.find((c) => c.cardId === 'defend_ironclad');
+        const d = view.playable.find((c) => c.cardId === 'defend');
         if (view.state.turn === 2 && view.state.player.block === 0 && d) return { kind: 'play', uid: d.uid };
         return { kind: 'endTurn' };
       },
     };
-    const r = simulateCombat(data, cfg({ enemyId: 'twin', deck: deckOf(['defend_ironclad', 5]) }), strat, { log: true });
+    const r = simulateCombat(data, cfg({ enemyId: 'twin', deck: deckOf(['defend', 5]) }), strat, { log: true });
     expect(intents.slice(0, 2)).toEqual([0, 8]);
     const dmg = events(r.log, 'damage').slice(0, 2);
     expect(dmg).toEqual([
@@ -239,8 +239,8 @@ describe('damage rules in combat', () => {
   });
 
   it('enemy block protects it during the next player turn only', () => {
-    const strat = scripted((turn) => (turn <= 4 ? ['strike_ironclad'] : []));
-    const r = simulateCombat(makeGameData(), cfg({ deck: deckOf(['strike_ironclad', 10]) }), strat, { log: true });
+    const strat = scripted((turn) => (turn <= 4 ? ['strike'] : []));
+    const r = simulateCombat(makeGameData(), cfg({ deck: deckOf(['strike', 10]) }), strat, { log: true });
     const playerHits = events(r.log, 'damage').filter((d) => d.source === 'player');
     // Turn 1, 2: no enemy block. Hesitant Strike (enemy turn 2) gives 5 block.
     // Turn 3: Strike 6 → 5 blocked, 1 HP. Enemy block resets on its turn 3.
@@ -251,12 +251,12 @@ describe('damage rules in combat', () => {
   });
 
   it('player block resets at the start of each player turn', () => {
-    const strat = scripted((turn) => (turn === 1 ? ['defend_ironclad', 'defend_ironclad', 'defend_ironclad'] : []));
+    const strat = scripted((turn) => (turn === 1 ? ['defend', 'defend', 'defend'] : []));
     const data = withEnemy(makeGameData(), makeEnemy('late', 999, {
       wait: { name: 'Wait', effects: [] },
       hit: { name: 'Hit', effects: [{ type: 'attack', damage: 10, hits: 1 }] },
     }));
-    const r = simulateCombat(data, cfg({ enemyId: 'late', deck: deckOf(['defend_ironclad', 10]) }), strat, { log: true });
+    const r = simulateCombat(data, cfg({ enemyId: 'late', deck: deckOf(['defend', 10]) }), strat, { log: true });
     // 15 block on turn 1 is gone by the enemy's turn-2 hit.
     expect(events(r.log, 'damage')[0]).toMatchObject({ amount: 10, blocked: 0, hpLoss: 10 });
   });
@@ -267,7 +267,7 @@ describe('damage rules in combat', () => {
       hit: { name: 'Hit', effects: [{ type: 'attack', damage: 10, hits: 1 }] },
     });
     const weakener: CardDef = {
-      ...cards.defend_ironclad!, id: 'weakener', code: 'Wk', cost: 0,
+      ...cards.defend!, id: 'weakener', code: 'Wk', cost: 0,
       effects: [{ type: 'applyWeak', amount: 1 }, { type: 'gainBlock', amount: 8 }], upgraded: null,
     };
     const data = withEnemy(makeGameData(), e);
@@ -297,7 +297,7 @@ describe('damage rules in combat', () => {
 describe('cards and piles', () => {
   it("Ascender's Bane is added only at A5+ and exhausts from hand at end of turn", () => {
     const data = withEnemy(makeGameData(), dummy());
-    const deck = deckOf(['defend_ironclad', 4]);
+    const deck = deckOf(['defend', 4]);
     const a4 = simulateCombat(data, cfg({ enemyId: 'dummy', deck, ascension: 4 }), passive, { log: true });
     expect(events(a4.log, 'shuffle')[0]!.count).toBe(4);
     expect(events(a4.log, 'draw').some((d) => d.cardId === 'ascenders_bane')).toBe(false);
@@ -325,7 +325,7 @@ describe('cards and piles', () => {
 
   it('exhaust keyword sends a played card to the exhaust pile', () => {
     const data = withEnemy(makeGameData(), dummy());
-    data.cards.slash = { ...cards.strike_ironclad!, id: 'slash', code: 'Sl', keywords: ['exhaust'] };
+    data.cards.slash = { ...cards.strike!, id: 'slash', code: 'Sl', keywords: ['exhaust'] };
     const strat = scripted((turn) => (turn === 1 ? ['slash'] : []));
     const r = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['slash', 1]) }), strat, { log: true });
     expect(events(r.log, 'exhaust')).toEqual([{ t: 'exhaust', uid: 0, cardId: 'slash', reason: 'keyword' }]);
@@ -335,7 +335,7 @@ describe('cards and piles', () => {
 
   it('reshuffles the discard pile mid-draw', () => {
     const data = withEnemy(makeGameData(), dummy());
-    const r = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['strike_ironclad', 7]) }), passive, { log: true });
+    const r = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['strike', 7]) }), passive, { log: true });
     const log = r.log!;
     const t2 = log.findIndex((e) => e.t === 'turnStart' && e.turn === 2 && e.side === 'player');
     const turn2 = log.slice(t2).filter((e) => e.t === 'draw' || e.t === 'shuffle').slice(0, 6);
@@ -345,8 +345,8 @@ describe('cards and piles', () => {
 
   it('stops drawing when both piles are empty', () => {
     const data = withEnemy(makeGameData(), dummy());
-    const strat = scripted((turn) => (turn === 1 ? ['defend_ironclad'] : []));
-    const r = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['defend_ironclad', 2]) }), strat, { log: true });
+    const strat = scripted((turn) => (turn === 1 ? ['defend'] : []));
+    const r = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['defend', 2]) }), strat, { log: true });
     const t1 = r.log!.findIndex((e) => e.t === 'turnStart' && e.turn === 1);
     const t2 = r.log!.findIndex((e) => e.t === 'turnStart' && e.turn === 2);
     expect(r.log!.slice(t1, t2).filter((e) => e.t === 'draw')).toHaveLength(2);
@@ -355,7 +355,7 @@ describe('cards and piles', () => {
   it('a card drawn at the hand limit goes to the discard pile', () => {
     const data = withEnemy(makeGameData(), dummy());
     data.characters.ironclad!.drawPerTurn = 12;
-    const r = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['strike_ironclad', 12]) }), passive, { log: true });
+    const r = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['strike', 12]) }), passive, { log: true });
     const t1End = r.log!.findIndex((e) => e.t === 'turnEnd');
     const turn1 = r.log!.slice(0, t1End);
     expect(turn1.filter((e) => e.t === 'draw')).toHaveLength(12);
@@ -385,7 +385,7 @@ describe('cards and piles', () => {
         return c ? { kind: 'play', uid: c.uid } : { kind: 'endTurn' };
       },
     };
-    simulateCombat(withEnemy(makeGameData(), dummy()), cfg({ enemyId: 'dummy', deck: deckOf(['defend_ironclad', 10]) }), strat);
+    simulateCombat(withEnemy(makeGameData(), dummy()), cfg({ enemyId: 'dummy', deck: deckOf(['defend', 10]) }), strat);
     expect(energies.slice(0, 5)).toEqual([1, 2, 3, 4, 5]);
   });
 });

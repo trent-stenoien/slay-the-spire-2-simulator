@@ -24,10 +24,10 @@ describe('real game data', () => {
   });
 
   const expected = [
-    { id: 'strike_ironclad', code: 'St', name: 'Strike', type: 'attack', character: 'I', cost: 1, keywords: [],
+    { id: 'strike', code: 'St', name: 'Strike', type: 'attack', character: 'shared', cost: 1, keywords: [],
       effects: [{ type: 'attack', damage: 6, hits: 1 }],
       upgraded: { effects: [{ type: 'attack', damage: 9, hits: 1 }] } },
-    { id: 'defend_ironclad', code: 'De', name: 'Defend', type: 'skill', character: 'I', cost: 1, keywords: [],
+    { id: 'defend', code: 'De', name: 'Defend', type: 'skill', character: 'shared', cost: 1, keywords: [],
       effects: [{ type: 'gainBlock', amount: 5 }],
       upgraded: { effects: [{ type: 'gainBlock', amount: 8 }] } },
     { id: 'bash', code: 'Ba', name: 'Bash', type: 'attack', character: 'I', cost: 2, keywords: [],
@@ -59,8 +59,8 @@ describe('real game data', () => {
     expect(ic).toMatchObject({ name: 'Ironclad', maxHp: 80, energyPerTurn: 3, drawPerTurn: 5, startingRelic: 'Burning Blood', lastUpdateVersion: VERSION });
     expect(ic?.startingDeck.reduce((n, e) => n + e.count, 0)).toBe(10);
     expect(ic?.startingDeck).toEqual([
-      { cardId: 'strike_ironclad', upgraded: false, count: 5 },
-      { cardId: 'defend_ironclad', upgraded: false, count: 4 },
+      { cardId: 'strike', upgraded: false, count: 5 },
+      { cardId: 'defend', upgraded: false, count: 4 },
       { cardId: 'bash', upgraded: false, count: 1 },
     ]);
   });
@@ -90,9 +90,9 @@ describe('validateGameData on broken fixtures', () => {
 
   it('reports a duplicate card code naming both cards', () => {
     const d = fixture();
-    d.cards.defend_ironclad.code = 'St';
+    d.cards.defend.code = 'St';
     const errs = errorsOf(d);
-    expect(errs.some((e) => e.includes('"St"') && e.includes('cards/strike_ironclad') && e.includes('cards/defend_ironclad'))).toBe(true);
+    expect(errs.some((e) => e.includes('"St"') && e.includes('cards/strike') && e.includes('cards/defend'))).toBe(true);
   });
 
   it('reports a duplicate enemy code', () => {
@@ -155,13 +155,13 @@ describe('validateGameData on broken fixtures', () => {
   it('reports bad card code format, hits < 1, bad enum, negative amount', () => {
     const d = fixture();
     d.cards.bash.code = 'B!';
-    d.cards.strike_ironclad.effects[0].hits = 0;
-    d.cards.defend_ironclad.type = 'block';
+    d.cards.strike.effects[0].hits = 0;
+    d.cards.defend.type = 'block';
     d.cards.ultimate_defend.effects[0].amount = -1;
     const errs = errorsOf(d);
     expect(errs).toContainEqual(expect.stringMatching(/cards\/bash.*"code"/));
-    expect(errs).toContainEqual(expect.stringMatching(/cards\/strike_ironclad.*effects\[0\]\.hits/));
-    expect(errs).toContainEqual(expect.stringMatching(/cards\/defend_ironclad.*"type"/));
+    expect(errs).toContainEqual(expect.stringMatching(/cards\/strike.*effects\[0\]\.hits/));
+    expect(errs).toContainEqual(expect.stringMatching(/cards\/defend.*"type"/));
     expect(errs).toContainEqual(expect.stringMatching(/cards\/ultimate_defend.*effects\[0\]\.amount/));
   });
 

@@ -7,7 +7,7 @@ import type { CardDef, CharacterDef, EnemyDef, GameData } from '../engine/types'
 import manifest from './manifest.json';
 import { assembleGameData, validateGameData } from './validate';
 
-const cardFiles = import.meta.glob('./cards/*.json', { eager: true, import: 'default' });
+const cardFiles = import.meta.glob('./cards/**/*.json', { eager: true, import: 'default' });
 const enemyFiles = import.meta.glob('./enemies/*.json', { eager: true, import: 'default' });
 const characterFiles = import.meta.glob('./characters/*.json', { eager: true, import: 'default' });
 

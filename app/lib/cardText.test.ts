@@ -31,7 +31,7 @@ describe('card text', () => {
   });
 
   it('applies an upgrade cost change', () => {
-    const def = { ...card('strike_ironclad'), upgraded: { cost: 0 } };
+    const def = { ...card('strike'), upgraded: { cost: 0 } };
     expect(cardText(def, true).cost).toBe('0');
     expect(cardText(def, true).lines).toEqual(['Deal 6 damage']);
   });

@@ -65,13 +65,14 @@ export interface CardUpgrade {
 }
 
 export interface CardDef {
-  /** Stable internal id, e.g. "strike_ironclad". */
+  /** Stable internal id, e.g. "strike". */
   id: string;
   /** Permanent two-character, case-sensitive URL code, e.g. "St". Never reused. */
   code: string;
   name: string;
   type: CardType;
-  character: CharacterCode | 'colorless';
+  /** "shared": basic cards every character uses (Strike, Defend). */
+  character: CharacterCode | 'colorless' | 'shared';
   /** Energy cost. `null` exactly when keywords include "unplayable". */
   cost: number | null;
   keywords: CardKeyword[];

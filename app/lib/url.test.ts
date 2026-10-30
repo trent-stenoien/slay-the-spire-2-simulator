@@ -13,8 +13,8 @@ describe('deck encoding', () => {
   it('encodes upgraded entries with +', () => {
     expect(
       encodeDeck(data, [
-        { cardId: 'strike_ironclad', upgraded: false, count: 4 },
-        { cardId: 'strike_ironclad', upgraded: true, count: 1 },
+        { cardId: 'strike', upgraded: false, count: 4 },
+        { cardId: 'strike', upgraded: true, count: 1 },
       ]),
     ).toBe('St4St+1');
   });
@@ -25,8 +25,8 @@ describe('deck encoding', () => {
 
   it('decodes and round-trips', () => {
     const deck = [
-      { cardId: 'strike_ironclad', upgraded: false, count: 4 },
-      { cardId: 'strike_ironclad', upgraded: true, count: 1 },
+      { cardId: 'strike', upgraded: false, count: 4 },
+      { cardId: 'strike', upgraded: true, count: 1 },
       { cardId: 'ultimate_defend', upgraded: true, count: 12 },
     ];
     const text = encodeDeck(data, deck);
@@ -84,8 +84,8 @@ describe('query strings', () => {
       parseQuery(data, '?v=1&c=I&e=Nb&a=0&d=St4St+1').setup.deck,
     );
     expect(parseQuery(data, '?d=St4St+1').setup.deck).toEqual([
-      { cardId: 'strike_ironclad', upgraded: false, count: 4 },
-      { cardId: 'strike_ironclad', upgraded: true, count: 1 },
+      { cardId: 'strike', upgraded: false, count: 4 },
+      { cardId: 'strike', upgraded: true, count: 1 },
     ]);
   });
 

@@ -10,7 +10,7 @@ export function deckPool(data: GameData, characterId: string): CardDef[] {
   const code = data.characters[characterId]?.code;
   if (!code) return [];
   return Object.values(data.cards)
-    .filter((c) => c.character === code || c.character === 'colorless')
+    .filter((c) => c.character === code || c.character === 'colorless' || c.character === 'shared')
     .filter((c) => !(c.type === 'curse' && c.keywords.includes('unplayable')))
     .sort((a, b) => a.name.localeCompare(b.name));
 }

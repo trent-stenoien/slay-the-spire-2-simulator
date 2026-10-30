@@ -7,24 +7,24 @@ import type { CardDef, CharacterDef, EnemyDef, GameData, Manifest } from './type
 const V = 'v0.107.1';
 
 export const cards: Record<string, CardDef> = {
-  strike_ironclad: {
-    id: 'strike_ironclad',
+  strike: {
+    id: 'strike',
     code: 'St',
     name: 'Strike',
     type: 'attack',
-    character: 'I',
+    character: 'shared',
     cost: 1,
     keywords: [],
     effects: [{ type: 'attack', damage: 6, hits: 1 }],
     upgraded: { effects: [{ type: 'attack', damage: 9, hits: 1 }] },
     lastUpdateVersion: V,
   },
-  defend_ironclad: {
-    id: 'defend_ironclad',
+  defend: {
+    id: 'defend',
     code: 'De',
     name: 'Defend',
     type: 'skill',
-    character: 'I',
+    character: 'shared',
     cost: 1,
     keywords: [],
     effects: [{ type: 'gainBlock', amount: 5 }],
@@ -97,8 +97,8 @@ export const ironclad: CharacterDef = {
   energyPerTurn: 3,
   drawPerTurn: 5,
   startingDeck: [
-    { cardId: 'strike_ironclad', upgraded: false, count: 5 },
-    { cardId: 'defend_ironclad', upgraded: false, count: 4 },
+    { cardId: 'strike', upgraded: false, count: 5 },
+    { cardId: 'defend', upgraded: false, count: 4 },
     { cardId: 'bash', upgraded: false, count: 1 },
   ],
   startingRelic: 'Burning Blood',
