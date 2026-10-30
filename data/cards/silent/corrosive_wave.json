@@ -1,0 +1,19 @@
+{
+  "id": "corrosive_wave",
+  "code": "CW",
+  "name": "Corrosive Wave",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever you draw a card this turn, apply 2 Poison to ALL enemies.",
+  "upgradedDescription": "Whenever you draw a card this turn, apply 3 Poison to ALL enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

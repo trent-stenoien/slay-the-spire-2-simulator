@@ -1,0 +1,19 @@
+{
+  "id": "glow",
+  "code": "Go",
+  "name": "Glow",
+  "type": "skill",
+  "rarity": "common",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain [STAR]. / Draw 1 card. / Next turn, draw 1 card.",
+  "upgradedDescription": "Gain [STAR][STAR]. / Draw 1 card. / Next turn, draw 1 card.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "clash",
+  "code": "Cd",
+  "name": "Clash",
+  "type": "attack",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Can only be played if every card in your Hand is an Attack. / Deal 14 damage.",
+  "upgradedDescription": "Can only be played if every card in your Hand is an Attack. / Deal 18 damage.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

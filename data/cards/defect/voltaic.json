@@ -1,0 +1,23 @@
+{
+  "id": "voltaic",
+  "code": "Vt",
+  "name": "Voltaic",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": []
+  },
+  "description": "Channel Lightning equal to the Lightning already Channeled this combat. / Exhaust.",
+  "upgradedDescription": "Channel Lightning equal to the Lightning already Channeled this combat.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

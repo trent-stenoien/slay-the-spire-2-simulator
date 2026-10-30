@@ -1,0 +1,19 @@
+{
+  "id": "particle_wall",
+  "code": "PW",
+  "name": "Particle Wall",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 0,
+  "xCost": false,
+  "starCost": 2,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 9 Block. / Return this card to your Hand.",
+  "upgradedDescription": "Gain 12 Block. / Return this card to your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

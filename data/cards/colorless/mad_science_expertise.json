@@ -1,0 +1,23 @@
+{
+  "id": "mad_science_expertise",
+  "code": "Mi",
+  "name": "Mad Science (Expertise)",
+  "type": "power",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate"
+    ]
+  },
+  "description": "Gain 2 Strength. / Gain 2 Dexterity.",
+  "upgradedDescription": "Innate. / Gain 2 Strength. / Gain 2 Dexterity.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "infection",
+  "code": "In",
+  "name": "Infection",
+  "type": "status",
+  "rarity": "status",
+  "character": "colorless",
+  "cost": null,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "unplayable"
+  ],
+  "effects": [],
+  "upgraded": null,
+  "description": "Unplayable. / At the end of your turn, if this is in your Hand, take 3 damage.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

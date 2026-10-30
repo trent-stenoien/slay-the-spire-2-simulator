@@ -1,0 +1,23 @@
+{
+  "id": "speedster",
+  "code": "SK",
+  "name": "Speedster",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate"
+    ]
+  },
+  "description": "Whenever you draw a card during your turn, deal 2 damage to ALL enemies.",
+  "upgradedDescription": "Innate. / Whenever you draw a card during your turn, deal 2 damage to ALL enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

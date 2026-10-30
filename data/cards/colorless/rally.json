@@ -1,0 +1,19 @@
+{
+  "id": "rally",
+  "code": "Rl",
+  "name": "Rally",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "colorless",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "ALL players gain 12 Block.",
+  "upgradedDescription": "ALL players gain 17 Block.",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

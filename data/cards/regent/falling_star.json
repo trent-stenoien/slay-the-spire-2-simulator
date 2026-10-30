@@ -1,0 +1,19 @@
+{
+  "id": "falling_star",
+  "code": "FS",
+  "name": "Falling Star",
+  "type": "attack",
+  "rarity": "basic",
+  "character": "R",
+  "cost": 0,
+  "xCost": false,
+  "starCost": 2,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 8 damage. / Apply 1 Weak. / Apply 1 Vulnerable.",
+  "upgradedDescription": "Deal 12 damage. / Apply 1 Weak. / Apply 1 Vulnerable.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

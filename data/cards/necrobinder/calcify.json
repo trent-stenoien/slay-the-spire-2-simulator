@@ -1,0 +1,19 @@
+{
+  "id": "calcify",
+  "code": "Cc",
+  "name": "Calcify",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Osty's attacks deal 4 additional damage.",
+  "upgradedDescription": "Osty's attacks deal 6 additional damage.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

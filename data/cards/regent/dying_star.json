@@ -1,0 +1,21 @@
+{
+  "id": "dying_star",
+  "code": "D7",
+  "name": "Dying Star",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": 3,
+  "keywords": [
+    "ethereal"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Ethereal. / Deal 9 damage to ALL enemies. ALL enemies lose 9 Strength this turn.",
+  "upgradedDescription": "Ethereal. / Deal 11 damage to ALL enemies. ALL enemies lose 11 Strength this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

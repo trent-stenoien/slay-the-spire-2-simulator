@@ -1,0 +1,19 @@
+{
+  "id": "make_it_so",
+  "code": "MI",
+  "name": "Make It So",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 6 damage. / Every 3 Skills you play in a turn, put this into your Hand.",
+  "upgradedDescription": "Deal 9 damage. / Every 3 Skills you play in a turn, put this into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

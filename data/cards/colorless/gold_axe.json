@@ -1,0 +1,23 @@
+{
+  "id": "gold_axe",
+  "code": "Gd",
+  "name": "Gold Axe",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "retain"
+    ]
+  },
+  "description": "Deal damage equal to the number of cards played this combat.",
+  "upgradedDescription": "Retain. / Deal damage equal to the number of cards played this combat.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

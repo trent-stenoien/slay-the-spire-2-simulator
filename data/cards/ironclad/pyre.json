@@ -1,0 +1,19 @@
+{
+  "id": "pyre",
+  "code": "P2",
+  "name": "Pyre",
+  "type": "power",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain [E] at the start of each turn.",
+  "upgradedDescription": "Gain [E][E] at the start of each turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

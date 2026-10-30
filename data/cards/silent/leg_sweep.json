@@ -1,0 +1,19 @@
+{
+  "id": "leg_sweep",
+  "code": "Lg",
+  "name": "Leg Sweep",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Apply 2 Weak. / Gain 11 Block.",
+  "upgradedDescription": "Apply 3 Weak. / Gain 14 Block.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

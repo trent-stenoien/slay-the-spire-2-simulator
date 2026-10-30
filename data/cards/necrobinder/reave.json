@@ -1,0 +1,19 @@
+{
+  "id": "reave",
+  "code": "Rv",
+  "name": "Reave",
+  "type": "attack",
+  "rarity": "common",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 10 damage. / Add a Soul into your Draw Pile.",
+  "upgradedDescription": "Deal 13 damage. / Add a Soul+ into your Draw Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

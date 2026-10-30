@@ -1,0 +1,19 @@
+{
+  "id": "break",
+  "code": "B0",
+  "name": "Break",
+  "type": "attack",
+  "rarity": "ancient",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 20 damage. / Apply 5 Vulnerable.",
+  "upgradedDescription": "Deal 30 damage. / Apply 7 Vulnerable.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

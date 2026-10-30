@@ -1,0 +1,19 @@
+{
+  "id": "invoke",
+  "code": "Iv",
+  "name": "Invoke",
+  "type": "skill",
+  "rarity": "common",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Next turn, Summon 2 and gain [E][E].",
+  "upgradedDescription": "Next turn, Summon 3 and gain [E][E][E].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

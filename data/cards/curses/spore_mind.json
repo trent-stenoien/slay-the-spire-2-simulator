@@ -1,0 +1,21 @@
+{
+  "id": "spore_mind",
+  "code": "SV",
+  "name": "Spore Mind",
+  "type": "curse",
+  "rarity": "curse",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": null,
+  "description": "Exhaust.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

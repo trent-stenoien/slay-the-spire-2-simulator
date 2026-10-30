@@ -1,0 +1,19 @@
+{
+  "id": "solar_strike",
+  "code": "S8",
+  "name": "Solar Strike",
+  "type": "attack",
+  "rarity": "common",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 9 damage. / Gain [STAR].",
+  "upgradedDescription": "Deal 10 damage. / Gain [STAR][STAR].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

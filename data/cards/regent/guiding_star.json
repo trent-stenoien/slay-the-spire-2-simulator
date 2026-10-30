@@ -1,0 +1,19 @@
+{
+  "id": "guiding_star",
+  "code": "GS",
+  "name": "Guiding Star",
+  "type": "attack",
+  "rarity": "common",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": 1,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 12 damage. / Next turn, draw 2 cards.",
+  "upgradedDescription": "Deal 13 damage. / Next turn, draw 3 cards.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "charge",
+  "code": "Cg",
+  "name": "CHARGE!!",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Choose 2 cards in your Draw Pile to Transform into Minion Dive Bombs.",
+  "upgradedDescription": "Choose 2 cards in your Draw Pile to Transform into Minion Dive Bombs+.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

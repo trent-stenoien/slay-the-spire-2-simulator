@@ -1,0 +1,21 @@
+{
+  "id": "the_scythe",
+  "code": "TS",
+  "name": "The Scythe",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 13 damage. / Permanently increase this card's damage by 5. / Exhaust.",
+  "upgradedDescription": "Deal 13 damage. / Permanently increase this card's damage by 7. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

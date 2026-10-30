@@ -1,0 +1,22 @@
+{
+  "id": "sweeping_gaze",
+  "code": "AG",
+  "name": "Sweeping Gaze",
+  "type": "attack",
+  "rarity": "token",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "ethereal",
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Ethereal. / Osty deals 10 damage to a random enemy. / Exhaust.",
+  "upgradedDescription": "Ethereal. / Osty deals 15 damage to a random enemy. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

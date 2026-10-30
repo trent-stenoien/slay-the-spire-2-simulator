@@ -1,0 +1,19 @@
+{
+  "id": "hidden_cache",
+  "code": "HC",
+  "name": "Hidden Cache",
+  "type": "skill",
+  "rarity": "common",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain [STAR]. / Next turn, gain [STAR][STAR][STAR].",
+  "upgradedDescription": "Gain [STAR]. / Next turn, gain [STAR][STAR][STAR][STAR].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

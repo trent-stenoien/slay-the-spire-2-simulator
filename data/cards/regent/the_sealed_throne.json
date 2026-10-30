@@ -1,0 +1,21 @@
+{
+  "id": "the_sealed_throne",
+  "code": "Ts",
+  "name": "The Sealed Throne",
+  "type": "power",
+  "rarity": "ancient",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": 3,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 0
+  },
+  "description": "Whenever you play a card, gain [STAR].",
+  "upgradedDescription": "Whenever you play a card, gain [STAR].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

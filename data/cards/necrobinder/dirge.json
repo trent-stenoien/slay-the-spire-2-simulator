@@ -1,0 +1,21 @@
+{
+  "id": "dirge",
+  "code": "Dk",
+  "name": "Dirge",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 0,
+  "xCost": true,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Summon 3 X times. / Add X Souls into your Draw Pile. / Exhaust.",
+  "upgradedDescription": "Summon 4 X times. / Add X Souls+ into your Draw Pile. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

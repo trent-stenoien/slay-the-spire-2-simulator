@@ -1,0 +1,19 @@
+{
+  "id": "memento_mori",
+  "code": "MM",
+  "name": "Memento Mori",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 9 damage. / Deals 4 additional damage for each card discarded this turn.",
+  "upgradedDescription": "Deal 11 damage. / Deals 5 additional damage for each card discarded this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "metamorphosis",
+  "code": "Mt",
+  "name": "Metamorphosis",
+  "type": "skill",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Add 3 random Attacks into your Draw Pile. They're free to play this combat. / Exhaust.",
+  "upgradedDescription": "Add 5 random Attacks into your Draw Pile. They're free to play this combat. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

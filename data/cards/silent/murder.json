@@ -1,0 +1,21 @@
+{
+  "id": "murder",
+  "code": "M1",
+  "name": "Murder",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 2
+  },
+  "description": "Deal 1 damage. / Deals 1 additional damage for each card drawn this combat.",
+  "upgradedDescription": "Deal 1 damage. / Deals 1 additional damage for each card drawn this combat.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

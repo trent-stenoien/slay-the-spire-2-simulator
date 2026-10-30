@@ -1,0 +1,23 @@
+{
+  "id": "forbidden_grimoire",
+  "code": "FG",
+  "name": "Forbidden Grimoire",
+  "type": "power",
+  "rarity": "ancient",
+  "character": "N",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "eternal"
+  ],
+  "effects": [],
+  "upgraded": {
+    "cost": 1
+  },
+  "description": "At the end of combat, you may remove a card from your Deck. / Eternal.",
+  "upgradedDescription": "At the end of combat, you may remove a card from your Deck. / Eternal.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

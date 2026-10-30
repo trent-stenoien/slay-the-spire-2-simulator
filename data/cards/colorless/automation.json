@@ -1,0 +1,21 @@
+{
+  "id": "automation",
+  "code": "Aq",
+  "name": "Automation",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 0
+  },
+  "description": "Every 10 cards you draw, gain [E].",
+  "upgradedDescription": "Every 10 cards you draw, gain [E].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

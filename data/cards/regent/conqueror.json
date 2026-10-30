@@ -1,0 +1,19 @@
+{
+  "id": "conqueror",
+  "code": "Cx",
+  "name": "Conqueror",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Forge 3. / Sovereign Blade deals double damage to the enemy this turn.",
+  "upgradedDescription": "Forge 5. / Sovereign Blade deals double damage to the enemy this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

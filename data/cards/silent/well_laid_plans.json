@@ -1,0 +1,21 @@
+{
+  "id": "well_laid_plans",
+  "code": "WP",
+  "name": "Well-Laid Plans",
+  "type": "power",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 1
+  },
+  "description": "At the end of your turn, you no longer discard your Hand.",
+  "upgradedDescription": "At the end of your turn, you no longer discard your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

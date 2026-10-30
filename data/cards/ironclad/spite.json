@@ -1,0 +1,19 @@
+{
+  "id": "spite",
+  "code": "SP",
+  "name": "Spite",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 5 damage. If you lost HP this turn, hits 2 times.",
+  "upgradedDescription": "Deal 5 damage. If you lost HP this turn, hits 3 times.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

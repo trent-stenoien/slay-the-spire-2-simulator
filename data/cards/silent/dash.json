@@ -1,0 +1,19 @@
+{
+  "id": "dash",
+  "code": "Ds",
+  "name": "Dash",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 10 Block. / Deal 10 damage.",
+  "upgradedDescription": "Gain 13 Block. / Deal 13 damage.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

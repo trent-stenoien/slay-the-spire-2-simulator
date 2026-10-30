@@ -1,0 +1,19 @@
+{
+  "id": "flechettes",
+  "code": "Ff",
+  "name": "Flechettes",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 5 damage for each Skill in your Hand.",
+  "upgradedDescription": "Deal 7 damage for each Skill in your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

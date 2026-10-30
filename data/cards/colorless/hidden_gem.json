@@ -1,0 +1,19 @@
+{
+  "id": "hidden_gem",
+  "code": "HG",
+  "name": "Hidden Gem",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "A random card in your Draw Pile without Replay gains Replay 2.",
+  "upgradedDescription": "A random card in your Draw Pile without Replay gains Replay 3.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

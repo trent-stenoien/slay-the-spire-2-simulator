@@ -1,0 +1,19 @@
+{
+  "id": "glitterstream",
+  "code": "Gt",
+  "name": "Glitterstream",
+  "type": "skill",
+  "rarity": "common",
+  "character": "R",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 11 Block. / Next turn, gain 5 Block.",
+  "upgradedDescription": "Gain 13 Block. / Next turn, gain 7 Block.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

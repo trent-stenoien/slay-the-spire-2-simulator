@@ -1,0 +1,19 @@
+{
+  "id": "sunder",
+  "code": "A8",
+  "name": "Sunder",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 26 damage. / If this kills an enemy, gain [E][E][E].",
+  "upgradedDescription": "Deal 34 damage. / If this kills an enemy, gain [E][E][E].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

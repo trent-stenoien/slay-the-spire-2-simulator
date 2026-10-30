@@ -1,0 +1,19 @@
+{
+  "id": "hand_trick",
+  "code": "Hn",
+  "name": "Hand Trick",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 7 Block. / Add Sly to a Skill in your Hand this turn.",
+  "upgradedDescription": "Gain 10 Block. / Add Sly to a Skill in your Hand this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

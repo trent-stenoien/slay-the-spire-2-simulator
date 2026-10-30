@@ -1,0 +1,19 @@
+{
+  "id": "capacitor",
+  "code": "Cp",
+  "name": "Capacitor",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 2 Orb Slots.",
+  "upgradedDescription": "Gain 3 Orb Slots.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "uppercut",
+  "code": "Up",
+  "name": "Uppercut",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 13 damage. / Apply 1 Weak. / Apply 1 Vulnerable.",
+  "upgradedDescription": "Deal 13 damage. / Apply 2 Weak. / Apply 2 Vulnerable.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

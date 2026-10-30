@@ -1,0 +1,19 @@
+{
+  "id": "flak_cannon",
+  "code": "FC",
+  "name": "Flak Cannon",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Exhaust ALL your Status cards. / Deal 8 damage to a random enemy for each card Exhausted.",
+  "upgradedDescription": "Exhaust ALL your Status cards. / Deal 11 damage to a random enemy for each card Exhausted.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

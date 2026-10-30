@@ -1,0 +1,21 @@
+{
+  "id": "doubt",
+  "code": "D1",
+  "name": "Doubt",
+  "type": "curse",
+  "rarity": "curse",
+  "character": "colorless",
+  "cost": null,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "unplayable"
+  ],
+  "effects": [],
+  "upgraded": null,
+  "description": "Unplayable. / At the end of your turn, if this is in your Hand, gain 1 Weak.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "frantic_escape",
+  "code": "FE",
+  "name": "Frantic Escape",
+  "type": "status",
+  "rarity": "status",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": null,
+  "description": "Get farther away. / Increase Sandpit by 1. / Increase the cost of this card by 1.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

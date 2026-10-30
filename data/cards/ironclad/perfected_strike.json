@@ -1,0 +1,19 @@
+{
+  "id": "perfected_strike",
+  "code": "PS",
+  "name": "Perfected Strike",
+  "type": "attack",
+  "rarity": "common",
+  "character": "I",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 6 damage. / Deals 2 additional damage for ALL your cards containing “Strike”.",
+  "upgradedDescription": "Deal 6 damage. / Deals 3 additional damage for ALL your cards containing “Strike”.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

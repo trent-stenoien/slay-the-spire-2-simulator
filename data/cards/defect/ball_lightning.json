@@ -1,0 +1,19 @@
+{
+  "id": "ball_lightning",
+  "code": "Bl",
+  "name": "Ball Lightning",
+  "type": "attack",
+  "rarity": "common",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 7 damage. / Channel 1 Lightning.",
+  "upgradedDescription": "Deal 10 damage. / Channel 1 Lightning.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

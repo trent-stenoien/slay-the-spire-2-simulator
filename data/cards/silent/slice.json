@@ -1,0 +1,19 @@
+{
+  "id": "slice",
+  "code": "S1",
+  "name": "Slice",
+  "type": "attack",
+  "rarity": "common",
+  "character": "S",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 6 damage.",
+  "upgradedDescription": "Deal 9 damage.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

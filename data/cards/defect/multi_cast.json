@@ -1,0 +1,19 @@
+{
+  "id": "multi_cast",
+  "code": "M0",
+  "name": "Multi-Cast",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 0,
+  "xCost": true,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Evoke your rightmost Orb X times.",
+  "upgradedDescription": "Evoke your rightmost Orb X+1 times.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "thunderclap",
+  "code": "Tc",
+  "name": "Thunderclap",
+  "type": "attack",
+  "rarity": "common",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 4 damage and apply 1 Vulnerable to ALL enemies.",
+  "upgradedDescription": "Deal 7 damage and apply 1 Vulnerable to ALL enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

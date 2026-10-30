@@ -1,0 +1,301 @@
+Waterfall Giant|About To Blow|Becomes invulnerable. Removes Steam Eruption and prepares to explode.
+Fuzzy Wurm Crawler|Acid Goop|Deals (4;6 9) damage.
+Crusher|Adapt|Gains (2;3 9) Strength.
+Living Fog|Advanced Gas|Deals (8;9 9) damage. Applies 1 Smoggy.
+Tunneler|Attack from Below|Deals (23;26 9) damage.
+Torch Head Amalgam|Beam|Deals 8 damage x3.
+Ceremonial Beast|Beast Cry|Applies 1 Ringing.
+Brute Raider|Beat|Deals (7;8 9) damage.
+Soul Fysh|Beckon|Shuffles 2 Beckon into your deck (1 into draw pile, 1 into discard pile).
+Entomancer|Beeeees!|Deals 3 damage (×7;×8 9).
+Frog Knight|Beetle Charge|Deals (35;40 9) damage.
+Test Subject (Phase 3)|Big Pounce|Deals 45 damage.
+Axe Raider|Big Swing|Deals (12;13 9) damage.
+Hunter Killer|Bite|Deals (17;19 9) damage.
+Myte|Bite|Deals (13;15 9) damage.
+Phantasmal Gardener|Bite|Deals 5 damage.
+Test Subject|Bite|Deals (20;22 9) damage.
+Tunneler|Bite|Deals (13;15 9) damage.
+Bowlbug (Egg)|Bite|Deals (7;8 9) damage. Gains (7;8 9) Block.
+Living Fog|Bloat|Deals (5;6 9) damage. Summons 1 Gas Bomb.
+Kin Follower|Boomerang|Deals 2 damage ×2.
+Axebot|Boot Up|Gains (10;15 8) Block and (3/6;4/8 9) Strength.
+Mysterious Knight|Breaker|Gains 3 Strength.
+Flail Knight|Breaker|Gains 3 Strength.
+Seapunk|Bubble Burp|Gains (7;8 8) Block and (1;2 9) Strength.
+Bowlbug (Nectar)|Buff|Gains (15;16 9) Strength.
+Crusher|Bug Sting|Deals (6x2;7x2 9) damage. Applies 2 Weak and 2 Frail.
+Decimillipede|Bulk|Deals (6;7 9) damage. Gains 2 Strength.
+Queen|Burn Bright for Me|Gives 1 Strength to Torch Head Amalgam. Gains 20 Block.
+Test Subject (Phase 3)|Burning Growl|Shuffles (3;5 9) Burn into discard pile. Gains (2;3 9) Strength.
+Tunneler|Burrow|Gains Burrowed and (32;37 8) Block.
+Nibbit|Butt|Deals (12;13 9) damage.
+Two-Tailed Rat|Call for Backup|Summons a new Two-Tailed Rat.
+Mecha Knight|Charge|Deals (25;30 9) damage.
+Cubex Construct|Charge Up|Gains 2 Strength.
+Rocket|Charge Up|Gains (2;3 9) Strength.
+Scroll of Biting|Chew|Deals (5;6 9) damage 2 times.
+Scroll of Biting|Chomp|Deals (14;16 9) damage.
+Shrinker Beetle|Chomp|Deals (7;8 9) damage.
+Twig Slime (M)|Chomp|Deals (11;12 9) damage.
+Vine Shambler|Chomp|Deals (16;18 9) damage.
+Chomper|Clamp|Deals (8;9 9) damage ×2.
+Brute Raider|Clap|Gains 3 Strength.
+Mawler|Claw|Deals (4;5 9) damage ×2.
+Leaf Slime (M)|Clump Shot|Deals (8;9 9) damage.
+Slithering Strangler|Constrict|Applies 3 Constrict.
+Terror Eel|Crash|Deals (16;18 9) damage.
+Ceremonial Beast|Crush|Deals (17;19 9) damage. Gains (3;4 9) Strength.
+Louse Progenitor|Curl and Grow|Gains (14;18 8) Block. Gains (5;7 9) Strength.
+Knowledge Demon|Curse of Knowledge|Each player chooses one of two debuffs to receive. The options change each time this move is used.
+Magi Knight|Dampen|Applies Dampen. While Magi Knight is alive, all your cards are Downgraded.
+Kin Priest|Dark Ritual|Gains (2;3 9) Strength.
+Calcified Cultist|Dark Strike|Deals (9;11 9) damage.
+Damp Cultist|Dark Strike|Deals (1;3 9) damage.
+Soul Fysh|De-Gas|Deals (16;18 9) damage.
+The Lost|Debilitating Smog|Removes 2 Strength from the player and gains 2 Strength.
+Two-Tailed Rat|Disease Bite|Deals (6;7 9) damage.
+Lagavulin Matriarch|Disembowel|Deals (9;10 9) damage x2.
+Fabricator|Disintegrate|Deals (11;13 9) damage.
+Vantom|Dismember|Deals (27;30 9) damage. Shuffles 3 Wounds into your discard pile.
+Eye With Teeth|Distract|Shuffles 3 Dazed into your discard pile.
+Bowlbug (Rock)|Dizzy|Stunned. Does nothing.
+Gremlin Merc|Double Smash|Deals (6x2;7x2 8) damage. Applies 2 Weak.
+Soul Nexus|Drain Life|Deals (18;19 9) damage. Applies 2 Vulnerable and 2 Weak.
+The Forgotten|Dread|Deals (13;15 9) damage plus the amount of Dexterity the Forgotten has.
+Aeonglass|Ebb|Deals (22;26 9) damage. Gains 33 Block.
+Tunneler|Emerging Strike|Stunned. Does nothing this turn.
+Snapping Jaxfruit|Energy Orb|Deals (3;4 9) damage. Gains 2 Strength.
+Phantasmal Gardener|Enlarge|Gains (2;3 9) Strength.
+Crusher|Enlarging Strike|Deals 4 damage.
+Exoskeleton|Enrage|Gains 2 Strength.
+Queen|Enrage|Gains 2 Strength.
+The Merchant???|Enrage|Gains 2 Strength.
+Thieving Hopper|Escape|Flees the combat, taking any stolen cards with it.
+Queen|Execution|Deals (15;18 9) damage.
+Cubex Construct|Expel Blast|Deals (5;6 9) damage ×2.
+Gas Bomb|Explode|Deals (8;9 9) damage. Dies.
+Waterfall Giant|Explode|Deals damage equal to its stored Steam Eruption amount, then dies.
+The Lost|Eye Lasers|Deals (4;5 9) damage x2.
+Aeonglass|Eye Lasers|Deals (11;12 9) damage x2.
+Fabricator|Fabricate|Summons 1 defensive bot ( Guardbot or Noisebot) and 1 aggressive bot ( Zapbot or Stabbot).
+Fabricator|Fabricating Strike|Deals (18;21 9) damage. Summons 1 aggressive bot ( Zapbot or Stabbot).
+Soul Fysh|Fade|Gains 2 Intangible.
+Punch Construct|Fast Punch|Deals (5;6 9) damage ×2. Applies 1 Frail.
+Crossbow Raider|Fire!|Deals (14;16 9) damage.
+Phantasmal Gardener|Flail|Deals 1 damage ×3.
+Mysterious Knight|Flail|Deals (9;10 9) damage x2.
+Flail Knight|Flail|Deals (9;10 9) damage ×2.
+Mecha Knight|Flamethrower|Deals (8;12 9) damage. Adds 4 Burn to your hand.
+Fat Gremlin|Flee|Flees from combat with any stolen gold.
+Thieving Hopper|Flutter|Gains Flutter (takes 50% less Attack damage, must be hit 5 times to Stun it).
+Frog Knight|For the Queen|Gains 5 Strength.
+Devoted Sculptor|Forbidden Incantation|Gains 9 Ritual.
+Flyconid|Frail Spores|Deals (8;9 9) damage. Applies 2 Frail.
+Slimed Berserker|Furious Pummeling|Deals (4;5 9) damage x4.
+Globe Head|Galvanic Burst|Deals (16;17 9) damage. Gains 2 Strength.
+Soul Fysh|Gaze|Deals (7;8 9) damage. Shuffles 1 Beckon into your discard pile.
+Gremlin Merc|Gimme|Deals (7x2;8x2 8) damage.
+Corpse Slug|Glomp|Deals (8;9 9) damage.
+Corpse Slug|Goop|Applies 2 Frail.
+Leaf Slime (S)|Goop|Shuffles 1 Slimed into your discard pile.
+Vine Shambler|Grasping Vines|Deals (8;9 9) damage. Applies 1 Tangled.
+Guardbot|Guard|Gives the Fabricator 15 Block.
+Crusher|Guarded Strike|Deals (12;14 9) damage. Gains 18 Block.
+Axebot|Hammer Uppercut|Deals (14;18 9) damage. Applies 2 Weak and 2 Frail.
+The Obscura|Hardening Strike|Deals (6;7 9) damage. Gains (6;7 9) Block.
+Thieving Hopper|Hat Trick|Deals (21;23 9) damage.
+Tough Egg|Hatch|Hatches into a Hatchling. Removes all powers except Minion.
+Haunted Ship|Haunt|Shuffles 5 Dazed into your discard pile. Applies 3 Weak.
+Fogmog|Headbutt|Deals (14;16 9) damage.
+Bowlbug (Rock)|Headbutt|Deals (15;16 9) damage.
+Mecha Knight|Heavy Cleave|Deals (35;40 9) damage.
+Gremlin Merc|Hehe|Deals (8;9 8) damage. Gains 2 Strength.
+Nibbit|Hesitant Slice|Deals (6;7 9) damage. Gains (5;6 8) Block.
+Spectral Knight|Hex|Applies Hex.
+Nibbit|Hiss|Gains (2;3 9) Strength.
+The Obscura|Illusion|Summons a Parafright.
+Fogmog|Illusory Spores|Summons an Eye With Teeth.
+Calcified Cultist|Incantation|Gains 2 Ritual.
+Damp Cultist|Incantation|Gains (5;6 9) Ritual.
+Aeonglass|Increasing Intensity|Shuffles (1;2 9) Wither+X into your discard pile. Gains (2;3 9) + X Strength. Upgrade all Withers. Withering Presence effect now creates Withers + X.
+Skulking Colony|Inertia|Deals (9;11 9) damage and gains (2;4 9) Strength.
+Phrog Parasite|Infect|Shuffles 3 Infection into your discard pile.
+Fuzzy Wurm Crawler|Inhale|Gains 7 Strength.
+Vantom|Ink Blot|Deals (7;8 9) damage.
+Vantom|Inky Lance|Deals (6;7 9) damage ×2.
+Infested Prism|Jab|Deals (15;17 9) damage.
+Inklet|Jab|Deals (3;4 9) damage.
+Sewer Clam|Jet|Deals (10;11 9) damage.
+Owl Magistrate|Judicial Flight|Gains Soar.
+Assassin Raider|Killshot|Deals (10;11 9) damage.
+Knowledge Demon|Knowledge Overwhelming|Deals (8;9 9) damage ×3.
+Test Subject (Phase 3)|Lacerate|Deals (10;11 9) damage x3.
+Rocket|Laser|Deals (31;35 9) damage.
+Fossil Stalker|Lash|Deals (3;4 9) damage ×2.
+Phantasmal Gardener|Lash|Deals 7 damage.
+Slithering Strangler|Lash|Deals (12;13 9) damage.
+Phrog Parasite|Lash|Deals (4;5 9) damage ×4.
+Fossil Stalker|Latch|Deals (12;14 9) damage.
+Ovicopter|Lay Eggs|Summons 3 Tough Eggs.
+Slimed Berserker|Leeching Hug|Applies 3 Weak. Gains 3 Strength.
+The Insatiable|Liquify Ground|Gains 4 Sandpit (counted separately for each player). Shuffles 6 Frantic Escape into each player's deck (3 into draw pile, 3 into discard pile).
+Turret Operator|Loading|Gains 1 Strength.
+The Insatiable|Lunging Bite|Deals (28;31 9) damage.
+Soul Nexus|Maelstrom|Deals (6;7 9) damage ×4.
+Magi Knight|Magic Bomb|Deals (35;40 9) damage.
+Owl Magistrate|Magistrate Scrutiny|Deals (16;17 9) damage.
+Exoskeleton|Mandibles|Deals (8;9 9) damage.
+The Forgotten|Miasma|Removes 2 Dexterity from the player. Gains 8 Block and 2 Dexterity.
+Scroll of Biting|More Teeth|Gains 2 Strength.
+Test Subject (Phase 2)|Multi-Claw|Deals (10;11 9) damage x3 (increases by 1 hit each use).
+Thieving Hopper|Nab|Deals (14;16 9) damage.
+Wriggler|Nasty Bite|Deals (6;7 9) damage.
+Hatchling|Nibble|Deals (4;5 9) damage.
+Noisebot|Noise|Shuffles 2 Dazed into the player's draw and discard piles.
+Ovicopter|Nutritional Paste|Gains (3;4 9) Strength.
+Queen|Off with Your Head|Deals (3;4 9) damage x5.
+Sludge Spinner|Oil Spray|Deals (8;9 9) damage. Applies 1 Weak.
+Kin Priest|Orb of Frailty|Deals (8;9 9) damage. Applies 1 Frail.
+Kin Priest|Orb of Weakness|Deals (8;9 9) damage. Applies 1 Weak.
+Decimillipede|Outgas|Deals (8;9 9) damage. Applies 1 Weak.
+Byrdonis|Peck|Deals (3x3;4x3 9) damage.
+Owl Magistrate|Peck Assault|Deals 4 damage x6.
+Entomancer|Pheromone Spit|Gains 1 Personal Hive and 1 Strength. If Personal Hive is already at 3, gains 2 Strength instead.
+Inklet|Piercing Gaze|Deals (10;11 9) damage.
+The Obscura|Piercing Gaze|Deals (10;11 9) damage.
+Skulking Colony|Piercing Stabs|Deals (7x2;8x2 9) damage.
+Ceremonial Beast|Plow|Deals (18;20 9) damage. Gains 2 Strength.
+Knowledge Demon|Ponder|Deals (11;13 9) damage. Heals 30 HP per player. Gains (2;3 9) Strength.
+Louse Progenitor|Pounce|Deals (14;16 9) damage.
+Kin Follower|Power Dance|Gains (2;3 9) Strength.
+Magi Knight|Power Shield|Deals (6;7 9) damage. Gains (5;9 8) Block.
+Rocket|Precision Beam|Deals (18;20 9) damage.
+Magi Knight|Prep|Gains (5;9 8) Block.
+Vantom|Prepare|Gains 2 Strength.
+Waterfall Giant|Pressure Gun|Deals (20;23 9) damage (increases by 5 each use). Gains 3 Steam Eruption.
+Waterfall Giant|Pressure Up|Deals (13;14 9) damage. Gains 3 Steam Eruption.
+Waterfall Giant|Pressurize|Gains (15;20 9) Steam Eruption.
+Sewer Clam|Pressurize|Gains 4 Strength.
+Spiny Toad|Protruding Spikes|Gains 5 Thorns.
+Infested Prism|Pulsate|Deal (8;10 9) damage. Gains (20;22 8) Block and Vital Spark (2;3 9).
+Hunter Killer|Puncture|Deals (7;8 9) damage ×3.
+Queen|Puppet Strings|Applies 3 Chains of Binding to all players.
+Kin Follower|Quick Slash|Deals 5 damage.
+Infested Prism|Radiate|Deals (11;13 9) damage. Gains (16;18 9) Block.
+Sludge Spinner|Rage|Deals (6;7 9) damage. Gains 3 Strength.
+Mysterious Knight|Ram|Deals (15;17 9) damage.
+Waterfall Giant|Ram|Deals (10;11 9) damage. Gains 3 Steam Eruption.
+Flail Knight|Ram|Deals (15;17 9) damage.
+Magi Knight|Ram|Deals (10;11 9) damage.
+Punch Construct|READY|Gains 10 Block.
+Decimillipede|Reattach|Revives with 25 HP (if other segments are alive).
+Rocket|Recharge|Does nothing.
+Crossbow Raider|Reload|Gains 3 Block.
+Cubex Construct|Repeater Blast|Deals (7;8 9) damage. Gains 2 Strength.
+Mawler|Rip and Tear|Deals (14;16 9) damage.
+Mawler|Roar|Applies 3 Vulnerable.
+Slumbering Beetle|Roll Out|Deals (16;18 9) damage. Gains 2 Strength.
+The Insatiable|Salivate|Gains (2;3 9) Strength.
+Devoted Sculptor|Savage|Deals (12;15 9) damage.
+Two-Tailed Rat|Scratch|Deals (8;9 9) damage.
+Soul Fysh|Scream|Deals (13;15 9) damage. Applies 3 Vulnerable.
+Two-Tailed Rat|Screech|Applies 1 Frail.
+Chomper|Screech|Shuffles 3 Dazed into your discard pile.
+Seapunk|Sea Kick|Deals (11;13 9) damage.
+Living Shield|Shield Slam|Deals 6 damage.
+Globe Head|Shocking Slap|Deals (13;14 9) damage. Applies 2 Frail.
+Shrinker Beetle|Shrinker|Applies Shrink.
+Waterfall Giant|Siphon|Heals (10;15 8) HP per player. Gains 3 Steam Eruption.
+Exoskeleton|Skitter|Deals 1 damage (×3;×4 9).
+Test Subject|Skull Bash|Deals (14;16 9) damage. Applies 1 Vulnerable.
+Sludge Spinner|Slam|Deals (11;12 9) damage.
+Parafright|Slam|Deals (16;17 9) damage.
+Knowledge Demon|Slap|Deals (17;18 9) damage.
+Lagavulin Matriarch|Slash|Deals (19;21 9) damage.
+Lagavulin Matriarch|Slash2|Deals (12;14 9) damage. Gains (12;14 8) Block.
+Bygone Effigy|Slashes|Deals (13;15 9) damage.
+Bygone Effigy|Sleep|Does nothing. Asleep.
+Lagavulin Matriarch|Sleep|Asleep. Does nothing.
+Flyconid|Smash|Deals (11;12 9) damage.
+Ovicopter|Smash|Deals (16;17 9) damage.
+Living Shield|Smash|Deals (16;18 9) damage. Gains 3 Strength.
+Slimed Berserker|Smother|Deals (30;33 9) damage.
+Slumbering Beetle|Snore|Does nothing. Asleep.
+Kin Priest|Soul Beam|Deals 3 damage ×3.
+Soul Nexus|Soul Burn|Deals (29;31 9) damage.
+Spectral Knight|Soul Flame|Deals (3;4 9) damage ×3.
+Lagavulin Matriarch|Soul Siphon|Removes 2 Strength and 2 Dexterity from the player. Gains 2 Strength.
+Spectral Knight|Soul Slash|Deals (15;17 9) damage.
+Sneaky Gremlin|Spawned|Wakes up. Does nothing.
+Fat Gremlin|Spawned|Wakes up. Does nothing.
+Entomancer|Spear!|Deals (18;20 9) damage.
+The Merchant???|Spew Coins|Deals 2 damage ×8.
+Spiny Toad|Spike Explosion|Deals (23;25 9) damage. Loses 5 Thorns.
+Toadpole|Spike Spit|Deals (3;4 9) damage ×3. Removes 2 Thorns from self.
+Toadpole|Spiken|Gains 2 Thorns.
+Bowlbug (Silk)|Spin Web|Applies 1 Weak.
+Seapunk|Spinning Kick|Deals 2 damage ×4 .
+Stabbot|Stab|Deals (11;12 9) damage. Applies 1 Frail.
+Ceremonial Beast|Stamp|Gains Plow (150;160 9). When its HP drops to that amount, it becomes Stunned and loses all Strength.
+Leaf Slime (M)|Sticky Shot|Shuffles 2 Slimed into your discard pile.
+Twig Slime (M)|Sticky Shot|Shuffles 1 Slimed into your discard pile.
+Ceremonial Beast|Stomp|Deals (15;17 9) damage.
+Haunted Ship|Stomp|Deals (4;5 9) damage ×3.
+Shrinker Beetle|Stomp|Deals (13;14 9) damage.
+Waterfall Giant|Stomp|Deals (15;16 9) damage. Applies 1 Weak. Gains 3 Steam Eruption.
+Frog Knight|Strike Down Evil|Deals (21;23 9) damage.
+Punch Construct|Strong Punch|Deals (14;16 9) damage.
+Torch Head Amalgam|Strong Tackle|Deals (26;32 9) damage.
+Ceremonial Beast|Stun|Stunned. Does nothing.
+Terror Eel|Stun|Stunned. Does nothing.
+Myte|Suck|Deals (4;6 9) damage. Gains (2;3 9) Strength.
+Living Fog|Super Gas Blast|Deals (8;9 9) damage.
+Axe Raider|Swing|Deals (5;6 9) damage. Gains (5;6 9) Block.
+Haunted Ship|Swipe|Deals (13;14 9) damage.
+The Merchant???|Swipe|Deals (13;15 9) damage.
+Vine Shambler|Swipe|Deals (6;7 9) damage ×2.
+Byrdonis|Swoop|Deals (17;19 9) damage.
+Fossil Stalker|Tackle|Deals (9;11 9) damage. Applies 1 Frail.
+Sneaky Gremlin|Tackle|Deals (9;10 9) damage.
+Torch Head Amalgam|Tackle|Deals (18;22 9) damage.
+Leaf Slime (S)|Tackle|Deals (3;4 9) damage.
+Twig Slime (S)|Tackle|Deals (4;5 9) damage.
+Rocket|Targeting Reticle|Deals (3;4 9) damage.
+Ovicopter|Tenderizer|Deals (7;8 9) damage. Applies 2 Vulnerable.
+Hunter Killer|Tenderizing Goop|Applies 1 Tender.
+Terror Eel|Terror|Applies 99 Vulnerable.
+Axebot|The One-Two|Deals (10;11 9) damage 2 times.
+Thieving Hopper|Thievery|Deals (17;19 9) damage. Swipe a card from your deck.
+Terror Eel|Thrash|Deals (3x3;4x3 9) damage. Gains 6 Vigor.
+The Insatiable|Thrash|Deals (8;9 9) damage ×2.
+Bowlbug (Silk)|Thrash|Deals (4;5 9) damage x2.
+Bowlbug (Nectar)|Thrash|Deals 3 damage.
+Crusher|Thrash|Deals (12;14 9) damage.
+The Merchant???|Throw Relic|Deals (9;10 9) damage. Applies 1 Frail.
+Globe Head|Thunder Strike|Deals (6;7 9) damage 3 times.
+Fogmog|Thwack|Deals (8;9 9) damage. Gains 1 Strength.
+Slithering Strangler|Thwack|Deals (7;8 9) damage. Gains 5 Block.
+Frog Knight|Tongue Lash|Deals (13;14 9) damage. Applies 2 Frail.
+Spiny Toad|Tongue Lash|Deals (17;19 9) damage.
+Myte|Toxic Cornucopia|Adds 2 Toxic to your hand.
+Tracker Raider|Track|Applies 2 Frail.
+Tracker Raider|Unleash the Hounds|Deals 1 damage (x8;x9 9).
+Turret Operator|Unload!|Deals (3;4 9) damage x5.
+Owl Magistrate|Verdict|Deals (33;36 9) damage. Applies 4 Vulnerable. Removes Soar.
+Slimed Berserker|Vomit Ichor|Shuffles 10 Slimed into the discard pile.
+The Obscura|Wail|All enemies gain 3 Strength.
+Bygone Effigy|Wake|Gains 10 Strength.
+Torch Head Amalgam|Weak Tackle|Deals (14;16 9) damage.
+Flyconid|Weakening Spores|Applies 2 Vulnerable.
+Louse Progenitor|Web Cannon|Deals (9;10 9) damage. Applies 2 Frail.
+Corpse Slug|Whip Slap|Deals 3 damage ×2.
+Toadpole|Whirl|Deals (7;8 9) damage.
+Infested Prism|Whirlwind|Deals (5;6 9) damage ×3.
+Inklet|Whirlwind|Deals (2;3 9) damage ×3.
+Mecha Knight|Windup|Gains 15 Block and 5 Strength.
+Wriggler|Wriggle|Shuffles 1 Infection into your discard pile. Gains 2 Strength.
+Decimillipede|Writhe|Deals (5x2;6x2 9) damage.
+Queen|You're Mine|Applies 99 Frail, 99 Weak, and 99 Vulnerable to all players.
+Zapbot|Zap|Deals (14;15 9) damage.
+Skulking Colony|Zoom|Deals (14;16 9) damage.

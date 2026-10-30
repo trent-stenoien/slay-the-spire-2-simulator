@@ -1,0 +1,21 @@
+{
+  "id": "sneaky",
+  "code": "S7",
+  "name": "Sneaky",
+  "type": "power",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "sly"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Sly. / Whenever another player attacks an enemy, gain 1 Block.",
+  "upgradedDescription": "Sly. / Whenever another player attacks an enemy, gain 2 Block.",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

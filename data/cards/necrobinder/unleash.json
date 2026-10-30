@@ -1,0 +1,19 @@
+{
+  "id": "unleash",
+  "code": "Ul",
+  "name": "Unleash",
+  "type": "attack",
+  "rarity": "basic",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Osty deals 6 damage. / Deals additional damage equal to Osty's current HP.",
+  "upgradedDescription": "Osty deals 9 damage. / Deals additional damage equal to Osty's current HP.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "ignition",
+  "code": "Ig",
+  "name": "Ignition",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": []
+  },
+  "description": "Another player Channels Plasma. / Exhaust.",
+  "upgradedDescription": "Another player Channels Plasma.",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

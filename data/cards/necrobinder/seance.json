@@ -1,0 +1,23 @@
+{
+  "id": "seance",
+  "code": "Se",
+  "name": "Seance",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "ethereal"
+  ],
+  "effects": [],
+  "upgraded": {
+    "cost": 0
+  },
+  "description": "Ethereal. / Transform a card in your Draw Pile into Soul.",
+  "upgradedDescription": "Ethereal. / Transform a card in your Draw Pile into Soul.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

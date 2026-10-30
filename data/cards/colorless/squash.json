@@ -1,0 +1,19 @@
+{
+  "id": "squash",
+  "code": "SY",
+  "name": "Squash",
+  "type": "attack",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 10 damage. / Apply 2 Vulnerable.",
+  "upgradedDescription": "Deal 12 damage. / Apply 3 Vulnerable.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

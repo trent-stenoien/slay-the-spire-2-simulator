@@ -1,0 +1,19 @@
+{
+  "id": "sweeping_beam",
+  "code": "AE",
+  "name": "Sweeping Beam",
+  "type": "attack",
+  "rarity": "common",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 6 damage to ALL enemies. / Draw 1 card.",
+  "upgradedDescription": "Deal 9 damage to ALL enemies. / Draw 1 card.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

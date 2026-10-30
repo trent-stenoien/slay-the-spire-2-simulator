@@ -1,0 +1,19 @@
+{
+  "id": "seeker_strike",
+  "code": "Sk",
+  "name": "Seeker Strike",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 9 damage. / Choose 1 of 3 cards in your Draw Pile to add into your Hand.",
+  "upgradedDescription": "Deal 12 damage. / Choose 1 of 3 cards in your Draw Pile to add into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "cold_snap",
+  "code": "Cf",
+  "name": "Cold Snap",
+  "type": "attack",
+  "rarity": "common",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 6 damage. / Channel 1 Frost.",
+  "upgradedDescription": "Deal 9 damage. / Channel 1 Frost.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

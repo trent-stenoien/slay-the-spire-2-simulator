@@ -1,0 +1,21 @@
+{
+  "id": "adrenaline",
+  "code": "Ad",
+  "name": "Adrenaline",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain [E]. / Draw 2 cards. / Exhaust.",
+  "upgradedDescription": "Gain [E][E]. / Draw 2 cards. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "maul",
+  "code": "Mu",
+  "name": "Maul",
+  "type": "attack",
+  "rarity": "ancient",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 5 damage twice. / Increase the damage of ALL Maul cards by 2 this combat.",
+  "upgradedDescription": "Deal 6 damage twice. / Increase the damage of ALL Maul cards by 3 this combat.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "dredge",
+  "code": "D5",
+  "name": "Dredge",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "retain",
+      "exhaust"
+    ]
+  },
+  "description": "Put 3 cards from your Discard Pile into your Hand. / Exhaust.",
+  "upgradedDescription": "Retain. / Put 3 cards from your Discard Pile into your Hand. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "momentum_strike",
+  "code": "Mx",
+  "name": "Momentum Strike",
+  "type": "attack",
+  "rarity": "common",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 11 damage. / Reduce this card's cost to 0 [E].",
+  "upgradedDescription": "Deal 15 damage. / Reduce this card's cost to 0 [E].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

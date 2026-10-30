@@ -1,0 +1,19 @@
+{
+  "id": "prep_time",
+  "code": "PT",
+  "name": "Prep Time",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "At the start of your turn, gain 4 Vigor.",
+  "upgradedDescription": "At the start of your turn, gain 6 Vigor.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

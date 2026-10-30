@@ -1,0 +1,21 @@
+{
+  "id": "abrasive",
+  "code": "Ab",
+  "name": "Abrasive",
+  "type": "power",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "sly"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Sly. / Gain 1 Dexterity. / Gain 4 Thorns.",
+  "upgradedDescription": "Sly. / Gain 1 Dexterity. / Gain 6 Thorns.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

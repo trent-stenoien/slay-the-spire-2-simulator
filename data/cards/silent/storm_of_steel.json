@@ -1,0 +1,19 @@
+{
+  "id": "storm_of_steel",
+  "code": "A2",
+  "name": "Storm of Steel",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Discard your Hand. / Add 1 Shiv into your Hand for each card discarded.",
+  "upgradedDescription": "Discard your Hand. / Add 1 Shiv+ into your Hand for each card discarded.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

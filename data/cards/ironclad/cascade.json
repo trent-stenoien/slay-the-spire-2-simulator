@@ -1,0 +1,19 @@
+{
+  "id": "cascade",
+  "code": "Cs",
+  "name": "Cascade",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 0,
+  "xCost": true,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Play the top X cards of your Draw Pile.",
+  "upgradedDescription": "Play the top X+1 cards of your Draw Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

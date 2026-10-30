@@ -1,0 +1,23 @@
+{
+  "id": "echo_form",
+  "code": "EF",
+  "name": "Echo Form",
+  "type": "power",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "ethereal"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": []
+  },
+  "description": "Ethereal. / The first card you play each turn is played an extra time.",
+  "upgradedDescription": "The first card you play each turn is played an extra time.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

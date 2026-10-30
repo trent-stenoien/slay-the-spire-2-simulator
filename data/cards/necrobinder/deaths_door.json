@@ -1,0 +1,19 @@
+{
+  "id": "deaths_door",
+  "code": "DD",
+  "name": "Death's Door",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 6 Block. / If you applied Doom this turn, gain Block 2 additional times.",
+  "upgradedDescription": "Gain 7 Block. / If you applied Doom this turn, gain Block 2 additional times.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

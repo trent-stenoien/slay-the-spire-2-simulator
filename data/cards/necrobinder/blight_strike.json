@@ -1,0 +1,19 @@
+{
+  "id": "blight_strike",
+  "code": "Bh",
+  "name": "Blight Strike",
+  "type": "attack",
+  "rarity": "common",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 8 damage. / Apply Doom equal to damage dealt.",
+  "upgradedDescription": "Deal 10 damage. / Apply Doom equal to damage dealt.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

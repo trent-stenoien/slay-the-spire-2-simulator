@@ -1,0 +1,19 @@
+{
+  "id": "focused_strike",
+  "code": "Fu",
+  "name": "Focused Strike",
+  "type": "attack",
+  "rarity": "common",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 9 damage. / Gain 1 Focus this turn.",
+  "upgradedDescription": "Deal 11 damage. / Gain 2 Focus this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

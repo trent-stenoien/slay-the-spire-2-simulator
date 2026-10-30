@@ -1,0 +1,19 @@
+{
+  "id": "toric_toughness",
+  "code": "To",
+  "name": "Toric Toughness",
+  "type": "skill",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 5 Block. / Gain 5 Block at the start of the next 2 turns.",
+  "upgradedDescription": "Gain 7 Block. / Gain 7 Block at the start of the next 2 turns.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

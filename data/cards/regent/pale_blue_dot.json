@@ -1,0 +1,19 @@
+{
+  "id": "pale_blue_dot",
+  "code": "PB",
+  "name": "Pale Blue Dot",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "If you play 5 or more cards in a turn, draw 1 card at the start of your next turn.",
+  "upgradedDescription": "If you play 5 or more cards in a turn, draw 2 cards at the start of your next turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

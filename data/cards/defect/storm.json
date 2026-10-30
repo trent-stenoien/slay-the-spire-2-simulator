@@ -1,0 +1,19 @@
+{
+  "id": "storm",
+  "code": "A1",
+  "name": "Storm",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever you play a Power, Channel 1 Lightning.",
+  "upgradedDescription": "Whenever you play a Power, Channel 2 Lightning.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

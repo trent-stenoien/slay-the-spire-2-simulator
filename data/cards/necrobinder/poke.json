@@ -1,0 +1,19 @@
+{
+  "id": "poke",
+  "code": "Pk",
+  "name": "Poke",
+  "type": "attack",
+  "rarity": "common",
+  "character": "N",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Osty deals 6 damage.",
+  "upgradedDescription": "Osty deals 9 damage.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

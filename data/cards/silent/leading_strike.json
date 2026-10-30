@@ -1,0 +1,19 @@
+{
+  "id": "leading_strike",
+  "code": "LS",
+  "name": "Leading Strike",
+  "type": "attack",
+  "rarity": "common",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 3 damage. / Add 2 Shivs into your Hand.",
+  "upgradedDescription": "Deal 6 damage. / Add 2 Shivs into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

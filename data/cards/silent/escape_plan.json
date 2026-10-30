@@ -1,0 +1,19 @@
+{
+  "id": "escape_plan",
+  "code": "EP",
+  "name": "Escape Plan",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Draw 1 card. / If you draw a Skill, gain 3 Block.",
+  "upgradedDescription": "Draw 1 card. / If you draw a Skill, gain 5 Block.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

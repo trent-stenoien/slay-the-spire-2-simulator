@@ -1,0 +1,19 @@
+{
+  "id": "haze",
+  "code": "Hz",
+  "name": "Haze",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Apply 4 Poison and 1 Weak to ALL enemies.",
+  "upgradedDescription": "Apply 6 Poison and 2 Weak to ALL enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

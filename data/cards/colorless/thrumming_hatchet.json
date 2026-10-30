@@ -1,0 +1,19 @@
+{
+  "id": "thrumming_hatchet",
+  "code": "Tg",
+  "name": "Thrumming Hatchet",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 11 damage. / At the start of your next turn, return this to your Hand.",
+  "upgradedDescription": "Deal 14 damage. / At the start of your next turn, return this to your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "accelerant",
+  "code": "Ac",
+  "name": "Accelerant",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Poison is triggered 1 additional time.",
+  "upgradedDescription": "Poison is triggered 2 additional times.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

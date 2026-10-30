@@ -1,0 +1,62 @@
+A Lone Globe Head|Glory|Normal|Globe Head
+A Lone Nibbit|Overgrowth|Easy|Nibbit
+A Pair of Nibbits|Overgrowth|Normal|Nibbit,Nibbit
+An Automaton Pair|Hive|Normal|Chomper,Chomper
+Axebot|Glory|Normal|Axebot
+Battleworn Dummy|Glory|Event|Battle Friend
+Bowlbug Swarm|Hive|Normal|Bowlbug (Rock),Bowlbug (Lesser),Bowlbug (Lesser)
+Bowlbugs|Hive|Easy|Bowlbug (Rock),Bowlbug (Egg or Nectar)
+Construct Menagerie|Glory|Normal|Punch Construct,Cubex Construct,Cubex Construct
+Corpse Slugs|Underdocks|Easy|Corpse Slug,Corpse Slug
+Cubex Construct|Overgrowth|Normal|Cubex Construct
+Cultists|Underdocks|Normal|Calcified Cultist,Damp Cultist
+Dense Vegetation|Overgrowth|Event|Wriggler,Wriggler,Wriggler,Wriggler
+Devoted Sculptor|Glory|Easy|Devoted Sculptor
+Exoskeletons|Hive|Easy|Exoskeleton,Exoskeleton,Exoskeleton
+Fabricator|Glory|Normal|Fabricator,Summon,Fabricator Bots
+Fogmog|Overgrowth|Normal|Fogmog,Summon,Eye With Teeth
+Fossil Stalker|Underdocks|Normal|Fossil Stalker
+Frog Knight|Glory|Normal|Frog Knight
+Fuzzy Wurm Crawler|Overgrowth|Easy|Fuzzy Wurm Crawler
+Group of Slimes|Overgrowth|Easy|Leaf Slime (S),Slimes (M),Twig Slime (S)
+Haunted Ship|Underdocks|Normal|Haunted Ship
+Hunter Killer|Hive|Normal|Hunter Killer
+Inklets|Overgrowth|Normal|Inklet,Inklet,Inklet
+Living Fog|Underdocks|Normal|Living Fog,Summon,Gas Bomb
+Lost and Forgotten|Glory|Normal|The Lost,The Forgotten
+Louse Progenitor|Hive|Normal|Louse Progenitor
+Many Corpse Slugs|Underdocks|Normal|Corpse Slug,Corpse Slug,Corpse Slug
+Many Exoskeletons|Hive|Normal|Exoskeleton,Exoskeleton,Exoskeleton,Exoskeleton
+Many Scrolls of Biting|Glory|Normal|Scroll of Biting,Scroll of Biting,Scroll of Biting,Scroll of Biting
+Mass of Mytes|Hive|Normal|Myte,Myte
+Mawler|Overgrowth|Normal|Mawler
+Overgrowth Crawlers|Overgrowth|Normal|Shrinker Beetle,Fuzzy Wurm Crawler
+Overgrowth Flora|Overgrowth|Normal|Snapping Jaxfruit,Flyconid
+Ovicopter|Hive|Normal|Ovicopter,Summon,Tough Egg (+)
+Owl Magistrate|Glory|Normal|Owl Magistrate
+Punch Construct|Underdocks|Normal|Punch Construct
+Punch Off|Underdocks|Event|Punch Construct,Punch Construct
+Ruby Raiders|Overgrowth|Normal|Ruby Raiders,Ruby Raiders,Ruby Raiders
+Scrolls of Biting|Glory|Easy|Scroll of Biting,Scroll of Biting,Scroll of Biting
+Seapunk|Underdocks|Easy|Seapunk
+Sewer Clam|Underdocks|Normal|Sewer Clam
+Shrinker Beetle|Overgrowth|Easy|Shrinker Beetle
+Shroom and Slime|Overgrowth|Normal|Slimes (M),Flyconid
+Slimed Berserker|Glory|Normal|Slimed Berserker
+Sludge Spinner|Underdocks|Easy|Sludge Spinner
+Slumber Party|Hive|Normal|Bowlbug (Rock),Bowlbug (Silk),Slumbering Beetle
+Spiny Toad|Hive|Normal|Spiny Toad
+Strangler and Friend|Overgrowth|Normal|Slithering Strangler,Snapping Jaxfruit,OR,Slithering Strangler,Slimes (M),OR,Slithering Strangler,Leaf Slime (S),Twig Slime (S)
+Swarm of Slimes|Overgrowth|Normal|Leaf Slime (M),Twig Slime (M),Leaf Slime (S),Twig Slime (S)
+The Lantern Key|Hive|Event|Mysterious Knight
+The Merchant???|Glory|Event|The Merchant???
+The Merchant???|Hive|Event|The Merchant???
+The Obscura|Hive|Normal|The Obscura,Summon,Parafright
+Thieving Hopper|Hive|Easy|Thieving Hopper
+Toadpoles|Underdocks|Easy|Toadpole,Toadpole
+Tunneler|Hive|Easy|Tunneler
+Turret Operator|Glory|Easy|Living Shield,Turret Operator
+Two Gremlins in a Trenchcoat|Underdocks|Normal|Gremlin Merc,Summon,Fat Gremlin,Sneaky Gremlin
+Two-Tailed Rats|Underdocks|Normal|Two-Tailed Rat,Two-Tailed Rat,Two-Tailed Rat,Summon,Two-Tailed Rat (x3)
+Underdocks Wildlife|Underdocks|Normal|Calcified Cultist,Seapunk
+Vine Shambler|Overgrowth|Normal|Vine Shambler

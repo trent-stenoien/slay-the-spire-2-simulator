@@ -1,0 +1,19 @@
+{
+  "id": "juggernaut",
+  "code": "Ju",
+  "name": "Juggernaut",
+  "type": "power",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever you gain Block, deal 6 damage to a random enemy.",
+  "upgradedDescription": "Whenever you gain Block, deal 8 damage to a random enemy.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

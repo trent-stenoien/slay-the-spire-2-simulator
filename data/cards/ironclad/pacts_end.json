@@ -1,0 +1,19 @@
+{
+  "id": "pacts_end",
+  "code": "PE",
+  "name": "Pact's End",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "If you have 3 or more cards in your Exhaust Pile, / deal 18 damage to ALL enemies.",
+  "upgradedDescription": "If you have 3 or more cards in your Exhaust Pile, / deal 24 damage to ALL enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

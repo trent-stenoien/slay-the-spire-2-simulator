@@ -1,0 +1,19 @@
+{
+  "id": "dagger_spray",
+  "code": "DS",
+  "name": "Dagger Spray",
+  "type": "attack",
+  "rarity": "common",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 4 damage to ALL enemies twice.",
+  "upgradedDescription": "Deal 6 damage to ALL enemies twice.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

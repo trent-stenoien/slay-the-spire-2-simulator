@@ -1,0 +1,19 @@
+{
+  "id": "cleanse",
+  "code": "Ce",
+  "name": "Cleanse",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Summon 3. / Exhaust 1 card from your Draw Pile.",
+  "upgradedDescription": "Summon 5. / Exhaust 1 card from your Draw Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "fetch",
+  "code": "Ft",
+  "name": "Fetch",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Osty deals 3 damage. / If this is the first time this card has been played this turn, draw 1 card.",
+  "upgradedDescription": "Osty deals 6 damage. / If this is the first time this card has been played this turn, draw 1 card.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "legion_of_bone",
+  "code": "LO",
+  "name": "Legion of Bone",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "ALL players Summon 6.",
+  "upgradedDescription": "ALL players Summon 8.",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "pinpoint",
+  "code": "Pp",
+  "name": "Pinpoint",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 15 damage. / Costs 1 less [E] for each Skill played this turn.",
+  "upgradedDescription": "Deal 19 damage. / Costs 1 less [E] for each Skill played this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

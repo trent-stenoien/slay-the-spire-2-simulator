@@ -1,0 +1,19 @@
+{
+  "id": "crash_landing",
+  "code": "CL",
+  "name": "Crash Landing",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 21 damage to ALL enemies. / Fill your Hand with Debris.",
+  "upgradedDescription": "Deal 26 damage to ALL enemies. / Fill your Hand with Debris.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

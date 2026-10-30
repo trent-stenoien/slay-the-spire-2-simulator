@@ -1,0 +1,23 @@
+{
+  "id": "hotfix",
+  "code": "Ht",
+  "name": "Hotfix",
+  "type": "skill",
+  "rarity": "common",
+  "character": "D",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": []
+  },
+  "description": "Gain 2 Focus this turn. / Exhaust.",
+  "upgradedDescription": "Gain 2 Focus this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

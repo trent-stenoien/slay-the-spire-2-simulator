@@ -1,0 +1,21 @@
+{
+  "id": "supercritical",
+  "code": "A9",
+  "name": "Supercritical",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 4 [E]. / Exhaust.",
+  "upgradedDescription": "Gain 6 [E]. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "juggling",
+  "code": "Jg",
+  "name": "Juggling",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate"
+    ]
+  },
+  "description": "Add a copy of the third Attack you play each turn into your Hand.",
+  "upgradedDescription": "Innate. / Add a copy of the third Attack you play each turn into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

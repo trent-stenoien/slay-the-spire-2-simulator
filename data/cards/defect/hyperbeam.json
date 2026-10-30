@@ -1,0 +1,19 @@
+{
+  "id": "hyperbeam",
+  "code": "Hy",
+  "name": "Hyperbeam",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 24 damage to ALL enemies. Lose 3 Focus this turn.",
+  "upgradedDescription": "Deal 30 damage to ALL enemies. Lose 3 Focus this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "hailstorm",
+  "code": "Ha",
+  "name": "Hailstorm",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "At the end of your turn, if you have Frost, deal 6 damage to ALL enemies.",
+  "upgradedDescription": "At the end of your turn, if you have Frost, deal 8 damage to ALL enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

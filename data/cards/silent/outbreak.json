@@ -1,0 +1,19 @@
+{
+  "id": "outbreak",
+  "code": "Ou",
+  "name": "Outbreak",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Apply 9 Poison to ALL enemies. / Poison triggers immediately.",
+  "upgradedDescription": "Apply 12 Poison to ALL enemies. / Poison triggers immediately.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

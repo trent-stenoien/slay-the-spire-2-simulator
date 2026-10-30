@@ -1,0 +1,19 @@
+{
+  "id": "genesis",
+  "code": "Ge",
+  "name": "Genesis",
+  "type": "power",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "At the start of your turn, gain [STAR][STAR].",
+  "upgradedDescription": "At the start of your turn, gain [STAR][STAR][STAR].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

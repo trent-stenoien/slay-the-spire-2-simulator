@@ -1,0 +1,19 @@
+{
+  "id": "acrobatics",
+  "code": "Ao",
+  "name": "Acrobatics",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Draw 3 cards. / Discard 1 card.",
+  "upgradedDescription": "Draw 4 cards. / Discard 1 card.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,64 @@
+Ambergris|Special|Any|Heal for 50% of your max HP. If used in combat, take an extra turn.
+Ashwater|Uncommon|Ironclad|Exhaust any number of cards in your Hand.
+Attack Potion|Common|Any|Choose 1 of 3 random Attack cards to add into your Hand. It's free to play this turn.
+Beetle Juice|Rare|Any|Enemy's attacks deal 30% less damage for the next 4 turns.
+Blessing of the Forge|Uncommon|Any|Upgrade all cards in your Hand for the rest of combat.
+Block Potion|Common|Any|Gain 12 Block.
+Blood Potion|Common|Ironclad|Heal for 20% of your Max HP.
+Bone Brew|Uncommon|Necrobinder|Summon 15.
+Bottled Potential|Rare|Any|Shuffle ALL your cards into your Draw Pile. Draw 5 cards.
+Clarity Extract|Uncommon|Any|Draw 1 card. At the start of your next 3 turns, draw 1 additional card.
+Colorless Potion|Common|Any|Choose 1 of 3 random Colorless cards to add into your Hand. It's free to play this turn.
+Cosmic Concoction|Rare|Regent|Add 3 Upgraded Colorless cards into your Hand.
+Cunning Potion|Uncommon|Silent|Add 3 Upgraded Shivs into your Hand.
+Cure All|Uncommon|Any|Gain [E]. Draw 2 cards.
+Dexterity Potion|Common|Any|Gain 2 Dexterity.
+Distilled Chaos|Rare|Any|Play the top 3 cards of your Draw Pile.
+Droplet of Precognition|Rare|Any|Choose a card in your Draw Pile and add it into your Hand.
+Duplicator|Uncommon|Any|This turn, your next card is played an extra time.
+Energy Potion|Common|Any|Gain [E] [E].
+Entropic Brew|Rare|Any|Fill all your empty potion slots with random potions.
+Essence of Darkness|Rare|Defect|Channel a Dark for each of your Orb Slots.
+Explosive Ampoule|Common|Any|Deal 10 damage to ALL enemies.
+Fairy in a Bottle|Rare|Any|When your HP would be reduced to 0, instead this potion is discarded and you heal to 30% of your Max HP.
+Fire Potion|Common|Any|Deal 20 damage.
+Flex Potion|Common|Any|Gain 5 Strength. At the end of your turn, lose 5 Strength.
+Focus Potion|Common|Defect|Gain 2 Focus.
+Fortifier|Uncommon|Any|Triple your Block.
+Foul Potion|Special|Any|Deal 12 damage to EVERYONE. / Can be thrown at the Merchant for 100 Gold instead.
+Fruit Juice|Rare|Any|Gain 5 Max HP.
+Fysh Oil|Uncommon|Any|Gain 1 Strength and 1 Dexterity.
+Gambler's Brew|Uncommon|Any|Discard any number of cards, then draw that many.
+Ghost in a Jar|Rare|Silent|Gain 1 Intangible.
+Gigantification Potion|Rare|Any|The next Attack you play deals triple damage.
+Glowwater Potion|Special|Any|Exhaust your Hand. Draw 10 cards.
+Heart of Iron|Uncommon|Any|Gain 7 Plating.
+King's Courage|Uncommon|Regent|Forge 15.
+Liquid Bronze|Uncommon|Any|Gain 3 Thorns.
+Liquid Memories|Rare|Any|Put a card from your Discard Pile into your Hand. It costs 0 [E] this turn.
+Lucky Tonic|Rare|Any|Gain 1 Buffer.
+Mazaleth's Gift|Rare|Any|Gain 1 Ritual.
+Orobic Acid|Rare|Any|Add a random Attack, Skill, and Power into your Hand. They're free to play this turn.
+Poison Potion|Common|Silent|Apply 6 Poison.
+Pot of Ghouls|Rare|Necrobinder|Add 2 Souls into your Hand.
+Potion of Binding|Uncommon|Any|Apply 1 Weak and 1 Vulnerable to ALL enemies.
+Potion of Capacity|Uncommon|Defect|Gain 2 Orb Slots.
+Potion of Doom|Common|Necrobinder|Apply 33 Doom.
+Potion-Shaped Rock|Special|Any|Deal 15 damage.
+Powdered Demise|Uncommon|Any|Enemy loses 9 HP at the end of each of its turns.
+Power Potion|Common|Any|Choose 1 of 3 random Power cards to add into your Hand. It's free to play this turn.
+Radiant Tincture|Uncommon|Any|Gain [E]. Gain an additional [E] at the start of your next 3 turns.
+Regen Potion|Uncommon|Any|Gain 5 Regen.
+Shackling Potion|Rare|Any|ALL enemies lose 7 Strength this turn.
+Ship in a Bottle|Rare|Any|Gain 10 Block. Next turn, gain 10 Block.
+Skill Potion|Common|Any|Choose 1 of 3 random Skill cards to add into your Hand. It's free to play this turn.
+Snecko Oil|Rare|Any|Draw 7 cards. Randomize the cost of cards in your Hand this turn.
+Soldier's Stew|Rare|Ironclad|All cards containing Strike gain 1 Replay this combat.
+Speed Potion|Common|Any|Gain 5 Dexterity. At the end of your turn, lose 5 Dexterity.
+Stable Serum|Uncommon|Any|Retain your Hand for 2 turns.
+Star Potion|Common|Regent|Gain [STAR][STAR][STAR].
+Strength Potion|Common|Any|Gain 2 Strength.
+Swift Potion|Common|Any|Draw 3 cards.
+Touch of Insanity|Uncommon|Any|Choose a card in your Hand. It is free to play this combat.
+Vulnerable Potion|Common|Any|Apply 3 Vulnerable.
+Weak Potion|Common|Any|Apply 3 Weak.

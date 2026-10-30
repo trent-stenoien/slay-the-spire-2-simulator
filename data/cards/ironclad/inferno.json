@@ -1,0 +1,19 @@
+{
+  "id": "inferno",
+  "code": "If",
+  "name": "Inferno",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "At the start of your turn, lose 1 HP. / Whenever you lose HP on your turn, deal 6 damage to ALL enemies.",
+  "upgradedDescription": "At the start of your turn, lose 1 HP. / Whenever you lose HP on your turn, deal 9 damage to ALL enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

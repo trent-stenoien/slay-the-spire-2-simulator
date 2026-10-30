@@ -1,0 +1,23 @@
+{
+  "id": "afterimage",
+  "code": "Af",
+  "name": "Afterimage",
+  "type": "power",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate"
+    ]
+  },
+  "description": "Whenever you play a card, gain 1 Block.",
+  "upgradedDescription": "Innate. / Whenever you play a card, gain 1 Block.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

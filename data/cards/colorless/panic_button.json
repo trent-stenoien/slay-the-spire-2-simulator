@@ -1,0 +1,21 @@
+{
+  "id": "panic_button",
+  "code": "Pi",
+  "name": "Panic Button",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 30 Block. / You cannot gain Block from cards for 2 turns. / Exhaust.",
+  "upgradedDescription": "Gain 40 Block. / You cannot gain Block from cards for 2 turns. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

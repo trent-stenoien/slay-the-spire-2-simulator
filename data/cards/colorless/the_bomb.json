@@ -1,0 +1,19 @@
+{
+  "id": "the_bomb",
+  "code": "Th",
+  "name": "The Bomb",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "At the end of 3 turns, deal 40 damage to ALL enemies.",
+  "upgradedDescription": "At the end of 3 turns, deal 50 damage to ALL enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

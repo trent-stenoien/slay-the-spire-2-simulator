@@ -1,0 +1,19 @@
+{
+  "id": "believe_in_you",
+  "code": "Bv",
+  "name": "Believe in You",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Another player gains / [E][E].",
+  "upgradedDescription": "Another player gains / [E][E][E].",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "end_of_days",
+  "code": "EO",
+  "name": "End of Days",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Apply 29 Doom to ALL enemies. / Kill enemies with at least as much Doom as HP.",
+  "upgradedDescription": "Apply 37 Doom to ALL enemies. / Kill enemies with at least as much Doom as HP.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "whistle",
+  "code": "Wi",
+  "name": "Whistle",
+  "type": "attack",
+  "rarity": "ancient",
+  "character": "colorless",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 33 damage. / Stun the enemy. / Exhaust.",
+  "upgradedDescription": "Deal 44 damage. / Stun the enemy. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "blur",
+  "code": "Bb",
+  "name": "Blur",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 5 Block. / Block is not removed at the start of your next turn.",
+  "upgradedDescription": "Gain 8 Block. / Block is not removed at the start of your next turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

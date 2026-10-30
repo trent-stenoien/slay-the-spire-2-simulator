@@ -1,0 +1,19 @@
+{
+  "id": "inflame",
+  "code": "Il",
+  "name": "Inflame",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 2 Strength.",
+  "upgradedDescription": "Gain 3 Strength.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

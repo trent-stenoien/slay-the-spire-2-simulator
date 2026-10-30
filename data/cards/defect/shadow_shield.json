@@ -1,0 +1,19 @@
+{
+  "id": "shadow_shield",
+  "code": "Sh",
+  "name": "Shadow Shield",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 11 Block. / Channel 1 Dark.",
+  "upgradedDescription": "Gain 15 Block. / Channel 1 Dark.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

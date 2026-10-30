@@ -1,0 +1,19 @@
+{
+  "id": "stone_armor",
+  "code": "A0",
+  "name": "Stone Armor",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 4 Plating.",
+  "upgradedDescription": "Gain 6 Plating.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "chill",
+  "code": "Cb",
+  "name": "Chill",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": []
+  },
+  "description": "Channel 1 Frost for each enemy. / Exhaust.",
+  "upgradedDescription": "Channel 1 Frost for each enemy.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

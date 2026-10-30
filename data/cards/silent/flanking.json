@@ -1,0 +1,21 @@
+{
+  "id": "flanking",
+  "code": "Fl",
+  "name": "Flanking",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 1
+  },
+  "description": "The enemy takes double damage from other players this turn.",
+  "upgradedDescription": "The enemy takes double damage from other players this turn.",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

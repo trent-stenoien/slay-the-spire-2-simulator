@@ -1,0 +1,19 @@
+{
+  "id": "accuracy",
+  "code": "Ar",
+  "name": "Accuracy",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Shivs deal 4 additional damage.",
+  "upgradedDescription": "Shivs deal 6 additional damage.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

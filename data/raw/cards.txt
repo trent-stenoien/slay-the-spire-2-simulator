@@ -1,0 +1,604 @@
+Abrasive|Silent|Silent|Power|Rare|3|∅|∅|0|0|∅|Sly. / Gain 1 Dexterity. / Gain (4;6) Thorns.
+Abundance|Colorless|Colorless|Skill|Ancient|1|0|∅|0|0|∅|Choose 1 of 3 Upgraded Powers to add into your Hand. It's free to play this turn. / Exhaust.
+Accelerant|Silent|Silent|Power|Uncommon|1|∅|∅|0|0|∅|Poison is triggered (1;2) additional (time;times).
+Accuracy|Silent|Silent|Power|Uncommon|1|∅|∅|0|0|∅|Shivs deal (4;6) additional damage.
+Acrobatics|Silent|Silent|Skill|Uncommon|1|∅|∅|0|0|∅|Draw (3;4) cards. / Discard 1 card.
+Adaptive Strike|Defect|Defect|Attack|Rare|2|∅|∅|0|0|∅|Deal (18;23) damage. / Add a 0 [E] copy of this card into your Discard Pile.
+Adrenaline|Silent|Silent|Skill|Rare|0|∅|∅|0|0|∅|Gain ([E];[E][E]). / Draw 2 cards. / Exhaust.
+Afterimage|Silent|Silent|Power|Rare|1|∅|∅|0|0|∅|(;Innate. / )Whenever you play a card, gain 1 Block.
+Afterlife|Necrobinder|Necrobinder|Skill|Common|1|∅|∅|0|0|∅|Summon (6;9). / Exhaust.
+Aggression|Ironclad|Ironclad|Power|Rare|1|∅|∅|0|0|∅|(;Innate. / )At the start of your turn, put a random Attack from your Discard Pile into your Hand and Upgrade it.
+Alchemize|Colorless|Colorless|Skill|Rare|1|0|∅|0|0|∅|Procure a random potion. / Exhaust.
+Alignment|Regent|Regent|Skill|Uncommon|0|∅|2|0|0|∅|Gain [E][E](;[E]).
+All for One|Defect|Defect|Attack|Rare|2|∅|∅|0|0|∅|Deal (10;14) damage. / Put ALL 0[E] cards from your Discard Pile into your Hand.
+Anger|Ironclad|Ironclad|Attack|Common|0|∅|∅|0|0|∅|Deal (6;8) damage. / Add a copy of this card into your Discard Pile.
+Anointed|Colorless|Colorless|Skill|Rare|1|∅|∅|0|0|∅|(;Retain. / )Put every Rare card from your Draw Pile into your Hand. / Exhaust.
+Anticipate|Silent|Silent|Skill|Common|0|∅|∅|0|0|∅|Gain (2;4) Dexterity this turn.
+Apotheosis|Colorless|Colorless|Skill|Ancient|2|1|∅|0|0|∅|Innate. / Upgrade ALL your cards. / Exhaust.
+Apparition|Colorless|Colorless|Skill|Ancient|1|∅|∅|0|0|∅|(Ethereal. / ;) Gain 1 Intangible. / Exhaust.
+Armaments|Ironclad|Ironclad|Skill|Common|1|∅|∅|0|0|∅|Gain 5 Block. / Upgrade (a card;ALL cards) in your Hand.
+Arsenal|Regent|Regent|Power|Rare|1|∅|∅|0|0|∅|(;Innate. / )Whenever you create a card, gain 1 Strength.
+Ascender's Bane|Colorless|Colorless|Curse|Curse|-2|∅|∅|1|0|∅|Unplayable. / Ethereal. / Eternal.
+Ashen Strike|Ironclad|Ironclad|Attack|Uncommon|1|∅|∅|0|0|∅|Deal 6 damage. / Deals (3;4) additional damage for each card in your Exhaust Pile.
+Assassinate|Silent|Silent|Attack|Rare|0|∅|∅|0|0|∅|Innate. / Deal (10;13) damage. / Apply (1;2) Vulnerable. / Exhaust.
+Astral Pulse|Regent|Regent|Attack|Common|0|∅|3|0|0|∅|Deal (6;8) damage to ALL enemies twice.
+Automation|Colorless|Colorless|Power|Uncommon|1|0|∅|0|0|∅|Every 10 cards you draw, gain [E].
+Backflip|Silent|Silent|Skill|Common|1|∅|∅|0|0|∅|Gain (5;8) Block. / Draw 2 cards.
+Backstab|Silent|Silent|Attack|Uncommon|0|∅|∅|0|0|∅|Innate. / Deal (11;15) damage. / Exhaust.
+Bad Luck|Colorless|Colorless|Curse|Curse|-2|∅|∅|1|0|∅|Unplayable. / At the end of your turn, if this is in your Hand, lose 13 HP. / Eternal.
+Ball Lightning|Defect|Defect|Attack|Common|1|∅|∅|0|0|∅|Deal (7;10) damage. / Channel 1 Lightning.
+Banshee's Cry|Necrobinder|Necrobinder|Attack|Rare|9|7|∅|0|0|∅|Deal 33 damage to ALL enemies. / Costs [E][E] less for each Ethereal card played this combat.
+Barrage|Defect|Defect|Attack|Common|1|∅|∅|0|0|∅|Deal (5;7) damage for each Channeled Orb.
+Barricade|Ironclad|Ironclad|Power|Rare|3|2|∅|0|0|∅|Block is not removed at the start of your turn.
+Bash|Ironclad|Ironclad|Attack|Basic|2|∅|∅|0|0|∅|Deal (8;10) damage. / Apply (2;3) Vulnerable.
+Battle Trance|Ironclad|Ironclad|Skill|Uncommon|0|∅|∅|0|0|∅|Draw (3;4) cards. / You cannot draw additional cards this turn.
+Beacon of Hope|Colorless|Colorless|Power|Rare|2|∅|∅|0|1|∅|(;Innate. / )Whenever you gain Block on your turn, other players gain half that much Block.
+Beam Cell|Defect|Defect|Attack|Common|0|∅|∅|0|0|∅|Deal (3;4) damage. / Apply (1;2) Vulnerable.
+Beat Down|Colorless|Colorless|Skill|Rare|3|∅|∅|0|0|∅|Play (3;4) random Attacks from your Discard Pile.
+Beat into Shape|Regent|Regent|Attack|Rare|1|∅|∅|0|0|∅|Deal (5;7) damage. / Forge (5;7). / Forges an additional (5;7) for every other time you've hit the enemy this turn.
+Beckon|Colorless|Colorless|Status|Status|1|∅|∅|1|0|∅|At the end of your turn, if this is in your Hand, / lose 6 HP.
+BEGONE!|Regent|Regent|Skill|Common|1|∅|∅|0|0|∅|Choose a card in your Hand to Transform into Minion Strike(;+).
+Believe in You|Colorless|Colorless|Skill|Uncommon|0|∅|∅|0|1|∅|Another player gains / [E][E](;[E]).
+Biased Cognition|Defect|Defect|Power|Ancient|1|∅|∅|0|0|∅|Gain (5;6) Focus. / At the start of your turn, lose 1 Focus.
+Big Bang|Regent|Regent|Skill|Rare|0|∅|∅|0|0|∅|(;Innate. / )Draw 1 card. / Gain [E]. / Gain [STAR]. / Forge 5. / Exhaust.
+Black Hole|Regent|Regent|Power|Uncommon|1|∅|∅|0|0|∅|Whenever you spend or gain [STAR], deal (3;4) damage to ALL enemies.
+Blade Dance|Silent|Silent|Skill|Common|1|∅|∅|0|0|∅|Add (3;4) Shivs into your Hand. / Exhaust.
+Blade of Ink|Silent|Silent|Skill|Rare|1|∅|∅|0|0|∅|Add (2;3) Inky Shivs into your Hand.
+Blade Symphony|Silent|Silent|Skill|Uncommon|2|1|∅|0|1|∅|Add 2 Shivs to ALL players' Hands.
+Blaze|Ironclad|Ironclad|Skill|Uncommon|2|∅|∅|0|1|∅|Give another player (5;7) Strength.
+Blight Strike|Necrobinder|Necrobinder|Attack|Common|1|∅|∅|0|0|∅|Deal (8;10) damage. / Apply Doom equal to damage dealt.
+Blood Wall|Ironclad|Ironclad|Skill|Common|2|∅|∅|0|0|∅|Lose 2 HP. / Gain (16;20) Block.
+Bloodletting|Ironclad|Ironclad|Skill|Uncommon|0|∅|∅|0|0|∅|Lose 3 HP. / Gain ([E][E];[E][E][E]).
+Bludgeon|Ironclad|Ironclad|Attack|Uncommon|3|∅|∅|0|0|∅|Deal (32;42) damage.
+Blur|Silent|Silent|Skill|Uncommon|1|∅|∅|0|0|∅|Gain (5;8) Block. / Block is not removed at the start of your next turn.
+Body Slam|Ironclad|Ironclad|Attack|Common|1|0|∅|0|0|∅|Deal damage equal to your Block.
+Bodyguard|Necrobinder|Necrobinder|Skill|Basic|1|∅|∅|0|0|∅|Summon (5;7).
+Bolas|Colorless|Colorless|Attack|Rare|0|∅|∅|0|0|∅|Deal (3;4) damage. / At the start of your next turn, return this to your Hand.
+Bombardment|Regent|Regent|Attack|Rare|3|∅|∅|0|0|∅|Deal (18;24) damage. / At the start of your turn, if this is in your Exhaust Pile, / play it. / Exhaust.
+Bone Shards|Necrobinder|Necrobinder|Attack|Uncommon|1|∅|∅|0|0|∅|If Osty is alive, he deals (9;12) damage to ALL enemies and you gain (9;12) Block. / Osty dies.
+Boost Away|Defect|Defect|Skill|Common|0|∅|∅|0|0|∅|Gain (6;9) Block. / Add a Dazed into your Discard Pile.
+Boot Sequence|Defect|Defect|Skill|Uncommon|0|∅|∅|0|0|∅|Innate. / Gain (10;13) Block. / Exhaust.
+Borrowed Time|Necrobinder|Necrobinder|Skill|Uncommon|1|∅|∅|0|0|∅|Gain (4;6)[E]. / Cards cost an additional [E] this turn.
+Bouncing Flask|Silent|Silent|Skill|Uncommon|2|∅|∅|0|0|∅|Apply 3 Poison to a random enemy (3;4) times.
+Brand|Ironclad|Ironclad|Skill|Rare|0|∅|∅|0|0|∅|Lose 1 HP. / Exhaust 1 card. / Gain (1;2) Strength.
+Break|Ironclad|Ironclad|Attack|Ancient|1|∅|∅|0|0|∅|Deal (20;30) damage. / Apply (5;7) Vulnerable.
+Breakthrough|Ironclad|Ironclad|Attack|Common|1|∅|∅|0|0|∅|Lose 1 HP. / Deal (9;13) damage to ALL enemies.
+Brightest Flame|Colorless|Colorless|Skill|Ancient|0|∅|∅|0|0|∅|Gain [E][E](;[E]). / Draw (2;3) cards. / Lose 2 Max HP.
+Bubble Bubble|Silent|Silent|Skill|Uncommon|1|∅|∅|0|0|∅|If the enemy has Poison, apply (9;12) Poison.
+Buffer|Defect|Defect|Power|Rare|2|∅|∅|0|0|∅|Prevent the next (time;2 times) you would lose HP.
+Bulk Up|Defect|Defect|Power|Uncommon|2|∅|∅|0|0|∅|Lose 1 Orb Slot. / Gain (2;3) Strength. / Gain (2;3) Dexterity.
+Bullet Time|Silent|Silent|Skill|Rare|3|2|∅|0|0|∅|You cannot draw additional cards this turn. ALL cards in your Hand are free to play this turn.
+Bully|Ironclad|Ironclad|Attack|Uncommon|0|∅|∅|0|0|∅|Deal 4 damage. / Deals (2;3) additional damage for each Vulnerable on the enemy.
+Bulwark|Regent|Regent|Skill|Uncommon|2|∅|∅|0|0|∅|Gain (12;15) Block. / Forge (10;13).
+Bundle of Joy|Regent|Regent|Skill|Rare|1|∅|∅|0|0|∅|Add (3;4) random Colorless cards into your Hand. / Exhaust.
+Burn|Colorless|Colorless|Status|Status|-2|∅|∅|1|0|∅|Unplayable. / At the end of your turn, if this is in your Hand, take 2 damage.
+Burning Pact|Ironclad|Ironclad|Skill|Uncommon|1|∅|∅|0|0|∅|Exhaust 1 card. / Draw (2;3) cards.
+Burst|Silent|Silent|Skill|Rare|1|∅|∅|0|0|∅|This turn, your next (Skill is;2 Skills are) played an extra time.
+Bury|Necrobinder|Necrobinder|Attack|Uncommon|4|∅|∅|0|0|∅|Deal (52;63) damage.
+Byrd Swoop|Colorless|Colorless|Attack|Event|0|∅|∅|0|0|∅|Deal (14;18) damage.
+Byrdonis Egg|Colorless|Colorless|Quest|Quest|-2|∅|∅|1|0|∅|Unplayable. / Can be hatched at a Rest Site.
+Cacophony|Necrobinder|Necrobinder|Power|Rare|2|∅|∅|0|1|∅|Every 33 cards drawn by ALL players, deal (66;99) damage to a random enemy.
+Calamity|Colorless|Colorless|Power|Rare|3|2|∅|0|0|∅|Whenever you play an Attack, add a random Attack into your Hand.
+Calcify|Necrobinder|Necrobinder|Power|Uncommon|1|∅|∅|0|0|∅|Osty's attacks deal (4;6) additional damage.
+Calculated Gamble|Silent|Silent|Skill|Uncommon|0|∅|∅|0|0|∅|(;Retain. / )Discard your Hand, / then draw that many cards. / Exhaust.
+Call of the Void|Necrobinder|Necrobinder|Power|Rare|1|∅|∅|0|0|∅|(;Innate. / )At the start of your turn, add 1 random card into your Hand. It gains Ethereal.
+Caltrops|Colorless|Silent|Power|Event|1|∅|∅|0|0|∅|Whenever you are attacked, deal (3;5) damage back.
+Capacitor|Defect|Defect|Power|Uncommon|1|∅|∅|0|0|∅|Gain (2;3) Orb Slots.
+Capture Spirit|Necrobinder|Necrobinder|Skill|Uncommon|1|∅|∅|0|0|∅|Enemy loses (3;4) HP. / Add (3;4) Souls into your Draw Pile.
+Cascade|Ironclad|Ironclad|Skill|Rare|-1|∅|∅|0|0|∅|Play the top X(;+1) cards of your Draw Pile.
+Catastrophe|Colorless|Colorless|Skill|Uncommon|2|∅|∅|0|0|∅|Play (2;3) random cards from your Draw Pile.
+Celestial Might|Regent|Regent|Attack|Common|2|∅|∅|0|0|∅|Deal 6 damage (3;4) times.
+Chaos|Defect|Defect|Skill|Uncommon|1|∅|∅|0|0|∅|Channel (1;2) random (Orb;Orbs).
+Charge Battery|Defect|Defect|Skill|Common|1|∅|∅|0|0|∅|Gain (7;10) Block. / Next turn, gain [E].
+CHARGE!!|Regent|Regent|Skill|Uncommon|1|∅|∅|0|0|∅|Choose 2 cards in your Draw Pile to Transform into Minion Dive Bombs(;+).
+Child of the Stars|Regent|Regent|Power|Uncommon|1|∅|∅|0|0|∅|Whenever you spend [STAR] , gain (2;3) Block for each [STAR] spent.
+Chill|Defect|Defect|Skill|Uncommon|0|∅|∅|0|0|∅|Channel 1 Frost for each enemy.( / Exhaust.;)
+Cinder|Ironclad|Ironclad|Attack|Common|2|∅|∅|0|0|∅|Deal (18;24) damage. / Exhaust 1 card at random.
+Clash|Colorless|Ironclad|Attack|Event|0|∅|∅|0|0|∅|Can only be played if every card in your Hand is an Attack. / Deal (14;18) damage.
+Claw|Defect|Defect|Attack|Common|0|∅|∅|0|0|∅|Deal (3;4) damage. / Increase the damage of ALL Claw cards by (2;3) this combat.
+Cleanse|Necrobinder|Necrobinder|Skill|Uncommon|1|∅|∅|0|0|∅|Summon (3;5). / Exhaust 1 card from your Draw Pile.
+Cloak and Dagger|Silent|Silent|Skill|Common|1|∅|∅|0|0|∅|Gain 6 Block. / Add (1 Shiv;2 Shivs) into your Hand.
+Cloak of Stars|Regent|Regent|Skill|Common|0|∅|1|0|0|∅|Gain (7;10) Block.
+Clumsy|Colorless|Colorless|Curse|Curse|-2|∅|∅|1|0|∅|Unplayable. / Ethereal.
+Cold Snap|Defect|Defect|Attack|Common|1|∅|∅|0|0|∅|Deal (6;9) damage. / Channel 1 Frost.
+Collision Course|Regent|Regent|Attack|Common|0|∅|∅|0|0|∅|Deal (10;14) damage. / Add a Debris into your Hand.
+Colossus|Ironclad|Ironclad|Skill|Uncommon|1|∅|∅|0|0|∅|Gain (4;7) Block. / You receive 50% less damage from Vulnerable enemies this turn.
+Comet|Regent|Regent|Attack|Rare|0|∅|5|0|0|∅|Deal (33;44) damage. / Apply 3 Weak. / Apply 3 Vulnerable.
+Compact|Defect|Defect|Skill|Uncommon|1|∅|∅|0|0|∅|Gain (6;7) Block. / Transform all Status cards in your Hand into Fuel(;+).
+Compile Driver|Defect|Defect|Attack|Common|1|∅|∅|0|0|∅|Deal (7;10) damage. / Draw 1 card for each unique Orb you have.
+Concoct|Silent|Silent|Skill|Uncommon|0|∅|∅|0|1|∅|Choose another player. / Whenever their Attacks deal unblocked damage this turn, they apply (3;4) Poison.
+Conflagration|Ironclad|Ironclad|Attack|Rare|1|∅|∅|0|0|∅|Deal 2 damage to ALL enemies (4;5) times.
+Conqueror|Regent|Regent|Skill|Uncommon|1|∅|∅|0|0|∅|Forge (3;5). / Sovereign Blade deals double damage to the enemy this turn.
+Constellation|Regent|Regent|Skill|Uncommon|0|∅|2|0|1|∅|Another player draws 1 card, gains [E], and gains (9;12) Block.
+Consuming Shadow|Defect|Defect|Power|Rare|2|∅|∅|0|0|∅|Channel (2;3) Dark. / At the end of your turn, Evoke your leftmost Orb.
+Convergence|Regent|Regent|Skill|Uncommon|1|∅|∅|0|0|∅|Next turn, / gain [E] and [STAR](;[STAR]). / Retain your Hand this turn.
+Coolant|Defect|Defect|Power|Rare|1|∅|∅|0|0|∅|At the start of your turn, gain (2;3) Block for each unique Orb you have.
+Coolheaded|Defect|Defect|Skill|Common|1|∅|∅|0|0|∅|Channel 1 Frost. / Draw (1 card;2 cards).
+Coordinate|Colorless|Colorless|Skill|Uncommon|1|∅|∅|0|1|∅|Give another player (5;8) Strength this turn.
+Corrosive Wave|Silent|Silent|Skill|Rare|1|∅|∅|0|0|∅|Whenever you draw a card this turn, apply (2;3) Poison to ALL enemies.
+Corruption|Ironclad|Ironclad|Power|Ancient|3|2|∅|0|0|∅|Skills cost 0 [E]. / Whenever you play a Skill, Exhaust it.
+Cosmic Indifference|Regent|Regent|Skill|Common|1|∅|∅|0|0|∅|Gain (6;9) Block. / Put a card from your Discard Pile on top of your Draw Pile.
+Countdown|Necrobinder|Necrobinder|Power|Uncommon|1|∅|∅|0|0|∅|At the start of your turn, apply (6;9) Doom to a random enemy.
+Crash Landing|Regent|Regent|Attack|Rare|1|∅|∅|0|0|∅|Deal (21;26) damage to ALL enemies. / Fill your Hand with Debris.
+Creative AI|Defect|Defect|Power|Rare|3|2|∅|0|0|∅|At the start of your turn, add a random Power into your Hand.
+Crescent Spear|Regent|Regent|Attack|Common|1|∅|1|0|0|∅|Deal 8 damage. / Deals (2;3) additional damage for ALL your cards that have a [STAR] cost.
+Crimson Mantle|Ironclad|Ironclad|Power|Rare|1|∅|∅|0|0|∅|At the start of your turn, lose 1 HP and gain (7;10) Block.
+Cruelty|Ironclad|Ironclad|Power|Uncommon|1|∅|∅|0|0|∅|Vulnerable enemies take an additional (25%;50%) damage.
+Crush Under|Regent|Regent|Attack|Common|1|∅|∅|0|0|∅|Deal (8;9) damage to ALL enemies. All enemies lose (1;2) Strength this turn.
+Curse of the Bell|Colorless|Colorless|Curse|Curse|-2|∅|∅|1|0|∅|Unplayable. / Eternal.
+Dagger Spray|Silent|Silent|Attack|Common|1|∅|∅|0|0|∅|Deal (4;6) damage to ALL enemies twice.
+Dagger Throw|Silent|Silent|Attack|Common|1|∅|∅|0|0|∅|Deal (9;12) damage. / Draw 1 card. / Discard 1 card.
+Danse Macabre|Necrobinder|Necrobinder|Power|Uncommon|1|∅|∅|0|0|∅|Whenever you play a card that costs [E][E] or more, gain (4;6) Block.
+Dark Embrace|Ironclad|Ironclad|Power|Rare|2|1|∅|0|0|∅|Whenever a card is Exhausted, / draw 1 card.
+Dark Shackles|Colorless|Colorless|Skill|Uncommon|0|∅|∅|0|0|∅|Enemy loses (9;15) Strength this turn. / Exhaust.
+Darkness|Defect|Defect|Skill|Uncommon|1|∅|∅|0|0|∅|Channel 1 Dark. / Trigger the passive ability of all Dark Orbs(; twice).
+Dash|Silent|Silent|Attack|Uncommon|2|∅|∅|0|0|∅|Gain (10;13) Block. / Deal (10;13) damage.
+Dazed|Colorless|Colorless|Status|Status|-2|∅|∅|1|0|∅|Unplayable. / Ethereal.
+Deadly Poison|Silent|Silent|Skill|Common|1|∅|∅|0|0|∅|Apply (5;7) Poison.
+Death March|Necrobinder|Necrobinder|Attack|Uncommon|1|∅|∅|0|0|∅|Deal (8;9) damage. / Deals (4;6) additional damage for each card drawn during your turn.
+Death's Door|Necrobinder|Necrobinder|Skill|Uncommon|1|∅|∅|0|0|∅|Gain (6;7) Block. / If you applied Doom this turn, gain Block 2 additional times.
+Deathbringer|Necrobinder|Necrobinder|Skill|Uncommon|2|∅|∅|0|0|∅|Apply (21;26) Doom and 1 Weak to ALL enemies.
+Debilitate|Necrobinder|Necrobinder|Attack|Uncommon|1|∅|∅|0|0|∅|Deal (10;12) damage. / Vulnerable and Weak are twice as effective against the enemy for the next (2;3) turns.
+Debris|Colorless|Colorless|Status|Status|1|∅|∅|1|0|∅|Exhaust.
+Debt|Colorless|Colorless|Curse|Curse|-2|∅|∅|1|0|∅|Unplayable. / At the end of your turn, if this is in your Hand, lose 10 Gold.
+Decay|Colorless|Colorless|Curse|Curse|-2|∅|∅|1|0|∅|Unplayable. / At the end of your turn, if this is in your Hand, take 2 damage.
+Decisions, Decisions|Regent|Regent|Skill|Rare|0|∅|6|0|0|∅|Draw (3;5) cards. / Choose a Skill in your Hand and play it 3 times. / Exhaust.
+Defend (Defect)|Defect|Defect|Skill|Basic|1|∅|∅|0|0|∅|Gain (5;8) Block.
+Defend (Ironclad)|Ironclad|Ironclad|Skill|Basic|1|∅|∅|0|0|∅|Gain (5;8) Block.
+Defend (Necrobinder)|Necrobinder|Necrobinder|Skill|Basic|1|∅|∅|0|0|∅|Gain (5;8) Block.
+Defend (Regent)|Regent|Regent|Skill|Basic|1|∅|∅|0|0|∅|Gain (5;8) Block.
+Defend (Silent)|Silent|Silent|Skill|Basic|1|∅|∅|0|0|∅|Gain (5;8) Block.
+Defile|Necrobinder|Necrobinder|Attack|Common|1|∅|∅|0|0|∅|Ethereal. / Deal (13;17) damage.
+Deflect|Silent|Silent|Skill|Common|0|∅|∅|0|0|∅|Gain (4;7) Block.
+Defragment|Defect|Defect|Power|Rare|1|∅|∅|0|0|∅|Gain (1;2) Focus.
+Defy|Necrobinder|Necrobinder|Skill|Common|1|∅|∅|0|0|∅|Ethereal. / Gain (6;9) Block. / Apply 1 Weak.
+Delay|Necrobinder|Necrobinder|Skill|Uncommon|2|∅|∅|0|0|∅|Gain (11;13) Block. / Next turn, / gain [E](;[E]).
+Demesne|Necrobinder|Necrobinder|Power|Rare|3|2|∅|0|0|∅|Ethereal. / At the start of your turn, gain [E] and draw 1 additional card.
+Demon Form|Ironclad|Ironclad|Power|Rare|3|∅|∅|0|0|∅|At the start of your turn, gain (3;4) Strength.
+Demonic Shield|Ironclad|Ironclad|Skill|Uncommon|0|∅|∅|0|1|∅|Lose 1 HP. / Give another player Block equal to your Block.( / Exhaust.;)
+Devastate|Regent|Regent|Attack|Uncommon|1|∅|4|0|0|∅|Deal (35;45) damage.
+Devour Life|Necrobinder|Necrobinder|Power|Rare|1|∅|∅|0|0|∅|Whenever you play a Soul, Summon (1;2).
+Dirge|Necrobinder|Necrobinder|Skill|Uncommon|-1|∅|∅|0|0|∅|Summon (3;4) X times. / Add X Souls(;+) into your Draw Pile. / Exhaust.
+Discovery|Colorless|Colorless|Skill|Uncommon|1|∅|∅|0|0|∅|Choose 1 of 3 random cards to add into your Hand. It's free to play this turn.( / Exhaust.;)
+Disintegration|Colorless|Colorless|Status|Status|-2|∅|∅|1|0|∅|At the end of your turn, take 6/7/8 damage.
+Dismantle|Ironclad|Ironclad|Attack|Uncommon|1|∅|∅|0|0|∅|Deal (8;10) damage. / If the enemy is Vulnerable, hits twice.
+Distraction|Colorless|Silent|Skill|Event|1|0|∅|0|0|∅|Add a random Skill into your Hand. It's free to play this turn. / Exhaust.
+Dodge and Roll|Silent|Silent|Skill|Common|1|∅|∅|0|0|∅|Gain (4;6) Block. / Next turn, gain (4;6) Block.
+Dominate|Ironclad|Ironclad|Skill|Rare|1|∅|∅|0|0|∅|Apply (1;2) Vulnerable. / Gain 1 Strength for each Vulnerable on the enemy. / Exhaust.
+Double Energy|Defect|Defect|Skill|Uncommon|1|0|∅|0|0|∅|Double your Energy. / Exhaust.
+Doubt|Colorless|Colorless|Curse|Curse|-2|∅|∅|1|0|∅|Unplayable. / At the end of your turn, if this is in your Hand, gain 1 Weak.
+Dowsing|Colorless|Colorless|Quest|Quest|-2|∅|∅|1|0|∅|Unplayable. / After entering 5 more ? rooms, transforms into Abundance.
+Drain Power|Necrobinder|Necrobinder|Attack|Common|1|∅|∅|0|0|∅|Deal (10;12) damage. / Upgrade (2;3) random cards in your Discard Pile.
+Dramatic Entrance|Colorless|Colorless|Attack|Uncommon|0|∅|∅|0|0|∅|Innate. / Deal (11;15) damage to ALL enemies. / Exhaust.
+Dredge|Necrobinder|Necrobinder|Skill|Uncommon|1|∅|∅|0|0|∅|(;Retain. / )Put 3 cards from your Discard Pile into your Hand. / Exhaust.
+Drum of Battle|Ironclad|Ironclad|Skill|Uncommon|1|∅|∅|0|0|∅|Draw 2 cards. / When this card is Exhausted, gain ([E][E];[E][E][E]).
+Dual Wield|Colorless|Ironclad|Skill|Event|1|∅|∅|0|0|∅|Choose an Attack or Power card. Add (a copy;2 copies) of that card into your Hand.
+Dualcast|Defect|Defect|Skill|Basic|1|0|∅|0|0|∅|Evoke your rightmost Orb twice.
+Dying Star|Regent|Regent|Attack|Rare|1|∅|3|0|0|∅|Ethereal. / Deal (9;11) damage to ALL enemies. ALL enemies lose (9;11) Strength this turn.
+Echo Form|Defect|Defect|Power|Rare|3|∅|∅|0|0|∅|(Ethereal. / ;) The first card you play each turn is played an extra time.
+Echoing Slash|Silent|Silent|Attack|Uncommon|1|∅|∅|0|0|∅|Deal (10;13) damage to ALL enemies. / Repeat this effect for each enemy killed.
+Eidolon|Necrobinder|Necrobinder|Skill|Rare|2|1|∅|0|0|∅|Play ALL Ethereal cards in your Exhaust Pile. / Exhaust.
+End of Days|Necrobinder|Necrobinder|Skill|Rare|3|∅|∅|0|0|∅|Apply (29;37) Doom to ALL enemies. / Kill enemies with at least as much Doom as HP.
+Energy Surge|Defect|Defect|Skill|Uncommon|1|∅|∅|0|1|∅|ALL players gain [E][E](;[E]). / Exhaust.
+Enfeebling Touch|Necrobinder|Necrobinder|Skill|Uncommon|1|∅|∅|0|0|∅|Ethereal. / Enemy loses (8;11) Strength this turn.
+Enlightenment|Colorless|Colorless|Skill|Event|0|∅|∅|0|0|∅|Reduce the cost of ALL cards in your Hand to 1 this (turn;combat). / Exhaust.
+Enthralled|Colorless|Colorless|Curse|Curse|2|∅|∅|1|0|∅|If this is in your Hand, it must be played before other cards. / Eternal.
+Entrench|Colorless|Ironclad|Skill|Event|2|1|∅|0|0|∅|Double your Block.
+Entropy|Colorless|Colorless|Power|Rare|1|∅|∅|0|0|∅|(;Innate. / )At the start of your turn, Transform 1 card in your Hand.
+Envenom|Silent|Silent|Power|Rare|2|∅|∅|0|0|∅|Whenever an Attack deals unblocked damage, apply (1;2) Poison.
+Equilibrium|Colorless|Colorless|Skill|Uncommon|2|∅|∅|0|0|∅|Gain (13;16) Block. / Retain your Hand this turn.
+Eradicate|Necrobinder|Necrobinder|Attack|Rare|-1|∅|∅|0|0|∅|Retain. / Deal (11;14) damage X times.
+Escape Plan|Silent|Silent|Skill|Uncommon|0|∅|∅|0|0|∅|Draw 1 card. / If you draw a Skill, gain (3;5) Block.
+Eternal Armor|Colorless|Colorless|Power|Rare|3|∅|∅|0|0|∅|Gain (9;12) Plating.
+Evil Eye|Ironclad|Ironclad|Skill|Uncommon|1|∅|∅|0|0|∅|Gain (8;11) Block. / Gain another (8;11) Block if you have Exhausted a card this turn.
+Expect a Fight|Ironclad|Ironclad|Skill|Uncommon|3|∅|∅|0|0|∅|Gain (15;16) Block. / Gains (5;8) additional Block for each Strength you have.
+Expertise|Silent|Silent|Skill|Uncommon|1|∅|∅|0|0|∅|Draw (2;3) cards. / They gain Retain this turn.
+Expose|Silent|Silent|Skill|Uncommon|0|∅|∅|0|0|∅|Remove all Artifact and Block from the enemy. / Apply (2;3) Vulnerable. / Exhaust.
+Exterminate|Colorless|Colorless|Attack|Event|1|∅|∅|0|0|∅|Deal (3;4) damage to ALL enemies 4 times.
+Fade|Silent|Silent|Skill|Uncommon|0|∅|∅|0|1|∅|Retain. / Another player gains (6;9) Dexterity this turn.
+Falling Star|Regent|Regent|Attack|Basic|0|∅|2|0|0|∅|Deal (8;12) damage. / Apply 1 Weak. / Apply 1 Vulnerable.
+Fan of Knives|Silent|Silent|Power|Rare|2|∅|∅|0|0|∅|Shivs now hit ALL enemies. / Add (4;5) Shivs into your Hand.
+Fasten|Colorless|Colorless|Power|Uncommon|1|∅|∅|0|0|∅|Gain an additional (4;6) Block from Defend cards.
+Fear|Necrobinder|Necrobinder|Attack|Common|1|∅|∅|0|0|∅|Ethereal. / Deal (7;8) damage. / Apply (1;2) Vulnerable.
+Feed|Ironclad|Ironclad|Attack|Rare|1|∅|∅|0|0|∅|Deal (10;12) damage. / If Fatal, raise your Max HP by (3;4). / Exhaust.
+Feeding Frenzy|Colorless|Colorless|Skill|Event|0|∅|∅|0|0|∅|Gain (5;7) Strength this turn.
+Feel No Pain|Ironclad|Ironclad|Power|Uncommon|1|∅|∅|0|0|∅|Whenever a card is Exhausted, gain (3;4) Block.
+Feral|Defect|Defect|Power|Uncommon|2|1|∅|0|0|∅|The first time you play a / 0 [E] Attack each turn, / return it to your Hand.
+Fetch|Necrobinder|Necrobinder|Attack|Uncommon|0|∅|∅|0|0|∅|Osty deals (3;6) damage. / If this is the first time this card has been played this turn, draw 1 card.
+Fiend Fire|Ironclad|Ironclad|Attack|Rare|2|∅|∅|0|0|∅|Exhaust your Hand. / Deal (7;10) damage for each card Exhausted. / Exhaust.
+Fight Me!|Ironclad|Ironclad|Attack|Uncommon|2|∅|∅|0|0|∅|Deal (5;6) damage twice. / Gain (3;4) Strength. / The enemy gains 1 Strength.
+Fight Through|Defect|Defect|Skill|Uncommon|1|∅|∅|0|0|∅|Gain (13;17) Block. / Add 2 Wounds into your Discard Pile.
+Finesse|Colorless|Colorless|Skill|Uncommon|0|∅|∅|0|0|∅|Gain (4;7) Block. / Draw 1 card.
+Finisher|Silent|Silent|Attack|Uncommon|1|∅|∅|0|0|∅|Deal (6;8) damage for each Attack already played this turn.
+Fisticuffs|Colorless|Colorless|Attack|Uncommon|1|∅|∅|0|0|∅|Deal (7;9) damage. / Gain Block equal to damage dealt.
+Flak Cannon|Defect|Defect|Attack|Rare|2|∅|∅|0|0|∅|Exhaust ALL your Status cards. / Deal (8;11) damage to a random enemy for each card Exhausted.
+Flame Barrier|Ironclad|Ironclad|Skill|Uncommon|2|∅|∅|0|0|∅|Gain (12;16) Block. / Whenever you are attacked this turn, deal (4;6) damage back.
+Flanking|Silent|Silent|Skill|Rare|2|1|∅|0|1|∅|The enemy takes double damage from other players this turn.
+Flash of Steel|Colorless|Colorless|Attack|Uncommon|0|∅|∅|0|0|∅|Deal (5;8) damage. / Draw 1 card.
+Flatten|Necrobinder|Necrobinder|Attack|Common|2|∅|∅|0|0|∅|Osty deals (12;16) damage. / This card costs 0 [E] if Osty has attacked this turn.
+Flechettes|Silent|Silent|Attack|Uncommon|1|∅|∅|0|0|∅|Deal (5;7) damage for each Skill in your Hand.
+Flick-Flack|Silent|Silent|Attack|Common|1|∅|∅|0|0|∅|Sly. / Deal (7;9) damage to ALL enemies.
+Focused Strike|Defect|Defect|Attack|Common|1|∅|∅|0|0|∅|Deal (9;11) damage. / Gain (1;2) Focus this turn.
+Folly|Colorless|Colorless|Curse|Curse|-2|∅|∅|1|0|∅|Unplayable. / Ethereal. / Innate. / Eternal.
+Footwork|Silent|Silent|Power|Uncommon|1|∅|∅|0|0|∅|Gain (2;3) Dexterity.
+Forbidden Grimoire|Necrobinder|Necrobinder|Power|Ancient|2|1|∅|0|0|∅|At the end of combat, you may remove a card from your Deck. / Eternal.
+Foregone Conclusion|Regent|Regent|Skill|Rare|1|∅|∅|0|0|∅|Next turn, put (2;3) cards from your Draw Pile into your Hand.
+Forgotten Ritual|Ironclad|Ironclad|Skill|Uncommon|1|∅|∅|0|0|∅|Gain ([E][E][E];4 [E]). / Exhaust.
+Frantic Escape|Colorless|Colorless|Status|Status|1|∅|∅|1|0|∅|Get farther away. / Increase Sandpit by 1. / Increase the cost of this card by 1.
+Friendship|Necrobinder|Necrobinder|Power|Uncommon|1|∅|∅|0|0|∅|Lose (2;1) Strength. / Gain [E] at the start of each turn.
+FTL|Defect|Defect|Attack|Uncommon|0|∅|∅|0|0|∅|Deal (5;6) damage. / If you have played fewer than (3;4) cards this turn, draw 1 card.
+Fuel|Colorless|Colorless|Skill|Token|0|∅|∅|0|0|∅|Gain [E](;[E]). / Exhaust.
+Furnace|Regent|Regent|Power|Uncommon|1|∅|∅|0|0|∅|At the start of your turn, Forge (5;7).
+Fusion|Defect|Defect|Skill|Uncommon|1|∅|∅|0|0|∅|Channel 1 Plasma.( / Exhaust.;)
+Gamma Blast|Regent|Regent|Attack|Uncommon|0|∅|3|0|0|∅|Deal (13;18) damage. / Apply 2 Weak. / Apply 2 Vulnerable.
+Gang Up|Colorless|Colorless|Attack|Uncommon|1|∅|∅|0|1|∅|Deal 5 damage. / Deals (5;7) additional damage for each time another player has attacked the enemy this turn.
+Gather Light|Regent|Regent|Skill|Common|1|∅|∅|0|0|∅|Gain (8;11) Block. / Gain [STAR].
+Genesis|Regent|Regent|Power|Rare|2|∅|∅|0|0|∅|At the start of your turn, gain [STAR][STAR](;[STAR]).
+Genetic Algorithm|Defect|Defect|Skill|Rare|1|∅|∅|0|0|∅|Gain 1 Block. / Permanently increase this card's Block by (3;4). / Exhaust.
+Giant Rock|Colorless|Colorless|Attack|Token|1|∅|∅|0|0|∅|Deal (20;24) damage.
+Glacier|Defect|Defect|Skill|Uncommon|2|∅|∅|0|0|∅|Gain (6;9) Block. / Channel 2 Frost.
+Glasswork|Defect|Defect|Skill|Uncommon|1|∅|∅|0|0|∅|Gain (5;8) Block. / Channel 1 Glass.
+Glimmer|Regent|Regent|Skill|Uncommon|1|∅|∅|0|0|∅|Draw (3;4) cards. / Put 1 card from your Hand on top of your Draw Pile.
+Glimpse Beyond|Necrobinder|Necrobinder|Skill|Rare|1|∅|∅|0|1|∅|ALL players add (3;4) Souls into their Draw Pile. / Exhaust.
+Glitterstream|Regent|Regent|Skill|Common|2|∅|∅|0|0|∅|Gain (11;13) Block. / Next turn, gain (5;7) Block.
+Glow|Regent|Regent|Skill|Common|1|∅|∅|0|0|∅|Gain [STAR](;[STAR]). / Draw 1 card. / Next turn, draw 1 card.
+Go for the Eyes|Defect|Defect|Attack|Common|0|∅|∅|0|0|∅|Deal (3;4) damage. / If the enemy intends to attack, apply (1;2) Weak.
+Gold Axe|Colorless|Colorless|Attack|Rare|1|∅|∅|0|0|∅|(;Retain. / )Deal damage equal to the number of cards played this combat.
+Grand Finale|Silent|Silent|Attack|Rare|0|∅|∅|0|0|∅|Can only be played if there are no cards in your Draw Pile. Deal (60;75) damage to ALL enemies.
+Grave Warden|Necrobinder|Necrobinder|Skill|Common|1|∅|∅|0|0|∅|Gain (8;11) Block. / Add a Soul into your Draw Pile.
+Graveblast|Necrobinder|Necrobinder|Attack|Common|1|∅|∅|0|0|∅|Deal (4;6) damage. / Put a card from your Discard Pile into your Hand.( / Exhaust.;)
+Greed|Colorless|Colorless|Curse|Curse|-2|∅|∅|1|0|∅|Unplayable. / Eternal.
+GUARDS!!!|Regent|Regent|Skill|Rare|2|∅|∅|0|0|∅|Transform any number of cards in your Hand into Minion Sacrifice(;+). / Exhaust.
+Guiding Star|Regent|Regent|Attack|Common|1|∅|1|0|0|∅|Deal (12;13) damage. / Next turn, draw (2;3) cards.
+Guilty|Colorless|Colorless|Curse|Curse|-2|∅|∅|1|0|∅|Unplayable. / Removed from your Deck after 5 combats.
+Gunk Up|Defect|Defect|Attack|Common|1|∅|∅|0|0|∅|Deal (4;5) damage 3 times. / Add a Slimed into your Discard Pile.
+Hailstorm|Defect|Defect|Power|Uncommon|1|∅|∅|0|0|∅|At the end of your turn, if you have Frost, deal (6;8) damage to ALL enemies.
+Hammer Time|Regent|Regent|Power|Rare|2|1|∅|0|1|∅|Whenever you Forge, all allies Forge as well.
+Hand of Greed|Colorless|Colorless|Attack|Rare|2|∅|∅|0|0|∅|Deal (20;25) damage. / If Fatal, gain (20;25) Gold.
+Hand Trick|Silent|Silent|Skill|Uncommon|1|∅|∅|0|0|∅|Gain (7;10) Block. / Add Sly to a Skill in your Hand this turn.
+Hang|Necrobinder|Necrobinder|Attack|Rare|1|∅|∅|0|0|∅|Deal (10;13) damage. / Double the damage ALL Hang cards deal to this enemy.
+Haunt|Necrobinder|Necrobinder|Power|Uncommon|1|∅|∅|0|0|∅|Whenever you play a Soul, a random enemy loses (7;9) HP.
+Havoc|Ironclad|Ironclad|Skill|Common|1|0|∅|0|0|∅|Play the top card of your Draw Pile and Exhaust it.
+Haze|Silent|Silent|Skill|Uncommon|2|∅|∅|0|0|∅|Apply (4;6) Poison and (1;2) Weak to ALL enemies.
+Headbutt|Ironclad|Ironclad|Attack|Common|1|∅|∅|0|0|∅|Deal (9;12) damage. / Put a card from your Discard Pile on top of your Draw Pile.
+Heavenly Drill|Regent|Regent|Attack|Rare|-1|∅|∅|0|0|∅|Deal (8;10) damage X times. / Double X if it's 4 or more.
+Hegemony|Regent|Regent|Attack|Uncommon|2|∅|∅|0|0|∅|Deal (15;18) damage. / Next turn, gain [E][E](;[E]).
+Heirloom Hammer|Regent|Regent|Attack|Rare|2|∅|∅|0|0|∅|Deal (20;25) damage. / Choose a Colorless card in your Hand. Add a copy of that card into your Hand.
+Helix Drill|Defect|Defect|Attack|Rare|0|∅|∅|0|0|∅|Deal (3;5) damage for each [E] spent on other cards this turn.
+Hello World|Colorless|Defect|Power|Event|1|∅|∅|0|0|∅|(;Innate. / )At the start of your turn, add a random Common card into your Hand.
+Hellraiser|Ironclad|Ironclad|Power|Rare|2|1|∅|0|0|∅|Whenever you draw a card containing "Strike", it is played against a random enemy.
+Hemokinesis|Ironclad|Ironclad|Attack|Uncommon|1|∅|∅|0|0|∅|Lose 2 HP. / Deal (15;20) damage.
+Hibernate|Defect|Defect|Skill|Uncommon|2|∅|∅|0|1|∅|This turn, your Frost grants ALL allies Block. / Channel (2;3) Frost.
+Hidden Cache|Regent|Regent|Skill|Common|1|∅|∅|0|0|∅|Gain [STAR]. / Next turn, gain [STAR][STAR][STAR](;[STAR]).
+Hidden Daggers|Silent|Silent|Skill|Uncommon|0|∅|∅|0|0|∅|Discard 2 cards. / Add 2 (Shivs;Shivs+) into your Hand.
+Hidden Gem|Colorless|Colorless|Skill|Rare|1|∅|∅|0|0|∅|A random card in your Draw Pile without Replay gains Replay (2;3).
+High Five|Necrobinder|Necrobinder|Attack|Uncommon|2|∅|∅|0|0|∅|Osty deals (11;13) damage / and applies (2;3) Vulnerable / to ALL enemies.
+Hologram|Defect|Defect|Skill|Common|1|∅|∅|0|0|∅|Gain (3;5) Block. / Put a card from your Discard Pile into your Hand.( / Exhaust.;)
+Hotfix|Defect|Defect|Skill|Common|0|∅|∅|0|0|∅|Gain 2 Focus this turn. / (Exhaust.;)
+Howl from Beyond|Ironclad|Ironclad|Attack|Uncommon|3|∅|∅|0|0|∅|Deal (18;24) damage to ALL enemies. / At the end of your turn, if this is in your Exhaust Pile, play it.
+Huddle Up|Colorless|Colorless|Skill|Uncommon|1|∅|∅|0|1|∅|ALL players draw (2;3) cards. / Exhaust.
+Hyperbeam|Defect|Defect|Attack|Rare|2|∅|∅|0|0|∅|Deal (24;30) damage to ALL enemies. Lose 3 Focus this turn.
+I Am Invincible|Regent|Regent|Skill|Rare|1|∅|∅|0|0|∅|Gain (10;13) Block. / At the end of your turn, if this is on top of your Draw Pile, play it.
+Ice Lance|Defect|Defect|Attack|Rare|3|∅|∅|0|0|∅|Deal (19;24) damage. / Channel 3 Frost.
+Ignition|Defect|Defect|Skill|Uncommon|1|∅|∅|0|1|∅|Another player Channels Plasma.( / Exhaust.;)
+Imitation Learning|Defect|Defect|Skill|Rare|1|∅|∅|0|1|∅|Choose another player. The next (2;3) times they play a Power, you play a copy of it. / Exhaust.
+Impatience|Colorless|Colorless|Skill|Uncommon|0|∅|∅|0|0|∅|If you have no Attacks in your Hand, draw (2;3) cards.
+Impervious|Ironclad|Ironclad|Skill|Rare|2|∅|∅|0|0|∅|Gain (30;40) Block. / Exhaust.
+Infection|Colorless|Colorless|Status|Status|-2|∅|∅|1|0|∅|Unplayable. / At the end of your turn, if this is in your Hand, take 3 damage.
+Infernal Blade|Ironclad|Ironclad|Skill|Uncommon|1|0|∅|0|0|∅|Add a random Attack into your Hand. It's free to play this turn. / Exhaust.
+Inferno|Ironclad|Ironclad|Power|Uncommon|1|∅|∅|0|0|∅|At the start of your turn, lose 1 HP. / Whenever you lose HP on your turn, deal (6;9) damage to ALL enemies.
+Infinite Blades|Silent|Silent|Power|Uncommon|1|∅|∅|0|0|∅|(;Innate. / )At the start of your turn, add 1 Shiv into your Hand.
+Inflame|Ironclad|Ironclad|Power|Uncommon|1|∅|∅|0|0|∅|Gain (2;3) Strength.
+Injury|Colorless|Colorless|Curse|Curse|-2|∅|∅|1|0|∅|Unplayable.
+Intercept|Colorless|Colorless|Skill|Uncommon|1|∅|∅|0|1|∅|Gain (9;13) Block. / Redirect all incoming attacks that would be dealt to another player this turn to you.
+Invoke|Necrobinder|Necrobinder|Skill|Common|1|∅|∅|0|0|∅|Next turn, Summon (2;3) and gain [E][E](;[E]).
+Iron Wave|Ironclad|Ironclad|Attack|Common|1|∅|∅|0|0|∅|Gain (5;7) Block. / Deal (5;7) damage.
+Iteration|Defect|Defect|Power|Uncommon|1|∅|∅|0|0|∅|The first time you draw a Status card each turn, draw (2;3) cards.
+Jack of All Trades|Colorless|Colorless|Skill|Uncommon|0|∅|∅|0|0|∅|Add (1;2) random Colorless (card;cards) into your Hand. / Exhaust.
+Jackpot|Colorless|Colorless|Attack|Rare|3|∅|∅|0|0|∅|Deal (25;30) damage. / Add 3 random(; Upgraded) 0 [E] cards into your Hand.
+Juggernaut|Ironclad|Ironclad|Power|Rare|2|∅|∅|0|0|∅|Whenever you gain Block, deal (6;8) damage to a random enemy.
+Juggling|Ironclad|Ironclad|Power|Uncommon|1|∅|∅|0|0|∅|(;Innate. / )Add a copy of the third Attack you play each turn into your Hand.
+Kingly Kick|Regent|Regent|Attack|Uncommon|4|∅|∅|0|0|∅|Deal (27;35) damage. / Whenever you draw this card, reduce its cost by 1.
+Kingly Punch|Regent|Regent|Attack|Uncommon|1|∅|∅|0|0|∅|Deal (8;10) damage. / Whenever you draw this card, increase its damage by (4;6) this combat.
+Knife Trap|Silent|Silent|Skill|Rare|2|∅|∅|0|0|∅|(Play;Upgrade and play) every Shiv in your Exhaust Pile on the enemy.
+Knockdown|Colorless|Colorless|Attack|Rare|3|∅|∅|0|1|∅|Deal (10;14) damage. / The enemy takes (double;triple) damage from other players this turn.
+Knockout Blow|Regent|Regent|Attack|Uncommon|3|∅|∅|0|0|∅|Deal (30;38) damage. / If this kills an enemy, gain [STAR][STAR][STAR][STAR][STAR].
+Know Thy Place|Regent|Regent|Skill|Common|0|∅|∅|0|0|∅|Apply 1 Weak. / Apply 1 Vulnerable.( / Exhaust.;)
+Lantern Key|Colorless|Colorless|Quest|Quest|-2|∅|∅|1|0|∅|Unplayable. / Unlocks a special event in the next Act.
+Largesse|Regent|Regent|Skill|Uncommon|0|∅|∅|0|1|∅|Another player adds 1 random(; Upgraded) Colorless card to their Hand.
+Leading Strike|Silent|Silent|Attack|Common|1|∅|∅|0|0|∅|Deal (3;6) damage. / Add 2 Shivs into your Hand.
+Leap|Defect|Defect|Skill|Common|1|∅|∅|0|0|∅|Gain (9;12) Block.
+Leg Sweep|Silent|Silent|Skill|Uncommon|2|∅|∅|0|0|∅|Apply (2;3) Weak. / Gain (11;14) Block.
+Legion of Bone|Necrobinder|Necrobinder|Skill|Uncommon|2|∅|∅|0|1|∅|ALL players Summon (6;8).
+Lethality|Necrobinder|Necrobinder|Power|Uncommon|1|∅|∅|0|0|∅|Ethereal. / The first Attack each turn deals (50%;75%) additional damage.
+Lift|Colorless|Colorless|Skill|Uncommon|1|∅|∅|0|1|∅|Give another player (11;16) Block.
+Lightning Rod|Defect|Defect|Skill|Common|1|∅|∅|0|0|∅|Gain (4;7) Block. / At the start of the next 2 turns, Channel 1 Lightning.
+Loop|Defect|Defect|Power|Uncommon|1|∅|∅|0|0|∅|At the start of your turn, trigger the passive ability of your rightmost Orb(; 2 times).
+Luminesce|Colorless|Colorless|Skill|Token|0|∅|∅|0|0|∅|Retain. / Gain [E][E](;[E]). / Exhaust.
+Lunar Blast|Regent|Regent|Attack|Uncommon|0|∅|∅|0|0|∅|Deal (4;5) damage for each Skill already played this turn.
+Machine Learning|Defect|Defect|Power|Rare|1|∅|∅|0|0|∅|(;Innate. / )At the start of your turn, draw 1 additional card.
+Mad Science|Colorless|Colorless|Skill|Event|1|∅|∅|0|0|∅|(;Innate. / )This card can be created and customized at the event Tinker Time.
+Mad Science (Chaos)|Colorless|Colorless|Skill|Event|1|∅|∅|0|0|NoList|(;Innate. / )Gain 8 Block. / Add a random card into your Hand. It's free to play this turn.
+Mad Science (Choking)|Colorless|Colorless|Attack|Event|1|∅|∅|0|0|NoList|(;Innate. / )Deal 12 damage. / Whenever you play a card this turn, the enemy loses 6 HP.
+Mad Science (Curious)|Colorless|Colorless|Power|Event|1|∅|∅|0|0|NoList|(;Innate. / )Powers cost 1 [E] less.
+Mad Science (Energized)|Colorless|Colorless|Skill|Event|1|∅|∅|0|0|NoList|(;Innate. / )Gain 8 Block. / Gain [E] [E].
+Mad Science (Expertise)|Colorless|Colorless|Power|Event|1|∅|∅|0|0|NoList|(;Innate. / )Gain 2 Strength. / Gain 2 Dexterity.
+Mad Science (Improvement)|Colorless|Colorless|Power|Event|1|∅|∅|0|0|NoList|(;Innate. / )At the end of combat, Upgrade a random card.
+Mad Science (Sapping)|Colorless|Colorless|Attack|Event|1|∅|∅|0|0|NoList|(;Innate. / )Deal 12 damage. / Apply 2 Weak. / Apply 2 Vulnerable.
+Mad Science (Violence)|Colorless|Colorless|Attack|Event|1|∅|∅|0|0|NoList|(;Innate. / )Deal 12 damage 3 times.
+Mad Science (Wisdom)|Colorless|Colorless|Skill|Event|1|∅|∅|0|0|NoList|(;Innate. / )Gain 8 Block. / Draw 3 cards.
+Make It So|Regent|Regent|Attack|Rare|0|∅|∅|0|0|∅|Deal (6;9) damage. / Every 3 Skills you play in a turn, put this into your Hand.
+Malaise|Silent|Silent|Skill|Rare|-1|∅|∅|0|0|∅|Enemy loses (X;X+1) Strength. / Apply (X;X+1) Weak. / Exhaust.
+Mangle|Ironclad|Ironclad|Attack|Rare|3|∅|∅|0|0|∅|Deal (20;26) damage. / Enemy loses (10;15) Strength this turn.
+Manifest Authority|Regent|Regent|Skill|Uncommon|1|∅|∅|0|0|∅|Gain (7;8) Block. / Add 1 random(; Upgraded) Colorless card into your Hand.
+Master of Strategy|Colorless|Colorless|Skill|Rare|0|∅|∅|0|0|∅|Draw (3;4) cards. / Exhaust.
+Master Planner|Silent|Silent|Power|Rare|2|1|∅|0|0|∅|When you play a Skill, it gains Sly.
+Maul|Colorless|Colorless|Attack|Ancient|1|∅|∅|0|0|∅|Deal (5;6) damage twice. / Increase the damage of ALL Maul cards by (2;3) this combat.
+Mayhem|Colorless|Colorless|Power|Rare|2|1|∅|0|0|∅|At the start of your turn, play the top card of your Draw Pile.
+Melancholy|Necrobinder|Necrobinder|Skill|Uncommon|3|∅|∅|0|0|∅|Gain (13;17) Block. / Reduce this card's cost by [E] whenever ANYONE dies.
+Memento Mori|Silent|Silent|Attack|Uncommon|1|∅|∅|0|0|∅|Deal (9;11) damage. / Deals (4;5) additional damage for each card discarded this turn.
+Metamorphosis|Colorless|Colorless|Skill|Event|2|∅|∅|0|0|∅|Add (3;5) random Attacks into your Draw Pile. They're free to play this combat. / Exhaust.
+Meteor Shower|Regent|Regent|Attack|Ancient|0|∅|2|0|0|∅|Deal (14;21) damage to ALL enemies. / Apply 2 Weak and Vulnerable to ALL enemies.
+Meteor Strike|Defect|Defect|Attack|Rare|5|∅|∅|0|0|∅|Deal (24;30) damage. / Channel 3 Plasma.
+Midnight|Ironclad|Ironclad|Attack|Rare|12|∅|∅|0|1|∅|Deal (60;72) damage. / Costs 1 less [E] for each card Exhausted this combat by ANYONE.
+Mimic|Colorless|Colorless|Skill|Rare|1|∅|∅|0|1|∅|Gain Block equal to the Block on another player.( / Exhaust.;)
+Mind Blast|Colorless|Colorless|Attack|Uncommon|1|0|∅|0|0|∅|Innate. / Deal damage equal to the number of cards in your Draw Pile.
+Mind Rot|Colorless|Colorless|Status|Status|-2|∅|∅|1|0|∅|Draw 1 fewer card each turn.
+Minion Dive Bomb|Colorless|Colorless|Attack|Token|0|∅|∅|0|0|∅|Deal (13;16) damage. / Exhaust.
+Minion Sacrifice|Colorless|Colorless|Skill|Token|0|∅|∅|0|0|∅|Gain (7;10) Block. / Exhaust.
+Minion Strike|Colorless|Colorless|Attack|Token|0|∅|∅|0|0|∅|Deal (6;9) damage. / Draw 1 card. / Exhaust.
+Mirage|Silent|Silent|Skill|Uncommon|1|∅|∅|0|0|∅|Gain Block equal to Poison on ALL enemies.( / Exhaust.;)
+Misery|Necrobinder|Necrobinder|Attack|Rare|0|∅|∅|0|0|∅|(;Retain. / )Deal (7;9) damage. / Apply any debuffs on the enemy to ALL other enemies.
+Modded|Defect|Defect|Skill|Rare|0|∅|∅|0|0|∅|Gain 1 Orb Slot. / Draw (1 card;2 cards). Increase this card's cost by 1.
+Molten Fist|Ironclad|Ironclad|Attack|Common|1|∅|∅|0|0|∅|Deal (10;14) damage. / Double the enemy's Vulnerable. / Exhaust.
+Momentum Strike|Defect|Defect|Attack|Common|1|∅|∅|0|0|∅|Deal (11;15) damage. / Reduce this card's cost to 0 [E].
+Monarch's Gaze|Regent|Regent|Power|Rare|2|1|∅|0|0|∅|Whenever you attack an enemy, it loses 1 Strength this turn.
+Monologue|Regent|Regent|Skill|Uncommon|0|∅|∅|0|0|∅|(;Retain. / )Whenever you play a card this turn, gain 1 Strength this turn.
+Multi-Cast|Defect|Defect|Skill|Rare|-1|∅|∅|0|0|∅|Evoke your rightmost Orb X(;+1) times.
+Murder|Silent|Silent|Attack|Rare|3|2|∅|0|0|∅|Deal 1 damage. / Deals 1 additional damage for each card drawn this combat.
+Necro Mastery|Necrobinder|Necrobinder|Power|Rare|2|∅|∅|0|0|∅|Summon (5;8). / Whenever Osty loses HP, / ALL enemies lose that much HP as well.
+Negative Pulse|Necrobinder|Necrobinder|Skill|Common|1|∅|∅|0|0|∅|Gain (5;6) Block. / Apply (7;11) Doom to ALL enemies.
+Neow's Fury|Colorless|Colorless|Attack|Ancient|1|∅|∅|0|0|∅|Deal (10;14) damage. / Put up to (2;3) cards from your Discard Pile into your Hand. / Exhaust.
+Neurosurge|Necrobinder|Necrobinder|Power|Rare|0|∅|∅|0|0|∅|Gain ([E][E][E];4[E]). / Draw 2 cards. / At the start of your turn, apply 3 Doom to yourself.
+Neutralize|Silent|Silent|Attack|Basic|0|∅|∅|0|0|∅|Deal (3;4) damage. / Apply (1;2) Weak.
+Neutron Aegis|Regent|Regent|Power|Rare|1|∅|5|0|0|∅|Gain (8;11) Plating.
+Nightmare|Silent|Silent|Skill|Rare|3|2|∅|0|0|∅|Choose a card. / Next turn, add 3 copies of that card into your Hand. / Exhaust.
+No Escape|Necrobinder|Necrobinder|Skill|Uncommon|1|∅|∅|0|0|∅|Apply (10;15) Doom, plus an additional 5 Doom for every 10 Doom already on this enemy.
+Normality|Colorless|Colorless|Curse|Curse|-2|∅|∅|1|0|∅|Unplayable. / You cannot play more than 3 cards this turn.
+Nostalgia|Colorless|Colorless|Power|Rare|1|0|∅|0|0|∅|The first Attack or Skill you play each turn is placed on top of your Draw Pile.
+Not Yet|Ironclad|Ironclad|Skill|Rare|2|∅|∅|0|0|∅|Heal (10;13) HP. / Exhaust.
+Noxious Fumes|Silent|Silent|Power|Uncommon|1|∅|∅|0|0|∅|At the start of your turn, apply (2;3) Poison to ALL enemies.
+Null|Defect|Defect|Attack|Uncommon|2|∅|∅|0|0|∅|Deal (10;13) damage. / Apply (1;2) Weak. / Channel 1 Dark.
+Oblivion|Necrobinder|Necrobinder|Skill|Rare|0|∅|∅|0|0|∅|Whenever you play a card this turn, apply (3;4) Doom to the enemy.
+Offering|Ironclad|Ironclad|Skill|Rare|0|∅|∅|0|0|∅|Lose 6 HP. / Gain [E][E]. / Draw (3;5) cards. / Exhaust.
+Omnislice|Colorless|Colorless|Attack|Uncommon|0|∅|∅|0|0|∅|Deal (8;11) damage. / Damage ALL other enemies equal to the damage dealt.
+One for All|Defect|Defect|Power|Rare|1|∅|∅|0|1|∅|EVERYONE'S 0 [E] Attacks deal (3;4) additional damage.
+One-Two Punch|Ironclad|Ironclad|Skill|Rare|1|∅|∅|0|0|∅|This turn, your next (Attack is;2 Attacks are) played an extra time.
+Orbit|Regent|Regent|Power|Uncommon|2|1|∅|0|0|∅|Every 4 [E] you spend, / gain [E].
+Outbreak|Silent|Silent|Skill|Rare|3|∅|∅|0|0|∅|Apply (9;12) Poison to ALL enemies. / Poison triggers immediately.
+Outmaneuver|Colorless|Silent|Skill|Event|1|∅|∅|0|0|∅|Next turn, gain ([E][E];[E][E][E]).
+Outrage|Ironclad|Ironclad|Attack|Uncommon|0|∅|∅|0|1|∅|Deal (9;13) damage. Add a copy of this card into EVERYONE'S Discard Pile.
+Overclock|Defect|Defect|Skill|Uncommon|0|∅|∅|0|0|∅|Draw (2;3) cards. / Add a Burn into your Discard Pile.
+Pact's End|Ironclad|Ironclad|Attack|Rare|0|∅|∅|0|0|∅|If you have 3 or more cards in your Exhaust Pile, / deal (18;24) damage to ALL enemies.
+Pagestorm|Necrobinder|Necrobinder|Power|Uncommon|1|0|∅|0|0|∅|Whenever you draw an Ethereal card, draw 1 card.
+Pale Blue Dot|Regent|Regent|Power|Uncommon|1|∅|∅|0|0|∅|If you play 5 or more cards in a turn, draw (1 card;2 cards) at the start of your next turn.
+Panache|Colorless|Colorless|Power|Uncommon|0|∅|∅|0|0|∅|Every time you play 5 cards in a single turn, deal (10;14) damage to ALL enemies.
+Panic Button|Colorless|Colorless|Skill|Uncommon|0|∅|∅|0|0|∅|Gain (30;40) Block. / You cannot gain Block from cards for 2 turns. / Exhaust.
+Parry|Regent|Regent|Power|Uncommon|1|∅|∅|0|0|∅|Sovereign Blade now gains / (10;14) Block.
+Parse|Necrobinder|Necrobinder|Skill|Uncommon|1|∅|∅|0|0|∅|Ethereal. / Draw (3;4) cards.
+Particle Wall|Regent|Regent|Skill|Uncommon|0|∅|2|0|0|∅|Gain (9;12) Block. / Return this card to your Hand.
+Patter|Regent|Regent|Skill|Common|1|∅|∅|0|0|∅|Gain (8;10) Block. / Gain (2;3) Vigor.
+Peck|Colorless|Colorless|Attack|Event|1|∅|∅|0|0|∅|Deal 2 damage (3;4) times.
+Perfected Strike|Ironclad|Ironclad|Attack|Common|2|∅|∅|0|0|∅|Deal 6 damage. / Deals (2;3) additional damage for ALL your cards containing “Strike”.
+Phantom Blades|Silent|Silent|Power|Uncommon|1|∅|∅|0|0|∅|Shivs gain Retain. / The first Shiv you play each turn deals (9;12) additional damage.
+Photon Cut|Regent|Regent|Attack|Common|1|∅|∅|0|0|∅|Deal (10;13) damage. / Draw (1 card;2 cards). / Put 1 card from your Hand on top of your Draw Pile.
+Piercing Wail|Silent|Silent|Skill|Common|1|∅|∅|0|0|∅|ALL enemies lose (6;8) Strength this turn. / Exhaust.
+Pillage|Ironclad|Ironclad|Attack|Uncommon|1|∅|∅|0|0|∅|Deal (6;9) damage. / Draw cards until you draw a non-Attack card.
+Pillar of Creation|Regent|Regent|Power|Uncommon|1|∅|∅|0|0|∅|Whenever you create a card, gain (2;3) Block.
+Pinpoint|Silent|Silent|Attack|Uncommon|3|∅|∅|0|0|∅|Deal (15;19) damage. / Costs 1 less [E] for each Skill played this turn.
+Plot|Regent|Regent|Skill|Uncommon|1|∅|∅|0|1|∅|Next turn, ALL players draw (2;3) cards.
+Poisoned Stab|Silent|Silent|Attack|Common|1|∅|∅|0|0|∅|Deal (6;8) damage. / Apply (3;4) Poison.
+Poke|Necrobinder|Necrobinder|Attack|Common|0|∅|∅|0|0|∅|Osty deals (6;9) damage.
+Pommel Strike|Ironclad|Ironclad|Attack|Common|1|∅|∅|0|0|∅|Deal (9;10) damage. / Draw (1 card;2 cards).
+Poor Sleep|Colorless|Colorless|Curse|Curse|-2|∅|∅|1|0|∅|Unplayable. / Retain.
+Pounce|Silent|Silent|Attack|Uncommon|2|∅|∅|0|0|∅|Deal (14;20) damage. / The next Skill you play costs 0 [E].
+Precise Cut|Silent|Silent|Attack|Uncommon|0|∅|∅|0|0|∅|Deal (13;16) damage. / Deals 2 less damage for each other card in your Hand.
+Predator|Silent|Silent|Attack|Common|2|∅|∅|0|0|∅|Deal (15;20) damage. / Next turn, draw 2 cards.
+Prep Time|Colorless|Colorless|Power|Uncommon|1|∅|∅|0|0|∅|At the start of your turn, gain (4;6) Vigor.
+Prepared|Silent|Silent|Skill|Common|0|∅|∅|0|0|∅|Draw (1 card;2 cards). / Discard (1 card;2 cards).
+Primal Force|Ironclad|Ironclad|Skill|Rare|0|∅|∅|0|0|∅|Transform all Attacks in your Hand into Giant Rock(;+).
+Production|Colorless|Colorless|Skill|Uncommon|0|∅|∅|0|0|∅|Gain [E][E](;[E]). / Exhaust.
+Prolong|Colorless|Colorless|Skill|Uncommon|0|∅|∅|0|0|∅|Next turn, gain Block equal to your current Block.( / Exhaust.;)
+Prophesize|Regent|Regent|Skill|Uncommon|2|∅|∅|0|0|∅|Draw (6;9) cards.
+Protector|Necrobinder|Necrobinder|Attack|Ancient|1|0|∅|0|0|∅|Osty deals (10;15) damage. / Deals additional damage equal to Osty's Max HP.
+Prowess|Colorless|Colorless|Power|Uncommon|1|∅|∅|0|0|∅|Gain (1;2) Strength. / Gain (1;2) Dexterity.
+Pull Aggro|Necrobinder|Necrobinder|Skill|Common|2|∅|∅|0|0|∅|Summon (4;5). / Gain (7;9) Block.
+Pull from Below|Necrobinder|Necrobinder|Attack|Uncommon|1|∅|∅|0|0|∅|Deal (5;7) damage for each Ethereal card played this combat.
+Purity|Colorless|Colorless|Skill|Uncommon|0|∅|∅|0|0|∅|Retain. / Exhaust up to (3;5) cards in your Hand. / Exhaust.
+Putrefy|Necrobinder|Necrobinder|Skill|Uncommon|1|∅|∅|0|0|∅|Apply (2;3) Weak. / Apply (2;3) Vulnerable. / Exhaust.
+Pyre|Ironclad|Ironclad|Power|Rare|2|∅|∅|0|0|∅|Gain ([E];[E][E]) at the start of each turn.
+Quadcast|Defect|Defect|Skill|Ancient|1|0|∅|0|0|∅|Evoke your rightmost Orb 4 times.
+Quasar|Regent|Regent|Skill|Uncommon|0|∅|2|0|0|∅|Choose 1 of 3 random(; Upgraded) Colorless cards to add into your Hand.
+Radiate|Regent|Regent|Attack|Uncommon|0|∅|∅|0|0|∅|Deal (3;4) damage to ALL enemies for each [STAR] gained this turn.
+Rage|Ironclad|Ironclad|Skill|Uncommon|0|∅|∅|0|0|∅|Whenever you play an Attack this turn, gain (3;5) Block.
+Rainbow|Defect|Defect|Skill|Rare|2|∅|∅|0|0|∅|Channel 1 Lightning. / Channel 1 Frost. / Channel 1 Dark.( / Exhaust.;)
+Rally|Colorless|Colorless|Skill|Rare|2|∅|∅|0|1|∅|ALL players gain (12;17) Block.
+Rampage|Ironclad|Ironclad|Attack|Uncommon|1|∅|∅|0|0|∅|Deal 10 damage. / Increase this card's damage by (5;10) this combat.
+Rattle|Necrobinder|Necrobinder|Attack|Uncommon|1|∅|∅|0|0|∅|Osty deals (7;9) damage. / Hits an additional time for each other time he has attacked this turn.
+Reanimate|Necrobinder|Necrobinder|Skill|Rare|3|∅|∅|0|0|∅|Summon (20;25). / Exhaust.
+Reap|Necrobinder|Necrobinder|Attack|Common|3|∅|∅|0|0|∅|Retain. / Deal (27;33) damage.
+Reaper Form|Necrobinder|Necrobinder|Power|Rare|3|∅|∅|0|0|∅|(;Retain. / )Whenever Attacks deal damage, apply that much Doom.
+Reave|Necrobinder|Necrobinder|Attack|Common|1|∅|∅|0|0|∅|Deal (10;13) damage. / Add a Soul(;+) into your Draw Pile.
+Reboot|Defect|Defect|Skill|Rare|0|∅|∅|0|0|∅|Shuffle ALL your cards into your Draw Pile. / Draw (4;6) cards. / Exhaust.
+Rebound|Colorless|Defect|Attack|Event|1|∅|∅|0|0|∅|Deal (9;12) damage. / Put the next card you play this turn on top of your Draw Pile.
+Refine Blade|Regent|Regent|Skill|Common|1|∅|∅|0|0|∅|Forge (8;12). / Next turn, gain [E].
+Reflect|Regent|Regent|Skill|Uncommon|1|∅|3|0|0|∅|Gain (15;20) Block. / Blocked attack damage is reflected to your attacker this turn.
+Reflex|Silent|Silent|Skill|Uncommon|3|∅|∅|0|0|∅|Sly. / Draw (2;3) cards.
+Refract|Defect|Defect|Attack|Uncommon|3|∅|∅|0|0|∅|Deal (10;13) damage twice. / Channel 2 Glass.
+Regret|Colorless|Colorless|Curse|Curse|-2|∅|∅|1|0|∅|Unplayable. / At the end of your turn, if this is in your Hand, lose 1 HP for each card in your Hand.
+Relax|Colorless|Colorless|Skill|Ancient|3|∅|∅|0|0|∅|Gain (16;18) Block. / Next turn, draw (2;3) cards and gain [E][E](;[E]). / Exhaust.
+Rend|Colorless|Colorless|Attack|Rare|1|∅|∅|0|0|∅|Deal (10;12) damage. / Deals (5;8) additional damage for each unique debuff on the enemy.
+Resonance|Regent|Regent|Skill|Uncommon|1|∅|2|0|0|∅|Gain (1;2) Strength. ALL enemies lose 1 Strength.
+Restlessness|Colorless|Colorless|Skill|Uncommon|0|∅|∅|0|0|∅|Retain. / If your Hand is empty, draw (2;3) cards and gain [E][E](;[E]).
+Ricochet|Silent|Silent|Attack|Common|2|∅|∅|0|0|∅|Sly. / Deal 3 damage to a random enemy (4;5) times.
+Right Hand Hand|Necrobinder|Necrobinder|Attack|Uncommon|0|∅|∅|0|0|∅|Osty deals (4;6) damage. / Whenever you play a card that costs [E][E] or more, return this
+Rip and Tear|Colorless|Defect|Attack|Event|1|∅|∅|0|0|∅|Deal (7;9) damage to a random enemy twice.
+Rocket Punch|Defect|Defect|Attack|Uncommon|2|∅|∅|0|0|∅|Deal (13;14) damage. / Draw (1 card;2 cards). / Whenever you create a Status, reduce this card's cost by 1 [E] until played.
+Rolling Boulder|Colorless|Colorless|Power|Rare|3|∅|∅|0|0|∅|At the start of your turn, deal (5;10) damage to ALL enemies and increase this damage by 5.
+Royal Gamble|Regent|Regent|Skill|Uncommon|0|∅|5|0|0|∅|(;Retain. / )Gain 9 [STAR]. / Exhaust.
+Royalties|Regent|Regent|Power|Rare|1|∅|∅|0|0|∅|At the end of combat, gain (30;40) Gold.
+Rupture|Ironclad|Ironclad|Power|Uncommon|1|∅|∅|0|0|∅|Whenever you lose HP on your turn, gain (1;2) Strength.
+Sacrifice|Necrobinder|Necrobinder|Skill|Rare|1|0|∅|0|0|∅|Retain. / If Osty is alive, he dies and you gain Block equal to triple his Max HP.
+Salvo|Colorless|Colorless|Attack|Uncommon|1|∅|∅|0|0|∅|Deal (12;16) damage. / Retain your Hand this turn.
+Scavenge|Defect|Defect|Skill|Uncommon|1|∅|∅|0|0|∅|Exhaust a card. / Next turn, gain [E][E](;[E]).
+Scourge|Necrobinder|Necrobinder|Skill|Common|1|∅|∅|0|0|∅|Apply (13;16) Doom. / Draw (1 card;2 cards).
+Scrape|Defect|Defect|Attack|Uncommon|1|∅|∅|0|0|∅|Deal (7;10) damage. / Draw (4;5) cards. / Discard all cards drawn this way that do not cost 0 [E].
+Scrawl|Colorless|Colorless|Skill|Rare|1|∅|∅|0|0|∅|(;Retain. / )Draw cards until your Hand is full. / Exhaust.
+Sculpting Strike|Necrobinder|Necrobinder|Attack|Common|1|∅|∅|0|0|∅|Deal (9;12) damage. / Add Ethereal to a card in your Hand.
+Seance|Necrobinder|Necrobinder|Skill|Rare|1|0|∅|0|0|∅|Ethereal. / Transform a card in your Draw Pile into Soul.
+Second Wind|Ironclad|Ironclad|Skill|Uncommon|1|∅|∅|0|0|∅|Exhaust all non-Attack cards in your Hand. Gain (5;7) Block for each card Exhausted.
+Secret Technique|Colorless|Colorless|Skill|Rare|0|∅|∅|0|0|∅|Put a Skill from your Draw Pile into your Hand.( / Exhaust.;)
+Secret Weapon|Colorless|Colorless|Skill|Rare|0|∅|∅|0|0|∅|Put an Attack from your Draw Pile into your Hand.( / Exhaust.;)
+Seeker Strike|Colorless|Colorless|Attack|Uncommon|1|∅|∅|0|0|∅|Deal (9;12) damage. / Choose 1 of 3 cards in your Draw Pile to add into your Hand.
+Seeking Edge|Regent|Regent|Power|Rare|1|∅|∅|0|0|∅|Forge (7;11). / Sovereign Blade now deals damage to ALL enemies.
+Sentry Mode|Necrobinder|Necrobinder|Power|Rare|2|1|∅|0|0|∅|At the start of your turn, add 1 Sweeping Gaze into your Hand.
+Serpent Form|Silent|Silent|Power|Rare|3|∅|∅|0|0|∅|Whenever you play a card, deal (4;6) damage to a random enemy.
+Setup Strike|Ironclad|Ironclad|Attack|Common|1|∅|∅|0|0|∅|Deal (7;9) damage. / Gain (3;4) Strength this turn.
+Seven Stars|Regent|Regent|Attack|Rare|2|1|7|0|0|∅|Deal 7 damage to ALL enemies 7 times.
+Severance|Necrobinder|Necrobinder|Attack|Uncommon|2|∅|∅|0|0|∅|Deal (13;18) damage. / Add a Soul into your Draw Pile, Hand, and Discard Pile.
+Shadow Shield|Defect|Defect|Skill|Uncommon|2|∅|∅|0|0|∅|Gain (11;15) Block. / Channel 1 Dark.
+Shadow Step|Silent|Silent|Skill|Rare|1|0|∅|0|0|∅|Discard your Hand. / Next turn, Attacks deal double damage.
+Shadowmeld|Silent|Silent|Skill|Rare|1|0|∅|0|0|∅|Double your Block gain this turn.
+Shame|Colorless|Colorless|Curse|Curse|-2|∅|∅|1|0|∅|Unplayable. / At the end of your turn, if this is in your Hand, gain 1 Frail.
+Shared Fate|Necrobinder|Necrobinder|Skill|Rare|0|∅|∅|0|0|∅|Lose 2 Strength. / Enemy loses (2;3) Strength. / Exhaust.
+Shatter|Defect|Defect|Attack|Rare|1|∅|∅|0|0|∅|Deal (7;11) damage to ALL enemies. / Evoke all of your Orbs twice. / Exhaust.
+Shining Strike|Regent|Regent|Attack|Uncommon|1|∅|∅|0|0|∅|Deal (8;11) damage. / Gain [STAR][STAR]. / Put this card on top of your Draw Pile.
+Shiv|Colorless|Colorless|Attack|Token|0|∅|∅|0|0|∅|Deal (4;6) damage. / Exhaust.
+Shockwave|Colorless|Colorless|Skill|Uncommon|2|∅|∅|0|0|∅|Apply (3;5) Weak and Vulnerable to ALL enemies. / Exhaust.
+Shroud|Necrobinder|Necrobinder|Power|Uncommon|1|∅|∅|0|0|∅|Whenever you apply Doom, gain (3;4) Block.
+Shrug It Off|Ironclad|Ironclad|Skill|Common|1|∅|∅|0|0|∅|Gain (8;11) Block. / Draw 1 card.
+Sic 'Em|Necrobinder|Necrobinder|Attack|Uncommon|1|∅|∅|0|0|∅|Osty deals (5;6) damage. / Whenever Osty hits this enemy this turn, Summon (3;4).
+Sidestep|Silent|Silent|Skill|Uncommon|0|∅|∅|0|0|∅|Next turn, gain [E](;[E]).
+Signal Boost|Defect|Defect|Skill|Rare|1|0|∅|0|0|∅|The next Power you play is played an additional time. / Exhaust.
+Skewer|Silent|Silent|Attack|Uncommon|-1|∅|∅|0|0|∅|Deal (8;11) damage X times.
+Skim|Defect|Defect|Skill|Uncommon|1|∅|∅|0|0|∅|Draw (3;4) cards.
+Sleight of Flesh|Necrobinder|Necrobinder|Power|Uncommon|2|∅|∅|0|0|∅|Whenever you apply a debuff to an enemy, they take (9;13) damage.
+Slice|Silent|Silent|Attack|Common|0|∅|∅|0|0|∅|Deal (6;9) damage.
+Slimed|Colorless|Colorless|Status|Status|1|∅|∅|1|0|∅|Draw 1 card. / Exhaust.
+Sloth|Colorless|Colorless|Status|Status|-2|∅|∅|1|0|∅|You cannot play more than 3 cards each turn.
+Smokestack|Defect|Defect|Power|Uncommon|1|∅|∅|0|0|∅|Whenever you create a Status, deal (5;7) damage to ALL enemies.
+Snakebite|Silent|Silent|Skill|Common|2|∅|∅|0|0|∅|Retain. / Apply (7;10) Poison.
+Snap|Necrobinder|Necrobinder|Attack|Common|1|∅|∅|0|0|∅|Osty deals (7;10) damage. / Add Retain to a card in / your Hand.
+Sneaky|Silent|Silent|Power|Rare|2|∅|∅|0|1|∅|Sly. / Whenever another player attacks an enemy, gain (1;2) Block.
+Solar Strike|Regent|Regent|Attack|Common|1|∅|∅|0|0|∅|Deal (9;10) damage. / Gain [STAR](;[STAR]).
+Soot|Colorless|Colorless|Status|Status|-2|∅|∅|1|0|∅|Unplayable.
+Soul|Colorless|Colorless|Skill|Token|0|∅|∅|0|0|∅|Draw (2;3) cards. / Exhaust.
+Soul Storm|Necrobinder|Necrobinder|Attack|Rare|1|∅|∅|0|0|∅|Deal 9 damage. / Deals (4;6) additional damage for each Soul in your Exhaust Pile.
+Soulbound|Necrobinder|Necrobinder|Power|Uncommon|1|∅|∅|0|1|∅|(;Innate. / )Choose an ally. / Whenever you create a Soul, add a Soul to their Draw Pile.
+Sovereign Blade|Colorless|Colorless|Attack|Token|2|1|∅|0|0|∅|Retain. / Deal 10 damage.
+Sow|Necrobinder|Necrobinder|Attack|Common|1|∅|∅|0|0|∅|Retain. / Deal (8;11) damage to ALL enemies.
+Spectrum Shift|Regent|Regent|Power|Uncommon|2|1|∅|0|0|∅|At the start of your turn, add 1 random Colorless card into your Hand.
+Speedster|Silent|Silent|Power|Uncommon|2|∅|∅|0|0|∅|(;Innate. / )Whenever you draw a card during your turn, deal 2 damage to ALL enemies.
+Spinner|Defect|Defect|Power|Rare|1|∅|∅|0|0|∅|(;Channel 1 Glass. / )At the start of your turn, Channel 1 Glass.
+Spirit of Ash|Necrobinder|Necrobinder|Power|Rare|1|∅|∅|0|0|∅|Whenever you play an Ethereal card, gain (4;5) Block.
+Spite|Ironclad|Ironclad|Attack|Uncommon|0|∅|∅|0|0|∅|Deal 5 damage. If you lost HP this turn, hits (2;3) times.
+Splash|Colorless|Colorless|Skill|Rare|1|∅|∅|0|0|∅|Choose 1 of 3 random(; Upgraded) Attacks from another character to add into your Hand. It's free to play this turn.
+Spoils Map|Colorless|Colorless|Quest|Quest|-2|∅|∅|1|0|∅|Unplayable. / Marks a site of 600 extra Gold in the next Act.
+Spoils of Battle|Regent|Regent|Skill|Common|1|∅|∅|0|0|∅|Forge (6;9). / Draw 2 cards.
+Spore Mind|Colorless|Colorless|Curse|Curse|1|∅|∅|1|0|∅|Exhaust.
+Spur|Necrobinder|Necrobinder|Skill|Uncommon|1|∅|∅|0|0|∅|Retain. / Summon (3;5). / Osty heals (5;7) HP.
+Squash|Colorless|Colorless|Attack|Event|1|∅|∅|0|0|∅|Deal (10;12) damage. / Apply (2;3) Vulnerable.
+Squeeze|Necrobinder|Necrobinder|Attack|Rare|3|∅|∅|0|0|∅|Osty deals (25;30) damage. / Deals (5;6) additional damage for ALL your other Osty Attacks.
+Stack|Colorless|Defect|Skill|Event|1|∅|∅|0|0|∅|Gain Block equal to the number of cards in your Discard Pile(; +3).
+Stampede|Ironclad|Ironclad|Power|Uncommon|2|1|∅|0|0|∅|At the end of your turn, 1 random Attack in your Hand is played against a random enemy.
+Stardust|Regent|Regent|Attack|Uncommon|0|∅|-1|0|0|∅|Deal (5;7) damage to a random enemy X times.
+Stoke|Ironclad|Ironclad|Skill|Rare|1|∅|∅|0|0|∅|Exhaust your Hand. / Add 1 random (;Upgraded) card into your Hand for each card Exhausted.
+Stomp|Ironclad|Ironclad|Attack|Uncommon|3|∅|∅|0|0|∅|Deal (12;15) damage to ALL enemies. / Costs 1 less [E] for each Attack played this turn.
+Stone Armor|Ironclad|Ironclad|Power|Uncommon|1|∅|∅|0|0|∅|Gain (4;6) Plating.
+Storm|Defect|Defect|Power|Uncommon|1|∅|∅|0|0|∅|Whenever you play a Power, Channel (1;2) Lightning.
+Storm of Steel|Silent|Silent|Skill|Rare|1|∅|∅|0|0|∅|Discard your Hand. / Add 1 ( Shiv; Shiv+) into your Hand for each card discarded.
+Strangle|Silent|Silent|Attack|Uncommon|1|∅|∅|0|0|∅|Deal (8;10) damage. / Whenever you play a card this turn, the enemy loses (2;3) HP.
+Stratagem|Colorless|Colorless|Power|Uncommon|1|0|∅|0|0|∅|Whenever you shuffle your Draw Pile, choose a card from it to put into your Hand.
+Strike (Defect)|Defect|Defect|Attack|Basic|1|∅|∅|0|0|∅|Deal (6;9) damage.
+Strike (Ironclad)|Ironclad|Ironclad|Attack|Basic|1|∅|∅|0|0|∅|Deal (6;9) damage.
+Strike (Necrobinder)|Necrobinder|Necrobinder|Attack|Basic|1|∅|∅|0|0|∅|Deal (6;9) damage.
+Strike (Regent)|Regent|Regent|Attack|Basic|1|∅|∅|0|0|∅|Deal (6;9) damage.
+Strike (Silent)|Silent|Silent|Attack|Basic|1|∅|∅|0|0|∅|Deal (6;9) damage.
+Subroutine|Defect|Defect|Power|Uncommon|1|0|∅|0|0|∅|Whenever you play a Power, gain [E].
+Sucker Punch|Silent|Silent|Attack|Common|1|∅|∅|0|0|∅|Deal (8;10) damage. / Apply (1;2) Weak.
+Summon Forth|Regent|Regent|Skill|Uncommon|1|∅|∅|0|0|∅|Put Sovereign Blade into your Hand from anywhere. / Forge (8;11).
+Sunder|Defect|Defect|Attack|Uncommon|3|∅|∅|0|0|∅|Deal (26;34) damage. / If this kills an enemy, gain [E][E][E].
+Supercritical|Defect|Defect|Skill|Rare|0|∅|∅|0|0|∅|Gain (4;6) [E]. / Exhaust.
+Supermassive|Regent|Regent|Attack|Uncommon|1|∅|∅|0|0|∅|Deal 5 damage. / Deals (3;4) additional damage for each card you created this combat.
+Suppress|Silent|Silent|Attack|Ancient|0|∅|∅|0|0|∅|Innate. / Deal (11;17) damage. / Apply (3;5) Weak.
+Survivor|Silent|Silent|Skill|Basic|1|∅|∅|0|0|∅|Gain (8;11) Block. / Discard 1 card.
+Sweeping Beam|Defect|Defect|Attack|Common|1|∅|∅|0|0|∅|Deal (6;9) damage to ALL enemies. / Draw 1 card.
+Sweeping Gaze|Colorless|Colorless|Attack|Token|0|∅|∅|0|0|∅|Ethereal. / Osty deals (10;15) damage to a random enemy. / Exhaust.
+Sword Boomerang|Ironclad|Ironclad|Attack|Common|1|∅|∅|0|0|∅|Deal 3 damage to a random enemy (3;4) times.
+Sword Sage|Regent|Regent|Power|Rare|2|1|∅|0|0|∅|Sovereign Blade gains Replay 1.
+Synchronize|Defect|Defect|Skill|Uncommon|1|∅|∅|0|0|∅|Gain (1;2) Focus this turn for each unique Orb you have.
+Synthesis|Defect|Defect|Attack|Uncommon|2|∅|∅|0|0|∅|Deal (14;20) damage. / The next Power you play costs 0 [E].
+Tactician|Silent|Silent|Skill|Uncommon|3|∅|∅|0|0|∅|Sly. / Gain [E](;[E]).
+Tag Team|Colorless|Colorless|Attack|Uncommon|2|∅|∅|0|1|∅|Deal (11;15) damage. / The next Attack another player plays on the enemy is played an extra time.
+Tank|Ironclad|Ironclad|Power|Rare|1|0|∅|0|1|∅|Take 50% additional damage from enemies. / Allies take 50% less damage from enemies.
+Taunt|Ironclad|Ironclad|Skill|Common|1|∅|∅|0|0|∅|Gain (6;7) Block. / Apply (1;2) Vulnerable.
+Tear Asunder|Ironclad|Ironclad|Attack|Rare|2|∅|∅|0|0|∅|Deal (5;7) damage. / Hits an additional time for each time you lost HP this combat.
+Tempest|Defect|Defect|Skill|Uncommon|-1|∅|∅|0|0|∅|Channel (X;X+1) Lightning.
+Terraforming|Regent|Regent|Skill|Uncommon|1|∅|∅|0|0|∅|Gain (7;10) Vigor.
+Tesla Coil|Defect|Defect|Attack|Uncommon|0|∅|∅|0|0|∅|Deal (3;4) damage. / Trigger all Lightning against the enemy(; twice).
+The Ball|Colorless|Colorless|Attack|Uncommon|1|∅|∅|0|1|∅|Deal 10 damage. / Increase this card's damage by (10;15) this combat and give it to a random ally.
+The Bomb|Colorless|Colorless|Skill|Uncommon|2|∅|∅|0|0|∅|At the end of 3 turns, deal (40;50) damage to ALL enemies.
+The Gambit|Colorless|Colorless|Skill|Rare|0|∅|∅|0|0|∅|Gain (50;75) Block. / If you take unblocked attack damage this combat, die.
+The Hunt|Silent|Silent|Attack|Rare|1|∅|∅|0|0|∅|Deal (10;15) damage. / If Fatal, gain an additional card reward. / Exhaust.
+The Scythe|Necrobinder|Necrobinder|Attack|Rare|2|∅|∅|0|0|∅|Deal 13 damage. / Permanently increase this card's damage by (5;7). / Exhaust.
+The Sealed Throne|Regent|Regent|Power|Ancient|1|0|3|0|0|∅|Whenever you play a card, gain [STAR].
+The Smith|Regent|Regent|Skill|Rare|1|∅|4|0|0|∅|Forge (30;40).
+Thinking Ahead|Colorless|Colorless|Skill|Uncommon|0|∅|∅|0|0|∅|Draw 2 cards. / Put 1 card from your Hand on top of your Draw Pile.( / Exhaust.;)
+Thrash|Ironclad|Ironclad|Attack|Rare|1|∅|∅|0|0|∅|Deal (4;6) damage twice. / Exhaust a random Attack in your Hand and add its damage to this card.
+Thrumming Hatchet|Colorless|Colorless|Attack|Uncommon|1|∅|∅|0|0|∅|Deal (11;14) damage. / At the start of your next turn, return this to your Hand.
+Thunder|Defect|Defect|Power|Uncommon|1|∅|∅|0|0|∅|Whenever you Evoke Lightning, deal (8;11) damage to each enemy hit.
+Thunderclap|Ironclad|Ironclad|Attack|Common|1|∅|∅|0|0|∅|Deal (4;7) damage and apply 1 Vulnerable to ALL enemies.
+Time's Up|Necrobinder|Necrobinder|Attack|Rare|2|∅|∅|0|0|∅|(;Retain. / )Deal damage equal to the enemy's Doom.
+Tools of the Trade|Silent|Silent|Power|Rare|1|0|∅|0|0|∅|At the start of your turn, draw 1 card and discard 1 card.
+Toric Toughness|Colorless|Colorless|Skill|Event|2|∅|∅|0|0|∅|Gain (5;7) Block. / Gain (5;7) Block at the start of the next 2 turns.
+Toxic|Colorless|Colorless|Status|Status|1|∅|∅|1|0|∅|At the end of your turn, if this is in your Hand, take 5 damage. / Exhaust.
+Tracking|Silent|Silent|Power|Rare|2|1|∅|0|0|∅|Weak enemies take 50% more damage from Attacks.
+Transfigure|Necrobinder|Necrobinder|Skill|Rare|1|∅|∅|0|0|∅|Add Replay to a card in your Hand. / It costs an extra [E].( / Exhaust.;)
+Trash to Treasure|Defect|Defect|Power|Rare|1|0|∅|0|0|∅|Whenever you create a Status, Channel 1 random Orb.
+Tremble|Ironclad|Ironclad|Skill|Common|1|∅|∅|0|0|∅|Apply (3;4) Vulnerable. / Exhaust.
+True Grit|Ironclad|Ironclad|Skill|Common|1|∅|∅|0|0|∅|Gain (7;9) Block. / Exhaust 1 card( at random;).
+TURBO|Defect|Defect|Skill|Common|0|∅|∅|0|0|∅|Gain [E][E](;[E]). / Add a Void into your Discard Pile.
+Tutor|Regent|Regent|Skill|Rare|1|0|∅|0|1|∅|Another player chooses a card in their Draw Pile to add into their Hand.
+Twin Strike|Ironclad|Ironclad|Attack|Common|1|∅|∅|0|0|∅|Deal (5;7) damage twice.
+Tyranny|Regent|Regent|Power|Rare|1|∅|∅|0|0|∅|(;Innate. / )At the start of your turn, draw 1 card and Exhaust 1 card from your Hand.
+Ultimate Defend|Colorless|Colorless|Skill|Uncommon|1|∅|∅|0|0|∅|Gain (11;15) Block.
+Ultimate Strike|Colorless|Colorless|Attack|Uncommon|1|∅|∅|0|0|∅|Deal (14;20) damage.
+Undeath|Necrobinder|Necrobinder|Skill|Rare|0|∅|∅|0|0|∅|Gain (7;9) Block. / Add a copy of this card into your Discard Pile.
+Underworld|Necrobinder|Necrobinder|Skill|Uncommon|2|∅|∅|0|1|∅|Whenever other players deal attack damage this turn, apply that much Doom. / (Exhaust.;)
+Unleash|Necrobinder|Necrobinder|Attack|Basic|1|∅|∅|0|0|∅|Osty deals (6;9) damage. / Deals additional damage equal to Osty's current HP.
+Unmovable|Ironclad|Ironclad|Power|Rare|2|1|∅|0|0|∅|The first time you gain Block from a card each turn, double the amount gained.
+Unrelenting|Ironclad|Ironclad|Attack|Uncommon|2|∅|∅|0|0|∅|Deal (14;20) damage. / The next Attack you play costs 0 [E].
+Untouchable|Silent|Silent|Skill|Common|2|∅|∅|0|0|∅|Sly. / Gain (6;9) Block.
+Up My Sleeve|Silent|Silent|Skill|Uncommon|2|∅|∅|0|0|∅|Add (3;4) Shivs into your Hand. / Reduce this card's cost by 1.
+Uppercut|Ironclad|Ironclad|Attack|Uncommon|2|∅|∅|0|0|∅|Deal 13 damage. / Apply (1;2) Weak. / Apply (1;2) Vulnerable.
+Uproar|Defect|Defect|Attack|Common|2|∅|∅|0|0|∅|Deal (6;8) damage twice. / Play a random Attack from your Draw Pile.
+Veilpiercer|Necrobinder|Necrobinder|Attack|Uncommon|1|∅|∅|0|0|∅|Deal (10;13) damage. / The next Ethereal card you play costs 0 [E].
+Venerate|Regent|Regent|Skill|Basic|1|∅|∅|0|0|∅|Gain [STAR][STAR](;[STAR]).
+Vicious|Ironclad|Ironclad|Power|Uncommon|1|∅|∅|0|0|∅|Whenever you apply Vulnerable, draw (1 card;2 cards).
+Void|Colorless|Colorless|Status|Status|-2|∅|∅|1|0|∅|Unplayable. / Ethereal. / Whenever you draw this card, lose [E].
+Void Form|Regent|Regent|Power|Rare|3|∅|∅|0|0|∅|(Ethereal. / ;)End your turn. / The first 2 cards you play each turn are free to play.
+Volley|Colorless|Colorless|Attack|Uncommon|-1|∅|∅|0|0|∅|Deal (10;14) damage to a random enemy X times.
+Voltaic|Defect|Defect|Skill|Rare|3|∅|∅|0|0|∅|Channel Lightning equal to the Lightning already Channeled this combat.( / Exhaust.;)
+Waste Away|Colorless|Colorless|Status|Status|-2|∅|∅|1|0|∅|Gain 1 less [E] per turn.
+Well-Laid Plans|Silent|Silent|Power|Rare|2|1|∅|0|0|∅|At the end of your turn, you no longer discard your Hand.
+Whirlwind|Ironclad|Ironclad|Attack|Uncommon|-1|∅|∅|0|0|∅|Deal (5;8) damage to ALL enemies X times.
+Whistle|Colorless|Colorless|Attack|Ancient|2|∅|∅|0|0|∅|Deal (33;44) damage. / Stun the enemy. / Exhaust.
+White Noise|Defect|Defect|Skill|Uncommon|1|0|∅|0|0|∅|Add a random Power into your Hand. It's free to play this turn. / Exhaust.
+Wish|Colorless|Colorless|Skill|Ancient|0|∅|∅|0|0|∅|(;Retain. / )Put a card from your Draw Pile into your Hand. / Exhaust.
+Wisp|Necrobinder|Necrobinder|Skill|Common|0|∅|∅|0|0|∅|(;Retain. / )Gain [E]. / Exhaust.
+Wither|Colorless|Colorless|Status|Status|-2|∅|∅|0|0|∅|Unplayable. / At the end of your turn, if this is in your Hand, take (3;6) damage.
+Wound|Colorless|Colorless|Status|Status|-2|∅|∅|1|0|∅|Unplayable.
+Wraith Form|Silent|Silent|Power|Ancient|3|∅|∅|0|0|∅|Gain (2;3) Intangible. / At the start of your turn, lose 1 Dexterity.
+Writhe|Colorless|Colorless|Curse|Curse|-2|∅|∅|1|0|∅|Unplayable. / Innate.
+Wrought in War|Regent|Regent|Attack|Common|1|∅|∅|0|0|∅|Deal (7;9) damage. / Forge (7;9).
+Zap|Defect|Defect|Skill|Basic|1|0|∅|0|0|∅|Channel 1 Lightning.

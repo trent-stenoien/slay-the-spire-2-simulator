@@ -1,0 +1,21 @@
+{
+  "id": "snakebite",
+  "code": "S5",
+  "name": "Snakebite",
+  "type": "skill",
+  "rarity": "common",
+  "character": "S",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "retain"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Retain. / Apply 7 Poison.",
+  "upgradedDescription": "Retain. / Apply 10 Poison.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

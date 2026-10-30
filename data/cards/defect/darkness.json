@@ -1,0 +1,19 @@
+{
+  "id": "darkness",
+  "code": "Dr",
+  "name": "Darkness",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Channel 1 Dark. / Trigger the passive ability of all Dark Orbs.",
+  "upgradedDescription": "Channel 1 Dark. / Trigger the passive ability of all Dark Orbs twice.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

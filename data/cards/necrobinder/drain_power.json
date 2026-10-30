@@ -1,0 +1,19 @@
+{
+  "id": "drain_power",
+  "code": "D3",
+  "name": "Drain Power",
+  "type": "attack",
+  "rarity": "common",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 10 damage. / Upgrade 2 random cards in your Discard Pile.",
+  "upgradedDescription": "Deal 12 damage. / Upgrade 3 random cards in your Discard Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

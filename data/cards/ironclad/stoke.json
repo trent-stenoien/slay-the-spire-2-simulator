@@ -1,0 +1,19 @@
+{
+  "id": "stoke",
+  "code": "Ay",
+  "name": "Stoke",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Exhaust your Hand. / Add 1 random card into your Hand for each card Exhausted.",
+  "upgradedDescription": "Exhaust your Hand. / Add 1 random Upgraded card into your Hand for each card Exhausted.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

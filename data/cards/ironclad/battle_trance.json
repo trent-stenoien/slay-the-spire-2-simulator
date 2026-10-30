@@ -1,0 +1,19 @@
+{
+  "id": "battle_trance",
+  "code": "BT",
+  "name": "Battle Trance",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Draw 3 cards. / You cannot draw additional cards this turn.",
+  "upgradedDescription": "Draw 4 cards. / You cannot draw additional cards this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

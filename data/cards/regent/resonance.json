@@ -1,0 +1,19 @@
+{
+  "id": "resonance",
+  "code": "Rs",
+  "name": "Resonance",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": 2,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 1 Strength. ALL enemies lose 1 Strength.",
+  "upgradedDescription": "Gain 2 Strength. ALL enemies lose 1 Strength.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

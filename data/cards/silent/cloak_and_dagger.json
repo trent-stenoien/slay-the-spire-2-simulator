@@ -1,0 +1,19 @@
+{
+  "id": "cloak_and_dagger",
+  "code": "CA",
+  "name": "Cloak and Dagger",
+  "type": "skill",
+  "rarity": "common",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 6 Block. / Add 1 Shiv into your Hand.",
+  "upgradedDescription": "Gain 6 Block. / Add 2 Shivs into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

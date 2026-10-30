@@ -1,0 +1,19 @@
+{
+  "id": "breakthrough",
+  "code": "B1",
+  "name": "Breakthrough",
+  "type": "attack",
+  "rarity": "common",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Lose 1 HP. / Deal 9 damage to ALL enemies.",
+  "upgradedDescription": "Lose 1 HP. / Deal 13 damage to ALL enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

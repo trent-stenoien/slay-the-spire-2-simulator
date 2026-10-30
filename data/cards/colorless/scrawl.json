@@ -1,0 +1,26 @@
+{
+  "id": "scrawl",
+  "code": "Sw",
+  "name": "Scrawl",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "retain",
+      "exhaust"
+    ]
+  },
+  "description": "Draw cards until your Hand is full. / Exhaust.",
+  "upgradedDescription": "Retain. / Draw cards until your Hand is full. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

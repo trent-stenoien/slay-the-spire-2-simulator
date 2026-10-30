@@ -1,0 +1,19 @@
+{
+  "id": "high_five",
+  "code": "HF",
+  "name": "High Five",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Osty deals 11 damage / and applies 2 Vulnerable / to ALL enemies.",
+  "upgradedDescription": "Osty deals 13 damage / and applies 3 Vulnerable / to ALL enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

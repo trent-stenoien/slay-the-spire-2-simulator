@@ -1,0 +1,19 @@
+{
+  "id": "synchronize",
+  "code": "AJ",
+  "name": "Synchronize",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 1 Focus this turn for each unique Orb you have.",
+  "upgradedDescription": "Gain 2 Focus this turn for each unique Orb you have.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "tactician",
+  "code": "Ta",
+  "name": "Tactician",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "sly"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Sly. / Gain [E].",
+  "upgradedDescription": "Sly. / Gain [E][E].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

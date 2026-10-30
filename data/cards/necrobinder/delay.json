@@ -1,0 +1,19 @@
+{
+  "id": "delay",
+  "code": "Dj",
+  "name": "Delay",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 11 Block. / Next turn, / gain [E].",
+  "upgradedDescription": "Gain 13 Block. / Next turn, / gain [E][E].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

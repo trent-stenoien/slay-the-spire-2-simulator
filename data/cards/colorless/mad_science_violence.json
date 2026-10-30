@@ -1,0 +1,23 @@
+{
+  "id": "mad_science_violence",
+  "code": "Mv",
+  "name": "Mad Science (Violence)",
+  "type": "attack",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate"
+    ]
+  },
+  "description": "Deal 12 damage 3 times.",
+  "upgradedDescription": "Innate. / Deal 12 damage 3 times.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

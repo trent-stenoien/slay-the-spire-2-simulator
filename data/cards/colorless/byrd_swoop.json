@@ -1,0 +1,19 @@
+{
+  "id": "byrd_swoop",
+  "code": "BJ",
+  "name": "Byrd Swoop",
+  "type": "attack",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 14 damage.",
+  "upgradedDescription": "Deal 18 damage.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

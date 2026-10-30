@@ -1,0 +1,19 @@
+{
+  "id": "crush_under",
+  "code": "CU",
+  "name": "Crush Under",
+  "type": "attack",
+  "rarity": "common",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 8 damage to ALL enemies. All enemies lose 1 Strength this turn.",
+  "upgradedDescription": "Deal 9 damage to ALL enemies. All enemies lose 2 Strength this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "bludgeon",
+  "code": "Bu",
+  "name": "Bludgeon",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 32 damage.",
+  "upgradedDescription": "Deal 42 damage.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

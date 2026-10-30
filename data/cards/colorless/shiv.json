@@ -1,0 +1,21 @@
+{
+  "id": "shiv",
+  "code": "Sj",
+  "name": "Shiv",
+  "type": "attack",
+  "rarity": "token",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 4 damage. / Exhaust.",
+  "upgradedDescription": "Deal 6 damage. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

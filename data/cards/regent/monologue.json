@@ -1,0 +1,23 @@
+{
+  "id": "monologue",
+  "code": "Mz",
+  "name": "Monologue",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "retain"
+    ]
+  },
+  "description": "Whenever you play a card this turn, gain 1 Strength this turn.",
+  "upgradedDescription": "Retain. / Whenever you play a card this turn, gain 1 Strength this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

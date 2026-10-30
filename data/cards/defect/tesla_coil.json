@@ -1,0 +1,19 @@
+{
+  "id": "tesla_coil",
+  "code": "TC",
+  "name": "Tesla Coil",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 3 damage. / Trigger all Lightning against the enemy.",
+  "upgradedDescription": "Deal 4 damage. / Trigger all Lightning against the enemy twice.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

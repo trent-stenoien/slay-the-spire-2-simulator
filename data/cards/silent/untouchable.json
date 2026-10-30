@@ -1,0 +1,21 @@
+{
+  "id": "untouchable",
+  "code": "Ut",
+  "name": "Untouchable",
+  "type": "skill",
+  "rarity": "common",
+  "character": "S",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "sly"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Sly. / Gain 6 Block.",
+  "upgradedDescription": "Sly. / Gain 9 Block.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

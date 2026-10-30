@@ -1,0 +1,19 @@
+{
+  "id": "conflagration",
+  "code": "Cv",
+  "name": "Conflagration",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 2 damage to ALL enemies 4 times.",
+  "upgradedDescription": "Deal 2 damage to ALL enemies 5 times.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

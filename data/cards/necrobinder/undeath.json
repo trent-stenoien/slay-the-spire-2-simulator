@@ -1,0 +1,19 @@
+{
+  "id": "undeath",
+  "code": "Un",
+  "name": "Undeath",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 7 Block. / Add a copy of this card into your Discard Pile.",
+  "upgradedDescription": "Gain 9 Block. / Add a copy of this card into your Discard Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

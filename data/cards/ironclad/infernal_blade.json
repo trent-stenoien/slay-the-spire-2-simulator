@@ -1,0 +1,23 @@
+{
+  "id": "infernal_blade",
+  "code": "IB",
+  "name": "Infernal Blade",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "cost": 0
+  },
+  "description": "Add a random Attack into your Hand. It's free to play this turn. / Exhaust.",
+  "upgradedDescription": "Add a random Attack into your Hand. It's free to play this turn. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

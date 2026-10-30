@@ -1,0 +1,19 @@
+{
+  "id": "tempest",
+  "code": "Te",
+  "name": "Tempest",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 0,
+  "xCost": true,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Channel X Lightning.",
+  "upgradedDescription": "Channel X+1 Lightning.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "poisoned_stab",
+  "code": "Pd",
+  "name": "Poisoned Stab",
+  "type": "attack",
+  "rarity": "common",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 6 damage. / Apply 3 Poison.",
+  "upgradedDescription": "Deal 8 damage. / Apply 4 Poison.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

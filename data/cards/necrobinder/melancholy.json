@@ -1,0 +1,19 @@
+{
+  "id": "melancholy",
+  "code": "Mh",
+  "name": "Melancholy",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 13 Block. / Reduce this card's cost by [E] whenever ANYONE dies.",
+  "upgradedDescription": "Gain 17 Block. / Reduce this card's cost by [E] whenever ANYONE dies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

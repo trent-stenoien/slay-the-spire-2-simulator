@@ -1,0 +1,21 @@
+{
+  "id": "dark_shackles",
+  "code": "Da",
+  "name": "Dark Shackles",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Enemy loses 9 Strength this turn. / Exhaust.",
+  "upgradedDescription": "Enemy loses 15 Strength this turn. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

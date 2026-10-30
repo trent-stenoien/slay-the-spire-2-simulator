@@ -1,0 +1,19 @@
+{
+  "id": "hand_of_greed",
+  "code": "HO",
+  "name": "Hand of Greed",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "colorless",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 20 damage. / If Fatal, gain 20 Gold.",
+  "upgradedDescription": "Deal 25 damage. / If Fatal, gain 25 Gold.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

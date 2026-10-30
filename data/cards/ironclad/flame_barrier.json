@@ -1,0 +1,19 @@
+{
+  "id": "flame_barrier",
+  "code": "FB",
+  "name": "Flame Barrier",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 12 Block. / Whenever you are attacked this turn, deal 4 damage back.",
+  "upgradedDescription": "Gain 16 Block. / Whenever you are attacked this turn, deal 6 damage back.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "beckon",
+  "code": "Bo",
+  "name": "Beckon",
+  "type": "status",
+  "rarity": "status",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": null,
+  "description": "At the end of your turn, if this is in your Hand, / lose 6 HP.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "reap",
+  "code": "Rp",
+  "name": "Reap",
+  "type": "attack",
+  "rarity": "common",
+  "character": "N",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "retain"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Retain. / Deal 27 damage.",
+  "upgradedDescription": "Retain. / Deal 33 damage.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

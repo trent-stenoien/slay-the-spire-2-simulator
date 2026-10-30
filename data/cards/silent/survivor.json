@@ -1,0 +1,19 @@
+{
+  "id": "survivor",
+  "code": "AD",
+  "name": "Survivor",
+  "type": "skill",
+  "rarity": "basic",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 8 Block. / Discard 1 card.",
+  "upgradedDescription": "Gain 11 Block. / Discard 1 card.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

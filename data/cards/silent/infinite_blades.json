@@ -1,0 +1,23 @@
+{
+  "id": "infinite_blades",
+  "code": "Ii",
+  "name": "Infinite Blades",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate"
+    ]
+  },
+  "description": "At the start of your turn, add 1 Shiv into your Hand.",
+  "upgradedDescription": "Innate. / At the start of your turn, add 1 Shiv into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

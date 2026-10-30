@@ -1,0 +1,19 @@
+{
+  "id": "strangle",
+  "code": "A3",
+  "name": "Strangle",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 8 damage. / Whenever you play a card this turn, the enemy loses 2 HP.",
+  "upgradedDescription": "Deal 10 damage. / Whenever you play a card this turn, the enemy loses 3 HP.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

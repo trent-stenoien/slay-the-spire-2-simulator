@@ -1,0 +1,19 @@
+{
+  "id": "stack",
+  "code": "Av",
+  "name": "Stack",
+  "type": "skill",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain Block equal to the number of cards in your Discard Pile.",
+  "upgradedDescription": "Gain Block equal to the number of cards in your Discard Pile +3.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

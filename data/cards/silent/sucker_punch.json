@@ -1,0 +1,19 @@
+{
+  "id": "sucker_punch",
+  "code": "A6",
+  "name": "Sucker Punch",
+  "type": "attack",
+  "rarity": "common",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 8 damage. / Apply 1 Weak.",
+  "upgradedDescription": "Deal 10 damage. / Apply 2 Weak.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

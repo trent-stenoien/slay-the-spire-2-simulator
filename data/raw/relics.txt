@@ -1,0 +1,298 @@
+Akabeko|Uncommon|Any|-|-|∅|∅|∅|At the start of each combat, gain 8 Vigor.
+Alchemical Coffer|Ancient|Any|Orobas|-|∅|∅|∅|Upon pickup, gain 4 Potion slots filled with random Potion.
+Amethyst Aubergine|Common|Any|-|-|∅|∅|∅|Enemies drop 15 additional Gold.
+Anchor|Common|Any|-|-|∅|∅|∅|Start each combat with 10 Block.
+Anchor???|Event|Any|-|The Merchant???|∅|∅|∅|Start each combat with 4 Block.
+Arcane Scroll|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, obtain a random Rare Card to add to your Deck.
+Archaic Tooth|Ancient|Any|Orobas|-|∅|∅|∅|Upon pickup, Transform a starter card into an ancient version.
+Art of War|Rare|Any|-|-|∅|∅|∅|If you do not play any Attacks during your turn, gain an additional [E] next turn.
+Astrolabe|Ancient|Any|Darv|-|∅|∅|∅|Upon pickup, Transform 3 cards, then Upgrade them.
+Bag of Marbles|Common|Any|-|-|∅|∅|∅|At the start of each combat, apply 1 Vulnerable to ALL enemies.
+Bag of Preparation|Common|Any|-|-|∅|∅|∅|At the start of each combat, draw 2 additional cards.
+Beating Remnant|Rare|Any|-|-|∅|∅|∅|You cannot lose more than 20 HP in a single turn.
+Beautiful Bracelet|Ancient|Any|Nonupeipe|-|∅|∅|∅|Upon pickup, Enchant 4 random cards in your Deck with Swift 2.
+Bellows|Rare|Any|-|-|∅|∅|∅|The first Hand you draw each combat is Upgraded.
+Belt Buckle|Shop|Any|-|-|∅|∅|∅|While you have no Potions, you have 2 additional Dexterity.
+Big Hat|Rare|Necrobinder|-|-|∅|∅|∅|At the start of each combat, add 2 random Ethereal cards into your Hand.
+Big Mushroom|Event|Any|-|Hungry for Mushrooms|∅|∅|∅|Upon pickup, raise your Max HP by 20. At the start of each combat, draw 2 fewer cards.
+Biiig Hug|Ancient|Any|Tezcatara|-|∅|∅|∅|Upon pickup, remove 4 cards from your Deck. Whenever you shuffle your Draw Pile, add a Soot into your Draw Pile.
+Bing Bong|Event|Any|-|Doll Room|∅|∅|∅|Whenever you add a card to your Deck, add one additional copy.
+Black Blood|Starter|Ironclad|-|-|∅|∅|AncientUpgrade|At the end of combat, heal 12 HP.
+Black Star|Ancient|Any|Darv|-|∅|∅|∅|Elites drop an additional Relic when defeated.
+Blessed Antler|Ancient|Any|Nonupeipe|-|∅|∅|∅|Gain [E] at the start of each turn. At the start of each combat, shuffle 3 Dazed into your Draw Pile.
+Blood Vial|Common|Any|-|-|∅|∅|∅|At the start of each combat, heal 2 HP.
+Blood Vial???|Event|Any|-|The Merchant???|∅|∅|∅|At the start of each combat, heal 1 HP.
+Blood-Soaked Rose|Ancient|Any|Vakuu|-|∅|∅|∅|Upon pickup, add 1 Enthralled to your Deck. Gain [E] at the start of each turn.
+Bone Flute|Common|Necrobinder|-|-|∅|∅|∅|Whenever Osty attacks, gain 2 Block.
+Bone Tea|Event|Any|-|Tea Master|∅|∅|∅|At the start of the next combat, Upgrade your starting hand.
+Book of Five Rings|Common|Any|-|-|∅|∅|∅|Every 5 cards you add to your Deck, heal 20 HP.
+Book Repair Knife|Uncommon|Necrobinder|-|-|∅|∅|∅|Whenever a non-Minion enemy dies to Doom, heal 3 HP.
+Bookmark|Rare|Necrobinder|-|-|∅|∅|∅|At the end of each turn, lower the cost of a random Retained card by 1 until played.
+Booming Conch|Ancient|Any|Neow|-|∅|∅|∅|At the start of Elite combats, draw 2 additional cards and gain [E].
+Bound Phylactery|Starter|Necrobinder|-|-|∅|∅|∅|At the start of your turn, Summon 1.
+Bowler Hat|Uncommon|Any|-|-|∅|∅|∅|Gain 25% additional Gold.
+Bread|Shop|Any|-|-|∅|∅|∅|At the start of your first turn, lose [E][E]. At the start of all other turns, gain [E].
+Brilliant Scarf|Ancient|Any|Nonupeipe|-|∅|∅|∅|The 5th card you play from your hand each turn is free.
+Brimstone|Shop|Ironclad|-|-|∅|∅|∅|At the start of your turn, gain 2 Strength and ALL enemies gain 1 Strength.
+Bronze Scales|Common|Any|-|-|∅|∅|∅|Start each combat with 3 Thorns.
+Burning Blood|Starter|Ironclad|-|-|∅|∅|∅|At the end of combat, heal 6 HP.
+Burning Sticks|Shop|Any|-|-|∅|∅|∅|The first time each combat you Exhaust a Skill, add a copy of it into your Hand.
+Byrdpip|Event|Any|-|Byrdonis Nest|∅|∅|∅|Upon pickup, gain the card Byrd Swoop. A Byrdpip will accompany you in battles.
+Calling Bell|Ancient|Any|Darv|-|∅|∅|∅|Upon pickup, obtain a unique Curse and 3 Relics.
+Candelabra|Uncommon|Any|-|-|∅|∅|∅|At the start of your 2nd turn, gain [E] [E].
+Captain's Wheel|Rare|Any|-|-|∅|∅|∅|At the start of your 3rd turn, gain 18 Block.
+Cauldron|Shop|Any|-|-|∅|∅|∅|Upon pickup, brews 5 random Potion.
+Centennial Puzzle|Common|Any|-|-|∅|∅|∅|The first time you lose HP each combat, draw 3 cards.
+Chandelier|Rare|Any|-|-|∅|∅|∅|At the start of your 3rd turn, gain [E] [E] [E].
+Charon's Ashes|Rare|Ironclad|-|-|∅|∅|∅|Whenever you Exhaust a card, deal 3 damage to ALL enemies.
+Chemical X|Shop|Any|-|-|∅|∅|∅|The effects of your cost X cards are increased by 2.
+Choices Paradox|Ancient|Any|Vakuu|-|∅|∅|∅|At the start of each combat, add 1 of 5 random cards into your Hand. Add Retain to the chosen card.
+Circlet|Special|Any|-|-|∅|∅|∅|It's a circlet.
+Claws|Ancient|Any|Tanx|-|∅|∅|∅|Upon pickup, Transform up to 6 cards into Maul.
+Cloak Clasp|Rare|Any|-|-|∅|∅|∅|At the end of your turn, gain 1 Block for each card in your Hand.
+Cracked Core|Starter|Defect|-|-|∅|∅|∅|At the start of each combat, Channel 1 Lightning.
+Crossbow|Ancient|Any|Tanx|-|∅|∅|∅|At the start of your turn, add a random Attack into your Hand. It's free to play this turn.
+Cursed Pearl|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, receive Greed. Gain 333 Gold.
+Darkstone Periapt|Event|Any|-|Trash Heap|∅|∅|∅|Whenever you obtain a Curse, raise your Max HP by 6.
+Data Disk|Common|Defect|-|-|∅|∅|∅|Start each combat with 1 Focus.
+Daughter of the Wind|Event|Any|-|Doll Room|∅|∅|∅|Whenever you play an Attack, gain 1 Block.
+Delicate Frond|Ancient|Any|Nonupeipe|-|∅|∅|∅|At the start of each combat, fill all empty Potion slots with random Potions.
+Demon Tongue|Rare|Ironclad|-|-|∅|∅|∅|The first time you lose HP on your turn, heal HP equal to the amount lost.
+Diamond Diadem|Ancient|Any|Nonupeipe|-|∅|∅|∅|Start combat with 20 Block. Your Block is not removed at the start of your 2nd turn.
+Dingy Rug|Shop|Any|-|-|∅|∅|∅|Card rewards can now contain Colorless cards.
+Distinguished Cape|Ancient|Any|Vakuu|-|∅|∅|∅|Upon pickup, add 2 random Curses and 3 Apparitions to your Deck.
+Divine Destiny|Starter|Regent|-|-|∅|∅|AncientUpgrade,Star|At the start of each combat, gain [STAR][STAR][STAR][STAR][STAR][STAR][STAR].
+Divine Right|Starter|Regent|-|-|∅|∅|∅|At the start of each combat, gain [STAR][STAR][STAR].
+Dolly's Mirror|Shop|Any|-|-|∅|∅|∅|Upon pickup, obtain an additional copy of a card in your Deck.
+Dowsing Rod|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, add 1 Dowsing to your Deck.
+Dragon Fruit|Shop|Any|-|-|∅|∅|∅|Whenever you gain Gold, raise your Max HP by 1.
+Dream Catcher|Event|Any|-|Trash Heap|∅|∅|∅|Whenever you Rest, you may add a card to your Deck.
+Driftwood|Ancient|Any|Orobas|-|∅|∅|∅|You may reroll each card reward once.
+Dusty Tome|Ancient|Any|Darv|-|∅|∅|∅|Upon pickup, obtain an Ancient Card.
+Ectoplasm|Ancient|Any|Darv|-|∅|∅|∅|You can no longer gain Gold. Gain [E] at the start of each turn.
+Electric Shrymp|Ancient|Any|Orobas|-|∅|∅|∅|Upon pickup, Enchant a Skill with Imbued.
+Ember Tea|Event|Any|-|Tea Master|∅|∅|∅|At the start of the next 5 combats, gain 2 Strength.
+Emotion Chip|Rare|Defect|-|-|∅|∅|∅|If you lost HP during the previous turn, trigger the passive ability of all Orbs at the start of your turn.
+Empty Cage|Ancient|Any|Darv|-|∅|∅|∅|Upon pickup, remove 2 cards from your Deck.
+Eternal Feather|Uncommon|Any|-|-|∅|∅|∅|For every 5 cards in your Deck, heal 3 HP whenever you enter a Rest Site.
+Fencing Manual|Common|Regent|-|-|∅|∅|∅|At the start of each combat, Forge 10.
+Festive Popper|Common|Any|-|-|∅|∅|∅|At the start of each combat, deal 9 damage to ALL enemies.
+Fiddle|Ancient|Any|Vakuu|-|∅|∅|∅|At the start of each turn, draw 2 additional cards. You may not draw cards during your turn.
+Fishing Rod|Ancient|Any|Neow|-|∅|∅|∅|Every 3 normal combats, Upgrade a random card in your Deck.
+Forgotten Soul|Event|Any|-|Grave of the Forgotten|∅|∅|∅|Whenever you Exhaust a card, deal 1 damage to a random enemy.
+Fragrant Mushroom|Event|Any|-|Hungry for Mushrooms|∅|∅|∅|Upon pickup, lose 15 HP and Upgrade 2 random cards.
+Fresnel Lens|Event|Any|-|Drowning Beacon|∅|∅|∅|Whenever you add a card that gains Block to your Deck, Enchant it with Nimble 2.
+Frozen Egg|Rare|Any|-|-|∅|∅|∅|Whenever you add a Power into your Deck, Upgrade it.
+Funerary Mask|Uncommon|Necrobinder|-|-|∅|∅|∅|At the start of each combat, add 3 Souls into your Draw Pile.
+Fur Coat|Ancient|Any|Nonupeipe|-|∅|∅|∅|Upon pickup, mark 8 random combats. Enemies in those rooms have 1 HP.
+Galactic Dust|Uncommon|Regent|-|-|∅|∅|∅|For every 10 [STAR] spent, gain 10 Block.
+Gambling Chip|Rare|Any|-|-|∅|∅|∅|At the start of each combat, discard any number of cards then draw that many.
+Game Piece|Rare|Any|-|-|∅|∅|∅|Whenever you play a Power, draw 1 card.
+Ghost Seed|Shop|Any|-|-|∅|∅|∅|Strikes and Defends gain Ethereal.
+Girya|Rare|Any|-|-|∅|∅|∅|You can now gain Strength at Rest Site. (3 times max)
+Glass Eye|Ancient|Any|Orobas|-|∅|∅|∅|Upon pickup, obtain 2 Common cards, 2 Uncommon cards, and 1 Rare card.
+Glitter|Ancient|Any|Nonupeipe|-|∅|∅|∅|Enchant all card rewards with Glam.
+Gnarled Hammer|Shop|Any|-|-|∅|∅|∅|Upon pickup, Enchant up to 3 Attacks with Sharp 3.
+Gold-Plated Cables|Uncommon|Defect|-|-|∅|∅|∅|Your rightmost Orb triggers its passive an additional time.
+Golden Compass|Ancient|Any|Tezcatara|-|∅|∅|∅|Upon pickup, replace the Act 2 Map with a single special path.
+Golden Pearl|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, gain 150 Gold.
+Gorget|Common|Any|-|-|∅|∅|∅|At the start of each combat, gain 4 Plating.
+Gremlin Horn|Uncommon|Any|-|-|∅|∅|∅|Whenever an enemy dies, gain [E] and draw 1 card.
+Hand Drill|Event|Any|-|Trash Heap|∅|∅|∅|Whenever you break an enemy's Block, apply 2 Vulnerable.
+Happy Flower|Common|Any|-|-|∅|∅|∅|Every 3 turns, gain [E].
+Happy Flower???|Event|Any|-|The Merchant???|∅|∅|∅|Every 5 turns, gain [E].
+Hefty Tablet|Ancient|Any|Neow|-|∅|∅|∅|Choose 1 of 3 Rare cards to add to your Deck. Add 1 Injury to your Deck.
+Helical Dart|Rare|Silent|-|-|∅|∅|∅|Whenever you play a Shiv, gain 1 Dexterity this turn.
+History Course|Event|Any|-|War Historian, Repy|∅|∅|∅|At the start of your turn, play a copy of your last played Attack.
+Horn Cleat|Uncommon|Any|-|-|∅|∅|∅|At the start of your 2nd turn, gain 14 Block.
+Ice Cream|Rare|Any|-|-|∅|∅|∅|Energy is now conserved between turns.
+Infused Core|Starter|Defect|-|-|∅|∅|AncientUpgrade|At the start of each combat, Channel 3 Lightning. / Lightning Orbs deal 1 additional damage.
+Intimidating Helmet|Rare|Any|-|-|∅|∅|∅|Whenever you play a card that costs [E] [E] or more, gain 4 Block.
+Iron Club|Ancient|Any|Tanx|-|∅|∅|∅|Every 4 cards you play, draw 1 card.
+Ivory Tile|Rare|Necrobinder|-|-|∅|∅|∅|Whenever you play a card that costs [E][E][E] or more, gain [E].
+Jeweled Mask|Ancient|Any|Vakuu|-|∅|∅|∅|At the start of each combat put a random Power from your Draw Pile into your Hand. It's free to play this combat.
+Jewelry Box|Ancient|Any|Nonupeipe|-|∅|∅|∅|Upon pickup, add 1 Apotheosis to your Deck.
+Joss Paper|Uncommon|Any|-|-|∅|∅|∅|Every 5 times you Exhaust a card, draw 1 card.
+Juzu Bracelet|Common|Any|-|-|∅|∅|∅|Regular enemy combats are no longer encountered in ? Rooms.
+Kaleidoscope|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, obtain 2 card rewards from other characters.
+Kifuda|Shop|Any|-|-|∅|∅|∅|Upon pickup, Enchant up to 3 cards with Adroit.
+Kunai|Rare|Any|-|-|∅|∅|∅|Every time you play 3 Attacks in a single turn, gain 1 Dexterity.
+Kusarigama|Uncommon|Any|-|-|∅|∅|∅|Every time you play 3 Attacks in a single turn, deal 6 damage to a random enemy.
+Lantern|Common|Any|-|-|∅|∅|∅|Start each combat with an additional [E].
+Large Capsule|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, obtain 2 random Relics. Add an additional Strike and Defend to your Deck.
+Lasting Candy|Uncommon|Any|-|-|∅|∅|∅|Every other combat, your card rewards gain an additional Power.
+Lava Lamp|Shop|Any|-|-|∅|∅|∅|At the end of combat, Upgrade all card rewards if you took no damage.
+Lava Rock|Ancient|Any|Neow|-|∅|∅|∅|The Act 1 Boss drops 2 Relics.
+Lead Paperweight|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, choose 1 of 2 Colorless cards to add to your Deck.
+Leafy Poultice|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, Transform 1 of your Strikes and 1 of your Defends and lose 12 Max HP.
+Lee's Waffle|Shop|Any|-|-|∅|∅|∅|Upon pickup, raise your Max HP by 7 and heal all of your HP.
+Lee's Waffle???|Event|Any|-|The Merchant???|∅|∅|∅|Upon pickup, heal 10% of your HP.
+Letter Opener|Uncommon|Any|-|-|∅|∅|∅|Every time you play 3 Skills in a single turn, deal 5 damage to ALL enemies.
+Lizard Tail|Rare|Any|-|-|∅|∅|∅|When your HP would be reduced to 0, heal to 50% of your Max HP instead (works once).
+Looming Fruit|Ancient|Any|Nonupeipe|-|∅|∅|∅|Upon pickup, raise your Max HP by 31.
+Lord's Parasol|Ancient|Any|Vakuu|-|∅|∅|∅|When you encounter the Merchant, immediately obtain EVERYTHING he sells.
+Lost Coffer|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, gain 1 card reward and procure 1 random Potion.
+Lost Wisp|Event|Any|-|The Lost Wisp|∅|∅|∅|Whenever you play a Power, deal 8 damage to ALL enemies.
+Lucky Fysh|Uncommon|Any|-|-|∅|∅|∅|Whenever you add a card to your Deck, gain 15 Gold.
+Lunar Pastry|Rare|Regent|-|-|∅|∅|∅|At the end of your turn, gain [STAR].
+Mango|Rare|Any|-|-|∅|∅|∅|Upon pickup, raise your Max HP by 14.
+Mango???|Event|Any|-|The Merchant???|∅|∅|∅|Upon pickup, raise your Max HP by 3.
+Massive Scroll|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, choose 1 of 3 Multiplayer Cards to add to your Deck.
+Maw Bank|Event|Any|-|Trash Heap|∅|∅|∅|Whenever you climb a floor, gain 12 Gold. No longer works when you spend any Gold at the shop.
+Meal Ticket|Common|Any|-|-|∅|∅|∅|Whenever you enter a shop room, heal 15 HP.
+Meat Cleaver|Ancient|Any|Tanx|-|∅|∅|∅|You may Cook at Rest Sites.
+Meat on the Bone|Rare|Any|-|-|∅|∅|∅|If your HP is at or below 50% at the end of combat, heal 12 HP.
+Membership Card|Shop|Any|-|-|∅|∅|∅|50% discount on all products!
+Mercury Hourglass|Uncommon|Any|-|-|∅|∅|∅|At the start of your turn, deal 3 damage to ALL enemies.
+Metronome|Rare|Defect|-|-|∅|∅|∅|The first time you Channel 7 Orbs each combat, deal 30 damage to ALL enemies.
+Mini Regent|Rare|Regent|-|-|∅|∅|∅|The first time you spend [STAR] each turn, gain 1 Strength.
+Miniature Cannon|Uncommon|Any|-|-|∅|∅|∅|Upgraded Attacks deal 3 additional damage.
+Miniature Tent|Shop|Any|-|-|∅|∅|∅|You may choose any number of options at Rest Sites.
+Molten Egg|Rare|Any|-|-|∅|∅|∅|Whenever you add an Attack card to your Deck, Upgrade it.
+Mr. Struggles|Event|Any|-|Doll Room|∅|∅|∅|At the start of your turn, deal damage equal to the turn number to ALL enemies.
+Mummified Hand|Rare|Any|-|-|∅|∅|∅|Whenever you play a Power, a random card in your Hand is free to play that turn.
+Music Box|Ancient|Any|Vakuu|-|∅|∅|∅|Create an Ethereal copy of the first Attack you play each turn.
+Mystic Lighter|Shop|Any|-|-|∅|∅|∅|Enchanted Attacks deal 9 additional damage.
+Neow's Bones|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, gain 2 random Neow Relics. Add 1 random Curse to your Deck.
+Neow's Sacrifice|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, procure 1 Ambergris and 1 Guilty to your Deck.
+Neow's Talisman|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, Upgrade 1 of your Strikes and 1 of your Defends.
+Neow's Torment|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, add 1 Neow's Fury to your Deck.
+New Leaf|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, Transform 1 card.
+Ninja Scroll|Shop|Silent|-|-|∅|∅|∅|At the start of each combat, add 3 Shivs into your Hand.
+Nunchaku|Uncommon|Any|-|-|∅|∅|∅|Every time you play 10 Attacks, gain [E].
+Nutritious Oyster|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, raise your Max HP by 11.
+Nutritious Soup|Ancient|Any|Tezcatara|-|∅|∅|∅|Upon pickup, Enchant all Strikes in your Deck with Tezcatara's Ember.
+Oddly Smooth Stone|Common|Any|-|-|∅|∅|∅|Start each combat with 1 Dexterity.
+Old Coin|Rare|Any|-|-|∅|∅|∅|Upon pickup, gain 300 Gold.
+Orange Dough|Rare|Regent|-|-|∅|∅|∅|At the start of each combat, add 2 random Colorless cards into your Hand.
+Orichalcum|Uncommon|Any|-|-|∅|∅|∅|If you end your turn without Block, gain 6 Block.
+Orichalcum???|Event|Any|-|The Merchant???|∅|∅|∅|If you end your turn without Block, gain 3 Block.
+Ornamental Fan|Uncommon|Any|-|-|∅|∅|∅|Every time you play 3 Attacks in a single turn, gain 4 Block.
+Orrery|Shop|Any|-|-|∅|∅|∅|Upon pickup, gain 5 card rewards.
+Pael's Blood|Ancient|Any|Pael|-|∅|∅|∅|At the start of your turn, draw 1 additional card.
+Pael's Claw|Ancient|Any|Pael|-|∅|∅|∅|Upon pickup, Enchant all Defends with Goopy.
+Pael's Eye|Ancient|Any|Pael|-|∅|∅|∅|The first time each combat you end your turn without playing cards, Exhaust your Hand, and take an extra turn.
+Pael's Flesh|Ancient|Any|Pael|-|∅|∅|∅|Gain an additional [E] at the start of your 3rd turn, and every turn after that.
+Pael's Growth|Ancient|Any|Pael|-|∅|∅|∅|Upon pickup, Enchant a card with Clone.
+Pael's Horn|Ancient|Any|Pael|-|∅|∅|∅|Upon pickup, add 2 Relax to your Deck.
+Pael's Legion|Ancient|Any|Pael|-|∅|∅|∅|Doubles Block gained from a card, then goes to sleep for 2 turns.
+Pael's Tears|Ancient|Any|Pael|-|∅|∅|∅|If you end your turn with unspent [E], gain an additional [E] [E] next turn.
+Pael's Tooth|Ancient|Any|Pael|-|∅|∅|∅|Upon pickup, remove 5 cards from your Deck. After each combat, randomly add 1 back Upgraded.
+Pael's Wing|Ancient|Any|Pael|-|∅|∅|∅|You may sacrifice card rewards to Pael. Every 2 sacrifices, obtain a Relic.
+Pandora's Box|Ancient|Any|Darv|-|∅|∅|∅|Transform ALL Strikes and Defends.
+Pantograph|Uncommon|Any|-|-|∅|∅|∅|At the start of each Boss combat, heal 25 HP.
+Paper Krane|Rare|Silent|-|-|∅|∅|∅|Enemies with Weak deal 40% less damage to you rather than 25%.
+Paper Phrog|Uncommon|Ironclad|-|-|∅|∅|∅|Enemies with Vulnerable take 75% more damage rather than 50%.
+Parrying Shield|Uncommon|Any|-|-|∅|∅|∅|If you end a turn with at least 10 Block, deal 6 damage to a random enemy.
+Pear|Uncommon|Any|-|-|∅|∅|∅|Upon pickup, raise your Max HP by 10.
+Pen Nib|Uncommon|Any|-|-|∅|∅|∅|Every 10th Attack you play deals double damage.
+Pendulum|Common|Any|-|-|∅|∅|∅|Every 3 turns, draw 1 card.
+Permafrost|Uncommon|Any|-|-|∅|∅|∅|The first time you play a Power each combat, gain 7 Block.
+Petrified Toad|Uncommon|Any|-|-|∅|∅|∅|At the start of each combat, procure a Potion-Shaped Rock.
+Phial Holster|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, gain 1 potion slot and procure 2 random Potion.
+Philosopher's Stone|Ancient|Any|Darv|-|∅|∅|∅|Gain [E] at the start of each turn. ALL enemies start combat with 1 Strength.
+Phylactery Unbound|Starter|Necrobinder|-|-|∅|∅|AncientUpgrade|At the start of each combat, Summon 5. At the start of your turn, Summon 2.
+Planisphere|Uncommon|Any|-|-|∅|∅|∅|Whenever you enter a ? room, heal 5 HP.
+Pocketwatch|Rare|Any|-|-|∅|∅|∅|Whenever you play 3 or fewer cards during your turn, draw 3 additional cards at the start of your next turn.
+Pollinous Core|Event|Any|-|Colossal Flower|∅|∅|∅|Every 4 turns, draw 2 additional cards.
+Pomander|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, Upgrade a card.
+Potion Belt|Common|Any|-|-|∅|∅|∅|Upon pickup, gain 2 potion slots.
+Power Cell|Rare|Defect|-|-|∅|∅|∅|At the start of each combat, add 2 zero-cost cards from your Draw Pile into your Hand.
+Prayer Wheel|Rare|Any|-|-|∅|∅|∅|Normal enemies drop an additional card reward.
+Precarious Shears|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, remove 2 cards from your Deck and take 16 damage.
+Precise Scissors|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, remove 1 card from your Deck.
+Preserved Fog|Ancient|Any|Vakuu|-|∅|∅|∅|Upon pickup, remove 3 cards from your Deck. Add Folly to your Deck.
+Prismatic Gem|Ancient|Any|Orobas|-|∅|∅|∅|Gain [E] at the start of each turn. Card rewards now contain cards from other colors.
+Pumpkin Candle|Ancient|Any|Tezcatara|-|∅|∅|∅|Gain [E] at the start of each turn. Extinguishes after 5 combats. Can be Kindled at Rest Sites.
+Punch Dagger|Shop|Any|-|-|∅|∅|∅|Upon pickup, Enchant an Attack with Momentum 5.
+Radiant Pearl|Ancient|Any|Orobas|-|∅|∅|∅|At the start of each combat, add 1 Luminesce into your Hand.
+Rainbow Ring|Rare|Any|-|-|∅|∅|∅|The first time you play an Attack, Skill, and Power each turn, gain 1 Strength and 1 Dexterity.
+Razor Tooth|Rare|Any|-|-|∅|∅|∅|Every time you play an Attack or Skill, Upgrade it for the remainder of combat.
+Red Mask|Common|Any|-|-|∅|∅|∅|At the start of combat, apply 1 Weak to ALL enemies.
+Red Skull|Common|Ironclad|-|-|∅|∅|∅|While your HP is at or below 50%, you have 3 additional Strength.
+Regal Pillow|Common|Any|-|-|∅|Can only be obtained below floor 49.|∅|Whenever you Rest, heal an additional 15 HP.
+Regalite|Uncommon|Regent|-|-|∅|∅|∅|The first time you create a card each turn, gain 4 Block.
+Reptile Trinket|Uncommon|Any|-|-|∅|∅|∅|Whenever you use a Potion, gain 3 Strength this turn.
+Ring of the Drake|Starter|Silent|-|-|∅|∅|AncientUpgrade|At the start of your first 3 turns, draw 2 additional cards.
+Ring of the Snake|Starter|Silent|-|-|∅|∅|∅|At the start of each combat, draw 2 additional cards.
+Ringing Triangle|Shop|Any|-|-|∅|∅|∅|Retain your Hand on the first turn of combat.
+Ripple Basin|Uncommon|Any|-|-|∅|∅|∅|If you did not play any Attacks during your turn, gain 4 Block.
+Royal Poison|Event|Any|-|The Round Tea Party|∅|∅|∅|At the start of each combat, lose 4 HP.
+Royal Stamp|Shop|Any|-|-|∅|∅|∅|Upon pickup, choose an Attack or Skill in your Deck to Enchant with Royally Approved.
+Ruined Helmet|Rare|Ironclad|-|-|∅|∅|∅|The first time you gain Strength each combat, double the amount gained.
+Runic Capacitor|Shop|Defect|-|-|∅|∅|∅|Start each combat with 3 additional Orb Slots.
+Runic Pyramid|Ancient|Any|Darv|-|∅|∅|∅|At the end of your turn, you no longer discard your Hand.
+Sai|Ancient|Any|Tanx|-|∅|∅|∅|At the start of your turn, gain 7 Block.
+Sand Castle|Ancient|Any|Orobas|-|∅|∅|∅|Upon pickup, Upgrade 6 random cards.
+Screaming Flagon|Shop|Any|-|-|∅|∅|∅|If you end your turn with no cards in your Hand, deal 20 damage to ALL enemies.
+Scroll Boxes|Ancient|Any|Neow|-|∅|∅|∅|Choose 1 of 2 packs of cards to add to your Deck.
+Sea Glass|Ancient|Any|Orobas|-|∅|∅|∅|See 15 cards from another character. Choose any number of them to add to your Deck.
+Seal of Gold|Ancient|Any|Tezcatara|-|∅|∅|∅|At the start of your turn, spend 3 Gold to gain [E].
+Self-Forming Clay|Uncommon|Ironclad|-|-|∅|∅|∅|Whenever you lose HP in combat, gain 3 Block next turn.
+Sere Talon|Ancient|Any|Vakuu|-|∅|∅|∅|Upon pickup, lose 9 Max HP. Add 3 Wishes to your Deck.
+Shovel|Rare|Any|-|-|∅|∅|∅|You can now dig at Rest Site to obtain a random Relic.
+Shuriken|Rare|Any|-|-|∅|∅|∅|Every time you play 3 Attacks in a single turn, gain 1 Strength.
+Signet Ring|Ancient|Any|Nonupeipe|-|∅|∅|∅|Upon pickup, gain 888 Gold.
+Silken Tress|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, lose all Gold. Enchant all cards in your first card reward with Glam.
+Silver Crucible|Ancient|Any|Neow|-|∅|∅|∅|The first 3 card rewards you see are Upgraded. The first Treasure Chest you open is empty.
+Sling of Courage|Shop|Any|-|-|∅|∅|∅|Start each Elite combat with 2 Strength.
+Small Capsule|Ancient|Any|Neow|-|∅|∅|∅|Upon pickup, obtain a random Relic.
+Snecko Eye|Ancient|Any|Darv|-|∅|∅|∅|At the start of your turn, draw 2 additional cards. Start each combat Confused.
+Snecko Eye???|Event|Any|-|The Merchant???|∅|∅|∅|Start each combat Confused.
+Snecko Skull|Common|Silent|-|-|∅|∅|∅|Whenever you apply Poison, apply an additional 1 Poison.
+Sozu|Ancient|Any|Darv|-|∅|∅|∅|Gain [E] at the start of each turn. You can no longer obtain Potions.
+Sparkling Rouge|Uncommon|Any|-|-|∅|∅|∅|At the start of your 3rd turn, gain 1 Strength and 1 Dexterity.
+Spiked Gauntlets|Ancient|Any|Tanx|-|∅|∅|∅|Gain [E] at the start of each turn. Powers cost 1 more [E].
+Stone Calendar|Rare|Any|-|-|∅|∅|∅|At the end of turn 7, deal 52 damage to ALL enemies.
+Stone Cracker|Uncommon|Any|-|-|∅|∅|∅|At the start of combat, Upgrade 2 random cards in your Draw Pile for the rest of combat.
+Stone Humidifier|Ancient|Any|Neow|-|∅|∅|∅|Whenever you Rest at a Rest Site, raise your Max HP by 5.
+Storybook|Ancient|Any|Tezcatara|-|∅|∅|∅|Upon pickup, add 1 Brightest Flame to your Deck.
+Strawberry|Common|Any|-|-|∅|∅|∅|Upon pickup, raise your Max HP by 7.
+Strike Dummy|Common|Any|-|-|∅|∅|∅|Cards containing “Strike” deal 3 additional damage.
+Strike Dummy???|Event|Any|-|The Merchant???|∅|∅|∅|Cards containing “Strike” deal 1 additional damage.
+Sturdy Clamp|Rare|Any|-|-|∅|∅|∅|Up to 10 Block persists across turns.
+Sword of Jade|Event|Any|-|The Sunken Statue|∅|∅|∅|Start each combat with 3 Strength.
+Sword of Stone|Event|Any|-|The Sunken Statue|∅|∅|∅|Transforms into a powerful Relic after defeating 5 Elites.
+Symbiotic Virus|Uncommon|Defect|-|-|∅|∅|∅|At the start of each combat, Channel 1 Dark.
+Tanx's Whistle|Ancient|Any|Tanx|-|∅|∅|∅|Upon pickup, add 1 Whistle to your Deck.
+Tea of Discourtesy|Event|Any|-|Tea Master|∅|∅|∅|At the start of the next combat, shuffle 2 Dazed into your Draw Pile.
+The Abacus|Shop|Any|-|-|∅|∅|∅|Whenever you shuffle your Draw Pile, gain 6 Block.
+The Boot|Event|Any|-|Trash Heap|∅|∅|∅|Whenever you would deal 4 or less unblocked attack damage, increase it to 5.
+The Chosen Cheese|Event|Any|-|Room Full of Cheese|∅|∅|∅|At the end of combat, gain 1 Max HP.
+The Courier|Rare|Any|-|-|∅|∅|∅|The merchant no longer runs out of cards, relics, or Potion and his prices are reduced by 20%.
+The Merchant's Rug???|Event|Any|-|The Merchant???|∅|∅|∅|Poor imitation. Does nothing.
+Throwing Axe|Ancient|Any|Tanx|-|∅|∅|∅|The first card you play each combat is played an extra time.
+Tingsha|Uncommon|Silent|-|-|∅|∅|∅|Whenever you discard a card during your turn, deal 3 damage to a random enemy for each card discarded.
+Tiny Mailbox|Uncommon|Any|-|-|∅|∅|∅|Whenever you Rest, procure 2 random Potions.
+Toasty Mittens|Ancient|Any|Tezcatara|-|∅|∅|∅|At the start of your turn, Exhaust 1 card from your Hand and gain 1 Strength.
+Toolbox|Shop|Any|-|-|∅|∅|∅|At the start of each combat, choose 1 of 3 random Colorless cards and add the chosen card into your Hand.
+Touch of Orobas|Ancient|Any|Orobas|-|∅|∅|∅|Upon pickup, replace your starter Relic with an Ancient version.
+Tough Bandages|Rare|Silent|-|-|∅|∅|∅|Whenever you discard a card during your turn, gain 3 Block.
+Toxic Egg|Rare|Any|-|-|∅|∅|∅|Whenever you add a Skill into your Deck, Upgrade it.
+Toy Box|Ancient|Any|Tezcatara|-|∅|∅|∅|Upon pickup, obtain 5 Wax Relics. Every 3 combats, your left-most Wax Relic will melt away.
+Tri-Boomerang|Ancient|Any|Tanx|-|∅|∅|∅|Choose 3 Attacks in your Deck. Enchant them with Instinct.
+Tungsten Rod|Rare|Any|-|-|∅|∅|∅|Whenever you would lose HP, lose 1 less.
+Tuning Fork|Uncommon|Any|-|-|∅|∅|∅|Every time you play 10 Skills, gain 7 Block.
+Twisted Funnel|Uncommon|Silent|-|-|∅|∅|∅|At the start of each combat, apply 4 Poison to ALL enemies.
+Unceasing Top|Rare|Any|-|-|∅|∅|∅|Whenever you have no cards in Hand during your turn, draw a card.
+Undying Sigil|Shop|Necrobinder|-|-|∅|∅|∅|Enemies with at least as much Doom as HP deal 50% less damage.
+Unsettling Lamp|Rare|Any|-|-|∅|∅|∅|Each combat, the first time you play a card that Debuffs an enemy, double its effect.
+Vajra|Common|Any|-|-|∅|∅|∅|Start each combat with 1 Strength.
+Vambrace|Uncommon|Any|-|-|∅|∅|∅|The first time you gain Block from a card each combat, double the amount gained.
+Velvet Choker|Ancient|Any|Darv|-|∅|∅|∅|Gain [E] at the start of each turn. You cannot play more than 6 cards per turn.
+Venerable Tea Set|Common|Any|-|-|∅|∅|∅|Whenever you enter a Rest Site, start the next combat with an additional [E] [E].
+Venerable Tea Set???|Event|Any|-|The Merchant???|∅|∅|∅|Whenever you enter a Rest Site, start the next combat with an additional [E].
+Very Hot Cocoa|Ancient|Any|Tezcatara|-|∅|∅|∅|Start each combat with an additional 4[E].
+Vexing Puzzlebox|Rare|Any|-|-|∅|∅|∅|At the start of each combat, add a random card into your Hand. It's free to play this turn.
+Vitruvian Minion|Shop|Regent|-|-|∅|∅|∅|Cards containing "Minion" deal double damage and gain double Block.
+War Hammer|Ancient|Any|Tanx|-|∅|∅|∅|Whenever you kill an Elite, Upgrade 4 random cards.
+War Paint|Common|Any|-|-|∅|∅|∅|Upon pickup, Upgrade 2 random Skills.
+Whetstone|Common|Any|-|-|∅|∅|∅|Upon pickup, Upgrade 2 random Attacks.
+Whispering Earring|Ancient|Any|Vakuu|-|∅|∅|∅|Gain [E] at the start of each turn. Vakuu plays your first turn for you.
+White Beast Statue|Rare|Any|-|-|∅|∅|∅|Potions always appear in combat rewards.
+White Star|Rare|Any|-|-|∅|∅|∅|Elites drop an additional Rare card reward.
+Wing Charm|Shop|Any|-|-|∅|∅|∅|A random card in each card reward is Enchanted with Swift 1.
+Winged Boots|Ancient|Any|Neow|-|∅|∅|∅|You may ignore paths when choosing the next rooms to travel to 3 times.
+Wongo Customer Appreciation Badge|Event|Any|-|Welcome to Wongo's|∅|∅|∅|Does nothing.
+Wongo's Mystery Ticket|Event|Any|-|Welcome to Wongo's|∅|∅|∅|Receive 3 random Relics after 5 combats.
+Yummy Cookie|Ancient|Any|Tezcatara|-|∅|∅|∅|Upon pickup, Upgrade 4 cards.

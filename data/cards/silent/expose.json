@@ -1,0 +1,21 @@
+{
+  "id": "expose",
+  "code": "Es",
+  "name": "Expose",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Remove all Artifact and Block from the enemy. / Apply 2 Vulnerable. / Exhaust.",
+  "upgradedDescription": "Remove all Artifact and Block from the enemy. / Apply 3 Vulnerable. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

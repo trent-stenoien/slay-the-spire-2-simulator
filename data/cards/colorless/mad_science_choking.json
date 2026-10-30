@@ -1,0 +1,23 @@
+{
+  "id": "mad_science_choking",
+  "code": "Md",
+  "name": "Mad Science (Choking)",
+  "type": "attack",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate"
+    ]
+  },
+  "description": "Deal 12 damage. / Whenever you play a card this turn, the enemy loses 6 HP.",
+  "upgradedDescription": "Innate. / Deal 12 damage. / Whenever you play a card this turn, the enemy loses 6 HP.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

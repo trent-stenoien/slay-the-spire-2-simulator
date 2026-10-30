@@ -1,0 +1,19 @@
+{
+  "id": "capture_spirit",
+  "code": "CS",
+  "name": "Capture Spirit",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Enemy loses 3 HP. / Add 3 Souls into your Draw Pile.",
+  "upgradedDescription": "Enemy loses 4 HP. / Add 4 Souls into your Draw Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

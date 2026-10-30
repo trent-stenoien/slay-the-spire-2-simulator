@@ -1,0 +1,21 @@
+{
+  "id": "impervious",
+  "code": "Ie",
+  "name": "Impervious",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 30 Block. / Exhaust.",
+  "upgradedDescription": "Gain 40 Block. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

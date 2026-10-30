@@ -23,8 +23,8 @@ const CARD_KEYWORDS = ['unplayable', 'ethereal', 'eternal', 'exhaust', 'retain',
 const SIMULATED_KEYWORDS = new Set(['unplayable', 'ethereal', 'eternal', 'exhaust']);
 const UNSIMULATED_EFFECTS = new Set(['gainStars']);
 const CHARACTER_CODES = ['I', 'S', 'D', 'N', 'R'] as const;
-const ZONES = ['overgrowth', 'underdocks'] as const;
-const DIFFICULTIES = ['easy', 'normal', 'elite', 'boss'] as const;
+const ZONES = ['overgrowth', 'underdocks', 'hive', 'glory'] as const;
+const DIFFICULTIES = ['easy', 'normal', 'elite', 'boss', 'minion', 'event'] as const;
 const PATTERN_STARTS = ['first', 'random'] as const;
 const AMOUNT_EFFECTS = [
   'gainBlock',
@@ -214,6 +214,7 @@ function checkCard(r: Reporter, c: Obj): void {
   if (c.cost !== null) r.int(c, 'cost', 0);
   r.bool(c, 'xCost');
   if (c.starCost !== null) r.int(c, 'starCost', 0);
+  if ('xStarCost' in c && c.xStarCost !== undefined) r.bool(c, 'xStarCost');
   r.str(c, 'description');
   if (c.upgradedDescription !== null) r.str(c, 'upgradedDescription');
   if ((c.upgraded === null) !== (c.upgradedDescription === null)) {

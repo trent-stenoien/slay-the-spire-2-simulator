@@ -1,0 +1,21 @@
+{
+  "id": "not_yet",
+  "code": "NY",
+  "name": "Not Yet",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Heal 10 HP. / Exhaust.",
+  "upgradedDescription": "Heal 13 HP. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

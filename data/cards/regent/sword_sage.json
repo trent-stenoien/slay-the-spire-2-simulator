@@ -1,0 +1,21 @@
+{
+  "id": "sword_sage",
+  "code": "AI",
+  "name": "Sword Sage",
+  "type": "power",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 1
+  },
+  "description": "Sovereign Blade gains Replay 1.",
+  "upgradedDescription": "Sovereign Blade gains Replay 1.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

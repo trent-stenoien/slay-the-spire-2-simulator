@@ -1,0 +1,19 @@
+{
+  "id": "backflip",
+  "code": "Bc",
+  "name": "Backflip",
+  "type": "skill",
+  "rarity": "common",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 5 Block. / Draw 2 cards.",
+  "upgradedDescription": "Gain 8 Block. / Draw 2 cards.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

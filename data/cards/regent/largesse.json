@@ -1,0 +1,19 @@
+{
+  "id": "largesse",
+  "code": "La",
+  "name": "Largesse",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Another player adds 1 random Colorless card to their Hand.",
+  "upgradedDescription": "Another player adds 1 random Upgraded Colorless card to their Hand.",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

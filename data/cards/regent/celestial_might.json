@@ -1,0 +1,19 @@
+{
+  "id": "celestial_might",
+  "code": "CM",
+  "name": "Celestial Might",
+  "type": "attack",
+  "rarity": "common",
+  "character": "R",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 6 damage 3 times.",
+  "upgradedDescription": "Deal 6 damage 4 times.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

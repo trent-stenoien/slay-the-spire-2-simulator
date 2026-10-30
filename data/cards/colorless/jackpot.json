@@ -1,0 +1,19 @@
+{
+  "id": "jackpot",
+  "code": "Ja",
+  "name": "Jackpot",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "colorless",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 25 damage. / Add 3 random 0 [E] cards into your Hand.",
+  "upgradedDescription": "Deal 30 damage. / Add 3 random Upgraded 0 [E] cards into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

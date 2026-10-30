@@ -1,0 +1,19 @@
+{
+  "id": "armaments",
+  "code": "Am",
+  "name": "Armaments",
+  "type": "skill",
+  "rarity": "common",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 5 Block. / Upgrade a card in your Hand.",
+  "upgradedDescription": "Gain 5 Block. / Upgrade ALL cards in your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "bundle_of_joy",
+  "code": "B8",
+  "name": "Bundle of Joy",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Add 3 random Colorless cards into your Hand. / Exhaust.",
+  "upgradedDescription": "Add 4 random Colorless cards into your Hand. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

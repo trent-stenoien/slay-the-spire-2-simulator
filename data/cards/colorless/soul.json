@@ -1,0 +1,21 @@
+{
+  "id": "soul",
+  "code": "SA",
+  "name": "Soul",
+  "type": "skill",
+  "rarity": "token",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Draw 2 cards. / Exhaust.",
+  "upgradedDescription": "Draw 3 cards. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

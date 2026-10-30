@@ -1,0 +1,21 @@
+{
+  "id": "enfeebling_touch",
+  "code": "ET",
+  "name": "Enfeebling Touch",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "ethereal"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Ethereal. / Enemy loses 8 Strength this turn.",
+  "upgradedDescription": "Ethereal. / Enemy loses 11 Strength this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "iron_wave",
+  "code": "IW",
+  "name": "Iron Wave",
+  "type": "attack",
+  "rarity": "common",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 5 Block. / Deal 5 damage.",
+  "upgradedDescription": "Gain 7 Block. / Deal 7 damage.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

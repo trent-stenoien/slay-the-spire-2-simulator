@@ -1,0 +1,23 @@
+{
+  "id": "demonic_shield",
+  "code": "Dn",
+  "name": "Demonic Shield",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": []
+  },
+  "description": "Lose 1 HP. / Give another player Block equal to your Block. / Exhaust.",
+  "upgradedDescription": "Lose 1 HP. / Give another player Block equal to your Block.",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

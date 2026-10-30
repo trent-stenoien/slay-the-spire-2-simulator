@@ -1,0 +1,23 @@
+{
+  "id": "sovereign_blade",
+  "code": "SG",
+  "name": "Sovereign Blade",
+  "type": "attack",
+  "rarity": "token",
+  "character": "colorless",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "retain"
+  ],
+  "effects": [],
+  "upgraded": {
+    "cost": 1
+  },
+  "description": "Retain. / Deal 10 damage.",
+  "upgradedDescription": "Retain. / Deal 10 damage.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

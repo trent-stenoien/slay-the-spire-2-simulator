@@ -1,0 +1,19 @@
+{
+  "id": "collision_course",
+  "code": "CC",
+  "name": "Collision Course",
+  "type": "attack",
+  "rarity": "common",
+  "character": "R",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 10 damage. / Add a Debris into your Hand.",
+  "upgradedDescription": "Deal 14 damage. / Add a Debris into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

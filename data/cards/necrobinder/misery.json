@@ -1,0 +1,23 @@
+{
+  "id": "misery",
+  "code": "Mp",
+  "name": "Misery",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "retain"
+    ]
+  },
+  "description": "Deal 7 damage. / Apply any debuffs on the enemy to ALL other enemies.",
+  "upgradedDescription": "Retain. / Deal 9 damage. / Apply any debuffs on the enemy to ALL other enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

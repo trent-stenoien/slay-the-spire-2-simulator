@@ -1,0 +1,24 @@
+{
+  "id": "folly",
+  "code": "Fy",
+  "name": "Folly",
+  "type": "curse",
+  "rarity": "curse",
+  "character": "colorless",
+  "cost": null,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "unplayable",
+    "ethereal",
+    "innate",
+    "eternal"
+  ],
+  "effects": [],
+  "upgraded": null,
+  "description": "Unplayable. / Ethereal. / Innate. / Eternal.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

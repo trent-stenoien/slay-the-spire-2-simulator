@@ -1,0 +1,21 @@
+{
+  "id": "malaise",
+  "code": "Ml",
+  "name": "Malaise",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 0,
+  "xCost": true,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Enemy loses X Strength. / Apply X Weak. / Exhaust.",
+  "upgradedDescription": "Enemy loses X+1 Strength. / Apply X+1 Weak. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

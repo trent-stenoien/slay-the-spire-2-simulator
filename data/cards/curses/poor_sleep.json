@@ -1,0 +1,22 @@
+{
+  "id": "poor_sleep",
+  "code": "Pb",
+  "name": "Poor Sleep",
+  "type": "curse",
+  "rarity": "curse",
+  "character": "colorless",
+  "cost": null,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "unplayable",
+    "retain"
+  ],
+  "effects": [],
+  "upgraded": null,
+  "description": "Unplayable. / Retain.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

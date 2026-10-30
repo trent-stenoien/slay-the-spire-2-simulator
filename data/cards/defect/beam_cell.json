@@ -1,0 +1,19 @@
+{
+  "id": "beam_cell",
+  "code": "Be",
+  "name": "Beam Cell",
+  "type": "attack",
+  "rarity": "common",
+  "character": "D",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 3 damage. / Apply 1 Vulnerable.",
+  "upgradedDescription": "Deal 4 damage. / Apply 2 Vulnerable.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "dazed",
+  "code": "Dz",
+  "name": "Dazed",
+  "type": "status",
+  "rarity": "status",
+  "character": "colorless",
+  "cost": null,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "unplayable",
+    "ethereal"
+  ],
+  "effects": [],
+  "upgraded": null,
+  "description": "Unplayable. / Ethereal.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

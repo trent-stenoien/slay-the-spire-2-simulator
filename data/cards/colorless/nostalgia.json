@@ -1,0 +1,21 @@
+{
+  "id": "nostalgia",
+  "code": "Ns",
+  "name": "Nostalgia",
+  "type": "power",
+  "rarity": "rare",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 0
+  },
+  "description": "The first Attack or Skill you play each turn is placed on top of your Draw Pile.",
+  "upgradedDescription": "The first Attack or Skill you play each turn is placed on top of your Draw Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

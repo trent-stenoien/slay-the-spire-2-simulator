@@ -1,0 +1,22 @@
+{
+  "id": "purity",
+  "code": "P0",
+  "name": "Purity",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "retain",
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Retain. / Exhaust up to 3 cards in your Hand. / Exhaust.",
+  "upgradedDescription": "Retain. / Exhaust up to 5 cards in your Hand. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

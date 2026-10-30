@@ -1,0 +1,23 @@
+{
+  "id": "underworld",
+  "code": "Ud",
+  "name": "Underworld",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": []
+  },
+  "description": "Whenever other players deal attack damage this turn, apply that much Doom. / Exhaust.",
+  "upgradedDescription": "Whenever other players deal attack damage this turn, apply that much Doom.",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

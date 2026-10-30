@@ -127,7 +127,8 @@ function main() {
       character,
       cost,
       xCost,
-      starCost: r.StarCost === '' ? null : Number(r.StarCost),
+      starCost: r.StarCost === '' ? null : Number(r.StarCost) === -1 ? 0 : Number(r.StarCost),
+      ...(r.StarCost === '-1' ? { xStarCost: true } : {}),
       keywords,
       description: baseText,
       upgradedDescription: noUpgrade ? null : upText,
@@ -161,7 +162,7 @@ function main() {
 
 /** Stable key order matching the hand-written files. */
 function order(c) {
-  const keys = ['id', 'code', 'name', 'type', 'rarity', 'character', 'cost', 'xCost', 'starCost', 'keywords', 'effects', 'upgraded', 'description', 'upgradedDescription', 'simulated', 'multiplayerOnly', 'lastUpdateVersion'];
+  const keys = ['id', 'code', 'name', 'type', 'rarity', 'character', 'cost', 'xCost', 'starCost', 'xStarCost', 'keywords', 'effects', 'upgraded', 'description', 'upgradedDescription', 'simulated', 'multiplayerOnly', 'lastUpdateVersion'];
   const out = {};
   for (const k of keys) if (k in c) out[k] = c[k];
   for (const k of Object.keys(c)) if (!(k in out)) out[k] = c[k];

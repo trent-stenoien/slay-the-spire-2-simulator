@@ -1,0 +1,21 @@
+{
+  "id": "huddle_up",
+  "code": "HU",
+  "name": "Huddle Up",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "ALL players draw 2 cards. / Exhaust.",
+  "upgradedDescription": "ALL players draw 3 cards. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "thinking_ahead",
+  "code": "Ti",
+  "name": "Thinking Ahead",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": []
+  },
+  "description": "Draw 2 cards. / Put 1 card from your Hand on top of your Draw Pile. / Exhaust.",
+  "upgradedDescription": "Draw 2 cards. / Put 1 card from your Hand on top of your Draw Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

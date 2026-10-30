@@ -1,0 +1,19 @@
+{
+  "id": "rip_and_tear",
+  "code": "RA",
+  "name": "Rip and Tear",
+  "type": "attack",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 7 damage to a random enemy twice.",
+  "upgradedDescription": "Deal 9 damage to a random enemy twice.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

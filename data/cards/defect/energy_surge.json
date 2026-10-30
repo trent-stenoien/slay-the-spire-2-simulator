@@ -1,0 +1,21 @@
+{
+  "id": "energy_surge",
+  "code": "En",
+  "name": "Energy Surge",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "ALL players gain [E][E]. / Exhaust.",
+  "upgradedDescription": "ALL players gain [E][E][E]. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

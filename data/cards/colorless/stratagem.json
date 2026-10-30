@@ -1,0 +1,21 @@
+{
+  "id": "stratagem",
+  "code": "A4",
+  "name": "Stratagem",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 0
+  },
+  "description": "Whenever you shuffle your Draw Pile, choose a card from it to put into your Hand.",
+  "upgradedDescription": "Whenever you shuffle your Draw Pile, choose a card from it to put into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

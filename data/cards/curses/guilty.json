@@ -1,0 +1,21 @@
+{
+  "id": "guilty",
+  "code": "Gy",
+  "name": "Guilty",
+  "type": "curse",
+  "rarity": "curse",
+  "character": "colorless",
+  "cost": null,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "unplayable"
+  ],
+  "effects": [],
+  "upgraded": null,
+  "description": "Unplayable. / Removed from your Deck after 5 combats.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

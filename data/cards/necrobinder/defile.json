@@ -1,0 +1,21 @@
+{
+  "id": "defile",
+  "code": "Df",
+  "name": "Defile",
+  "type": "attack",
+  "rarity": "common",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "ethereal"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Ethereal. / Deal 13 damage.",
+  "upgradedDescription": "Ethereal. / Deal 17 damage.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

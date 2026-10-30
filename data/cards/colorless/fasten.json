@@ -1,0 +1,19 @@
+{
+  "id": "fasten",
+  "code": "Fs",
+  "name": "Fasten",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain an additional 4 Block from Defend cards.",
+  "upgradedDescription": "Gain an additional 6 Block from Defend cards.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

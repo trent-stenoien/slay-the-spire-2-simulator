@@ -1,0 +1,19 @@
+{
+  "id": "tag_team",
+  "code": "TT",
+  "name": "Tag Team",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 11 damage. / The next Attack another player plays on the enemy is played an extra time.",
+  "upgradedDescription": "Deal 15 damage. / The next Attack another player plays on the enemy is played an extra time.",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

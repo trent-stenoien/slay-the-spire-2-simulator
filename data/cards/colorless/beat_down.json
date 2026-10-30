@@ -1,0 +1,19 @@
+{
+  "id": "beat_down",
+  "code": "BD",
+  "name": "Beat Down",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "colorless",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Play 3 random Attacks from your Discard Pile.",
+  "upgradedDescription": "Play 4 random Attacks from your Discard Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "aggression",
+  "code": "Ag",
+  "name": "Aggression",
+  "type": "power",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate"
+    ]
+  },
+  "description": "At the start of your turn, put a random Attack from your Discard Pile into your Hand and Upgrade it.",
+  "upgradedDescription": "Innate. / At the start of your turn, put a random Attack from your Discard Pile into your Hand and Upgrade it.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

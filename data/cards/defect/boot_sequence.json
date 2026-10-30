@@ -1,0 +1,22 @@
+{
+  "id": "boot_sequence",
+  "code": "Bq",
+  "name": "Boot Sequence",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "innate",
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Innate. / Gain 10 Block. / Exhaust.",
+  "upgradedDescription": "Innate. / Gain 13 Block. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "tools_of_the_trade",
+  "code": "TO",
+  "name": "Tools of the Trade",
+  "type": "power",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 0
+  },
+  "description": "At the start of your turn, draw 1 card and discard 1 card.",
+  "upgradedDescription": "At the start of your turn, draw 1 card and discard 1 card.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

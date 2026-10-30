@@ -1,0 +1,23 @@
+{
+  "id": "distraction",
+  "code": "Dw",
+  "name": "Distraction",
+  "type": "skill",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "cost": 0
+  },
+  "description": "Add a random Skill into your Hand. It's free to play this turn. / Exhaust.",
+  "upgradedDescription": "Add a random Skill into your Hand. It's free to play this turn. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

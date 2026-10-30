@@ -1,0 +1,21 @@
+{
+  "id": "reanimate",
+  "code": "Re",
+  "name": "Reanimate",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Summon 20. / Exhaust.",
+  "upgradedDescription": "Summon 25. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

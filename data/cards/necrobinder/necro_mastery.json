@@ -1,0 +1,19 @@
+{
+  "id": "necro_mastery",
+  "code": "NM",
+  "name": "Necro Mastery",
+  "type": "power",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Summon 5. / Whenever Osty loses HP, / ALL enemies lose that much HP as well.",
+  "upgradedDescription": "Summon 8. / Whenever Osty loses HP, / ALL enemies lose that much HP as well.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

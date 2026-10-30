@@ -1,0 +1,23 @@
+{
+  "id": "eidolon",
+  "code": "Ei",
+  "name": "Eidolon",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "cost": 1
+  },
+  "description": "Play ALL Ethereal cards in your Exhaust Pile. / Exhaust.",
+  "upgradedDescription": "Play ALL Ethereal cards in your Exhaust Pile. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

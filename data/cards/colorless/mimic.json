@@ -1,0 +1,23 @@
+{
+  "id": "mimic",
+  "code": "Mm",
+  "name": "Mimic",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": []
+  },
+  "description": "Gain Block equal to the Block on another player. / Exhaust.",
+  "upgradedDescription": "Gain Block equal to the Block on another player.",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

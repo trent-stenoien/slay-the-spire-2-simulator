@@ -98,6 +98,8 @@ export interface CardDef {
   xCost: boolean;
   /** Regent Stars cost; `null` when the card has none. */
   starCost: number | null;
+  /** True when the Star cost is X (spend all Stars); then `starCost` is 0. */
+  xStarCost?: boolean;
   keywords: CardKeyword[];
   /**
    * Structured effects in order. Complete when `simulated` is true; may be partial
@@ -150,8 +152,9 @@ export interface CharacterDef {
 // Enemies
 // ---------------------------------------------------------------------------
 
-export type Zone = 'overgrowth' | 'underdocks';
-export type EnemyDifficulty = 'easy' | 'normal' | 'elite' | 'boss';
+/** Act 1: overgrowth or underdocks; Act 2: hive; Act 3: glory. */
+export type Zone = 'overgrowth' | 'underdocks' | 'hive' | 'glory';
+export type EnemyDifficulty = 'easy' | 'normal' | 'elite' | 'boss' | 'minion' | 'event';
 
 export interface EnemyMove {
   name: string;

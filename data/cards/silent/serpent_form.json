@@ -1,0 +1,19 @@
+{
+  "id": "serpent_form",
+  "code": "SF",
+  "name": "Serpent Form",
+  "type": "power",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever you play a card, deal 4 damage to a random enemy.",
+  "upgradedDescription": "Whenever you play a card, deal 6 damage to a random enemy.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

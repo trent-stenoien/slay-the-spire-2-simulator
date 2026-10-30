@@ -1,0 +1,19 @@
+{
+  "id": "setup_strike",
+  "code": "Su",
+  "name": "Setup Strike",
+  "type": "attack",
+  "rarity": "common",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 7 damage. / Gain 3 Strength this turn.",
+  "upgradedDescription": "Deal 9 damage. / Gain 4 Strength this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

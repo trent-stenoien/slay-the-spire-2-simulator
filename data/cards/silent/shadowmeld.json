@@ -1,0 +1,21 @@
+{
+  "id": "shadowmeld",
+  "code": "Sm",
+  "name": "Shadowmeld",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 0
+  },
+  "description": "Double your Block gain this turn.",
+  "upgradedDescription": "Double your Block gain this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

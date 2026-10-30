@@ -1,0 +1,19 @@
+{
+  "id": "expect_a_fight",
+  "code": "Ex",
+  "name": "Expect a Fight",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 15 Block. / Gains 5 additional Block for each Strength you have.",
+  "upgradedDescription": "Gain 16 Block. / Gains 8 additional Block for each Strength you have.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

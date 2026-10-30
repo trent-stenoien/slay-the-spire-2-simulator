@@ -1,0 +1,21 @@
+{
+  "id": "banshees_cry",
+  "code": "BC",
+  "name": "Banshee's Cry",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 9,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 7
+  },
+  "description": "Deal 33 damage to ALL enemies. / Costs [E][E] less for each Ethereal card played this combat.",
+  "upgradedDescription": "Deal 33 damage to ALL enemies. / Costs [E][E] less for each Ethereal card played this combat.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

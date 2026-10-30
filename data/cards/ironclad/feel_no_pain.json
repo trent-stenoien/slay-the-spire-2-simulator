@@ -1,0 +1,19 @@
+{
+  "id": "feel_no_pain",
+  "code": "FN",
+  "name": "Feel No Pain",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever a card is Exhausted, gain 3 Block.",
+  "upgradedDescription": "Whenever a card is Exhausted, gain 4 Block.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

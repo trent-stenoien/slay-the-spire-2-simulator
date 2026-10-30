@@ -1,0 +1,21 @@
+{
+  "id": "piercing_wail",
+  "code": "Pc",
+  "name": "Piercing Wail",
+  "type": "skill",
+  "rarity": "common",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "ALL enemies lose 6 Strength this turn. / Exhaust.",
+  "upgradedDescription": "ALL enemies lose 8 Strength this turn. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

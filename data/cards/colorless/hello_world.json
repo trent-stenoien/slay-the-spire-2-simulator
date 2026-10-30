@@ -1,0 +1,23 @@
+{
+  "id": "hello_world",
+  "code": "HW",
+  "name": "Hello World",
+  "type": "power",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate"
+    ]
+  },
+  "description": "At the start of your turn, add a random Common card into your Hand.",
+  "upgradedDescription": "Innate. / At the start of your turn, add a random Common card into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

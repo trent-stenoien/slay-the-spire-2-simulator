@@ -1,0 +1,19 @@
+{
+  "id": "lunar_blast",
+  "code": "LB",
+  "name": "Lunar Blast",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 4 damage for each Skill already played this turn.",
+  "upgradedDescription": "Deal 5 damage for each Skill already played this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

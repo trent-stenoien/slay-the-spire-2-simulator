@@ -1,0 +1,21 @@
+{
+  "id": "hammer_time",
+  "code": "HT",
+  "name": "Hammer Time",
+  "type": "power",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 1
+  },
+  "description": "Whenever you Forge, all allies Forge as well.",
+  "upgradedDescription": "Whenever you Forge, all allies Forge as well.",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

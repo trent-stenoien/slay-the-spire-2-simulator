@@ -1,0 +1,19 @@
+{
+  "id": "blade_of_ink",
+  "code": "Bf",
+  "name": "Blade of Ink",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Add 2 Inky Shivs into your Hand.",
+  "upgradedDescription": "Add 3 Inky Shivs into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

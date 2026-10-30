@@ -1,0 +1,21 @@
+{
+  "id": "normality",
+  "code": "No",
+  "name": "Normality",
+  "type": "curse",
+  "rarity": "curse",
+  "character": "colorless",
+  "cost": null,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "unplayable"
+  ],
+  "effects": [],
+  "upgraded": null,
+  "description": "Unplayable. / You cannot play more than 3 cards this turn.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

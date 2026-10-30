@@ -1,0 +1,19 @@
+{
+  "id": "stomp",
+  "code": "Az",
+  "name": "Stomp",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 12 damage to ALL enemies. / Costs 1 less [E] for each Attack played this turn.",
+  "upgradedDescription": "Deal 15 damage to ALL enemies. / Costs 1 less [E] for each Attack played this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

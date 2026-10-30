@@ -1,0 +1,19 @@
+{
+  "id": "volley",
+  "code": "Vl",
+  "name": "Volley",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": true,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 10 damage to a random enemy X times.",
+  "upgradedDescription": "Deal 14 damage to a random enemy X times.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

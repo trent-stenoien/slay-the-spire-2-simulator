@@ -1,0 +1,19 @@
+{
+  "id": "deathbringer",
+  "code": "Dh",
+  "name": "Deathbringer",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Apply 21 Doom and 1 Weak to ALL enemies.",
+  "upgradedDescription": "Apply 26 Doom and 1 Weak to ALL enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

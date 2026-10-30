@@ -1,0 +1,19 @@
+{
+  "id": "gunk_up",
+  "code": "Gn",
+  "name": "Gunk Up",
+  "type": "attack",
+  "rarity": "common",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 4 damage 3 times. / Add a Slimed into your Discard Pile.",
+  "upgradedDescription": "Deal 5 damage 3 times. / Add a Slimed into your Discard Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

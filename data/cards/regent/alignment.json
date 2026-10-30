@@ -1,0 +1,19 @@
+{
+  "id": "alignment",
+  "code": "Ai",
+  "name": "Alignment",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 0,
+  "xCost": false,
+  "starCost": 2,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain [E][E].",
+  "upgradedDescription": "Gain [E][E][E].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

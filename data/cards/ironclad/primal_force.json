@@ -1,0 +1,19 @@
+{
+  "id": "primal_force",
+  "code": "PF",
+  "name": "Primal Force",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Transform all Attacks in your Hand into Giant Rock.",
+  "upgradedDescription": "Transform all Attacks in your Hand into Giant Rock+.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

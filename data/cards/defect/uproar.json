@@ -1,0 +1,19 @@
+{
+  "id": "uproar",
+  "code": "Uo",
+  "name": "Uproar",
+  "type": "attack",
+  "rarity": "common",
+  "character": "D",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 6 damage twice. / Play a random Attack from your Draw Pile.",
+  "upgradedDescription": "Deal 8 damage twice. / Play a random Attack from your Draw Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

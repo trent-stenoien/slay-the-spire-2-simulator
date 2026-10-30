@@ -1,0 +1,19 @@
+{
+  "id": "hidden_daggers",
+  "code": "Hd",
+  "name": "Hidden Daggers",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Discard 2 cards. / Add 2 Shivs into your Hand.",
+  "upgradedDescription": "Discard 2 cards. / Add 2 Shivs+ into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

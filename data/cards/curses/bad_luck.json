@@ -1,0 +1,22 @@
+{
+  "id": "bad_luck",
+  "code": "BL",
+  "name": "Bad Luck",
+  "type": "curse",
+  "rarity": "curse",
+  "character": "colorless",
+  "cost": null,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "unplayable",
+    "eternal"
+  ],
+  "effects": [],
+  "upgraded": null,
+  "description": "Unplayable. / At the end of your turn, if this is in your Hand, lose 13 HP. / Eternal.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

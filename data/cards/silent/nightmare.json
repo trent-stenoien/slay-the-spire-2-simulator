@@ -1,0 +1,23 @@
+{
+  "id": "nightmare",
+  "code": "Ni",
+  "name": "Nightmare",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "cost": 2
+  },
+  "description": "Choose a card. / Next turn, add 3 copies of that card into your Hand. / Exhaust.",
+  "upgradedDescription": "Choose a card. / Next turn, add 3 copies of that card into your Hand. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

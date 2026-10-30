@@ -1,0 +1,19 @@
+{
+  "id": "headbutt",
+  "code": "He",
+  "name": "Headbutt",
+  "type": "attack",
+  "rarity": "common",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 9 damage. / Put a card from your Discard Pile on top of your Draw Pile.",
+  "upgradedDescription": "Deal 12 damage. / Put a card from your Discard Pile on top of your Draw Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

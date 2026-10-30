@@ -1,0 +1,19 @@
+{
+  "id": "rend",
+  "code": "Rn",
+  "name": "Rend",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 10 damage. / Deals 5 additional damage for each unique debuff on the enemy.",
+  "upgradedDescription": "Deal 12 damage. / Deals 8 additional damage for each unique debuff on the enemy.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

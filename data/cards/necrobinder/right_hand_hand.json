@@ -1,0 +1,19 @@
+{
+  "id": "right_hand_hand",
+  "code": "RH",
+  "name": "Right Hand Hand",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Osty deals 4 damage. / Whenever you play a card that costs [E][E] or more, return this",
+  "upgradedDescription": "Osty deals 6 damage. / Whenever you play a card that costs [E][E] or more, return this",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

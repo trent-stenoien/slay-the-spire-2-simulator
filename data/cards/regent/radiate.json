@@ -1,0 +1,19 @@
+{
+  "id": "radiate",
+  "code": "Ra",
+  "name": "Radiate",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 3 damage to ALL enemies for each [STAR] gained this turn.",
+  "upgradedDescription": "Deal 4 damage to ALL enemies for each [STAR] gained this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

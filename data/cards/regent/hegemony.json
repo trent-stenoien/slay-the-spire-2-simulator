@@ -1,0 +1,19 @@
+{
+  "id": "hegemony",
+  "code": "Hm",
+  "name": "Hegemony",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 15 damage. / Next turn, gain [E][E].",
+  "upgradedDescription": "Deal 18 damage. / Next turn, gain [E][E][E].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

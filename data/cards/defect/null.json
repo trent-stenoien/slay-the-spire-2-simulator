@@ -1,0 +1,19 @@
+{
+  "id": "null",
+  "code": "Nl",
+  "name": "Null",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 10 damage. / Apply 1 Weak. / Channel 1 Dark.",
+  "upgradedDescription": "Deal 13 damage. / Apply 2 Weak. / Channel 1 Dark.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

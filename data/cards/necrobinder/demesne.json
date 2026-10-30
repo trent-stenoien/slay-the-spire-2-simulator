@@ -1,0 +1,23 @@
+{
+  "id": "demesne",
+  "code": "Dm",
+  "name": "Demesne",
+  "type": "power",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "ethereal"
+  ],
+  "effects": [],
+  "upgraded": {
+    "cost": 2
+  },
+  "description": "Ethereal. / At the start of your turn, gain [E] and draw 1 additional card.",
+  "upgradedDescription": "Ethereal. / At the start of your turn, gain [E] and draw 1 additional card.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

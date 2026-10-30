@@ -1,0 +1,19 @@
+{
+  "id": "spinner",
+  "code": "SL",
+  "name": "Spinner",
+  "type": "power",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "At the start of your turn, Channel 1 Glass.",
+  "upgradedDescription": "Channel 1 Glass. / At the start of your turn, Channel 1 Glass.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

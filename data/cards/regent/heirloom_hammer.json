@@ -1,0 +1,19 @@
+{
+  "id": "heirloom_hammer",
+  "code": "HH",
+  "name": "Heirloom Hammer",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 20 damage. / Choose a Colorless card in your Hand. Add a copy of that card into your Hand.",
+  "upgradedDescription": "Deal 25 damage. / Choose a Colorless card in your Hand. Add a copy of that card into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

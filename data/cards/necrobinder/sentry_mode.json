@@ -1,0 +1,21 @@
+{
+  "id": "sentry_mode",
+  "code": "SM",
+  "name": "Sentry Mode",
+  "type": "power",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 1
+  },
+  "description": "At the start of your turn, add 1 Sweeping Gaze into your Hand.",
+  "upgradedDescription": "At the start of your turn, add 1 Sweeping Gaze into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

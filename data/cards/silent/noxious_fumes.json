@@ -1,0 +1,19 @@
+{
+  "id": "noxious_fumes",
+  "code": "Nx",
+  "name": "Noxious Fumes",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "At the start of your turn, apply 2 Poison to ALL enemies.",
+  "upgradedDescription": "At the start of your turn, apply 3 Poison to ALL enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

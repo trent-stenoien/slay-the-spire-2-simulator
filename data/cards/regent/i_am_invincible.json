@@ -1,0 +1,19 @@
+{
+  "id": "i_am_invincible",
+  "code": "IA",
+  "name": "I Am Invincible",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 10 Block. / At the end of your turn, if this is on top of your Draw Pile, play it.",
+  "upgradedDescription": "Gain 13 Block. / At the end of your turn, if this is on top of your Draw Pile, play it.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

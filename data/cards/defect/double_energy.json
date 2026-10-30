@@ -1,0 +1,23 @@
+{
+  "id": "double_energy",
+  "code": "D0",
+  "name": "Double Energy",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "cost": 0
+  },
+  "description": "Double your Energy. / Exhaust.",
+  "upgradedDescription": "Double your Energy. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

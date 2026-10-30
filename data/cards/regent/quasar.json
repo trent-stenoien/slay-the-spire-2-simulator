@@ -1,0 +1,19 @@
+{
+  "id": "quasar",
+  "code": "Qa",
+  "name": "Quasar",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 0,
+  "xCost": false,
+  "starCost": 2,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Choose 1 of 3 random Colorless cards to add into your Hand.",
+  "upgradedDescription": "Choose 1 of 3 random Upgraded Colorless cards to add into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

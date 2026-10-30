@@ -1,0 +1,19 @@
+{
+  "id": "burst",
+  "code": "BE",
+  "name": "Burst",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "This turn, your next Skill is played an extra time.",
+  "upgradedDescription": "This turn, your next 2 Skills are played an extra time.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

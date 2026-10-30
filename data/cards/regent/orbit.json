@@ -1,0 +1,21 @@
+{
+  "id": "orbit",
+  "code": "Or",
+  "name": "Orbit",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 1
+  },
+  "description": "Every 4 [E] you spend, / gain [E].",
+  "upgradedDescription": "Every 4 [E] you spend, / gain [E].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

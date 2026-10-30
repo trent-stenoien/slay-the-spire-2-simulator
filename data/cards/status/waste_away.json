@@ -1,0 +1,21 @@
+{
+  "id": "waste_away",
+  "code": "WA",
+  "name": "Waste Away",
+  "type": "status",
+  "rarity": "status",
+  "character": "colorless",
+  "cost": null,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "unplayable"
+  ],
+  "effects": [],
+  "upgraded": null,
+  "description": "Gain 1 less [E] per turn.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

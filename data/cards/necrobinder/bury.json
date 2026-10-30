@@ -1,0 +1,19 @@
+{
+  "id": "bury",
+  "code": "BG",
+  "name": "Bury",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 4,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 52 damage.",
+  "upgradedDescription": "Deal 63 damage.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

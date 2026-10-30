@@ -1,0 +1,22 @@
+{
+  "id": "luminesce",
+  "code": "Lu",
+  "name": "Luminesce",
+  "type": "skill",
+  "rarity": "token",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "retain",
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Retain. / Gain [E][E]. / Exhaust.",
+  "upgradedDescription": "Retain. / Gain [E][E][E]. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "outmaneuver",
+  "code": "Ot",
+  "name": "Outmaneuver",
+  "type": "skill",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Next turn, gain [E][E].",
+  "upgradedDescription": "Next turn, gain [E][E][E].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

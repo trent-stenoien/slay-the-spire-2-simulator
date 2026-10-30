@@ -1,0 +1,19 @@
+{
+  "id": "overclock",
+  "code": "Ov",
+  "name": "Overclock",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Draw 2 cards. / Add a Burn into your Discard Pile.",
+  "upgradedDescription": "Draw 3 cards. / Add a Burn into your Discard Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

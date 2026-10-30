@@ -1,0 +1,19 @@
+{
+  "id": "haunt",
+  "code": "Hu",
+  "name": "Haunt",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever you play a Soul, a random enemy loses 7 HP.",
+  "upgradedDescription": "Whenever you play a Soul, a random enemy loses 9 HP.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "charge_battery",
+  "code": "CB",
+  "name": "Charge Battery",
+  "type": "skill",
+  "rarity": "common",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 7 Block. / Next turn, gain [E].",
+  "upgradedDescription": "Gain 10 Block. / Next turn, gain [E].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

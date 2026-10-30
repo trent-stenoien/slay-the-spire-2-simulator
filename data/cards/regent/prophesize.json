@@ -1,0 +1,19 @@
+{
+  "id": "prophesize",
+  "code": "Pz",
+  "name": "Prophesize",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Draw 6 cards.",
+  "upgradedDescription": "Draw 9 cards.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

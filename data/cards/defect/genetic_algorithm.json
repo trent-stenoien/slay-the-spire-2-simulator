@@ -1,0 +1,21 @@
+{
+  "id": "genetic_algorithm",
+  "code": "GA",
+  "name": "Genetic Algorithm",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 1 Block. / Permanently increase this card's Block by 3. / Exhaust.",
+  "upgradedDescription": "Gain 1 Block. / Permanently increase this card's Block by 4. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

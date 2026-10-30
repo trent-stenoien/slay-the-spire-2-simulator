@@ -1,0 +1,19 @@
+{
+  "id": "flatten",
+  "code": "Fb",
+  "name": "Flatten",
+  "type": "attack",
+  "rarity": "common",
+  "character": "N",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Osty deals 12 damage. / This card costs 0 [E] if Osty has attacked this turn.",
+  "upgradedDescription": "Osty deals 16 damage. / This card costs 0 [E] if Osty has attacked this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "calculated_gamble",
+  "code": "CG",
+  "name": "Calculated Gamble",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "retain",
+      "exhaust"
+    ]
+  },
+  "description": "Discard your Hand, / then draw that many cards. / Exhaust.",
+  "upgradedDescription": "Retain. / Discard your Hand, / then draw that many cards. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

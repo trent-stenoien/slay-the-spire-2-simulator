@@ -1,0 +1,21 @@
+{
+  "id": "seven_stars",
+  "code": "Sv",
+  "name": "Seven Stars",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 2,
+  "xCost": false,
+  "starCost": 7,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 1
+  },
+  "description": "Deal 7 damage to ALL enemies 7 times.",
+  "upgradedDescription": "Deal 7 damage to ALL enemies 7 times.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

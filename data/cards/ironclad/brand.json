@@ -1,0 +1,19 @@
+{
+  "id": "brand",
+  "code": "Bx",
+  "name": "Brand",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Lose 1 HP. / Exhaust 1 card. / Gain 1 Strength.",
+  "upgradedDescription": "Lose 1 HP. / Exhaust 1 card. / Gain 2 Strength.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

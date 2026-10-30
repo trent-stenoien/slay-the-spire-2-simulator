@@ -1,0 +1,21 @@
+{
+  "id": "neows_fury",
+  "code": "NF",
+  "name": "Neow's Fury",
+  "type": "attack",
+  "rarity": "ancient",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 10 damage. / Put up to 2 cards from your Discard Pile into your Hand. / Exhaust.",
+  "upgradedDescription": "Deal 14 damage. / Put up to 3 cards from your Discard Pile into your Hand. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

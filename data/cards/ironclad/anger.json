@@ -1,0 +1,19 @@
+{
+  "id": "anger",
+  "code": "An",
+  "name": "Anger",
+  "type": "attack",
+  "rarity": "common",
+  "character": "I",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 6 damage. / Add a copy of this card into your Discard Pile.",
+  "upgradedDescription": "Deal 8 damage. / Add a copy of this card into your Discard Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

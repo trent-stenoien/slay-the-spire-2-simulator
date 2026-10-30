@@ -1,0 +1,19 @@
+{
+  "id": "adaptive_strike",
+  "code": "AS",
+  "name": "Adaptive Strike",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 18 damage. / Add a 0 [E] copy of this card into your Discard Pile.",
+  "upgradedDescription": "Deal 23 damage. / Add a 0 [E] copy of this card into your Discard Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

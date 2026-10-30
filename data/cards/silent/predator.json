@@ -1,0 +1,19 @@
+{
+  "id": "predator",
+  "code": "Pg",
+  "name": "Predator",
+  "type": "attack",
+  "rarity": "common",
+  "character": "S",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 15 damage. / Next turn, draw 2 cards.",
+  "upgradedDescription": "Deal 20 damage. / Next turn, draw 2 cards.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

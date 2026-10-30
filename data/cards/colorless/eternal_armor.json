@@ -1,0 +1,19 @@
+{
+  "id": "eternal_armor",
+  "code": "EA",
+  "name": "Eternal Armor",
+  "type": "power",
+  "rarity": "rare",
+  "character": "colorless",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 9 Plating.",
+  "upgradedDescription": "Gain 12 Plating.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

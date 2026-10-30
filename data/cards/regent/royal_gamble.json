@@ -1,0 +1,26 @@
+{
+  "id": "royal_gamble",
+  "code": "RG",
+  "name": "Royal Gamble",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 0,
+  "xCost": false,
+  "starCost": 5,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "retain",
+      "exhaust"
+    ]
+  },
+  "description": "Gain 9 [STAR]. / Exhaust.",
+  "upgradedDescription": "Retain. / Gain 9 [STAR]. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

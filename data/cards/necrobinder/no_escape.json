@@ -1,0 +1,19 @@
+{
+  "id": "no_escape",
+  "code": "NE",
+  "name": "No Escape",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Apply 10 Doom, plus an additional 5 Doom for every 10 Doom already on this enemy.",
+  "upgradedDescription": "Apply 15 Doom, plus an additional 5 Doom for every 10 Doom already on this enemy.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

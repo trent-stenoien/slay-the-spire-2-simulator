@@ -1,0 +1,21 @@
+{
+  "id": "mind_rot",
+  "code": "MR",
+  "name": "Mind Rot",
+  "type": "status",
+  "rarity": "status",
+  "character": "colorless",
+  "cost": null,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "unplayable"
+  ],
+  "effects": [],
+  "upgraded": null,
+  "description": "Draw 1 fewer card each turn.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

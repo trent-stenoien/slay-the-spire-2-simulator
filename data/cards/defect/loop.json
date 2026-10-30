@@ -1,0 +1,19 @@
+{
+  "id": "loop",
+  "code": "Lo",
+  "name": "Loop",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "At the start of your turn, trigger the passive ability of your rightmost Orb.",
+  "upgradedDescription": "At the start of your turn, trigger the passive ability of your rightmost Orb 2 times.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

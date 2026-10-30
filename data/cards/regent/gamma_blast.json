@@ -1,0 +1,19 @@
+{
+  "id": "gamma_blast",
+  "code": "GB",
+  "name": "Gamma Blast",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 0,
+  "xCost": false,
+  "starCost": 3,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 13 damage. / Apply 2 Weak. / Apply 2 Vulnerable.",
+  "upgradedDescription": "Deal 18 damage. / Apply 2 Weak. / Apply 2 Vulnerable.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "bouncing_flask",
+  "code": "BF",
+  "name": "Bouncing Flask",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Apply 3 Poison to a random enemy 3 times.",
+  "upgradedDescription": "Apply 3 Poison to a random enemy 4 times.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

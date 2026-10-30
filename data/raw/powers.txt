@@ -1,0 +1,259 @@
+Accelerant|Buff|∅|Intensity|Permanent|∅|Poison is triggered X additional times.
+Accuracy|Buff|∅|Intensity|Permanent|∅|Shivs deal X additional damage.
+Adaptable|Buff|∅|Does not stack|Permanent|∅|When it would be defeated, it instead revives even stronger.
+Afterimage|Buff|∅|Intensity|Permanent|∅|Whenever you play a card, gain X Block.
+Aggression|Buff|∅|Intensity|Permanent|∅|At the start of your turn, put X random Attacks from your Discard Pile into your Hand and Upgrade them for the rest of combat.
+Anticipate|Buff|∅|Intensity|Removed|∅|Gain X Dexterity until the end of this turn.
+Arsenal|Buff|∅|Intensity|Permanent|∅|Whenever you create a card, gain X Strength.
+Artifact|Buff|∅|Counter|Conserved|∅|Negates X debuffs.
+Asleep|Buff|∅|Duration|Decremented|∅|Awakens upon losing HP or after X turns.
+Automation|Buff|∅|Intensity|Permanent|∅|Every 10 cards you draw, gain [E].
+Back Attack|Buff|∅|Does not stack|Conserved|∅|Deals 50% more damage when it is attacking you from behind.
+Barricade|Buff|∅|Does not stack|Permanent|∅|Block is not removed at the start of your turn.
+Beacon of Hope|Buff|∅|Does not stack|Permanent|∅|Whenever you gain Block on your turn, other players gain half that much Block X times.
+Biased Cognition|Debuff|∅|Intensity|Permanent|∅|At the start of your turn, lose X Focus.
+Black Hole|Buff|∅|Intensity|Permanent|∅|Whenever you spend or gain [STAR], deal X damage to ALL enemies.
+Block Next Turn|Buff|∅|Intensity|Consumed|∅|At the start of your next turn, gain X Block.
+Blur|Buff|∅|Duration|Decremented|∅|Block is not removed at the start of your next X turns.
+Borrowed Time|Debuff|∅|Intensity|Removed|∅|Cards cost an additional [E] this turn.
+Buffer|Buff|∅|Counter|Conserved|∅|Prevent the next X times you would lose HP.
+Burrowed|Buff|∅|Does not stack|Conserved|∅|Block is not removed at the start of its turn. Stunned if all Block is removed.
+Burst|Buff|∅|Counter|Removed|∅|Your next X Skills are played an extra time this turn.
+Cacophony|Buff|∅|Intensity|Permanent|∅|After Y cards are drawn across ALL players, deal X damage to a random enemy.
+Calamity|Buff|∅|Intensity|Permanent|∅|Whenever you play an Attack, add X random Attacks into your Hand.
+Calcify|Buff|∅|Intensity|Permanent|∅|Osty's attacks deal X additional damage.
+Call of the Void|Buff|∅|Intensity|Permanent|∅|At the start of your turn, add X random cards into your Hand and apply Ethereal to them.
+Chains of Binding|Debuff|∅|Intensity|Conserved|∅|The first X cards drawn each turn are Afflicted with Bound.
+Child of the Stars|Buff|∅|Intensity|Permanent|∅|Gain X Block for each [STAR] spent.
+Clarity|Buff|∅|Duration|Decremented|∅|At the start of your next X turns, draw 1 additional card.
+Colossus|Buff|∅|Duration|Decremented|∅|You receive 50% less damage from Vulnerable enemies for X turns.
+Concoct|Buff|∅|Counter|Removed|∅|Whenever you deal unblocked attack damage, apply X Poison.
+Confused|Debuff|∅|Does not stack|Permanent|∅|The costs of your cards are randomized on draw, from 0 to 3.
+Conqueror|Debuff|∅|Duration|Removed|∅|Sovereign Blade deals double damage to it for the next X turns.
+Constrict|Debuff|∅|Intensity|Conserved|∅|While the Slithering Strangler is alive, at the end of your turn, take X damage.
+Consuming Shadow|Buff|∅|Intensity|Permanent|∅|At the end of your turn, Evoke your X leftmost Orbs.
+Coolant|Buff|∅|Intensity|Permanent|∅|At the start of your turn, gain X Block for each unique Orb you have.
+Coordinate|Buff|∅|Intensity|Removed|∅|Gain X Strength until the end of this turn.
+Corrosive Wave|Buff|∅|Intensity|Removed|∅|Whenever you draw a card this turn, apply X Poison to ALL enemies.
+Corruption|Buff|∅|Does not stack|Permanent|∅|Skills cost 0. Whenever you play a Skill, Exhaust it.
+Countdown|Buff|∅|Intensity|Permanent|∅|At the start of your turn, apply X Doom to a random enemy.
+Covered|Buff|∅|Does not stack|Removed|∅|An ally is covering you. All attacks that would be directed to you are redirected to them instead.
+Crab Rage|Buff|∅|Does not stack|Permanent|∅|When an ally dies, it gains 6 Strength and 99 Block.
+Creative AI|Buff|∅|Intensity|Permanent|∅|At the start of your turn, add X random Powers into your Hand.
+Crimson Mantle|Buff|∅|Intensity|Permanent|∅|At the start of your turn, lose X HP and gain X Block.
+Cruelty|Buff|∅|Intensity|Permanent|∅|Vulnerable enemies take an additional X% damage.
+Crush Under|Debuff|∅|Intensity|Removed|∅|Lose X Strength until the end of this turn.
+Curious|Buff|∅|Intensity|Permanent|∅|Powers cost X [E] less.
+Curl Up|Buff|∅|Intensity|Conserved|∅|Gains X Block upon first being hit.
+Dampen|Debuff|∅|Does not stack|Conserved|∅|While Magi Knight is alive, ALL your cards are Downgraded.
+Danse Macabre|Buff|∅|Intensity|Permanent|∅|Whenever you play a card that costs 2 [E] or more, gain X Block.
+Dark Embrace|Buff|∅|Intensity|Permanent|∅|Whenever a card is Exhausted, draw X cards.
+Dark Shackles|Debuff|∅|Intensity|Removed|∅|Lose X Strength until the end of this turn.
+Debilitate|Debuff|∅|Duration|Decremented|∅|Vulnerable and Weak are twice as effective for the next X turns.
+Demesne|Buff|∅|Intensity|Permanent|∅|At the start of your turn, gain [E] and draw X additional cards.
+Demise|Debuff|∅|Intensity|Permanent|∅|At the end of its turn, it loses X HP.
+Demon Form|Buff|∅|Intensity|Permanent|∅|At the start of your turn, gain X Strength.
+Devour Life|Buff|∅|Intensity|Permanent|∅|Whenever you play a Soul, Summon X.
+Dexterity|Buff|∅|Intensity|Permanent|-999 to 999|Increases Block gained from cards by X.
+Dexterity (Negative)|Debuff|∅|Intensity|Permanent|-999 to 999|Decreases Block gained from cards by X.
+Die for You|Buff|∅|Does not stack|Permanent|∅|Osty absorbs all unblocked attack damage.
+Disintegration|Debuff|∅|Intensity|Permanent|∅|At the end of your turn, take X damage.
+Doom|Debuff|∅|Intensity|Permanent|∅|At the end of the enemy turn, if it has X or less HP, it dies.
+Double Damage|Buff|∅|Duration|Decremented|∅|For the next X turns, Attacks deal double damage.
+Draw Cards Next Turn|Buff|∅|Intensity|Consumed|∅|At the start of your next turn, draw X additional cards.
+Duplication|Buff|∅|Counter|Conserved|∅|Your next X cards are played an extra time.
+Dying Star|Debuff|∅|Intensity|Removed|∅|Lose X Strength until the end of this turn.
+Echo Form|Buff|∅|Intensity and Counter|Permanent|∅|The first X cards you play each turn are played an extra time.
+Energy Next Turn|Buff|∅|Intensity|Consumed|∅|Gain X additional [E] next turn.
+Enfeebling Touch|Debuff|∅|Intensity|Removed|∅|Lose X Strength until the end of this turn.
+Enrage|Buff|∅|Intensity|Permanent|∅|Whenever you play a Skill, gains X Strength.
+Entropy|Buff|∅|Intensity|Permanent|∅|At the start of your turn, Transform X cards in your Hand.
+Envenom|Buff|∅|Intensity|Permanent|∅|Whenever you deal unblocked attack damage, apply X Poison.
+Escape Artist|Buff|∅|Duration|Decremented|∅|Tries to escape the combat after X turns.
+Fade|Buff|∅|Intensity|Removed|∅|Lose X Dexterity at the end of the turn.
+Fan of Knives|Buff|∅|Does not stack|Permanent|∅|Shivs hit ALL enemies.
+Fasten|Buff|∅|Intensity|Permanent|∅|Gain an additional X Block from Defend cards.
+Feeding Frenzy|Buff|∅|Intensity|Removed|∅|Gain X Strength until the end of this turn.
+Feel No Pain|Buff|∅|Intensity|Permanent|∅|Whenever a card is Exhausted, gain X Block.
+Feral|Buff|∅|Intensity|Permanent|∅|The first X times you play a 0 [E] Attack each turn, return it to your Hand.
+Flame Barrier|Buff|∅|Intensity|Removed|∅|Whenever you are attacked this turn, deal X damage back.
+Flanking|Debuff|∅|Intensity|Removed|∅|Other allies deal X times more damage to this enemy this turn.
+Flex Potion|Buff|∅|Intensity|Removed|∅|Gain X Strength until the end of this turn.
+Flutter|Buff|∅|Intensity|Permanent|∅|Receives 50% less damage from Attacks. Deal attack damage X times to Stun it.
+Focus|Buff|∅|Intensity|Permanent|∅|Increases the effectiveness of Orbs by X.
+Focused Strike|Buff|∅|Intensity|Removed|∅|Gain X Focus until the end of this turn.
+Forbidden Grimoire|Buff|∅|Intensity|Permanent|∅|At the end of combat, remove X cards from your Deck.
+Foregone Conclusion|Buff|∅|Intensity|Consumed|∅|Next turn, put X cards from your Draw Pile into your Hand.
+Frail|Debuff|∅|Duration|Decremented|∅|Gain 25% less Block from cards for X turns.
+Free Attack|Buff|∅|Counter|Conserved|∅|Your next X Attacks cost 0 [E].
+Free Power|Buff|∅|Counter|Conserved|∅|The next X Powers you play cost 0 [E].
+Free Skill|Buff|∅|Counter|Conserved|∅|The next X Skills you play cost 0 [E].
+Friendship|Buff|∅|Intensity|Permanent|∅|Gain X [E] at the start of each turn.
+Furnace|Buff|∅|Intensity|Permanent|∅|At the start of your turn, Forge X.
+Galvanic|Buff|∅|Intensity|Permanent|∅|Powers are afflicted with Galvanized.
+Genesis|Buff|∅|Intensity|Permanent|∅|At the start of your turn, gain X [STAR].
+Gigantification|Buff|∅|Counter|Conserved|∅|The next X Attacks you play deal triple damage.
+Guarded|Buff|∅|Does not stack|Permanent|∅|Take half damage from enemies. Removed if the Tank dies.
+Hailstorm|Buff|∅|Intensity|Permanent|∅|At the end of your turn, if you have Frost, deal X damage to ALL enemies.
+Hammer Time|Buff|∅|Does not stack|Permanent|∅|Whenever you Forge, all allies Forge as well.
+Hang|Debuff|∅|Intensity|Permanent|999|All Hangs deal X times more damage to this enemy.
+Hard to Kill|Buff|∅|Intensity|Permanent|∅|Reduce all damage taken and HP lost by it to 9.
+Hardened Shell|Buff|∅|Intensity|Reset|∅|It cannot lose more than X HP each turn.
+Hatch|Buff|∅|Duration|Decremented|∅|Hatches after X turns.
+Haunt|Buff|∅|Intensity|Permanent|∅|Whenever you play a Soul, a random enemy loses X HP.
+Heist|Buff|∅|Intensity|Permanent|∅|When killed, returns all the stolen Gold.
+Helical Dart|Buff|∅|Intensity|Removed|∅|Gain X Dexterity until the end of this turn.
+Hello World|Buff|∅|Intensity|Permanent|∅|At the start of your turn, add X random Common cards into your Hand.
+Hellraiser|Buff|∅|Does not stack|Permanent|∅|Whenever you draw a card containing "Strike", it is played against a random enemy.
+Hex|Debuff|∅|Does not stack|Conserved|∅|While Spectral Knight is alive, ALL your cards are Ethereal.
+Hibernate|Buff|∅|Duration|Removed|∅|This turn, your Frost grants ALL allies Block.
+High Voltage|Buff|∅|Intensity|Permanent|∅|At the start of its turn, it gains X Strength.
+Hotfix|Buff|∅|Intensity|Removed|∅|Gain X Focus until the end of this turn.
+Hyperbeam|Debuff|∅|Intensity|Removed|∅|Lose X Focus this turn.
+Imbalanced|Debuff|∅|Does not stack|Permanent|∅|If the enemy's attacks are fully blocked, it becomes Stunned.
+Imitation Learning|Buff|∅|Intensity|Permanent|∅|The next X times (Player) plays a Power, you play a copy of it.
+Improvement|Buff|∅|Intensity|Permanent|∅|At the end of combat, Upgrade X random cards.
+Inferno|Buff|∅|Intensity|Permanent|∅|At the start of your turn, lose X HP. Whenever you lose HP on your turn, deal X damage to ALL enemies.
+Infested|Buff|∅|Does not stack|Permanent|∅|Upon dying, summons... something.
+Infinite Blades|Buff|∅|Intensity|Permanent|∅|At the start of your turn, add X Shivs into your Hand.
+Intangible|Buff|∅|Duration|Decremented|∅|Reduce all damage taken and HP loss to 1. Lasts for X turns.
+Intercept|Buff|∅|Does not stack|Removed|∅|You are covering an ally. All attacks that would be directed towards them are redirected towards you.
+Iteration|Buff|∅|Intensity|Permanent|∅|The first time you draw a Status card each turn, draw X cards.
+Juggernaut|Buff|∅|Intensity|Permanent|∅|Whenever you gain Block, deal X damage to a random enemy.
+Juggling|Buff|∅|Intensity|Permanent|∅|Add X copies of the third Attack you play each turn into your Hand.
+Knockdown|Debuff|∅|Intensity|Removed|∅|Other allies deal X times more damage to this enemy this turn.
+Lethality|Buff|∅|Intensity|Permanent|∅|The first Attack each turn deals X% additional damage.
+Lightning Rod|Buff|∅|Duration|Decremented|∅|At the start of the next X turns, Channel 1 Lightning.
+Loop|Buff|∅|Intensity|Permanent|∅|At the start of your turn, trigger the passive ability of your next Orb X times.
+Machine Learning|Buff|∅|Intensity|Permanent|∅|At the start of your turn, draw X additional cards.
+Mangle|Debuff|∅|Intensity|Removed|∅|Lose X Strength until the end of this turn.
+Master Planner|Buff|∅|Does not stack|Permanent|∅|When you play a Skill, it gains Sly.
+Mayhem|Buff|∅|Intensity|Permanent|∅|At the start of your turn, play the next X top cards of your Draw Pile.
+Mind Rot|Debuff|∅|Intensity|Permanent|∅|Draw X fewer cards each turn.
+Minion|Buff|∅|Does not stack|Permanent|∅|Minions abandon combat without their leader.
+Monarch's Gaze|Buff|∅|Intensity|Permanent|∅|Whenever you attack an enemy, it loses X Strength this turn.
+Monarch's Gaze Strength Down|Debuff|∅|Intensity|Removed|∅|Lose X Strength until the end of this turn.
+Monologue|Buff|∅|Does not stack|Removed|∅|Whenever you play a card this turn, gain 1 Strength this turn.
+Necro Mastery|Buff|∅|Intensity|Permanent|∅|Whenever Osty loses HP, ALL enemies lose X times that much HP as well.
+Nemesis|Buff|∅|Does not stack|Permanent|∅|At the end of every other turn, gains Intangible 1.
+Neurosurge|Debuff|∅|Intensity|Permanent|∅|At the start of your turn, apply X Doom to yourself.
+Nightmare|Buff|∅|Intensity|Consumed|∅|Add X copies of a chosen card into your Hand next turn.
+No Block|Debuff|∅|Duration|Decremented|∅|You cannot gain Block from cards for X turns.
+No Draw|Debuff|∅|Does not stack|Removed|∅|You may not draw any more cards this turn.
+Nostalgia|Buff|∅|Intensity|Permanent|∅|The first X Attacks or Skills you play each turn are placed on top of your Draw Pile.
+Noxious Fumes|Buff|∅|Intensity|Permanent|∅|At the start of your turn, apply X Poison to ALL enemies.
+Oblivion|Debuff|∅|Intensity|Removed|∅|Whenever you play a card, this enemy gains X Doom.
+One for All|Buff|∅|Intensity|Permanent|∅|Your 0 [E] Attacks deal X more damage.
+One-Two Punch|Buff|∅|Counter|Removed|∅|Your next X Attacks are played an extra time this turn.
+Orbit|Buff|∅|Does not stack|Permanent|∅|Every 4 [E] you spend, gain X [E].
+Pagestorm|Buff|∅|Intensity|Permanent|∅|Whenever you draw an Ethereal card, draw X cards.
+Painful Stabs|Buff|∅|Intensity|Permanent|∅|Shuffle X Wounds into your Discard Pile each time you receive unblocked attack damage.
+Pale Blue Dot|Buff|∅|Counter|Permanent|∅|If you play 5 or more cards in a turn, draw X additional cards at the start of your next turn.
+Panache|Buff|∅|Intensity|Reset|∅|If you play 5 more cards this turn, deal X damage to ALL enemies.
+Paper Cuts|Buff|∅|Intensity|Permanent|∅|Whenever it deals unblocked attack damage to you, you lose X Max HP.
+Parry|Buff|∅|Intensity|Permanent|∅|Sovereign Blade now gains X Block.
+Personal Hive|Buff|∅|Intensity|Permanent|∅|Whenever this enemy is hit by an Attack, add X Dazed into your Draw Pile.
+Phantom Blades|Buff|∅|Intensity|Permanent|∅|Shivs gain Retain. The first Shiv you play each turn deals X additional damage.
+Piercing Wail|Debuff|∅|Intensity|Removed|∅|Lose X Strength until the end of this turn.
+Pillar of Creation|Buff|∅|Intensity|Permanent|∅|Whenever you create a card, gain X Block.
+Plating|Buff|∅|Intensity and Duration|Decremented|∅|At the end of your turn, gain X Block. Plating is reduced by 1 at the start of your turn.
+Plow|Debuff|∅|Intensity|Conserved|∅|The first time this enemy's HP reaches X or below, it becomes Stunned and loses all its Strength.
+Poison|Debuff|∅|Intensity|Decremented|∅|At the start of its turn, loses X HP, then reduce Poison by 1.
+Possess Speed|Buff|∅|Does not stack|Permanent|∅|When killed, return all stolen Dexterity to the player.
+Possess Strength|Buff|∅|Does not stack|Permanent|∅|When killed, return all stolen Strength to the player.
+Prep Time|Buff|∅|Intensity|Permanent|∅|At the start of your turn, gain X Vigor.
+Pyre|Buff|∅|Intensity|Permanent|∅|Gain [E] at the start of each turn.
+Radiance|Buff|∅|Duration|Decremented|∅|Gain additional [E] for the next X turns.
+Rage|Buff|∅|Intensity|Removed|∅|Whenever you play an Attack this turn, gain X Block.
+Rampart|Buff|∅|Intensity|Permanent|∅|At the start of the player's turn, Turret Operator gains X Block.
+Ravenous|Buff|∅|Intensity|Permanent|∅|When an enemy dies, Corpse Slug immediately eats it, becoming Stunned and gaining X Strength.
+Reaper Form|Buff|∅|Intensity|Permanent|∅|Whenever Attacks deal damage, they also apply X times that much Doom.
+Reattach|Buff|∅|Does not stack|Permanent|∅|If other segments are still alive, revives in 2 turns with X HP.
+Rebound|Buff|∅|Counter|Removed|∅|The next X cards you play this turn are placed on the top of your Draw Pile.
+Reflect|Buff|∅|Duration|Decremented|∅|Blocked damage is reflected to your attacker for X turns.
+Regen|Buff|∅|Intensity and Duration|Decremented|∅|At the end of your turn, heal X HP, then reduce Regen by 1.
+Reptile Trinket|Buff|∅|Intensity|Removed|∅|Gain X Strength until the end of this turn.
+Retain Hand|Buff|∅|Duration|Decremented|∅|Retain your Hand for the next X turns.
+Ringing|Debuff|∅|Removed|Permanent|∅|You can only play 1 card this turn.
+Ritual|Buff|∅|Intensity|Permanent|∅|At the end of its turn, gains X Strength.
+Rolling Boulder|Buff|∅|Intensity|Permanent|∅|At the start of your turn, deal X damage to ALL enemies and increase this damage by 5.
+Royalties|Buff|∅|Intensity|Permanent|∅|At the end of combat, gain X Gold.
+Rupture|Buff|∅|Intensity|Permanent|∅|Whenever you lose HP on your turn, gain X Strength.
+Sandpit|Buff|∅|Duration|Decremented|∅|In X turns, you will be eaten and die.
+Seeking Edge|Buff|∅|Does not stack|Permanent|∅|Sovereign Blade now hits ALL enemies.
+Self-Forming Clay|Buff|∅|Counter|Consumed|∅|Gain X Block next turn.
+Sentry Mode|Buff|∅|Intensity|Permanent|∅|At the start of your turn, add X Sweeping Gaze into your Hand.
+Serpent Form|Buff|∅|Intensity|Permanent|∅|Whenever you play a card, deal X damage to a random enemy.
+Setup Strike|Buff|∅|Intensity|Removed|∅|Gain X Strength until the end of the turn.
+Shackling Potion|Debuff|∅|Intensity|Removed|∅|Lose X Strength until the end of this turn.
+Shadow Step|Buff|∅|Duration|Consumed|∅|For the next X turns after this one, Attacks deal double damage.
+Shadowmeld|Buff|∅|Counter|Removed|∅|Double your Block gain this turn X times.
+Shriek|Debuff|∅|Intensity|Conserved|∅|The first time this enemy's HP reaches X or below, it becomes Stunned.
+Shrink (Enemy)|Debuff|∅|Does not Stack|Conserved|∅|Attacks deal 30% less damage. Removed when the applier dies.
+Shrink (Potion)|Debuff|∅|Duration|Decremented|∅|Attacks deal 30% less damage. Removed after 3 turns.
+Shroud|Buff|∅|Intensity|Permanent|∅|Whenever you apply Doom, gain X Block.
+Sic 'Em|Debuff|∅|Intensity|Removed|∅|Whenever Osty hits this enemy this turn, Summon X.
+Signal Boost|Buff|∅|Counter|Conserved|∅|Your next X Powers are played an extra time.
+Skittish|Buff|∅|Intensity|Reset|∅|The first time it is hit each turn, it gains X Block.
+Sleight of Flesh|Buff|∅|Intensity|Permanent|∅|Whenever you apply a debuff to an enemy, they take X damage.
+Slippery|Buff|∅|Counter|Conserved|∅|The next X times it loses HP, it only loses 1 HP instead.
+Sloth|Debuff|∅|Intensity|Permanent|∅|You cannot play more than X cards each turn.
+Slow|Debuff|∅|Intensity|Permanent|∅|Whenever you play a card, this enemy receives 10% more damage from Attacks this turn.
+Slumber|Buff|∅|Counter and Duration|Decremented|∅|Awakens upon taking turns or losing HP X times.
+Smoggy|Debuff|∅|Does not stack|Permanent|∅|You can only play 1 Skill per turn.
+Smokestack|Buff|∅|Intensity|Permanent|∅|Whenever you create a Status, deal X damage to ALL enemies.
+Sneaky|Buff|∅|Intensity|Permanent|∅|Whenever another player attacks an enemy, gain X Block.
+Soar|Buff|∅|Does not stack|Removed|∅|Receives 50% less attack damage until it lands.
+Soulbound|Buff|∅|Intensity|Permanent|∅|Whenever (Player) creates a Soul, add X Soul to your Draw Pile.
+Spectrum Shift|Buff|∅|Intensity|Permanent|∅|At the start of your turn, add X random Colorless cards into your Hand.
+Speed Potion|Buff|∅|Intensity|Removed|∅|Gain X Dexterity until the end of this turn.
+Speedster|Buff|∅|Intensity|Permanent|∅|Whenever you draw a card during your turn, deal X damage to ALL enemies.
+Spinner|Buff|∅|Intensity|Permanent|∅|At the start of your turn, Channel X Glass.
+Spirit of Ash|Buff|∅|Intensity|Permanent|∅|Whenever you play an Ethereal card, gain X Block.
+Stampede|Buff|∅|Intensity|Permanent|∅|At the end of your turn, X random Attacks in your Hand are played against a random enemy.
+Star Next Turn|Buff|∅|Intensity|Consumed|∅|Gain X [STAR] next turn.
+Steam Eruption|Buff|∅|Intensity|Permanent|∅|When killed, deals X damage at the end of your next turn.
+Stock|Buff|∅|Intensity|Conserved|∅|When killed, a new Axebot is summoned in its place.
+Storm|Buff|∅|Intensity|Permanent|∅|Whenever you play a Power, Channel X Lightning.
+Strangle|Debuff|∅|Intensity|Removed|∅|Whenever you play a card this turn, this enemy loses X HP.
+Stratagem|Buff|∅|Intensity|Permanent|∅|Whenever you shuffle your Draw Pile, choose X cards from it to put into your Hand.
+Strength|Buff|∅|Intensity|Permanent|-999 to 999|Increases attack damage by X.
+Strength (Negative)|Debuff|∅|Intensity|Permanent|-999 to 999|Decreases attack damage by X.
+Subroutine|Buff|∅|Intensity|Permanent|∅|Whenever you play a Power, gain X [E].
+Suck|Buff|∅|Intensity|Permanent|∅|Whenever it deals unblocked attack damage, it gains X Strength.
+Summon Next Turn|Buff|∅|Intensity|Consumed|∅|At the start of your next turn, Summon X.
+Surprise|Buff|∅|Does not stack|Permanent|∅|Something is off about this creature...
+Swipe|Buff|∅|Does not stack|Permanent|∅|Upon killing this enemy, the stolen card is returned.
+Sword Sage|Buff|∅|Intensity|Permanent|∅|Sovereign Blade gains Replay X.
+Synchronize|Buff|∅|Intensity|Removed|∅|Gain X Focus until the end of this turn.
+Tag Team|Debuff|∅|Intensity|Conserved|∅|The next Attack another player plays on the enemy is played an extra X times.
+Tainted|Debuff|∅|Intensity|Removed|∅|Take X additional damage from Attacks this turn.
+Tank|Buff|∅|Does not stack|Permanent|∅|Take double damage from enemies. Allies take half damage from enemies.
+Tender|Debuff|∅|Intensity|Permanent|∅|Whenever you play a card, lose X Strength and X Dexterity this turn.
+Territorial|Buff|∅|Intensity|Permanent|∅|At the end of its turn, gains X Strength.
+The Bomb|Buff|∅|Duration, multiple plays create separate stacks|Decremented|∅|At the end of X turns, deal 40 damage to ALL enemies.
+The Gambit|Debuff|∅|Does not stack|Permanent|∅|If you take unblocked attack damage this combat, die.
+The Hunt|Buff|∅|Intensity|Permanent|∅|Gain X additional card rewards at the end of combat.
+The Sealed Throne|Buff|∅|Intensity|Permanent|∅|Whenever you play a card, gain 1 [STAR].
+Thievery|Buff|∅|Intensity|Permanent|∅|Steals X Gold when Attacking.
+Thorns|Buff|∅|Intensity|Permanent|∅|When hit by an attack, deal X damage back.
+Thunder|Buff|∅|Intensity|Permanent|∅|Whenever you Evoke Lightning, deal X damage to each enemy hit.
+Time Limit|Buff|∅|Duration|Decremented|∅|You have X more turns to defeat the Battleworn Dummy.
+Tools of the Trade|Buff|∅|Intensity|Permanent|∅|At the start of your turn, draw X cards and discard X cards.
+Toric Toughness|Buff|∅|Duration/Intensity|Decremented|∅|Gain N Block at the start of the next X turns.
+Tracking|Buff|∅|Intensity|Permanent|∅|Weak enemies take X times more damage from Attacks.
+Trash to Treasure|Buff|∅|Intensity|Permanent|∅|Whenever you create a Status, Channel X random Orbs.
+Tyranny|Buff|∅|Intensity|Permanent|∅|At the start of your turn, draw X cards and Exhaust X cards from your Hand.
+Underworld|Buff|∅|Counter|Decremented|∅|Whenever other players deal attack damage this turn, apply that much Doom.
+Unmovable|Buff|∅|Intensity|Permanent|∅|The first X times you gain Block from a card each turn, double the amount gained.
+Veilpiercer|Buff|∅|Counter|Conserved|∅|The next X Ethereal cards you play cost 0.
+Vicious|Buff|∅|Intensity|Permanent|∅|Whenever you apply Vulnerable, draw X cards.
+Vigor|Buff|∅|Intensity|Conserved|∅|Your next Attack deals X additional damage.
+Vital Spark|Buff|∅|Intensity|Permanent|∅|All Skills are Tainted X.
+Void Form|Buff|∅|Intensity|Permanent|∅|The first X cards you play each turn are free to play.
+Vulnerable|Debuff|∅|Duration|Decremented|∅|Receive 50% more damage from Attacks for X turns.
+Waste Away|Debuff|∅|Intensity|Permanent|∅|Gain X less [E] per turn.
+Weak|Debuff|∅|Duration|Decremented|∅|Attacks deal 25% less damage for X turns.
+Well-Laid Plans|Buff|∅|Intensity|Permanent|∅|At the end of your turn, you no longer discard your Hand.
+Withering Presence|Buff|∅|Does not stack|Permanent|∅|Every 6 cards you play, add a Wither to your Hand.
+Wraith Form|Debuff|∅|Intensity|Permanent|∅|At the start of your turn, lose X Dexterity.

@@ -1,0 +1,19 @@
+{
+  "id": "wrought_in_war",
+  "code": "WI",
+  "name": "Wrought in War",
+  "type": "attack",
+  "rarity": "common",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 7 damage. / Forge 7.",
+  "upgradedDescription": "Deal 9 damage. / Forge 9.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

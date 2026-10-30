@@ -1,0 +1,19 @@
+{
+  "id": "giant_rock",
+  "code": "GR",
+  "name": "Giant Rock",
+  "type": "attack",
+  "rarity": "token",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 20 damage.",
+  "upgradedDescription": "Deal 24 damage.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

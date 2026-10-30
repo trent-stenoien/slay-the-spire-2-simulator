@@ -1,0 +1,19 @@
+{
+  "id": "negative_pulse",
+  "code": "NP",
+  "name": "Negative Pulse",
+  "type": "skill",
+  "rarity": "common",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 5 Block. / Apply 7 Doom to ALL enemies.",
+  "upgradedDescription": "Gain 6 Block. / Apply 11 Doom to ALL enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

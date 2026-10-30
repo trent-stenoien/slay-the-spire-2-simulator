@@ -1,0 +1,21 @@
+{
+  "id": "feed",
+  "code": "Fd",
+  "name": "Feed",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 10 damage. / If Fatal, raise your Max HP by 3. / Exhaust.",
+  "upgradedDescription": "Deal 12 damage. / If Fatal, raise your Max HP by 4. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

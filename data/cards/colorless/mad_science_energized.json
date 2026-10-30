@@ -1,0 +1,23 @@
+{
+  "id": "mad_science_energized",
+  "code": "Mc",
+  "name": "Mad Science (Energized)",
+  "type": "skill",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate"
+    ]
+  },
+  "description": "Gain 8 Block. / Gain [E] [E].",
+  "upgradedDescription": "Innate. / Gain 8 Block. / Gain [E] [E].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

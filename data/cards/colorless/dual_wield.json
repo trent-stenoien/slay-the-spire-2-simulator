@@ -1,0 +1,19 @@
+{
+  "id": "dual_wield",
+  "code": "DW",
+  "name": "Dual Wield",
+  "type": "skill",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Choose an Attack or Power card. Add a copy of that card into your Hand.",
+  "upgradedDescription": "Choose an Attack or Power card. Add 2 copies of that card into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

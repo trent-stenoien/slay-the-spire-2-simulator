@@ -1,0 +1,19 @@
+{
+  "id": "compact",
+  "code": "Ck",
+  "name": "Compact",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 6 Block. / Transform all Status cards in your Hand into Fuel.",
+  "upgradedDescription": "Gain 7 Block. / Transform all Status cards in your Hand into Fuel+.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

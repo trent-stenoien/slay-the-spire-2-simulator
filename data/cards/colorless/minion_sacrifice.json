@@ -1,0 +1,21 @@
+{
+  "id": "minion_sacrifice",
+  "code": "Mf",
+  "name": "Minion Sacrifice",
+  "type": "skill",
+  "rarity": "token",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 7 Block. / Exhaust.",
+  "upgradedDescription": "Gain 10 Block. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

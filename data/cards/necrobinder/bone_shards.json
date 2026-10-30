@@ -1,0 +1,19 @@
+{
+  "id": "bone_shards",
+  "code": "Bp",
+  "name": "Bone Shards",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "If Osty is alive, he deals 9 damage to ALL enemies and you gain 9 Block. / Osty dies.",
+  "upgradedDescription": "If Osty is alive, he deals 12 damage to ALL enemies and you gain 12 Block. / Osty dies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

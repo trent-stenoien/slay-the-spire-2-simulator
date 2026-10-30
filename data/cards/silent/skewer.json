@@ -1,0 +1,19 @@
+{
+  "id": "skewer",
+  "code": "Sz",
+  "name": "Skewer",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 0,
+  "xCost": true,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 8 damage X times.",
+  "upgradedDescription": "Deal 11 damage X times.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

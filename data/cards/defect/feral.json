@@ -1,0 +1,21 @@
+{
+  "id": "feral",
+  "code": "Fr",
+  "name": "Feral",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 1
+  },
+  "description": "The first time you play a / 0 [E] Attack each turn, / return it to your Hand.",
+  "upgradedDescription": "The first time you play a / 0 [E] Attack each turn, / return it to your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

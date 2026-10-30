@@ -1,0 +1,19 @@
+{
+  "id": "colossus",
+  "code": "Cj",
+  "name": "Colossus",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 4 Block. / You receive 50% less damage from Vulnerable enemies this turn.",
+  "upgradedDescription": "Gain 7 Block. / You receive 50% less damage from Vulnerable enemies this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

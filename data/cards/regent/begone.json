@@ -1,0 +1,19 @@
+{
+  "id": "begone",
+  "code": "Bg",
+  "name": "BEGONE!",
+  "type": "skill",
+  "rarity": "common",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Choose a card in your Hand to Transform into Minion Strike.",
+  "upgradedDescription": "Choose a card in your Hand to Transform into Minion Strike+.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

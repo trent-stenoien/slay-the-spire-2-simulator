@@ -1,0 +1,19 @@
+{
+  "id": "coolheaded",
+  "code": "C2",
+  "name": "Coolheaded",
+  "type": "skill",
+  "rarity": "common",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Channel 1 Frost. / Draw 1 card.",
+  "upgradedDescription": "Channel 1 Frost. / Draw 2 cards.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

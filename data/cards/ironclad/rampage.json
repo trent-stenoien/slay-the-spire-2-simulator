@@ -1,0 +1,19 @@
+{
+  "id": "rampage",
+  "code": "Rm",
+  "name": "Rampage",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 10 damage. / Increase this card's damage by 5 this combat.",
+  "upgradedDescription": "Deal 10 damage. / Increase this card's damage by 10 this combat.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

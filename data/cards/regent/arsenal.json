@@ -1,0 +1,23 @@
+{
+  "id": "arsenal",
+  "code": "As",
+  "name": "Arsenal",
+  "type": "power",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate"
+    ]
+  },
+  "description": "Whenever you create a card, gain 1 Strength.",
+  "upgradedDescription": "Innate. / Whenever you create a card, gain 1 Strength.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

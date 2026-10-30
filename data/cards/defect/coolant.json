@@ -1,0 +1,19 @@
+{
+  "id": "coolant",
+  "code": "C1",
+  "name": "Coolant",
+  "type": "power",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "At the start of your turn, gain 2 Block for each unique Orb you have.",
+  "upgradedDescription": "At the start of your turn, gain 3 Block for each unique Orb you have.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

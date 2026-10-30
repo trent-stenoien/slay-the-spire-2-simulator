@@ -1,0 +1,19 @@
+{
+  "id": "pull_from_below",
+  "code": "Py",
+  "name": "Pull from Below",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 5 damage for each Ethereal card played this combat.",
+  "upgradedDescription": "Deal 7 damage for each Ethereal card played this combat.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

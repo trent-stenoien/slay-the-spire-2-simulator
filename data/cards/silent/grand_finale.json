@@ -1,0 +1,19 @@
+{
+  "id": "grand_finale",
+  "code": "Gr",
+  "name": "Grand Finale",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Can only be played if there are no cards in your Draw Pile. Deal 60 damage to ALL enemies.",
+  "upgradedDescription": "Can only be played if there are no cards in your Draw Pile. Deal 75 damage to ALL enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

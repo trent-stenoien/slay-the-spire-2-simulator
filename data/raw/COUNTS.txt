@@ -1,0 +1,1 @@
+Cards=604 Enemies=106 Encounters=62 Intents=301 Relics=298 Potions=64 Powers=259

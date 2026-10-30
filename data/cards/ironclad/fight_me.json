@@ -1,0 +1,19 @@
+{
+  "id": "fight_me",
+  "code": "FM",
+  "name": "Fight Me!",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 5 damage twice. / Gain 3 Strength. / The enemy gains 1 Strength.",
+  "upgradedDescription": "Deal 6 damage twice. / Gain 4 Strength. / The enemy gains 1 Strength.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

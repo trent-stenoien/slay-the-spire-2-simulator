@@ -1,0 +1,19 @@
+{
+  "id": "defragment",
+  "code": "Dg",
+  "name": "Defragment",
+  "type": "power",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 1 Focus.",
+  "upgradedDescription": "Gain 2 Focus.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

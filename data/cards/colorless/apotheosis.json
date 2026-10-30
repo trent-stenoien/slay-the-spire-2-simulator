@@ -1,0 +1,24 @@
+{
+  "id": "apotheosis",
+  "code": "Ah",
+  "name": "Apotheosis",
+  "type": "skill",
+  "rarity": "ancient",
+  "character": "colorless",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "innate",
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "cost": 1
+  },
+  "description": "Innate. / Upgrade ALL your cards. / Exhaust.",
+  "upgradedDescription": "Innate. / Upgrade ALL your cards. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

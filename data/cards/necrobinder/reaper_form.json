@@ -1,0 +1,23 @@
+{
+  "id": "reaper_form",
+  "code": "RF",
+  "name": "Reaper Form",
+  "type": "power",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "retain"
+    ]
+  },
+  "description": "Whenever Attacks deal damage, apply that much Doom.",
+  "upgradedDescription": "Retain. / Whenever Attacks deal damage, apply that much Doom.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

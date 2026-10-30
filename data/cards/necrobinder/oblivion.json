@@ -1,0 +1,19 @@
+{
+  "id": "oblivion",
+  "code": "Ob",
+  "name": "Oblivion",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever you play a card this turn, apply 3 Doom to the enemy.",
+  "upgradedDescription": "Whenever you play a card this turn, apply 4 Doom to the enemy.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "vicious",
+  "code": "Vi",
+  "name": "Vicious",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever you apply Vulnerable, draw 1 card.",
+  "upgradedDescription": "Whenever you apply Vulnerable, draw 2 cards.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

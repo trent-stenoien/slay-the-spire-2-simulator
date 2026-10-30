@@ -1,0 +1,19 @@
+{
+  "id": "sleight_of_flesh",
+  "code": "SO",
+  "name": "Sleight of Flesh",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever you apply a debuff to an enemy, they take 9 damage.",
+  "upgradedDescription": "Whenever you apply a debuff to an enemy, they take 13 damage.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

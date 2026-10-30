@@ -1,0 +1,21 @@
+{
+  "id": "monarchs_gaze",
+  "code": "MG",
+  "name": "Monarch's Gaze",
+  "type": "power",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 1
+  },
+  "description": "Whenever you attack an enemy, it loses 1 Strength this turn.",
+  "upgradedDescription": "Whenever you attack an enemy, it loses 1 Strength this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "machine_learning",
+  "code": "ML",
+  "name": "Machine Learning",
+  "type": "power",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate"
+    ]
+  },
+  "description": "At the start of your turn, draw 1 additional card.",
+  "upgradedDescription": "Innate. / At the start of your turn, draw 1 additional card.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

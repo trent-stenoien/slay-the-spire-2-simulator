@@ -1,0 +1,19 @@
+{
+  "id": "splash",
+  "code": "SQ",
+  "name": "Splash",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Choose 1 of 3 random Attacks from another character to add into your Hand. It's free to play this turn.",
+  "upgradedDescription": "Choose 1 of 3 random Upgraded Attacks from another character to add into your Hand. It's free to play this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

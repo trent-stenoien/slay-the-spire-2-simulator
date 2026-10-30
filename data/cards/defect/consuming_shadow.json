@@ -1,0 +1,19 @@
+{
+  "id": "consuming_shadow",
+  "code": "Cz",
+  "name": "Consuming Shadow",
+  "type": "power",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Channel 2 Dark. / At the end of your turn, Evoke your leftmost Orb.",
+  "upgradedDescription": "Channel 3 Dark. / At the end of your turn, Evoke your leftmost Orb.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

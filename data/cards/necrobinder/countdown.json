@@ -1,0 +1,19 @@
+{
+  "id": "countdown",
+  "code": "C5",
+  "name": "Countdown",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "At the start of your turn, apply 6 Doom to a random enemy.",
+  "upgradedDescription": "At the start of your turn, apply 9 Doom to a random enemy.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

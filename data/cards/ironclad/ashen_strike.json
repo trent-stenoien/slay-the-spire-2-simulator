@@ -1,0 +1,19 @@
+{
+  "id": "ashen_strike",
+  "code": "Ak",
+  "name": "Ashen Strike",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 6 damage. / Deals 3 additional damage for each card in your Exhaust Pile.",
+  "upgradedDescription": "Deal 6 damage. / Deals 4 additional damage for each card in your Exhaust Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

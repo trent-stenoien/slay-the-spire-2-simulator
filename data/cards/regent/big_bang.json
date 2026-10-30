@@ -1,0 +1,26 @@
+{
+  "id": "big_bang",
+  "code": "BB",
+  "name": "Big Bang",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate",
+      "exhaust"
+    ]
+  },
+  "description": "Draw 1 card. / Gain [E]. / Gain [STAR]. / Forge 5. / Exhaust.",
+  "upgradedDescription": "Innate. / Draw 1 card. / Gain [E]. / Gain [STAR]. / Forge 5. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

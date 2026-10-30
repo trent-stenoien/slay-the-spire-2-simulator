@@ -1,0 +1,21 @@
+{
+  "id": "dominate",
+  "code": "Dx",
+  "name": "Dominate",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Apply 1 Vulnerable. / Gain 1 Strength for each Vulnerable on the enemy. / Exhaust.",
+  "upgradedDescription": "Apply 2 Vulnerable. / Gain 1 Strength for each Vulnerable on the enemy. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

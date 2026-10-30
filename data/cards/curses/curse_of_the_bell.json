@@ -1,0 +1,22 @@
+{
+  "id": "curse_of_the_bell",
+  "code": "CE",
+  "name": "Curse of the Bell",
+  "type": "curse",
+  "rarity": "curse",
+  "character": "colorless",
+  "cost": null,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "unplayable",
+    "eternal"
+  ],
+  "effects": [],
+  "upgraded": null,
+  "description": "Unplayable. / Eternal.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

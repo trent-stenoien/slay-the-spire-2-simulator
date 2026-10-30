@@ -1,0 +1,21 @@
+{
+  "id": "ricochet",
+  "code": "Rj",
+  "name": "Ricochet",
+  "type": "attack",
+  "rarity": "common",
+  "character": "S",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "sly"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Sly. / Deal 3 damage to a random enemy 4 times.",
+  "upgradedDescription": "Sly. / Deal 3 damage to a random enemy 5 times.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

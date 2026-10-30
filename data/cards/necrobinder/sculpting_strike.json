@@ -1,0 +1,19 @@
+{
+  "id": "sculpting_strike",
+  "code": "SS",
+  "name": "Sculpting Strike",
+  "type": "attack",
+  "rarity": "common",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 9 damage. / Add Ethereal to a card in your Hand.",
+  "upgradedDescription": "Deal 12 damage. / Add Ethereal to a card in your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

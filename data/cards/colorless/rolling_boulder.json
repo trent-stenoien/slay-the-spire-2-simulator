@@ -1,0 +1,19 @@
+{
+  "id": "rolling_boulder",
+  "code": "Ru",
+  "name": "Rolling Boulder",
+  "type": "power",
+  "rarity": "rare",
+  "character": "colorless",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "At the start of your turn, deal 5 damage to ALL enemies and increase this damage by 5.",
+  "upgradedDescription": "At the start of your turn, deal 10 damage to ALL enemies and increase this damage by 5.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "prolong",
+  "code": "Pv",
+  "name": "Prolong",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": []
+  },
+  "description": "Next turn, gain Block equal to your current Block. / Exhaust.",
+  "upgradedDescription": "Next turn, gain Block equal to your current Block.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

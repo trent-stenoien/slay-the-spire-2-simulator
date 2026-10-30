@@ -1,0 +1,19 @@
+{
+  "id": "smokestack",
+  "code": "S4",
+  "name": "Smokestack",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever you create a Status, deal 5 damage to ALL enemies.",
+  "upgradedDescription": "Whenever you create a Status, deal 7 damage to ALL enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

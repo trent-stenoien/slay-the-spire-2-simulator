@@ -1,0 +1,19 @@
+{
+  "id": "fisticuffs",
+  "code": "Fc",
+  "name": "Fisticuffs",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 7 damage. / Gain Block equal to damage dealt.",
+  "upgradedDescription": "Deal 9 damage. / Gain Block equal to damage dealt.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

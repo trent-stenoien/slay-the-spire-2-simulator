@@ -1,0 +1,19 @@
+{
+  "id": "gang_up",
+  "code": "GU",
+  "name": "Gang Up",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 5 damage. / Deals 5 additional damage for each time another player has attacked the enemy this turn.",
+  "upgradedDescription": "Deal 5 damage. / Deals 7 additional damage for each time another player has attacked the enemy this turn.",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

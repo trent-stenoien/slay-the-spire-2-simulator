@@ -1,0 +1,21 @@
+{
+  "id": "defy",
+  "code": "Dd",
+  "name": "Defy",
+  "type": "skill",
+  "rarity": "common",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "ethereal"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Ethereal. / Gain 6 Block. / Apply 1 Weak.",
+  "upgradedDescription": "Ethereal. / Gain 9 Block. / Apply 1 Weak.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

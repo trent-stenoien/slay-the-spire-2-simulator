@@ -1,0 +1,19 @@
+{
+  "id": "meteor_strike",
+  "code": "Mr",
+  "name": "Meteor Strike",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 5,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 24 damage. / Channel 3 Plasma.",
+  "upgradedDescription": "Deal 30 damage. / Channel 3 Plasma.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

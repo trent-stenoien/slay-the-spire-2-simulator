@@ -1,0 +1,22 @@
+{
+  "id": "writhe",
+  "code": "Wr",
+  "name": "Writhe",
+  "type": "curse",
+  "rarity": "curse",
+  "character": "colorless",
+  "cost": null,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "unplayable",
+    "innate"
+  ],
+  "effects": [],
+  "upgraded": null,
+  "description": "Unplayable. / Innate.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

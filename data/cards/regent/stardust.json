@@ -1,0 +1,20 @@
+{
+  "id": "stardust",
+  "code": "Ax",
+  "name": "Stardust",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 0,
+  "xCost": false,
+  "starCost": 0,
+  "xStarCost": true,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 5 damage to a random enemy X times.",
+  "upgradedDescription": "Deal 7 damage to a random enemy X times.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

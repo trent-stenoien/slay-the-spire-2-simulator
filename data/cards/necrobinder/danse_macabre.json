@@ -1,0 +1,19 @@
+{
+  "id": "danse_macabre",
+  "code": "DM",
+  "name": "Danse Macabre",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever you play a card that costs [E][E] or more, gain 4 Block.",
+  "upgradedDescription": "Whenever you play a card that costs [E][E] or more, gain 6 Block.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

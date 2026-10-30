@@ -1,0 +1,19 @@
+{
+  "id": "helix_drill",
+  "code": "Hl",
+  "name": "Helix Drill",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 3 damage for each [E] spent on other cards this turn.",
+  "upgradedDescription": "Deal 5 damage for each [E] spent on other cards this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

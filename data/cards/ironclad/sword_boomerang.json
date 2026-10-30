@@ -1,0 +1,19 @@
+{
+  "id": "sword_boomerang",
+  "code": "AH",
+  "name": "Sword Boomerang",
+  "type": "attack",
+  "rarity": "common",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 3 damage to a random enemy 3 times.",
+  "upgradedDescription": "Deal 3 damage to a random enemy 4 times.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

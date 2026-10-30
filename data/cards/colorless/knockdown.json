@@ -1,0 +1,19 @@
+{
+  "id": "knockdown",
+  "code": "Kn",
+  "name": "Knockdown",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "colorless",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 10 damage. / The enemy takes double damage from other players this turn.",
+  "upgradedDescription": "Deal 14 damage. / The enemy takes triple damage from other players this turn.",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

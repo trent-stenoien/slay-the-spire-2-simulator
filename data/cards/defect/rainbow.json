@@ -1,0 +1,23 @@
+{
+  "id": "rainbow",
+  "code": "Ri",
+  "name": "Rainbow",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": []
+  },
+  "description": "Channel 1 Lightning. / Channel 1 Frost. / Channel 1 Dark. / Exhaust.",
+  "upgradedDescription": "Channel 1 Lightning. / Channel 1 Frost. / Channel 1 Dark.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

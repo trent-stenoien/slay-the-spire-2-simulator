@@ -1,0 +1,21 @@
+{
+  "id": "protector",
+  "code": "Pw",
+  "name": "Protector",
+  "type": "attack",
+  "rarity": "ancient",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 0
+  },
+  "description": "Osty deals 10 damage. / Deals additional damage equal to Osty's Max HP.",
+  "upgradedDescription": "Osty deals 15 damage. / Deals additional damage equal to Osty's Max HP.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

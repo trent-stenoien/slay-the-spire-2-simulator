@@ -1,0 +1,19 @@
+{
+  "id": "one_two_punch",
+  "code": "OP",
+  "name": "One-Two Punch",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "This turn, your next Attack is played an extra time.",
+  "upgradedDescription": "This turn, your next 2 Attacks are played an extra time.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

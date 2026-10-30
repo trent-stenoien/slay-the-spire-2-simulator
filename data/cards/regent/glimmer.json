@@ -1,0 +1,19 @@
+{
+  "id": "glimmer",
+  "code": "Gi",
+  "name": "Glimmer",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Draw 3 cards. / Put 1 card from your Hand on top of your Draw Pile.",
+  "upgradedDescription": "Draw 4 cards. / Put 1 card from your Hand on top of your Draw Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,21 @@
+{
+  "id": "shockwave",
+  "code": "Sq",
+  "name": "Shockwave",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Apply 3 Weak and Vulnerable to ALL enemies. / Exhaust.",
+  "upgradedDescription": "Apply 5 Weak and Vulnerable to ALL enemies. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

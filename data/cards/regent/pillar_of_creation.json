@@ -1,0 +1,19 @@
+{
+  "id": "pillar_of_creation",
+  "code": "PO",
+  "name": "Pillar of Creation",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever you create a card, gain 2 Block.",
+  "upgradedDescription": "Whenever you create a card, gain 3 Block.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

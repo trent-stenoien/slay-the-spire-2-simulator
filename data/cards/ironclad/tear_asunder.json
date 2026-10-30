@@ -1,0 +1,19 @@
+{
+  "id": "tear_asunder",
+  "code": "TA",
+  "name": "Tear Asunder",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 5 damage. / Hits an additional time for each time you lost HP this combat.",
+  "upgradedDescription": "Deal 7 damage. / Hits an additional time for each time you lost HP this combat.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

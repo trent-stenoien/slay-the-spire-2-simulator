@@ -1,0 +1,21 @@
+{
+  "id": "corruption",
+  "code": "C4",
+  "name": "Corruption",
+  "type": "power",
+  "rarity": "ancient",
+  "character": "I",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 2
+  },
+  "description": "Skills cost 0 [E]. / Whenever you play a Skill, Exhaust it.",
+  "upgradedDescription": "Skills cost 0 [E]. / Whenever you play a Skill, Exhaust it.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

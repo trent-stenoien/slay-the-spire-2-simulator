@@ -1,0 +1,23 @@
+{
+  "id": "graveblast",
+  "code": "Gv",
+  "name": "Graveblast",
+  "type": "attack",
+  "rarity": "common",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": []
+  },
+  "description": "Deal 4 damage. / Put a card from your Discard Pile into your Hand. / Exhaust.",
+  "upgradedDescription": "Deal 6 damage. / Put a card from your Discard Pile into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

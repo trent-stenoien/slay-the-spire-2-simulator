@@ -1,0 +1,19 @@
+{
+  "id": "child_of_the_stars",
+  "code": "Ci",
+  "name": "Child of the Stars",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever you spend [STAR] , gain 2 Block for each [STAR] spent.",
+  "upgradedDescription": "Whenever you spend [STAR] , gain 3 Block for each [STAR] spent.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

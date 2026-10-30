@@ -1,0 +1,19 @@
+{
+  "id": "heavenly_drill",
+  "code": "HD",
+  "name": "Heavenly Drill",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 0,
+  "xCost": true,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 8 damage X times. / Double X if it's 4 or more.",
+  "upgradedDescription": "Deal 10 damage X times. / Double X if it's 4 or more.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

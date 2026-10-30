@@ -1,0 +1,21 @@
+{
+  "id": "wither",
+  "code": "Wt",
+  "name": "Wither",
+  "type": "status",
+  "rarity": "status",
+  "character": "colorless",
+  "cost": null,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "unplayable"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Unplayable. / At the end of your turn, if this is in your Hand, take 3 damage.",
+  "upgradedDescription": "Unplayable. / At the end of your turn, if this is in your Hand, take 6 damage.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

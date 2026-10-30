@@ -1,0 +1,19 @@
+{
+  "id": "pull_aggro",
+  "code": "PA",
+  "name": "Pull Aggro",
+  "type": "skill",
+  "rarity": "common",
+  "character": "N",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Summon 4. / Gain 7 Block.",
+  "upgradedDescription": "Summon 5. / Gain 9 Block.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

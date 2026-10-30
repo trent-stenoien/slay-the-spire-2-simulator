@@ -1,0 +1,19 @@
+{
+  "id": "omnislice",
+  "code": "Om",
+  "name": "Omnislice",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 8 damage. / Damage ALL other enemies equal to the damage dealt.",
+  "upgradedDescription": "Deal 11 damage. / Damage ALL other enemies equal to the damage dealt.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

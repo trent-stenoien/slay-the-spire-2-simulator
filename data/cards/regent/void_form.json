@@ -1,0 +1,23 @@
+{
+  "id": "void_form",
+  "code": "VF",
+  "name": "Void Form",
+  "type": "power",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "ethereal"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": []
+  },
+  "description": "Ethereal. / End your turn. / The first 2 cards you play each turn are free to play.",
+  "upgradedDescription": "End your turn. / The first 2 cards you play each turn are free to play.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

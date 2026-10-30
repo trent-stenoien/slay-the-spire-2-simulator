@@ -1,0 +1,19 @@
+{
+  "id": "bulwark",
+  "code": "B7",
+  "name": "Bulwark",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 12 Block. / Forge 10.",
+  "upgradedDescription": "Gain 15 Block. / Forge 13.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

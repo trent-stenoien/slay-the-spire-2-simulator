@@ -1,0 +1,21 @@
+{
+  "id": "enlightenment",
+  "code": "El",
+  "name": "Enlightenment",
+  "type": "skill",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Reduce the cost of ALL cards in your Hand to 1 this turn. / Exhaust.",
+  "upgradedDescription": "Reduce the cost of ALL cards in your Hand to 1 this combat. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

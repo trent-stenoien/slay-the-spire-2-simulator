@@ -1,0 +1,19 @@
+{
+  "id": "meteor_shower",
+  "code": "Mo",
+  "name": "Meteor Shower",
+  "type": "attack",
+  "rarity": "ancient",
+  "character": "R",
+  "cost": 0,
+  "xCost": false,
+  "starCost": 2,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 14 damage to ALL enemies. / Apply 2 Weak and Vulnerable to ALL enemies.",
+  "upgradedDescription": "Deal 21 damage to ALL enemies. / Apply 2 Weak and Vulnerable to ALL enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

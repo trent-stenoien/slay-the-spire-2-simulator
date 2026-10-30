@@ -1,0 +1,23 @@
+{
+  "id": "mind_blast",
+  "code": "MB",
+  "name": "Mind Blast",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "innate"
+  ],
+  "effects": [],
+  "upgraded": {
+    "cost": 0
+  },
+  "description": "Innate. / Deal damage equal to the number of cards in your Draw Pile.",
+  "upgradedDescription": "Innate. / Deal damage equal to the number of cards in your Draw Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "burning_pact",
+  "code": "BP",
+  "name": "Burning Pact",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Exhaust 1 card. / Draw 2 cards.",
+  "upgradedDescription": "Exhaust 1 card. / Draw 3 cards.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

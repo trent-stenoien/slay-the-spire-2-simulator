@@ -1,0 +1,19 @@
+{
+  "id": "scrape",
+  "code": "Sr",
+  "name": "Scrape",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 7 damage. / Draw 4 cards. / Discard all cards drawn this way that do not cost 0 [E].",
+  "upgradedDescription": "Deal 10 damage. / Draw 5 cards. / Discard all cards drawn this way that do not cost 0 [E].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

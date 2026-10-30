@@ -1,0 +1,23 @@
+{
+  "id": "mirage",
+  "code": "Mj",
+  "name": "Mirage",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": []
+  },
+  "description": "Gain Block equal to Poison on ALL enemies. / Exhaust.",
+  "upgradedDescription": "Gain Block equal to Poison on ALL enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

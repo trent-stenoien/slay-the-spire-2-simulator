@@ -1,0 +1,19 @@
+{
+  "id": "gather_light",
+  "code": "GL",
+  "name": "Gather Light",
+  "type": "skill",
+  "rarity": "common",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 8 Block. / Gain [STAR].",
+  "upgradedDescription": "Gain 11 Block. / Gain [STAR].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

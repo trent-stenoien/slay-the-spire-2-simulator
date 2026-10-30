@@ -1,0 +1,23 @@
+{
+  "id": "transfigure",
+  "code": "Tf",
+  "name": "Transfigure",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": []
+  },
+  "description": "Add Replay to a card in your Hand. / It costs an extra [E]. / Exhaust.",
+  "upgradedDescription": "Add Replay to a card in your Hand. / It costs an extra [E].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

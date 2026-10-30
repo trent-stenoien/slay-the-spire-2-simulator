@@ -1,0 +1,21 @@
+{
+  "id": "subroutine",
+  "code": "A5",
+  "name": "Subroutine",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 0
+  },
+  "description": "Whenever you play a Power, gain [E].",
+  "upgradedDescription": "Whenever you play a Power, gain [E].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

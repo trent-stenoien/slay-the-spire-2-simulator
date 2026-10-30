@@ -1,0 +1,19 @@
+{
+  "id": "thunder",
+  "code": "Td",
+  "name": "Thunder",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever you Evoke Lightning, deal 8 damage to each enemy hit.",
+  "upgradedDescription": "Whenever you Evoke Lightning, deal 11 damage to each enemy hit.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

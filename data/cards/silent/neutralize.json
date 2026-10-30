@@ -1,0 +1,19 @@
+{
+  "id": "neutralize",
+  "code": "Nu",
+  "name": "Neutralize",
+  "type": "attack",
+  "rarity": "basic",
+  "character": "S",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 3 damage. / Apply 1 Weak.",
+  "upgradedDescription": "Deal 4 damage. / Apply 2 Weak.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

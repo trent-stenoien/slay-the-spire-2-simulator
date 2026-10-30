@@ -1,0 +1,19 @@
+{
+  "id": "rocket_punch",
+  "code": "RP",
+  "name": "Rocket Punch",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 13 damage. / Draw 1 card. / Whenever you create a Status, reduce this card's cost by 1 [E] until played.",
+  "upgradedDescription": "Deal 14 damage. / Draw 2 cards. / Whenever you create a Status, reduce this card's cost by 1 [E] until played.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

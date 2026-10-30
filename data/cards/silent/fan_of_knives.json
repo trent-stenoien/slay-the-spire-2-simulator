@@ -1,0 +1,19 @@
+{
+  "id": "fan_of_knives",
+  "code": "FO",
+  "name": "Fan of Knives",
+  "type": "power",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Shivs now hit ALL enemies. / Add 4 Shivs into your Hand.",
+  "upgradedDescription": "Shivs now hit ALL enemies. / Add 5 Shivs into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

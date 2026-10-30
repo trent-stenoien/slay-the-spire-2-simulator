@@ -1,0 +1,21 @@
+{
+  "id": "byrdonis_egg",
+  "code": "BK",
+  "name": "Byrdonis Egg",
+  "type": "quest",
+  "rarity": "quest",
+  "character": "colorless",
+  "cost": null,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "unplayable"
+  ],
+  "effects": [],
+  "upgraded": null,
+  "description": "Unplayable. / Can be hatched at a Rest Site.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

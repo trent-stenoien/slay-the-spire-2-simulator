@@ -1,0 +1,19 @@
+{
+  "id": "spirit_of_ash",
+  "code": "SN",
+  "name": "Spirit of Ash",
+  "type": "power",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever you play an Ethereal card, gain 4 Block.",
+  "upgradedDescription": "Whenever you play an Ethereal card, gain 5 Block.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "supermassive",
+  "code": "AA",
+  "name": "Supermassive",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 5 damage. / Deals 3 additional damage for each card you created this combat.",
+  "upgradedDescription": "Deal 5 damage. / Deals 4 additional damage for each card you created this combat.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

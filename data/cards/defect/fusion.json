@@ -1,0 +1,23 @@
+{
+  "id": "fusion",
+  "code": "Fv",
+  "name": "Fusion",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": []
+  },
+  "description": "Channel 1 Plasma. / Exhaust.",
+  "upgradedDescription": "Channel 1 Plasma.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

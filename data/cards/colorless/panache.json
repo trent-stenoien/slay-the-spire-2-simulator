@@ -1,0 +1,19 @@
+{
+  "id": "panache",
+  "code": "Pn",
+  "name": "Panache",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Every time you play 5 cards in a single turn, deal 10 damage to ALL enemies.",
+  "upgradedDescription": "Every time you play 5 cards in a single turn, deal 14 damage to ALL enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

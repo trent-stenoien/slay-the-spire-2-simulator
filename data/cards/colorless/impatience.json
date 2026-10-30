@@ -1,0 +1,19 @@
+{
+  "id": "impatience",
+  "code": "Ip",
+  "name": "Impatience",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "If you have no Attacks in your Hand, draw 2 cards.",
+  "upgradedDescription": "If you have no Attacks in your Hand, draw 3 cards.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

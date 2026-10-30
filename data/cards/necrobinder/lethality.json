@@ -1,0 +1,21 @@
+{
+  "id": "lethality",
+  "code": "Lt",
+  "name": "Lethality",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "ethereal"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Ethereal. / The first Attack each turn deals 50% additional damage.",
+  "upgradedDescription": "Ethereal. / The first Attack each turn deals 75% additional damage.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

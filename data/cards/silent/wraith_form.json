@@ -1,0 +1,19 @@
+{
+  "id": "wraith_form",
+  "code": "WF",
+  "name": "Wraith Form",
+  "type": "power",
+  "rarity": "ancient",
+  "character": "S",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 2 Intangible. / At the start of your turn, lose 1 Dexterity.",
+  "upgradedDescription": "Gain 3 Intangible. / At the start of your turn, lose 1 Dexterity.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "finisher",
+  "code": "Fh",
+  "name": "Finisher",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 6 damage for each Attack already played this turn.",
+  "upgradedDescription": "Deal 8 damage for each Attack already played this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

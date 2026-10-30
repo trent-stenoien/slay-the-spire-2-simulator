@@ -1,0 +1,19 @@
+{
+  "id": "summon_forth",
+  "code": "A7",
+  "name": "Summon Forth",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Put Sovereign Blade into your Hand from anywhere. / Forge 8.",
+  "upgradedDescription": "Put Sovereign Blade into your Hand from anywhere. / Forge 11.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

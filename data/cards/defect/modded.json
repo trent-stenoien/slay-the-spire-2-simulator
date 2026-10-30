@@ -1,0 +1,19 @@
+{
+  "id": "modded",
+  "code": "Mq",
+  "name": "Modded",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 1 Orb Slot. / Draw 1 card. Increase this card's cost by 1.",
+  "upgradedDescription": "Gain 1 Orb Slot. / Draw 2 cards. Increase this card's cost by 1.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

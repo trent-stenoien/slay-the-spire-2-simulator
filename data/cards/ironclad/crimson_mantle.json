@@ -1,0 +1,19 @@
+{
+  "id": "crimson_mantle",
+  "code": "C8",
+  "name": "Crimson Mantle",
+  "type": "power",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "At the start of your turn, lose 1 HP and gain 7 Block.",
+  "upgradedDescription": "At the start of your turn, lose 1 HP and gain 10 Block.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "dagger_throw",
+  "code": "DT",
+  "name": "Dagger Throw",
+  "type": "attack",
+  "rarity": "common",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 9 damage. / Draw 1 card. / Discard 1 card.",
+  "upgradedDescription": "Deal 12 damage. / Draw 1 card. / Discard 1 card.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

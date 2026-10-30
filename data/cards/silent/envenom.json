@@ -1,0 +1,19 @@
+{
+  "id": "envenom",
+  "code": "Ev",
+  "name": "Envenom",
+  "type": "power",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever an Attack deals unblocked damage, apply 1 Poison.",
+  "upgradedDescription": "Whenever an Attack deals unblocked damage, apply 2 Poison.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

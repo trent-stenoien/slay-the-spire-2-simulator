@@ -1,0 +1,21 @@
+{
+  "id": "barricade",
+  "code": "Bi",
+  "name": "Barricade",
+  "type": "power",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 2
+  },
+  "description": "Block is not removed at the start of your turn.",
+  "upgradedDescription": "Block is not removed at the start of your turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

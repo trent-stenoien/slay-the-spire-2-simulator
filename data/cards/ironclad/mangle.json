@@ -1,0 +1,19 @@
+{
+  "id": "mangle",
+  "code": "Mg",
+  "name": "Mangle",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 20 damage. / Enemy loses 10 Strength this turn.",
+  "upgradedDescription": "Deal 26 damage. / Enemy loses 15 Strength this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

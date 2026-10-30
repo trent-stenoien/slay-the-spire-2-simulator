@@ -1,0 +1,21 @@
+{
+  "id": "shatter",
+  "code": "Sg",
+  "name": "Shatter",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 7 damage to ALL enemies. / Evoke all of your Orbs twice. / Exhaust.",
+  "upgradedDescription": "Deal 11 damage to ALL enemies. / Evoke all of your Orbs twice. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

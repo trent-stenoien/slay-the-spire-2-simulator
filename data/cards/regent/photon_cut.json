@@ -1,0 +1,19 @@
+{
+  "id": "photon_cut",
+  "code": "PC",
+  "name": "Photon Cut",
+  "type": "attack",
+  "rarity": "common",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 10 damage. / Draw 1 card. / Put 1 card from your Hand on top of your Draw Pile.",
+  "upgradedDescription": "Deal 13 damage. / Draw 2 cards. / Put 1 card from your Hand on top of your Draw Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

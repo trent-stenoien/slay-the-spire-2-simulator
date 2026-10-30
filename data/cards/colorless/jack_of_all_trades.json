@@ -1,0 +1,21 @@
+{
+  "id": "jack_of_all_trades",
+  "code": "JO",
+  "name": "Jack of All Trades",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Add 1 random Colorless card into your Hand. / Exhaust.",
+  "upgradedDescription": "Add 2 random Colorless cards into your Hand. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

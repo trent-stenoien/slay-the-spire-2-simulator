@@ -1,0 +1,19 @@
+{
+  "id": "ice_lance",
+  "code": "IL",
+  "name": "Ice Lance",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 19 damage. / Channel 3 Frost.",
+  "upgradedDescription": "Deal 24 damage. / Channel 3 Frost.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "beat_into_shape",
+  "code": "BI",
+  "name": "Beat into Shape",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 5 damage. / Forge 5. / Forges an additional 5 for every other time you've hit the enemy this turn.",
+  "upgradedDescription": "Deal 7 damage. / Forge 7. / Forges an additional 7 for every other time you've hit the enemy this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "claw",
+  "code": "Cw",
+  "name": "Claw",
+  "type": "attack",
+  "rarity": "common",
+  "character": "D",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 3 damage. / Increase the damage of ALL Claw cards by 2 this combat.",
+  "upgradedDescription": "Deal 4 damage. / Increase the damage of ALL Claw cards by 3 this combat.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

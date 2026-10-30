@@ -1,0 +1,19 @@
+{
+  "id": "prowess",
+  "code": "Px",
+  "name": "Prowess",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 1 Strength. / Gain 1 Dexterity.",
+  "upgradedDescription": "Gain 2 Strength. / Gain 2 Dexterity.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

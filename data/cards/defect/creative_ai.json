@@ -1,0 +1,21 @@
+{
+  "id": "creative_ai",
+  "code": "C6",
+  "name": "Creative AI",
+  "type": "power",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 2
+  },
+  "description": "At the start of your turn, add a random Power into your Hand.",
+  "upgradedDescription": "At the start of your turn, add a random Power into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "blood_wall",
+  "code": "BW",
+  "name": "Blood Wall",
+  "type": "skill",
+  "rarity": "common",
+  "character": "I",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Lose 2 HP. / Gain 16 Block.",
+  "upgradedDescription": "Lose 2 HP. / Gain 20 Block.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

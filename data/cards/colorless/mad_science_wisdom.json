@@ -1,0 +1,23 @@
+{
+  "id": "mad_science_wisdom",
+  "code": "Mw",
+  "name": "Mad Science (Wisdom)",
+  "type": "skill",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate"
+    ]
+  },
+  "description": "Gain 8 Block. / Draw 3 cards.",
+  "upgradedDescription": "Innate. / Gain 8 Block. / Draw 3 cards.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

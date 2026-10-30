@@ -1,0 +1,21 @@
+{
+  "id": "bombardment",
+  "code": "Bn",
+  "name": "Bombardment",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 18 damage. / At the start of your turn, if this is in your Exhaust Pile, / play it. / Exhaust.",
+  "upgradedDescription": "Deal 24 damage. / At the start of your turn, if this is in your Exhaust Pile, / play it. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

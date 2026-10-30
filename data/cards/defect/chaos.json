@@ -1,0 +1,19 @@
+{
+  "id": "chaos",
+  "code": "Ch",
+  "name": "Chaos",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Channel 1 random Orb.",
+  "upgradedDescription": "Channel 2 random Orbs.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

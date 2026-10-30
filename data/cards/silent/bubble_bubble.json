@@ -1,0 +1,19 @@
+{
+  "id": "bubble_bubble",
+  "code": "B3",
+  "name": "Bubble Bubble",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "If the enemy has Poison, apply 9 Poison.",
+  "upgradedDescription": "If the enemy has Poison, apply 12 Poison.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

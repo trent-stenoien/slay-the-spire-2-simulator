@@ -1,0 +1,23 @@
+{
+  "id": "call_of_the_void",
+  "code": "CO",
+  "name": "Call of the Void",
+  "type": "power",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate"
+    ]
+  },
+  "description": "At the start of your turn, add 1 random card into your Hand. It gains Ethereal.",
+  "upgradedDescription": "Innate. / At the start of your turn, add 1 random card into your Hand. It gains Ethereal.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

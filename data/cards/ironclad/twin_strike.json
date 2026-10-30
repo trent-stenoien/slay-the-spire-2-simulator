@@ -1,0 +1,19 @@
+{
+  "id": "twin_strike",
+  "code": "Tw",
+  "name": "Twin Strike",
+  "type": "attack",
+  "rarity": "common",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 5 damage twice.",
+  "upgradedDescription": "Deal 7 damage twice.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

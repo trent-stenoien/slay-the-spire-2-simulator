@@ -1,0 +1,19 @@
+{
+  "id": "bolas",
+  "code": "Bm",
+  "name": "Bolas",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 3 damage. / At the start of your next turn, return this to your Hand.",
+  "upgradedDescription": "Deal 4 damage. / At the start of your next turn, return this to your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

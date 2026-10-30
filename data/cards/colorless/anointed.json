@@ -1,0 +1,26 @@
+{
+  "id": "anointed",
+  "code": "Ae",
+  "name": "Anointed",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "retain",
+      "exhaust"
+    ]
+  },
+  "description": "Put every Rare card from your Draw Pile into your Hand. / Exhaust.",
+  "upgradedDescription": "Retain. / Put every Rare card from your Draw Pile into your Hand. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

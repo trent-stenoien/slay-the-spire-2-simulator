@@ -1,0 +1,19 @@
+{
+  "id": "dismantle",
+  "code": "Du",
+  "name": "Dismantle",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 8 damage. / If the enemy is Vulnerable, hits twice.",
+  "upgradedDescription": "Deal 10 damage. / If the enemy is Vulnerable, hits twice.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

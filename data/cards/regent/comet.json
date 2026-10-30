@@ -1,0 +1,19 @@
+{
+  "id": "comet",
+  "code": "Cm",
+  "name": "Comet",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 0,
+  "xCost": false,
+  "starCost": 5,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 33 damage. / Apply 3 Weak. / Apply 3 Vulnerable.",
+  "upgradedDescription": "Deal 44 damage. / Apply 3 Weak. / Apply 3 Vulnerable.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "cinder",
+  "code": "Cn",
+  "name": "Cinder",
+  "type": "attack",
+  "rarity": "common",
+  "character": "I",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 18 damage. / Exhaust 1 card at random.",
+  "upgradedDescription": "Deal 24 damage. / Exhaust 1 card at random.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

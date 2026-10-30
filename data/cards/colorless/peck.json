@@ -1,0 +1,19 @@
+{
+  "id": "peck",
+  "code": "Pe",
+  "name": "Peck",
+  "type": "attack",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 2 damage 3 times.",
+  "upgradedDescription": "Deal 2 damage 4 times.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

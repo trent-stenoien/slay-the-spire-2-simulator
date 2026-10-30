@@ -1,0 +1,19 @@
+{
+  "id": "coordinate",
+  "code": "C3",
+  "name": "Coordinate",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Give another player 5 Strength this turn.",
+  "upgradedDescription": "Give another player 8 Strength this turn.",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

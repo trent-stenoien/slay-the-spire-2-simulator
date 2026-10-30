@@ -1,0 +1,19 @@
+{
+  "id": "kingly_punch",
+  "code": "KP",
+  "name": "Kingly Punch",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 8 damage. / Whenever you draw this card, increase its damage by 4 this combat.",
+  "upgradedDescription": "Deal 10 damage. / Whenever you draw this card, increase its damage by 6 this combat.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

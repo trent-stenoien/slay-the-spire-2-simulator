@@ -1,0 +1,23 @@
+{
+  "id": "mad_science",
+  "code": "MS",
+  "name": "Mad Science",
+  "type": "skill",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate"
+    ]
+  },
+  "description": "This card can be created and customized at the event Tinker Time.",
+  "upgradedDescription": "Innate. / This card can be created and customized at the event Tinker Time.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

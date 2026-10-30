@@ -1,0 +1,21 @@
+{
+  "id": "guards",
+  "code": "Gu",
+  "name": "GUARDS!!!",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Transform any number of cards in your Hand into Minion Sacrifice. / Exhaust.",
+  "upgradedDescription": "Transform any number of cards in your Hand into Minion Sacrifice+. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

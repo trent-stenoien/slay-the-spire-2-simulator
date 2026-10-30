@@ -1,0 +1,21 @@
+{
+  "id": "hellraiser",
+  "code": "Hr",
+  "name": "Hellraiser",
+  "type": "power",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 1
+  },
+  "description": "Whenever you draw a card containing \"Strike\", it is played against a random enemy.",
+  "upgradedDescription": "Whenever you draw a card containing \"Strike\", it is played against a random enemy.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

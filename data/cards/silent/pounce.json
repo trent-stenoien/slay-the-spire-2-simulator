@@ -1,0 +1,19 @@
+{
+  "id": "pounce",
+  "code": "Pu",
+  "name": "Pounce",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 14 damage. / The next Skill you play costs 0 [E].",
+  "upgradedDescription": "Deal 20 damage. / The next Skill you play costs 0 [E].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

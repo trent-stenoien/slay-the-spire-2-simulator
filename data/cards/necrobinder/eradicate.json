@@ -1,0 +1,21 @@
+{
+  "id": "eradicate",
+  "code": "Ea",
+  "name": "Eradicate",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 0,
+  "xCost": true,
+  "starCost": null,
+  "keywords": [
+    "retain"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Retain. / Deal 11 damage X times.",
+  "upgradedDescription": "Retain. / Deal 14 damage X times.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

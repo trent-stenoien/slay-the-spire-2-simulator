@@ -1,0 +1,26 @@
+{
+  "id": "apparition",
+  "code": "Aa",
+  "name": "Apparition",
+  "type": "skill",
+  "rarity": "ancient",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "ethereal",
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "exhaust"
+    ]
+  },
+  "description": "Ethereal. / Gain 1 Intangible. / Exhaust.",
+  "upgradedDescription": "Gain 1 Intangible. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

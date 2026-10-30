@@ -1,0 +1,21 @@
+{
+  "id": "calamity",
+  "code": "Cl",
+  "name": "Calamity",
+  "type": "power",
+  "rarity": "rare",
+  "character": "colorless",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 2
+  },
+  "description": "Whenever you play an Attack, add a random Attack into your Hand.",
+  "upgradedDescription": "Whenever you play an Attack, add a random Attack into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

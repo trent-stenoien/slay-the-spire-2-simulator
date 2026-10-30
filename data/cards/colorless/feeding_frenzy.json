@@ -1,0 +1,19 @@
+{
+  "id": "feeding_frenzy",
+  "code": "FF",
+  "name": "Feeding Frenzy",
+  "type": "skill",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 5 Strength this turn.",
+  "upgradedDescription": "Gain 7 Strength this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

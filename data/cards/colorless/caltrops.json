@@ -1,0 +1,19 @@
+{
+  "id": "caltrops",
+  "code": "Ct",
+  "name": "Caltrops",
+  "type": "power",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever you are attacked, deal 3 damage back.",
+  "upgradedDescription": "Whenever you are attacked, deal 5 damage back.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

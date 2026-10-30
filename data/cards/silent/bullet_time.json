@@ -1,0 +1,21 @@
+{
+  "id": "bullet_time",
+  "code": "B5",
+  "name": "Bullet Time",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 2
+  },
+  "description": "You cannot draw additional cards this turn. ALL cards in your Hand are free to play this turn.",
+  "upgradedDescription": "You cannot draw additional cards this turn. ALL cards in your Hand are free to play this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "fight_through",
+  "code": "FT",
+  "name": "Fight Through",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 13 Block. / Add 2 Wounds into your Discard Pile.",
+  "upgradedDescription": "Gain 17 Block. / Add 2 Wounds into your Discard Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

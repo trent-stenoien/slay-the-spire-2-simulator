@@ -1,0 +1,19 @@
+{
+  "id": "evil_eye",
+  "code": "EE",
+  "name": "Evil Eye",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 8 Block. / Gain another 8 Block if you have Exhausted a card this turn.",
+  "upgradedDescription": "Gain 11 Block. / Gain another 11 Block if you have Exhausted a card this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

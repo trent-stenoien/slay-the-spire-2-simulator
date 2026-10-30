@@ -1,0 +1,23 @@
+{
+  "id": "beacon_of_hope",
+  "code": "BO",
+  "name": "Beacon of Hope",
+  "type": "power",
+  "rarity": "rare",
+  "character": "colorless",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate"
+    ]
+  },
+  "description": "Whenever you gain Block on your turn, other players gain half that much Block.",
+  "upgradedDescription": "Innate. / Whenever you gain Block on your turn, other players gain half that much Block.",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

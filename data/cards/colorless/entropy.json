@@ -1,0 +1,23 @@
+{
+  "id": "entropy",
+  "code": "Eo",
+  "name": "Entropy",
+  "type": "power",
+  "rarity": "rare",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate"
+    ]
+  },
+  "description": "At the start of your turn, Transform 1 card in your Hand.",
+  "upgradedDescription": "Innate. / At the start of your turn, Transform 1 card in your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

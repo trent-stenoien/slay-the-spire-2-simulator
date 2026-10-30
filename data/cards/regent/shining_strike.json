@@ -1,0 +1,19 @@
+{
+  "id": "shining_strike",
+  "code": "Si",
+  "name": "Shining Strike",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 8 damage. / Gain [STAR][STAR]. / Put this card on top of your Draw Pile.",
+  "upgradedDescription": "Deal 11 damage. / Gain [STAR][STAR]. / Put this card on top of your Draw Pile.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

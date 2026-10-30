@@ -1,0 +1,19 @@
+{
+  "id": "drum_of_battle",
+  "code": "DO",
+  "name": "Drum of Battle",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Draw 2 cards. / When this card is Exhausted, gain [E][E].",
+  "upgradedDescription": "Draw 2 cards. / When this card is Exhausted, gain [E][E][E].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

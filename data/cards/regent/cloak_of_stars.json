@@ -1,0 +1,19 @@
+{
+  "id": "cloak_of_stars",
+  "code": "Co",
+  "name": "Cloak of Stars",
+  "type": "skill",
+  "rarity": "common",
+  "character": "R",
+  "cost": 0,
+  "xCost": false,
+  "starCost": 1,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 7 Block.",
+  "upgradedDescription": "Gain 10 Block.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

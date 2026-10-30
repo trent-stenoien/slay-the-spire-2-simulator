@@ -1,0 +1,106 @@
+Aeonglass|Boss|512|535|Glory|Withering / Presence / Artifact 3
+Assassin Raider|Normal|18|19|Overgrowth|∅
+Axe Raider|Normal|20|21|Overgrowth|∅
+Axebot|Normal|70|78|Glory|Stock 2
+Battle Friend|Event|75|∅|Glory|Time Limit 3
+Bowlbug (Egg)|Normal|21|23|Hive|∅
+Bowlbug (Nectar)|Normal|35|36|Hive|∅
+Bowlbug (Rock)|Normal|45|46|Hive|Imbalanced
+Bowlbug (Silk)|Normal|40|41|Hive|∅
+Brute Raider|Normal|30|31|Overgrowth|∅
+Bygone Effigy|Elite|127|132|Overgrowth|Slow
+Byrdonis|Elite|81|90|Overgrowth|Territorial 1
+Calcified Cultist|Normal|38|39|Underdocks|∅
+Ceremonial Beast|Boss|252|262|Overgrowth|∅
+Chomper|Normal|60|63|Hive|Artifact 2
+Corpse Slug|Normal|25|27|Underdocks|Ravenous 4 (5 9)
+Crossbow Raider|Normal|18|19|Overgrowth|∅
+Crusher|Boss|209|219|Hive|Back Attack / Crab Rage
+Cubex Construct|Normal|65|70|Overgrowth|Artifact 1
+Damp Cultist|Normal|51|52|Underdocks|∅
+Decimillipede|Elite|40|46|Hive|Reattach 25
+Devoted Sculptor|Normal|162|172|Glory|∅
+Entomancer|Elite|145|165|Hive|Personal Hive 1
+Exoskeleton|Normal|24|26|Hive|Hard to Kill 9
+Eye With Teeth|Minion|6|∅|Overgrowth|Illusion
+Fabricator|Normal|150|155|Glory|∅
+Fat Gremlin|Minion|13|14|Underdocks|Heist
+Flail Knight|Elite|101|108|Glory|∅
+Flyconid|Normal|47|51|Overgrowth|∅
+Fogmog|Normal|74|78|Overgrowth|∅
+Fossil Stalker|Normal|51|54|Underdocks|Suck 3
+Frog Knight|Normal|191|199|Glory|Plating 15 (19 8)
+Fuzzy Wurm Crawler|Normal|55|58|Overgrowth|∅
+Gas Bomb|Minion|7|8|Underdocks|Minion
+Globe Head|Normal|148|158|Glory|Galvanic 6 (8 9)
+Gremlin Merc|Normal|47|51|Underdocks|Surprise / Thievery 20
+Guardbot|Minion|16|17|Glory|∅
+Hatchling|Minion|19|20|Hive|Minion
+Haunted Ship|Normal|63|67|Underdocks|∅
+Hunter Killer|Normal|121|126|Hive|∅
+Infested Prism|Elite|161|171|Hive|Vital Spark 2(3 9)
+Inklet|Normal|11|12|Overgrowth|Slippery 1
+Kin Follower|Minion|58|62|Overgrowth|Minion
+Kin Priest|Boss|190|199|Overgrowth|∅
+Knowledge Demon|Boss|379|399|Hive|∅
+Lagavulin Matriarch|Boss|222|233|Underdocks|Plating 12 / Asleep 3
+Leaf Slime (M)|Normal|32|33|Overgrowth|∅
+Leaf Slime (S)|Normal|11|12|Overgrowth|∅
+Living Fog|Normal|80|82|Underdocks|∅
+Living Shield|Normal|55|65|Glory|Rampart 25
+Louse Progenitor|Normal|134|138|Hive|Curl Up 14 (18 8)
+Magi Knight|Elite|82|89|Glory|∅
+Mawler|Normal|72|76|Overgrowth|∅
+Mecha Knight|Elite|300|320|Glory|Artifact 3
+Mysterious Knight|Normal|101|108|Hive|Strength 6 / Plating 6
+Myte|Normal|61|64|Hive|∅
+Nibbit|Normal|42|44|Overgrowth|∅
+Noisebot|Minion|18|19|Glory|∅
+Ovicopter|Normal|124|126|Hive|∅
+Owl Magistrate|Normal|234|243|Glory|∅
+Parafright|Minion|21|∅|Hive|Illusion
+Phantasmal Gardener|Elite|26|27|Underdocks|Skittish 6 (7 8)
+Phrog Parasite|Elite|61|66|Overgrowth|Infested
+Punch Construct|Normal|55|60|Underdocks|Artifact 1
+Queen|Boss|400|419|Glory|∅
+Rocket|Boss|199|209|Hive|Back Attack / Crab Rage
+Scroll of Biting|Normal|31|32|Glory|Paper Cuts 2
+Seapunk|Normal|44|47|Underdocks|∅
+Sewer Clam|Normal|56|58|Underdocks|Plating 8 (9 8)
+Shrinker Beetle|Normal|38|40|Overgrowth|∅
+Skulking Colony|Elite|75|80|Underdocks|Hardened Shell 20
+Slimed Berserker|Normal|266|276|Glory|∅
+Slithering Strangler|Normal|53|54|Overgrowth|∅
+Sludge Spinner|Normal|37|41|Underdocks|∅
+Slumbering Beetle|Normal|86|89|Hive|Plating 15 (18 8) / Slumber 3
+Snapping Jaxfruit|Normal|31|34|Overgrowth|∅
+Sneaky Gremlin|Minion|10|11|Underdocks|∅
+Soul Fysh|Boss|211|221|Underdocks|∅
+Soul Nexus|Elite|234|254|Glory|∅
+Spectral Knight|Elite|93|97|Glory|∅
+Spiny Toad|Normal|116|121|Hive|∅
+Stabbot|Minion|18|19|Glory|∅
+Terror Eel|Elite|140|150|Underdocks|Shriek 70 (75 8)
+Test Subject|Boss|100|111|Glory|Adaptable, Enrage 2 (3 9)
+Test Subject (Phase 2)|Boss|200|212|Glory|Adaptable, Painful Stabs
+Test Subject (Phase 3)|Boss|300|313|Glory|Nemesis / Intangible 1
+The Forgotten|Normal|106|111|Glory|Possess Speed
+The Insatiable|Boss|321|341|Hive|∅
+The Lost|Normal|93|99|Glory|Possess Strength
+The Merchant???|Normal|165|175|Hive|∅
+The Obscura|Normal|123|129|Hive|∅
+Thieving Hopper|Normal|79|84|Hive|Escape Artist 5
+Toadpole|Normal|21|22|Underdocks|∅
+Torch Head Amalgam|Minion|199|211|Glory|Minion
+Tough Egg|Minion|14|15|Hive|Minion Hatch 2
+Tracker Raider|Normal|21|22|Overgrowth|∅
+Tunneler|Normal|87|92|Hive|∅
+Turret Operator|Normal|41|51|Glory|∅
+Twig Slime (M)|Normal|26|27|Overgrowth|∅
+Twig Slime (S)|Normal|7|8|Overgrowth|∅
+Two-Tailed Rat|Normal|17|18|Underdocks|∅
+Vantom|Boss|173|183|Overgrowth|Slippery 9
+Vine Shambler|Normal|61|64|Overgrowth|∅
+Waterfall Giant|Boss|240|250|Underdocks|∅
+Wriggler|Normal|17|18|Overgrowth|∅
+Zapbot|Minion|18|19|Glory|High Voltage 2

@@ -1,0 +1,19 @@
+{
+  "id": "debilitate",
+  "code": "Db",
+  "name": "Debilitate",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 10 damage. / Vulnerable and Weak are twice as effective against the enemy for the next 2 turns.",
+  "upgradedDescription": "Deal 12 damage. / Vulnerable and Weak are twice as effective against the enemy for the next 3 turns.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

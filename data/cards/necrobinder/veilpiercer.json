@@ -1,0 +1,19 @@
+{
+  "id": "veilpiercer",
+  "code": "Ve",
+  "name": "Veilpiercer",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 10 damage. / The next Ethereal card you play costs 0 [E].",
+  "upgradedDescription": "Deal 13 damage. / The next Ethereal card you play costs 0 [E].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

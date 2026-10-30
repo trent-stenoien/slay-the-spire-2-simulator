@@ -1,0 +1,19 @@
+{
+  "id": "rage",
+  "code": "Rg",
+  "name": "Rage",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever you play an Attack this turn, gain 3 Block.",
+  "upgradedDescription": "Whenever you play an Attack this turn, gain 5 Block.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "second_wind",
+  "code": "SW",
+  "name": "Second Wind",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Exhaust all non-Attack cards in your Hand. Gain 5 Block for each card Exhausted.",
+  "upgradedDescription": "Exhaust all non-Attack cards in your Hand. Gain 7 Block for each card Exhausted.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

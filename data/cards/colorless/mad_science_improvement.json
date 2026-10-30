@@ -1,0 +1,23 @@
+{
+  "id": "mad_science_improvement",
+  "code": "Me",
+  "name": "Mad Science (Improvement)",
+  "type": "power",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate"
+    ]
+  },
+  "description": "At the end of combat, Upgrade a random card.",
+  "upgradedDescription": "Innate. / At the end of combat, Upgrade a random card.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

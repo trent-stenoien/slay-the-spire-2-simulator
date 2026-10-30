@@ -1,0 +1,19 @@
+{
+  "id": "knockout_blow",
+  "code": "KB",
+  "name": "Knockout Blow",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 30 damage. / If this kills an enemy, gain [STAR][STAR][STAR][STAR][STAR].",
+  "upgradedDescription": "Deal 38 damage. / If this kills an enemy, gain [STAR][STAR][STAR][STAR][STAR].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

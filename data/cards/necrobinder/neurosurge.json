@@ -1,0 +1,19 @@
+{
+  "id": "neurosurge",
+  "code": "Ne",
+  "name": "Neurosurge",
+  "type": "power",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain [E][E][E]. / Draw 2 cards. / At the start of your turn, apply 3 Doom to yourself.",
+  "upgradedDescription": "Gain 4[E]. / Draw 2 cards. / At the start of your turn, apply 3 Doom to yourself.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

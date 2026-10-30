@@ -1,0 +1,19 @@
+{
+  "id": "bodyguard",
+  "code": "Bj",
+  "name": "Bodyguard",
+  "type": "skill",
+  "rarity": "basic",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Summon 5.",
+  "upgradedDescription": "Summon 7.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

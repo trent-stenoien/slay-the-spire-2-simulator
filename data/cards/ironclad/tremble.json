@@ -1,0 +1,21 @@
+{
+  "id": "tremble",
+  "code": "Tl",
+  "name": "Tremble",
+  "type": "skill",
+  "rarity": "common",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Apply 3 Vulnerable. / Exhaust.",
+  "upgradedDescription": "Apply 4 Vulnerable. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

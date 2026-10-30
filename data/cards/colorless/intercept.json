@@ -1,0 +1,19 @@
+{
+  "id": "intercept",
+  "code": "It",
+  "name": "Intercept",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 9 Block. / Redirect all incoming attacks that would be dealt to another player this turn to you.",
+  "upgradedDescription": "Gain 13 Block. / Redirect all incoming attacks that would be dealt to another player this turn to you.",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

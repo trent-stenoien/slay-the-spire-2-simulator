@@ -1,0 +1,19 @@
+{
+  "id": "phantom_blades",
+  "code": "Ph",
+  "name": "Phantom Blades",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Shivs gain Retain. / The first Shiv you play each turn deals 9 additional damage.",
+  "upgradedDescription": "Shivs gain Retain. / The first Shiv you play each turn deals 12 additional damage.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

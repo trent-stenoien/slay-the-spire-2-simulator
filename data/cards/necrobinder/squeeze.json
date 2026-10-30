@@ -1,0 +1,19 @@
+{
+  "id": "squeeze",
+  "code": "SZ",
+  "name": "Squeeze",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Osty deals 25 damage. / Deals 5 additional damage for ALL your other Osty Attacks.",
+  "upgradedDescription": "Osty deals 30 damage. / Deals 6 additional damage for ALL your other Osty Attacks.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

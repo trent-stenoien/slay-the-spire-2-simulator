@@ -1,0 +1,21 @@
+{
+  "id": "reboot",
+  "code": "Rb",
+  "name": "Reboot",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Shuffle ALL your cards into your Draw Pile. / Draw 4 cards. / Exhaust.",
+  "upgradedDescription": "Shuffle ALL your cards into your Draw Pile. / Draw 6 cards. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

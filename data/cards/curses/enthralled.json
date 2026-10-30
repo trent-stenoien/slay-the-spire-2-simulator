@@ -1,0 +1,21 @@
+{
+  "id": "enthralled",
+  "code": "Et",
+  "name": "Enthralled",
+  "type": "curse",
+  "rarity": "curse",
+  "character": "colorless",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "eternal"
+  ],
+  "effects": [],
+  "upgraded": null,
+  "description": "If this is in your Hand, it must be played before other cards. / Eternal.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

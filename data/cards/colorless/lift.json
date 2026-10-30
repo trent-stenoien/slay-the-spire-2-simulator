@@ -1,0 +1,19 @@
+{
+  "id": "lift",
+  "code": "Li",
+  "name": "Lift",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Give another player 11 Block.",
+  "upgradedDescription": "Give another player 16 Block.",
+  "simulated": false,
+  "multiplayerOnly": true,
+  "lastUpdateVersion": "v0.107.1"
+}

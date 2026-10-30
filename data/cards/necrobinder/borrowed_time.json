@@ -1,0 +1,19 @@
+{
+  "id": "borrowed_time",
+  "code": "Bw",
+  "name": "Borrowed Time",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 4[E]. / Cards cost an additional [E] this turn.",
+  "upgradedDescription": "Gain 6[E]. / Cards cost an additional [E] this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

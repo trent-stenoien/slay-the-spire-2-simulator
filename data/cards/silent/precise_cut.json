@@ -1,0 +1,19 @@
+{
+  "id": "precise_cut",
+  "code": "Pf",
+  "name": "Precise Cut",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 13 damage. / Deals 2 less damage for each other card in your Hand.",
+  "upgradedDescription": "Deal 16 damage. / Deals 2 less damage for each other card in your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

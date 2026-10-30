@@ -1,0 +1,19 @@
+{
+  "id": "skim",
+  "code": "S0",
+  "name": "Skim",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Draw 3 cards.",
+  "upgradedDescription": "Draw 4 cards.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "black_hole",
+  "code": "BH",
+  "name": "Black Hole",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever you spend or gain [STAR], deal 3 damage to ALL enemies.",
+  "upgradedDescription": "Whenever you spend or gain [STAR], deal 4 damage to ALL enemies.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

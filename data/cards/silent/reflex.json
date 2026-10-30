@@ -1,0 +1,21 @@
+{
+  "id": "reflex",
+  "code": "Rx",
+  "name": "Reflex",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "sly"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Sly. / Draw 2 cards.",
+  "upgradedDescription": "Sly. / Draw 3 cards.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

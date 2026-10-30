@@ -1,0 +1,19 @@
+{
+  "id": "barrage",
+  "code": "Br",
+  "name": "Barrage",
+  "type": "attack",
+  "rarity": "common",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 5 damage for each Channeled Orb.",
+  "upgradedDescription": "Deal 7 damage for each Channeled Orb.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

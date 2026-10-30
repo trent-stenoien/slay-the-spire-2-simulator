@@ -1,0 +1,19 @@
+{
+  "id": "iteration",
+  "code": "Ir",
+  "name": "Iteration",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "The first time you draw a Status card each turn, draw 2 cards.",
+  "upgradedDescription": "The first time you draw a Status card each turn, draw 3 cards.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

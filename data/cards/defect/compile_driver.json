@@ -1,0 +1,19 @@
+{
+  "id": "compile_driver",
+  "code": "CD",
+  "name": "Compile Driver",
+  "type": "attack",
+  "rarity": "common",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 7 damage. / Draw 1 card for each unique Orb you have.",
+  "upgradedDescription": "Deal 10 damage. / Draw 1 card for each unique Orb you have.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

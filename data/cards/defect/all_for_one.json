@@ -1,0 +1,19 @@
+{
+  "id": "all_for_one",
+  "code": "AF",
+  "name": "All for One",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 10 damage. / Put ALL 0[E] cards from your Discard Pile into your Hand.",
+  "upgradedDescription": "Deal 14 damage. / Put ALL 0[E] cards from your Discard Pile into your Hand.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

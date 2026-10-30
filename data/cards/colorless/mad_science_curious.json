@@ -1,0 +1,23 @@
+{
+  "id": "mad_science_curious",
+  "code": "Ms",
+  "name": "Mad Science (Curious)",
+  "type": "power",
+  "rarity": "event",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "innate"
+    ]
+  },
+  "description": "Powers cost 1 [E] less.",
+  "upgradedDescription": "Innate. / Powers cost 1 [E] less.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "deflect",
+  "code": "Dl",
+  "name": "Deflect",
+  "type": "skill",
+  "rarity": "common",
+  "character": "S",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 4 Block.",
+  "upgradedDescription": "Gain 7 Block.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

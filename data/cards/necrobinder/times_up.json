@@ -1,0 +1,23 @@
+{
+  "id": "times_up",
+  "code": "TU",
+  "name": "Time's Up",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "retain"
+    ]
+  },
+  "description": "Deal damage equal to the enemy's Doom.",
+  "upgradedDescription": "Retain. / Deal damage equal to the enemy's Doom.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

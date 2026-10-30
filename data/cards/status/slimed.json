@@ -1,0 +1,21 @@
+{
+  "id": "slimed",
+  "code": "S2",
+  "name": "Slimed",
+  "type": "status",
+  "rarity": "status",
+  "character": "colorless",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": null,
+  "description": "Draw 1 card. / Exhaust.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

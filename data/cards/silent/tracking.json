@@ -1,0 +1,21 @@
+{
+  "id": "tracking",
+  "code": "Tk",
+  "name": "Tracking",
+  "type": "power",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 1
+  },
+  "description": "Weak enemies take 50% more damage from Attacks.",
+  "upgradedDescription": "Weak enemies take 50% more damage from Attacks.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "scavenge",
+  "code": "Sc",
+  "name": "Scavenge",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Exhaust a card. / Next turn, gain [E][E].",
+  "upgradedDescription": "Exhaust a card. / Next turn, gain [E][E][E].",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

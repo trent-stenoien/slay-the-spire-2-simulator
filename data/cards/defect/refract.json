@@ -1,0 +1,19 @@
+{
+  "id": "refract",
+  "code": "Rr",
+  "name": "Refract",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 3,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 10 damage twice. / Channel 2 Glass.",
+  "upgradedDescription": "Deal 13 damage twice. / Channel 2 Glass.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

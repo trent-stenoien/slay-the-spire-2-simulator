@@ -1,0 +1,21 @@
+{
+  "id": "unmovable",
+  "code": "Um",
+  "name": "Unmovable",
+  "type": "power",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 1
+  },
+  "description": "The first time you gain Block from a card each turn, double the amount gained.",
+  "upgradedDescription": "The first time you gain Block from a card each turn, double the amount gained.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

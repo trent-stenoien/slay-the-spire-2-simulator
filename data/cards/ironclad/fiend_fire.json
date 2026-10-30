@@ -1,0 +1,21 @@
+{
+  "id": "fiend_fire",
+  "code": "Fi",
+  "name": "Fiend Fire",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Exhaust your Hand. / Deal 7 damage for each card Exhausted. / Exhaust.",
+  "upgradedDescription": "Exhaust your Hand. / Deal 10 damage for each card Exhausted. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

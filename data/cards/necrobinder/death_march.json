@@ -1,0 +1,19 @@
+{
+  "id": "death_march",
+  "code": "Dt",
+  "name": "Death March",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 8 damage. / Deals 4 additional damage for each card drawn during your turn.",
+  "upgradedDescription": "Deal 9 damage. / Deals 6 additional damage for each card drawn during your turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

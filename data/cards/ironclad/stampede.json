@@ -1,0 +1,21 @@
+{
+  "id": "stampede",
+  "code": "Aw",
+  "name": "Stampede",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 1
+  },
+  "description": "At the end of your turn, 1 random Attack in your Hand is played against a random enemy.",
+  "upgradedDescription": "At the end of your turn, 1 random Attack in your Hand is played against a random enemy.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

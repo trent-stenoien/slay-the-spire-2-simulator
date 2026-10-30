@@ -1,0 +1,21 @@
+{
+  "id": "lantern_key",
+  "code": "LK",
+  "name": "Lantern Key",
+  "type": "quest",
+  "rarity": "quest",
+  "character": "colorless",
+  "cost": null,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "unplayable"
+  ],
+  "effects": [],
+  "upgraded": null,
+  "description": "Unplayable. / Unlocks a special event in the next Act.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

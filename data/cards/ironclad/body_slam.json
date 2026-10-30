@@ -1,0 +1,21 @@
+{
+  "id": "body_slam",
+  "code": "By",
+  "name": "Body Slam",
+  "type": "attack",
+  "rarity": "common",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {
+    "cost": 0
+  },
+  "description": "Deal damage equal to your Block.",
+  "upgradedDescription": "Deal damage equal to your Block.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "astral_pulse",
+  "code": "AP",
+  "name": "Astral Pulse",
+  "type": "attack",
+  "rarity": "common",
+  "character": "R",
+  "cost": 0,
+  "xCost": false,
+  "starCost": 3,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 6 damage to ALL enemies twice.",
+  "upgradedDescription": "Deal 8 damage to ALL enemies twice.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

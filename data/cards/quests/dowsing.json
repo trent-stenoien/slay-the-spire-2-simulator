@@ -1,0 +1,21 @@
+{
+  "id": "dowsing",
+  "code": "D2",
+  "name": "Dowsing",
+  "type": "quest",
+  "rarity": "quest",
+  "character": "colorless",
+  "cost": null,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "unplayable"
+  ],
+  "effects": [],
+  "upgraded": null,
+  "description": "Unplayable. / After entering 5 more ? rooms, transforms into Abundance.",
+  "upgradedDescription": null,
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

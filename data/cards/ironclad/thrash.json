@@ -1,0 +1,19 @@
+{
+  "id": "thrash",
+  "code": "Tb",
+  "name": "Thrash",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 4 damage twice. / Exhaust a random Attack in your Hand and add its damage to this card.",
+  "upgradedDescription": "Deal 6 damage twice. / Exhaust a random Attack in your Hand and add its damage to this card.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

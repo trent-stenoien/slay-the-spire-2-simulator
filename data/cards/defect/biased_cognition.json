@@ -1,0 +1,19 @@
+{
+  "id": "biased_cognition",
+  "code": "Bs",
+  "name": "Biased Cognition",
+  "type": "power",
+  "rarity": "ancient",
+  "character": "D",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 5 Focus. / At the start of your turn, lose 1 Focus.",
+  "upgradedDescription": "Gain 6 Focus. / At the start of your turn, lose 1 Focus.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "assassinate",
+  "code": "Aj",
+  "name": "Assassinate",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "S",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "innate",
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Innate. / Deal 10 damage. / Apply 1 Vulnerable. / Exhaust.",
+  "upgradedDescription": "Innate. / Deal 13 damage. / Apply 2 Vulnerable. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

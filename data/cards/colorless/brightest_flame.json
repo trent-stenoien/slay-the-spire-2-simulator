@@ -1,0 +1,19 @@
+{
+  "id": "brightest_flame",
+  "code": "B2",
+  "name": "Brightest Flame",
+  "type": "skill",
+  "rarity": "ancient",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain [E][E]. / Draw 2 cards. / Lose 2 Max HP.",
+  "upgradedDescription": "Gain [E][E][E]. / Draw 3 cards. / Lose 2 Max HP.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

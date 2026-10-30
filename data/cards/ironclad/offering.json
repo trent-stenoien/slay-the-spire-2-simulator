@@ -1,0 +1,21 @@
+{
+  "id": "offering",
+  "code": "Of",
+  "name": "Offering",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "I",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Lose 6 HP. / Gain [E][E]. / Draw 3 cards. / Exhaust.",
+  "upgradedDescription": "Lose 6 HP. / Gain [E][E]. / Draw 5 cards. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

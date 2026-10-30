@@ -1,0 +1,19 @@
+{
+  "id": "kingly_kick",
+  "code": "KK",
+  "name": "Kingly Kick",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "R",
+  "cost": 4,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 27 damage. / Whenever you draw this card, reduce its cost by 1.",
+  "upgradedDescription": "Deal 35 damage. / Whenever you draw this card, reduce its cost by 1.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

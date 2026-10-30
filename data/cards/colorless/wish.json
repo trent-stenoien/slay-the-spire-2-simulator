@@ -1,0 +1,26 @@
+{
+  "id": "wish",
+  "code": "Ws",
+  "name": "Wish",
+  "type": "skill",
+  "rarity": "ancient",
+  "character": "colorless",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "retain",
+      "exhaust"
+    ]
+  },
+  "description": "Put a card from your Draw Pile into your Hand. / Exhaust.",
+  "upgradedDescription": "Retain. / Put a card from your Draw Pile into your Hand. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

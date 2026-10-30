@@ -1,0 +1,26 @@
+{
+  "id": "wisp",
+  "code": "Wp",
+  "name": "Wisp",
+  "type": "skill",
+  "rarity": "common",
+  "character": "N",
+  "cost": 0,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {
+    "keywords": [
+      "retain",
+      "exhaust"
+    ]
+  },
+  "description": "Gain [E]. / Exhaust.",
+  "upgradedDescription": "Retain. / Gain [E]. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

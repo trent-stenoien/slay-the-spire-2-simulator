@@ -1,0 +1,21 @@
+{
+  "id": "forgotten_ritual",
+  "code": "FR",
+  "name": "Forgotten Ritual",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain [E][E][E]. / Exhaust.",
+  "upgradedDescription": "Gain 4 [E]. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

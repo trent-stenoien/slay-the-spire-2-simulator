@@ -1,0 +1,21 @@
+{
+  "id": "decisions_decisions",
+  "code": "Do",
+  "name": "Decisions, Decisions",
+  "type": "skill",
+  "rarity": "rare",
+  "character": "R",
+  "cost": 0,
+  "xCost": false,
+  "starCost": 6,
+  "keywords": [
+    "exhaust"
+  ],
+  "effects": [],
+  "upgraded": {},
+  "description": "Draw 3 cards. / Choose a Skill in your Hand and play it 3 times. / Exhaust.",
+  "upgradedDescription": "Draw 5 cards. / Choose a Skill in your Hand and play it 3 times. / Exhaust.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

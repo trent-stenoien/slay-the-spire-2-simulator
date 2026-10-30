@@ -1,0 +1,19 @@
+{
+  "id": "equilibrium",
+  "code": "Eq",
+  "name": "Equilibrium",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "colorless",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 13 Block. / Retain your Hand this turn.",
+  "upgradedDescription": "Gain 16 Block. / Retain your Hand this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "rattle",
+  "code": "Rt",
+  "name": "Rattle",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Osty deals 7 damage. / Hits an additional time for each other time he has attacked this turn.",
+  "upgradedDescription": "Osty deals 9 damage. / Hits an additional time for each other time he has attacked this turn.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

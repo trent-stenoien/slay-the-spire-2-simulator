@@ -1,0 +1,19 @@
+{
+  "id": "rupture",
+  "code": "Rk",
+  "name": "Rupture",
+  "type": "power",
+  "rarity": "uncommon",
+  "character": "I",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Whenever you lose HP on your turn, gain 1 Strength.",
+  "upgradedDescription": "Whenever you lose HP on your turn, gain 2 Strength.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

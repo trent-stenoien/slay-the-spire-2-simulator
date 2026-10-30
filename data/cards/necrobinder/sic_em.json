@@ -1,0 +1,19 @@
+{
+  "id": "sic_em",
+  "code": "Sx",
+  "name": "Sic 'Em",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Osty deals 5 damage. / Whenever Osty hits this enemy this turn, Summon 3.",
+  "upgradedDescription": "Osty deals 6 damage. / Whenever Osty hits this enemy this turn, Summon 4.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

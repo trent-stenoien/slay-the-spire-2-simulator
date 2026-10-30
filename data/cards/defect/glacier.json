@@ -1,0 +1,19 @@
+{
+  "id": "glacier",
+  "code": "Gl",
+  "name": "Glacier",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "D",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Gain 6 Block. / Channel 2 Frost.",
+  "upgradedDescription": "Gain 9 Block. / Channel 2 Frost.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

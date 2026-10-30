@@ -1,0 +1,19 @@
+{
+  "id": "up_my_sleeve",
+  "code": "UM",
+  "name": "Up My Sleeve",
+  "type": "skill",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Add 3 Shivs into your Hand. / Reduce this card's cost by 1.",
+  "upgradedDescription": "Add 4 Shivs into your Hand. / Reduce this card's cost by 1.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

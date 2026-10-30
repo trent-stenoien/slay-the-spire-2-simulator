@@ -1,0 +1,19 @@
+{
+  "id": "buffer",
+  "code": "B4",
+  "name": "Buffer",
+  "type": "power",
+  "rarity": "rare",
+  "character": "D",
+  "cost": 2,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Prevent the next time you would lose HP.",
+  "upgradedDescription": "Prevent the next 2 times you would lose HP.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

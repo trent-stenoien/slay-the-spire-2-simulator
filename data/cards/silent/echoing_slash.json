@@ -1,0 +1,19 @@
+{
+  "id": "echoing_slash",
+  "code": "ES",
+  "name": "Echoing Slash",
+  "type": "attack",
+  "rarity": "uncommon",
+  "character": "S",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 10 damage to ALL enemies. / Repeat this effect for each enemy killed.",
+  "upgradedDescription": "Deal 13 damage to ALL enemies. / Repeat this effect for each enemy killed.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}

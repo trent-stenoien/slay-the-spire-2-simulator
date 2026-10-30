@@ -1,0 +1,19 @@
+{
+  "id": "hang",
+  "code": "Hg",
+  "name": "Hang",
+  "type": "attack",
+  "rarity": "rare",
+  "character": "N",
+  "cost": 1,
+  "xCost": false,
+  "starCost": null,
+  "keywords": [],
+  "effects": [],
+  "upgraded": {},
+  "description": "Deal 10 damage. / Double the damage ALL Hang cards deal to this enemy.",
+  "upgradedDescription": "Deal 13 damage. / Double the damage ALL Hang cards deal to this enemy.",
+  "simulated": false,
+  "multiplayerOnly": false,
+  "lastUpdateVersion": "v0.107.1"
+}
