@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": 3,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 15
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 20
+      }
+    ]
+  },
   "description": "Gain 15 Block. / Blocked attack damage is reflected to your attacker this turn.",
   "upgradedDescription": "Gain 20 Block. / Blocked attack damage is reflected to your attacker this turn.",
   "simulated": false,

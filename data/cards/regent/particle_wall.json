@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": 2,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 9
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 12
+      }
+    ]
+  },
   "description": "Gain 9 Block. / Return this card to your Hand.",
   "upgradedDescription": "Gain 12 Block. / Return this card to your Hand.",
   "simulated": false,

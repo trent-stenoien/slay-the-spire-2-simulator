@@ -11,7 +11,12 @@
   "keywords": [
     "exhaust"
   ],
-  "effects": [],
+  "effects": [
+    {
+      "type": "gainStars",
+      "amount": 9
+    }
+  ],
   "upgraded": {
     "keywords": [
       "retain",

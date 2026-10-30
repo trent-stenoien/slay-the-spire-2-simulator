@@ -9,7 +9,13 @@
   "xCost": false,
   "starCost": 1,
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 8,
+      "hits": 1
+    }
+  ],
   "upgraded": {},
   "description": "Deal 8 damage. / Deals 2 additional damage for ALL your cards that have a [STAR] cost.",
   "upgradedDescription": "Deal 8 damage. / Deals 3 additional damage for ALL your cards that have a [STAR] cost.",

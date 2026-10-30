@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 6
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 9
+      }
+    ]
+  },
   "description": "Gain 6 Block. / Put a card from your Discard Pile on top of your Draw Pile.",
   "upgradedDescription": "Gain 9 Block. / Put a card from your Discard Pile on top of your Draw Pile.",
   "simulated": false,

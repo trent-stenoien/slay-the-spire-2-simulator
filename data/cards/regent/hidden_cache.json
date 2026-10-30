@@ -9,7 +9,12 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "type": "gainStars",
+      "amount": 1
+    }
+  ],
   "upgraded": {},
   "description": "Gain [STAR]. / Next turn, gain [STAR][STAR][STAR].",
   "upgradedDescription": "Gain [STAR]. / Next turn, gain [STAR][STAR][STAR][STAR].",

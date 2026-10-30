@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 6,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 9,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 6 damage. / Every 3 Skills you play in a turn, put this into your Hand.",
   "upgradedDescription": "Deal 9 damage. / Every 3 Skills you play in a turn, put this into your Hand.",
   "simulated": false,

@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 12
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 15
+      }
+    ]
+  },
   "description": "Gain 12 Block. / Forge 10.",
   "upgradedDescription": "Gain 15 Block. / Forge 13.",
   "simulated": false,

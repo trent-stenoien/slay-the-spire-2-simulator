@@ -9,8 +9,28 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 8
+    },
+    {
+      "type": "gainStars",
+      "amount": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 11
+      },
+      {
+        "type": "gainStars",
+        "amount": 1
+      }
+    ]
+  },
   "description": "Gain 8 Block. / Gain [STAR].",
   "upgradedDescription": "Gain 11 Block. / Gain [STAR].",
   "simulated": false,

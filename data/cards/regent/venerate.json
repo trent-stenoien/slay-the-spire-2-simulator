@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainStars",
+      "amount": 2
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainStars",
+        "amount": 3
+      }
+    ]
+  },
   "description": "Gain [STAR][STAR].",
   "upgradedDescription": "Gain [STAR][STAR][STAR].",
   "simulated": false,

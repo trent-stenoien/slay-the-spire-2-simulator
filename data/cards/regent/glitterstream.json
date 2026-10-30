@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 11
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 13
+      }
+    ]
+  },
   "description": "Gain 11 Block. / Next turn, gain 5 Block.",
   "upgradedDescription": "Gain 13 Block. / Next turn, gain 7 Block.",
   "simulated": false,

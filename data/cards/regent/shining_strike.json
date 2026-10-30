@@ -9,8 +9,30 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 8,
+      "hits": 1
+    },
+    {
+      "type": "gainStars",
+      "amount": 2
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 11,
+        "hits": 1
+      },
+      {
+        "type": "gainStars",
+        "amount": 2
+      }
+    ]
+  },
   "description": "Deal 8 damage. / Gain [STAR][STAR]. / Put this card on top of your Draw Pile.",
   "upgradedDescription": "Deal 11 damage. / Gain [STAR][STAR]. / Put this card on top of your Draw Pile.",
   "simulated": false,

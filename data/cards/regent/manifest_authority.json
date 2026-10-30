@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 7
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 8
+      }
+    ]
+  },
   "description": "Gain 7 Block. / Add 1 random Colorless card into your Hand.",
   "upgradedDescription": "Gain 8 Block. / Add 1 random Upgraded Colorless card into your Hand.",
   "simulated": false,

@@ -9,8 +9,24 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 8,
+      "hits": 1,
+      "allEnemies": true
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 9,
+        "hits": 1,
+        "allEnemies": true
+      }
+    ]
+  },
   "description": "Deal 8 damage to ALL enemies. All enemies lose 1 Strength this turn.",
   "upgradedDescription": "Deal 9 damage to ALL enemies. All enemies lose 2 Strength this turn.",
   "simulated": false,
