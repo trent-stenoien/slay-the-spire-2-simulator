@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 12
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 17
+      }
+    ]
+  },
   "description": "ALL players gain 12 Block.",
   "upgradedDescription": "ALL players gain 17 Block.",
   "simulated": false,

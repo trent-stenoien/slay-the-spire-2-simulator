@@ -9,7 +9,21 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 12,
+      "hits": 1
+    },
+    {
+      "type": "applyWeak",
+      "amount": 2
+    },
+    {
+      "type": "applyVulnerable",
+      "amount": 2
+    }
+  ],
   "upgraded": {
     "keywords": [
       "innate"

@@ -9,7 +9,12 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 8
+    }
+  ],
   "upgraded": {
     "keywords": [
       "innate"

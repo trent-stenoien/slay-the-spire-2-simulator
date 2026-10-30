@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 20,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 25,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 20 damage. / If Fatal, gain 20 Gold.",
   "upgradedDescription": "Deal 25 damage. / If Fatal, gain 25 Gold.",
   "simulated": false,

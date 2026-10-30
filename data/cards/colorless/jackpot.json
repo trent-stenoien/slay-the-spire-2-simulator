@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 25,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 30,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 25 damage. / Add 3 random 0 [E] cards into your Hand.",
   "upgradedDescription": "Deal 30 damage. / Add 3 random Upgraded 0 [E] cards into your Hand.",
   "simulated": false,

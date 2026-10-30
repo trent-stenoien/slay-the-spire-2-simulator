@@ -9,11 +9,27 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 3,
+      "hits": 4,
+      "allEnemies": true
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 4,
+        "hits": 4,
+        "allEnemies": true
+      }
+    ]
+  },
   "description": "Deal 3 damage to ALL enemies 4 times.",
   "upgradedDescription": "Deal 4 damage to ALL enemies 4 times.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

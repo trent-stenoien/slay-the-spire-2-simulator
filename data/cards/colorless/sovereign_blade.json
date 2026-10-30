@@ -11,7 +11,13 @@
   "keywords": [
     "retain"
   ],
-  "effects": [],
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 10,
+      "hits": 1
+    }
+  ],
   "upgraded": {
     "cost": 1
   },

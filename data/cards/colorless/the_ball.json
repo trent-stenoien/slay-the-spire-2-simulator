@@ -9,7 +9,13 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 10,
+      "hits": 1
+    }
+  ],
   "upgraded": {},
   "description": "Deal 10 damage. / Increase this card's damage by 10 this combat and give it to a random ally.",
   "upgradedDescription": "Deal 10 damage. / Increase this card's damage by 15 this combat and give it to a random ally.",

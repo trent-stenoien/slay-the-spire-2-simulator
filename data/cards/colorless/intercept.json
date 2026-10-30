@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainBlock",
+      "amount": 9
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainBlock",
+        "amount": 13
+      }
+    ]
+  },
   "description": "Gain 9 Block. / Redirect all incoming attacks that would be dealt to another player this turn to you.",
   "upgradedDescription": "Gain 13 Block. / Redirect all incoming attacks that would be dealt to another player this turn to you.",
   "simulated": false,

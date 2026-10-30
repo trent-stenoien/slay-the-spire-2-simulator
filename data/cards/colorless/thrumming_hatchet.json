@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 11,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 14,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 11 damage. / At the start of your next turn, return this to your Hand.",
   "upgradedDescription": "Deal 14 damage. / At the start of your next turn, return this to your Hand.",
   "simulated": false,

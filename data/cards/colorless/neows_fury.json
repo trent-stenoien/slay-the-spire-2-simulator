@@ -11,8 +11,22 @@
   "keywords": [
     "exhaust"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 10,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 14,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 10 damage. / Put up to 2 cards from your Discard Pile into your Hand. / Exhaust.",
   "upgradedDescription": "Deal 14 damage. / Put up to 3 cards from your Discard Pile into your Hand. / Exhaust.",
   "simulated": false,

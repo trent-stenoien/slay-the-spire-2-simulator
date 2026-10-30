@@ -9,7 +9,13 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 5,
+      "hits": 1
+    }
+  ],
   "upgraded": {},
   "description": "Deal 5 damage. / Deals 5 additional damage for each time another player has attacked the enemy this turn.",
   "upgradedDescription": "Deal 5 damage. / Deals 7 additional damage for each time another player has attacked the enemy this turn.",

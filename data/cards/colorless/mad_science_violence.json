@@ -9,7 +9,13 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 12,
+      "hits": 3
+    }
+  ],
   "upgraded": {
     "keywords": [
       "innate"

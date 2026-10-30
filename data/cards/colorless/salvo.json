@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 12,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 16,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 12 damage. / Retain your Hand this turn.",
   "upgradedDescription": "Deal 16 damage. / Retain your Hand this turn.",
   "simulated": false,

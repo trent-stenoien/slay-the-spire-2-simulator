@@ -9,8 +9,22 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 7,
+      "hits": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 9,
+        "hits": 1
+      }
+    ]
+  },
   "description": "Deal 7 damage. / Gain Block equal to damage dealt.",
   "upgradedDescription": "Deal 9 damage. / Gain Block equal to damage dealt.",
   "simulated": false,
