@@ -674,13 +674,42 @@ svg.chart {
   color: inherit;
   font: inherit;
   cursor: pointer;
+  text-decoration: none;
 }
-.legend-item:hover {
-  text-decoration: underline;
+/* The name reserves its bold width (hidden ::after copy), so bolding on hover doesn't shift the layout. */
+.legend-name {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.legend-name::after {
+  content: attr(data-text);
+  font-weight: 700;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  user-select: none;
+  pointer-events: none;
+}
+.legend-item:hover .legend-name {
+  font-weight: 700;
 }
 .legend-item.off {
   opacity: 0.4;
-  text-decoration: line-through;
+}
+.chart .pmark {
+  stroke: var(--text);
+  stroke-opacity: 0.55;
+  stroke-width: 1;
+  stroke-dasharray: 4 3;
+}
+.chart .pmark-label {
+  fill: var(--text);
+  font-variant-numeric: tabular-nums;
+  paint-order: stroke;
+  stroke: var(--surface);
+  stroke-width: 3px;
+  stroke-linejoin: round;
 }
 .bandwidth {
   display: flex;

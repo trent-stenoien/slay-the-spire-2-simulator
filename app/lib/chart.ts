@@ -1,5 +1,5 @@
 /** Pure scaling helpers for the hand-built SVG distribution chart. */
-import { hpLostRange, silvermanBandwidth } from '../../engine/stats';
+import { silvermanBandwidth } from '../../engine/stats';
 import type { StrategySummary } from '../../engine/types';
 
 export interface Point {
@@ -110,10 +110,10 @@ export function toggleHidden(hidden: ReadonlySet<string>, id: string): Set<strin
   return next;
 }
 
-/** KDE smoothing slider: a multiplier on each strategy's Silverman bandwidth. */
-export const BANDWIDTH_FACTOR = { min: 0.25, max: 3, step: 0.05, default: 1 } as const;
+/** KDE smoothing slider: a multiplier on each strategy's Silverman bandwidth. Starts (and resets) at ×3. */
+export const BANDWIDTH_FACTOR = { min: 0.25, max: 5, step: 0.05, default: 3 } as const;
 
-/** Clamp a slider value into [min, max]; non-finite values give the default (×1). */
+/** Clamp a slider value into [min, max]; non-finite values give the default (×3). */
 export function clampBandwidthFactor(factor: number): number {
   if (!Number.isFinite(factor)) return BANDWIDTH_FACTOR.default;
   return Math.min(BANDWIDTH_FACTOR.max, Math.max(BANDWIDTH_FACTOR.min, factor));
@@ -132,14 +132,113 @@ export function bandwidthFactorLabel(factor: number): string {
 /** X range shown when every strategy is hidden. */
 export const EMPTY_X_RANGE: [number, number] = [0, 10];
 
+/** X range when the visible strategies have no observed combats at all. */
+export const NO_DATA_X_RANGE: [number, number] = [0, 2];
+
+/** Padding (in HP) added on each side of the [P5, P95] span. */
+export const X_RANGE_PADDING = 2;
+
 /**
- * X-axis range fitted to the strategies not in `hidden`: min/max observed HP lost
- * padded by 2 (min clamped at 0). With none visible, a default range.
+ * Percentile `p` (0–100) of raw HP lost from a histogram (`hpLostCounts[n]` = combats that
+ * lost n HP), by the nearest-rank method: with N combats sorted ascending, the value at
+ * rank ceil(p / 100 × N), at least rank 1. So P0 is the minimum, P100 the maximum, and the
+ * result is always an observed HP-lost value. Returns null when there are no combats.
  */
-export function visibleHpLostRange(
-  rows: readonly { strategyId: string; summary: StrategySummary }[],
-  hidden: ReadonlySet<string>,
-): [number, number] {
-  const shown = rows.filter((r) => !hidden.has(r.strategyId)).map((r) => r.summary);
-  return shown.length === 0 ? [...EMPTY_X_RANGE] : hpLostRange(shown);
+export function hpLostPercentile(hpLostCounts: readonly number[], p: number): number | null {
+  let n = 0;
+  for (const c of hpLostCounts) n += c > 0 ? c : 0;
+  if (n === 0) return null;
+  const q = Math.min(100, Math.max(0, p));
+  const rank = Math.max(1, Math.ceil((q / 100) * n - 1e-9));
+  let run = 0;
+  for (let v = 0; v < hpLostCounts.length; v++) {
+    const c = hpLostCounts[v] ?? 0;
+    if (c > 0) run += c;
+    if (run >= rank) return v;
+  }
+  return hpLostCounts.length - 1; // unreachable: run reaches n
+}
+
+type ChartRow = { strategyId: string; summary: StrategySummary };
+
+/**
+ * X-axis range fitted to the strategies not in `hidden`: [max(0, P5 − 2), P95 + 2], where P5
+ * is the lowest 5th percentile and P95 the highest 95th percentile of raw HP lost among the
+ * visible strategies (nearest rank, see `hpLostPercentile`). Data outside the range is drawn
+ * to the edge and clipped. With none visible, EMPTY_X_RANGE; visible but no combats, NO_DATA_X_RANGE.
+ */
+export function visibleHpLostRange(rows: readonly ChartRow[], hidden: ReadonlySet<string>): [number, number] {
+  const shown = rows.filter((r) => !hidden.has(r.strategyId));
+  if (shown.length === 0) return [...EMPTY_X_RANGE];
+  let lo = Infinity;
+  let hi = -Infinity;
+  for (const r of shown) {
+    const p5 = hpLostPercentile(r.summary.hpLostCounts, 5);
+    const p95 = hpLostPercentile(r.summary.hpLostCounts, 95);
+    if (p5 !== null && p5 < lo) lo = p5;
+    if (p95 !== null && p95 > hi) hi = p95;
+  }
+  if (lo === Infinity) return [...NO_DATA_X_RANGE];
+  return [Math.max(0, lo - X_RANGE_PADDING), hi + X_RANGE_PADDING];
+}
+
+/** Range the curves are computed over: the axis range plus 1 HP each side (min 0), so lines run to the clip edge. */
+export function curveRange(range: [number, number]): [number, number] {
+  return [Math.max(0, range[0] - 1), range[1] + 1];
+}
+
+/** Max y over the points whose x lies in [range[0], range[1]], so clipped peaks don't set the Y axis. */
+export function curvesMaxYInRange(curves: readonly (readonly Point[])[], range: [number, number]): number {
+  return curvesMaxY(curves.map((c) => c.filter((p) => p.x >= range[0] && p.x <= range[1])));
+}
+
+/** Percentiles marked on the chart when exactly one strategy is visible. */
+export const MARKER_PERCENTILES = [5, 25, 50, 75, 95] as const;
+
+export interface PercentileMarker {
+  p: number;
+  value: number;
+  label: string;
+}
+
+/**
+ * Labelled percentile markers ("P50 = 7") for the single visible strategy's raw HP lost.
+ * Empty when zero or two or more strategies are visible, or the visible one has no combats.
+ */
+export function percentileMarkers(rows: readonly ChartRow[], hidden: ReadonlySet<string>): PercentileMarker[] {
+  const shown = rows.filter((r) => !hidden.has(r.strategyId));
+  if (shown.length !== 1) return [];
+  const counts = shown[0]!.summary.hpLostCounts;
+  const out: PercentileMarker[] = [];
+  for (const p of MARKER_PERCENTILES) {
+    const value = hpLostPercentile(counts, p);
+    if (value === null) return [];
+    out.push({ p, value, label: `P${p} = ${value}` });
+  }
+  return out;
+}
+
+/**
+ * Staggers marker labels into rows so they don't collide. Each label is centered on its
+ * x (clamped so it stays inside [minX, maxX]) and goes in the first row where it clears
+ * every label already there by `gap`. Returns each label's center x and row index.
+ */
+export function staggerLabels(
+  items: readonly { x: number; width: number }[],
+  bounds: [number, number],
+  gap = 4,
+): { x: number; row: number }[] {
+  const rows: [number, number][][] = [];
+  return items.map(({ x, width }) => {
+    const half = width / 2;
+    const cx = Math.min(bounds[1] - half, Math.max(bounds[0] + half, x));
+    const span: [number, number] = [cx - half, cx + half];
+    let row = rows.findIndex((spans) => spans.every(([a, b]) => span[1] + gap <= a || span[0] >= b + gap));
+    if (row === -1) {
+      row = rows.length;
+      rows.push([]);
+    }
+    rows[row]!.push(span);
+    return { x: cx, row };
+  });
 }
