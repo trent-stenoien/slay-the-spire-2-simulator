@@ -2,7 +2,8 @@
  * Groups a combat's event log into rounds (one player turn + the enemy turn
  * that follows) and tracks HP / block snapshots for display.
  */
-import type { DebuffKind, Debuffs, GameEvent, Outcome } from '../../engine/types';
+import type { DebuffKind, Debuffs, Effect, EnemyIntent, GameEvent, Outcome } from '../../engine/types';
+import { effectText } from './cardText';
 
 export interface SideSnapshot {
   hp: number;
@@ -202,4 +203,32 @@ export function intendedMoveId(rounds: readonly Round[], i: number, order: reado
     return at < 0 ? null : (order[(at + 1) % order.length] ?? null);
   }
   return i === 0 && start === 'first' ? (order[0] ?? null) : null;
+}
+
+/** "Ascension 5" (the log page spells the level out). */
+export function ascensionLabel(level: number): string {
+  return `Ascension ${level}`;
+}
+
+/**
+ * What a move does, as shown in the intent line: attacks use the damage the player will actually
+ * take (Strength, Weak and Vulnerable applied), other effects use the plain card-text wording.
+ */
+export function moveEffectsText(effects: readonly Effect[], intent: EnemyIntent): string {
+  let a = 0;
+  return effects
+    .map((e) => {
+      if (e.type !== 'attack') return effectText(e);
+      const atk = intent.attacks[a++];
+      const dmg = atk?.damagePerHit ?? e.damage;
+      return e.hits === 1 ? `${dmg} damage` : `${dmg} damage ${e.hits} times`;
+    })
+    .join(', ');
+}
+
+/** "Enemy Intent: Butt (12 damage)". */
+export function enemyIntentLabel(intent: EnemyIntent | null, effects: readonly Effect[] = []): string {
+  if (!intent) return 'Enemy Intent: unknown';
+  const fx = moveEffectsText(effects, intent);
+  return `Enemy Intent: ${intent.name}${fx ? ` (${fx})` : ''}`;
 }

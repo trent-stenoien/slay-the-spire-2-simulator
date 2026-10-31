@@ -2,13 +2,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { computeIntent, runCombat } from '../../engine/combat';
 import { resolveEnemy } from '../../engine/enemy';
 import { strategyCode } from '../../engine/strategies';
-import type { EnemyIntent, GameData, GameEvent } from '../../engine/types';
+import type { Effect, EnemyIntent, GameData, GameEvent } from '../../engine/types';
 import { describeConfig } from '../lib/strategyLibrary';
-import { buildReplay, describeEvent, intendedMoveId, type SideSnapshot } from '../lib/logReplay';
+import { ascensionLabel, buildReplay, describeEvent, enemyIntentLabel, intendedMoveId, type SideSnapshot } from '../lib/logReplay';
 import { setupHref } from '../lib/links';
 import type { LogTarget, SetupState } from '../lib/url';
 import { Panel } from './Panel';
 import { deckSize } from '../lib/deck';
+import { toDisplayCombat } from '../lib/combatPicker';
 
 interface Props {
   data: GameData;
@@ -29,11 +30,11 @@ export function CombatLog({ data, setup, target }: Props) {
       const base = data.enemies[setup.enemyId];
       const resolved = base ? resolveEnemy(base, setup.ascension) : null;
       // Intent as the player saw it at the start of each turn.
-      const intents = replay.rounds.map((round, i) => {
+      const intents = replay.rounds.map((round, i): { intent: EnemyIntent; effects: Effect[] } | null => {
         if (!resolved) return null;
         const id = intendedMoveId(replay.rounds, i, resolved.pattern.order, resolved.pattern.start);
         const move = id ? resolved.moves[id] : undefined;
-        return id && move ? computeIntent(id, move, round.start.enemy, round.start.player) : null;
+        return id && move ? { intent: computeIntent(id, move, round.start.enemy, round.start.player), effects: move.effects } : null;
       });
       return { ok: true as const, replay, intents, result: r };
     } catch (err) {
@@ -59,14 +60,19 @@ export function CombatLog({ data, setup, target }: Props) {
   const back = setupHref(data, setup);
 
   return (
-    <Panel id="log" title="Combat log">
+    <Panel id="log" title="Combat Log">
       <div className="panel-actions">
         <a className="btn-link" href={back}>
           Back to setup
         </a>
       </div>
+      {target.combatIndex !== undefined && (
+        <p className="combat-number">
+          <strong>Combat #{toDisplayCombat(target.combatIndex)}</strong>
+        </p>
+      )}
       <p className="muted small">
-        {enemy?.name ?? setup.enemyId}, A{setup.ascension}, {deckSize(setup.deck)}-card deck. Strategy: {describeConfig(target.strategy)} (
+        {enemy?.name ?? setup.enemyId}, {ascensionLabel(setup.ascension)}, {deckSize(setup.deck)}-card deck. Strategy: {describeConfig(target.strategy)} (
         <code>{strategyCode(target.strategy)}</code>). Seed {target.seed}.
       </p>
       {!outcome.ok ? (
@@ -83,6 +89,7 @@ export function CombatLog({ data, setup, target }: Props) {
               count={roundCount}
               round={outcome.replay.rounds[Math.min(turnIdx, roundCount - 1)]!}
               intent={outcome.intents[Math.min(turnIdx, roundCount - 1)] ?? null}
+              characterId={setup.characterId}
               name={name}
               onStep={(d) => setTurnIdx((i) => Math.max(0, Math.min(roundCount - 1, i + d)))}
               onJump={setTurnIdx}
@@ -99,11 +106,13 @@ function Round({
   count,
   round,
   intent,
+  characterId,
   name,
   onStep,
   onJump,
 }: {
-  intent: EnemyIntent | null;
+  intent: { intent: EnemyIntent; effects: Effect[] } | null;
+  characterId: string;
   idx: number;
   count: number;
   round: ReturnType<typeof buildReplay>['rounds'][number];
@@ -139,11 +148,9 @@ function Round({
         <Fighter label="You" start={round.start.player} end={round.end.player} />
         <Fighter label="Enemy" start={round.start.enemy} end={round.end.enemy} />
       </div>
-      <p className="intent small">
-        <strong>Enemy intent:</strong> {intent ? intentText(intent) : 'unknown'}
-      </p>
-      <div className="phase">
-        <h4>Your turn</h4>
+      <p className="intent">{enemyIntentLabel(intent?.intent ?? null, intent?.effects)}</p>
+      <div className={`phase phase-you phase-${characterId}`}>
+        <h4>Your Turn</h4>
         <p className="small">
           <strong>Drew:</strong> {round.drawn.length ? round.drawn.map(name).join(', ') : 'nothing'}
         </p>
@@ -157,8 +164,8 @@ function Round({
           <p className="muted small">No cards played.</p>
         )}
       </div>
-      <div className="phase">
-        <h4>Enemy turn{round.enemyMove ? `: ${round.enemyMove}` : ''}</h4>
+      <div className="phase phase-enemy">
+        <h4>Enemy Turn{round.enemyMove ? `: ${round.enemyMove}` : ''}</h4>
         {round.enemyMove === null ? (
           <p className="muted small">The combat ended before the enemy acted.</p>
         ) : enemyLines.length ? (
@@ -197,10 +204,4 @@ function Fighter({ label, start, end }: { label: string; start: SideSnapshot; en
       </div>
     </div>
   );
-}
-
-function intentText(intent: EnemyIntent): string {
-  if (intent.attacks.length === 0) return `${intent.name} (no attack)`;
-  const hits = intent.attacks.map((a) => (a.hits > 1 ? `${a.damagePerHit}×${a.hits}` : `${a.damagePerHit}`)).join(' + ');
-  return `${intent.name}: attack ${hits}${intent.attacks.length > 1 || (intent.attacks[0]?.hits ?? 1) > 1 ? ` = ${intent.totalIncoming}` : ''}`;
 }

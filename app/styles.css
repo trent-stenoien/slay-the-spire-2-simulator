@@ -864,11 +864,43 @@ svg.chart {
   height: 100%;
   background: var(--loss);
 }
+.combat-number {
+  margin: 4px 0;
+}
 .intent {
-  margin: 12px 0 0;
+  margin: 16px 0 6px;
+  text-align: center;
+  font-weight: 600;
+  overflow-wrap: anywhere;
 }
 .phase {
-  margin-top: 12px;
+  margin-top: 8px;
+  padding: 8px 12px 10px;
+  border: 2px solid var(--phase-color, var(--char-colorless));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--phase-color, var(--char-colorless)) 14%, transparent);
+}
+.phase h4 {
+  margin: 0 0 4px;
+}
+.phase-ironclad {
+  --phase-color: var(--char-ironclad);
+}
+.phase-silent {
+  --phase-color: var(--char-silent);
+}
+.phase-regent {
+  --phase-color: var(--char-regent);
+}
+.phase-necrobinder {
+  --phase-color: var(--char-necrobinder);
+}
+.phase-defect {
+  --phase-color: var(--char-defect);
+}
+.phase-enemy {
+  --phase-color: #9a9a9a;
+  background: rgba(160, 160, 160, 0.18);
 }
 .events {
   padding-left: 0;

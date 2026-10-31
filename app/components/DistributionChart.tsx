@@ -70,9 +70,26 @@ function compute(rows: readonly ResultRow[], hidden: ReadonlySet<string>, mode: 
  * P5/P25/P50/P75/P95 are marked in its color (one label row block per strategy), with a light
  * P25-P75 band drawn only above its curve. With three or more visible, no marks are drawn.
  */
-export function DistributionChart({ rows, initialMode = 'kde' }: { rows: ResultRow[]; initialMode?: ChartMode }) {
+export function DistributionChart({
+  rows,
+  initialMode = 'kde',
+  hidden: hiddenProp,
+  onHiddenChange,
+}: {
+  rows: ResultRow[];
+  initialMode?: ChartMode;
+  /** Optional controlled legend state (ids of hidden strategies); the parent can then react to it. */
+  hidden?: ReadonlySet<string>;
+  onHiddenChange?: (hidden: ReadonlySet<string>) => void;
+}) {
   const [mode, setMode] = useState<ChartMode>(initialMode);
-  const [hidden, setHidden] = useState<ReadonlySet<string>>(() => new Set());
+  const [ownHidden, setOwnHidden] = useState<ReadonlySet<string>>(() => new Set());
+  const hidden = hiddenProp ?? ownHidden;
+  const setHidden = (f: (h: ReadonlySet<string>) => ReadonlySet<string>) => {
+    const next = f(hidden);
+    if (hiddenProp === undefined) setOwnHidden(next);
+    onHiddenChange?.(next);
+  };
   const [bandwidthFactor, setBandwidthFactor] = useState<number>(BANDWIDTH_FACTOR.default);
   const clipId = useId();
   const sliderId = useId();

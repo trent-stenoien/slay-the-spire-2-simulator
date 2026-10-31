@@ -17,6 +17,7 @@ export const URL_VERSION = '1';
 export const MAX_ASCENSION = 10;
 const MAX_SEED = 0xffffffff;
 const MAX_COPIES = 99;
+const MAX_COMBAT_INDEX = 9999;
 
 export interface SetupState {
   characterId: string;
@@ -29,6 +30,8 @@ export interface LogTarget {
   /** Per-combat seed passed straight to runCombat. */
   seed: number;
   strategy: StrategyConfig;
+  /** 0-based combat number within the run, when the link came from the results picker (optional `n`). Display only. */
+  combatIndex?: number;
 }
 
 export interface ParsedUrl {
@@ -109,7 +112,7 @@ export function decodeDeck(data: GameData, characterId: string, text: string): D
 // Query string
 // ---------------------------------------------------------------------------
 
-/** Build the query string (without "?"). Param order is fixed: v c e a d [s st]. */
+/** Build the query string (without "?"). Param order is fixed: v c e a d [s st [n]]. */
 export function buildQuery(data: GameData, setup: SetupState, log?: LogTarget | null): string {
   const character = data.characters[setup.characterId];
   const enemy = data.enemies[setup.enemyId];
@@ -123,6 +126,7 @@ export function buildQuery(data: GameData, setup: SetupState, log?: LogTarget | 
     `d=${encodeDeck(data, setup.deck)}`,
   ];
   if (log) parts.push(`s=${log.seed >>> 0}`, `st=${strategyCode(log.strategy)}`);
+  if (log && log.combatIndex !== undefined) parts.push(`n=${log.combatIndex}`);
   return parts.join('&');
 }
 
@@ -223,7 +227,13 @@ export function parseQuery(data: GameData, search: string): ParsedUrl {
       strategy = parseStrategyCode(st);
       if (!strategy) errors.push(`Unknown strategy code "${st}"`);
     }
-    if (seed !== null && strategy) log = { seed, strategy };
+    if (seed !== null && strategy) {
+      log = { seed, strategy };
+      const n = p.get('n');
+      // Optional and display-only: a bad value is ignored, never an error.
+      const combatIndex = n === undefined ? null : parseIntStrict(n, MAX_COMBAT_INDEX);
+      if (combatIndex !== null) log.combatIndex = combatIndex;
+    }
   }
 
   return { setup, log, errors };
