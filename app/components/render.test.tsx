@@ -194,7 +194,7 @@ describe('views render', () => {
     expect(html.indexOf('class="legend"')).toBeLessThan(html.indexOf('<svg class="chart"'));
     expect(html.match(/<button type="button" class="legend-item" aria-pressed="true"/g)).toHaveLength(2);
     expect(html).toContain('type="range"');
-    expect(html).toContain('min="0.25"');
+    expect(html).toContain('min="0"');
     expect(html).toContain('max="5"');
     expect(html).toContain('value="3"');
     expect(html).toContain('×3.00');
@@ -240,11 +240,17 @@ describe('views render', () => {
     for (const label of ['P5 = 2', 'P25 = 3', 'P50 = 3', 'P75 = 4', 'P95 = 4']) expect(html).toContain(`>${label}</text>`);
   });
 
-  it('labels the smoothing slider at its min (×0.25), ×1-×4 and its max (×5)', () => {
+  it('has no Raw view button: only Smoothed (KDE) and Cumulative', () => {
     const html = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
-    for (const l of ['×0.25', '×1', '×2', '×3', '×4', '×5']) expect(html).toMatch(new RegExp(`class="bandwidth-tick" style="--f:[0-9.]+">${l}</span>`));
+    const tabs = [...html.matchAll(/role="tab"[^>]*>([^<]*)</g)].map((m) => m[1]);
+    expect(tabs).toEqual(['Smoothed (KDE)', 'Cumulative']);
+  });
+
+  it('labels the smoothing slider at its min (Raw), ×1-×4 and its max (×5)', () => {
+    const html = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
+    for (const l of ['Raw', '×1', '×2', '×3', '×4', '×5']) expect(html).toMatch(new RegExp(`class="bandwidth-tick" style="--f:[0-9.]+">${l}</span>`));
     expect(html.match(/class="bandwidth-tick"/g)).toHaveLength(6);
-    expect(html).toMatch(/<option value="0.25" label="×0.25">/);
+    expect(html).toMatch(/<option value="0" label="Raw">/);
     expect(html).toMatch(/<option value="5" label="×5">/);
   });
 

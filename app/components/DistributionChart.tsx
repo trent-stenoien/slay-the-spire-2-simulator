@@ -1,10 +1,11 @@
 import { useId, useState, type CSSProperties } from 'react';
-import { cumulativeCurve, kdeCurve, rawCurve, type CurvePoint } from '../../engine/stats';
+import { cumulativeCurve, rawCurve, type CurvePoint } from '../../engine/stats';
 import { COLOR_HEX } from '../lib/colors';
 import {
   aboveCurvePath,
   areaPath,
   BANDWIDTH_FACTOR,
+  smoothedCurve,
   BAND_OPACITY,
   CURVE_FILL_OPACITY,
   bandwidthTicks,
@@ -12,7 +13,6 @@ import {
   clampBandwidthFactor,
   curveRange,
   curvesMaxYInRange,
-  kdeBandwidth,
   linePath,
   linearScale,
   niceMax,
@@ -31,7 +31,6 @@ export type ChartMode = 'kde' | 'raw' | 'cumulative';
 
 const MODES: { id: ChartMode; label: string }[] = [
   { id: 'kde', label: 'Smoothed (KDE)' },
-  { id: 'raw', label: 'Raw' },
   { id: 'cumulative', label: 'Cumulative' },
 ];
 
@@ -55,7 +54,7 @@ function compute(rows: readonly ResultRow[], hidden: ReadonlySet<string>, mode: 
   const span = curveRange(range);
   const curve = (counts: number[]) =>
     mode === 'kde'
-      ? kdeCurve(counts, span, { bandwidth: kdeBandwidth(counts, bandwidthFactor) })
+      ? smoothedCurve(counts, span, bandwidthFactor) // ×0 is the raw per-HP percentages, smooth line style
       : mode === 'raw'
         ? rawCurve(counts, span)
         : cumulativeCurve(counts, span);
