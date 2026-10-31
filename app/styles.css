@@ -496,6 +496,28 @@ button:disabled {
   display: flex;
   gap: 4px;
 }
+/* Custom rows: icons share the name's line (top right); swatches sit below them. */
+.strat-row.custom {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+}
+.strat-row.custom .strat-check {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+.strat-row.custom .strat-actions {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+}
+.strat-row.custom .swatches {
+  grid-column: 2;
+  grid-row: 2;
+}
+.strat-row.custom .strat-edit {
+  grid-column: 1 / -1;
+}
 .strat-edit {
   flex-basis: 100%;
   display: flex;

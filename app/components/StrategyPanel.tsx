@@ -66,7 +66,7 @@ function StrategyRow({
   const [editing, setEditing] = useState(false);
   const checked = sel !== undefined;
   return (
-    <li className={`strat-row${checked ? ' selected' : ''}`} style={sel ? { borderLeftColor: COLOR_HEX[sel.color] } : undefined}>
+    <li className={`strat-row${checked ? ' selected' : ''}${builtIn ? '' : ' custom'}`} style={sel ? { borderLeftColor: COLOR_HEX[sel.color] } : undefined}>
       <label className="strat-check">
         <input type="checkbox" checked={checked} disabled={!checked && full} onChange={() => onToggle(s.id)} />
         <span>
@@ -75,27 +75,6 @@ function StrategyRow({
           <span className="strat-desc">{describeConfig(s.config)}</span>
         </span>
       </label>
-      {sel && (
-        <div className="swatches" role="radiogroup" aria-label={`Color for ${s.name}`}>
-          {COLORS.map((c) => {
-            const taken = isColorTaken(selection, s.id, c);
-            return (
-              <button
-                key={c}
-                type="button"
-                role="radio"
-                aria-checked={sel.color === c}
-                aria-label={c}
-                title={taken ? `${c} (used by another strategy)` : c}
-                disabled={taken}
-                className={`swatch${sel.color === c ? ' on' : ''}`}
-                style={{ background: COLOR_HEX[c] }}
-                onClick={() => onColor(s.id, c)}
-              />
-            );
-          })}
-        </div>
-      )}
       {!builtIn && (
         <div className="strat-actions">
           <button
@@ -118,6 +97,27 @@ function StrategyRow({
           >
             <XIcon />
           </button>
+        </div>
+      )}
+      {sel && (
+        <div className="swatches" role="radiogroup" aria-label={`Color for ${s.name}`}>
+          {COLORS.map((c) => {
+            const taken = isColorTaken(selection, s.id, c);
+            return (
+              <button
+                key={c}
+                type="button"
+                role="radio"
+                aria-checked={sel.color === c}
+                aria-label={c}
+                title={taken ? `${c} (used by another strategy)` : c}
+                disabled={taken}
+                className={`swatch${sel.color === c ? ' on' : ''}`}
+                style={{ background: COLOR_HEX[c] }}
+                onClick={() => onColor(s.id, c)}
+              />
+            );
+          })}
         </div>
       )}
       {editing && s.config.kind === 'block' && (
