@@ -281,14 +281,25 @@ button:disabled {
   padding: 0;
 }
 .card-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: 8ch minmax(0, 1fr) auto;
   align-items: center;
-  gap: 10px;
+  column-gap: 10px;
+  row-gap: 4px;
   padding: 8px 0;
   border-top: 1px solid var(--border);
 }
-.card-row:not(.in-deck) .card-main {
+.card-row:not(.in-deck) .card-name,
+.card-row:not(.in-deck) .card-label,
+.card-row:not(.in-deck) .card-text {
   opacity: 0.7;
+}
+.card-head {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
 }
 .cost {
   flex: none;
@@ -308,24 +319,24 @@ button:disabled {
 .type-skill .cost {
   border-color: #2f6fdf;
 }
-.card-main {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-}
 .card-name {
-  font-weight: 600;
+  font-weight: 700;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.card-label {
+  font-size: 0.75rem;
+  color: var(--muted);
 }
 .card-text {
   font-size: 0.85rem;
   color: var(--muted);
+  min-width: 0;
 }
 .stepper {
   display: flex;
   align-items: center;
   gap: 4px;
-  flex-wrap: wrap;
   justify-content: flex-end;
 }
 .stepper button {
@@ -591,7 +602,7 @@ code {
   border-radius: 4px;
 }
 
-/* Deck builder: search, folder groups, normal + upgraded steppers */
+/* Deck builder: search and folder groups */
 .deck-search {
   width: 100%;
   margin: 8px 0 4px;
@@ -603,22 +614,4 @@ code {
   cursor: pointer;
   font-weight: 600;
   padding: 4px 0;
-}
-.card-text-up {
-  font-style: italic;
-}
-.steppers {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-  flex: none;
-}
-.stepper-tag {
-  flex: none;
-  width: 8ch;
-  text-align: right;
-  font-size: 0.75rem;
-  font-weight: 400;
-  color: var(--muted);
 }

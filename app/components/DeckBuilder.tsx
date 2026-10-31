@@ -65,25 +65,27 @@ function CardRow({ card, deck, onChange }: { card: CardDef; deck: Deck; onChange
   const up = card.upgraded ? cardText(card, true) : null;
   const n = copiesOf(deck, card.id, false);
   const nUp = copiesOf(deck, card.id, true);
-  const upDiffers = up && (up.lines.join() !== base.lines.join() || up.cost !== base.cost);
   return (
     <li className={`card-row type-${card.type}${n + nUp > 0 ? ' in-deck' : ''}`}>
-      <span className="cost" title="Energy cost">
-        {base.cost}
-      </span>
-      <div className="card-main">
+      <div className="card-head">
+        <span className="cost" title="Energy cost">
+          {base.cost}
+        </span>
         <span className="card-name">{base.name}</span>
-        <span className="card-text">{base.lines.join('. ')}</span>
-        {up && upDiffers && (
-          <span className="card-text card-text-up">
-            Upgraded{up.cost !== base.cost ? ` (cost ${up.cost})` : ''}: {up.lines.join('. ')}
+      </div>
+      <span className="card-label">Standard</span>
+      <span className="card-text">{base.lines.join('. ')}</span>
+      <Stepper label={base.name} tag="Standard" n={n} onStep={(d) => onChange(changeCount(deck, card.id, false, d))} />
+      {up && (
+        <>
+          <span className="card-label">Upgraded</span>
+          <span className="card-text">
+            {up.lines.join('. ')}
+            {up.cost !== base.cost ? ` (costs ${up.cost})` : ''}
           </span>
-        )}
-      </div>
-      <div className="steppers">
-        <Stepper label={base.name} tag="Standard" n={n} onStep={(d) => onChange(changeCount(deck, card.id, false, d))} />
-        {up && <Stepper label={up.name} tag="Upgraded" n={nUp} onStep={(d) => onChange(changeCount(deck, card.id, true, d))} />}
-      </div>
+          <Stepper label={up.name} tag="Upgraded" n={nUp} onStep={(d) => onChange(changeCount(deck, card.id, true, d))} />
+        </>
+      )}
     </li>
   );
 }
@@ -91,7 +93,6 @@ function CardRow({ card, deck, onChange }: { card: CardDef; deck: Deck; onChange
 function Stepper({ label, tag, n, onStep }: { label: string; tag: string; n: number; onStep: (delta: number) => void }) {
   return (
     <div className="stepper" title={`${tag} copies`}>
-      <span className="stepper-tag">{tag}</span>
       <button type="button" aria-label={`Remove one ${tag.toLowerCase()} ${label}`} disabled={n === 0} onClick={() => onStep(-1)}>
         −
       </button>
