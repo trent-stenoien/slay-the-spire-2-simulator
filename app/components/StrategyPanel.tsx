@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { MAX_STRATEGIES_PER_RUN, type SavedStrategy, type StrategyColor } from '../../engine/types';
 import { COLORS, COLOR_HEX, isColorTaken, type Selection } from '../lib/colors';
-import { describeConfig, isBuiltIn, parseAllowThrough } from '../lib/strategyLibrary';
+import { blockStrategyProblem, describeConfig, isBuiltIn, parseAllowThrough } from '../lib/strategyLibrary';
 
 interface Props {
   library: SavedStrategy[];
@@ -33,12 +33,13 @@ export function StrategyPanel(props: Props) {
           <StrategyRow key={s.id} {...props} s={s} sel={selection.find((x) => x.strategyId === s.id)} full={full} />
         ))}
       </ul>
-      <NewStrategyForm onAdd={props.onAdd} />
+      <NewStrategyForm library={library} onAdd={props.onAdd} />
     </section>
   );
 }
 
 function StrategyRow({
+  library,
   s,
   sel,
   selection,
@@ -105,16 +106,17 @@ function StrategyRow({
             <span>Name</span>
             <input defaultValue={s.name} onBlur={(e) => onRename(s.id, e.target.value)} maxLength={40} />
           </label>
-          <AllowInput value={s.config.allowThrough} onCommit={(n) => onAllowThrough(s.id, n)} />
+          <AllowInput library={library} id={s.id} value={s.config.allowThrough} onCommit={(n) => onAllowThrough(s.id, n)} />
         </div>
       )}
     </li>
   );
 }
 
-function AllowInput({ value, onCommit }: { value: number; onCommit: (n: number) => void }) {
+function AllowInput({ library, id, value, onCommit }: { library: SavedStrategy[]; id: string; value: number; onCommit: (n: number) => void }) {
   const [text, setText] = useState(String(value));
   const parsed = parseAllowThrough(text);
+  const problem = parsed === null ? null : blockStrategyProblem(library, parsed, id);
   return (
     <label className="field field-narrow">
       <span>Allow at most X damage per turn</span>
@@ -124,28 +126,30 @@ function AllowInput({ value, onCommit }: { value: number; onCommit: (n: number) 
         min={0}
         step={1}
         value={text}
-        aria-invalid={parsed === null}
+        aria-invalid={parsed === null || problem !== null}
         onChange={(e) => {
           setText(e.target.value);
           const n = parseAllowThrough(e.target.value);
-          if (n !== null) onCommit(n);
+          if (n !== null && blockStrategyProblem(library, n, id) === null) onCommit(n);
         }}
       />
       {parsed === null && <small className="warn">Whole number, 0 or more</small>}
+      {problem && <small className="warn">{problem}</small>}
     </label>
   );
 }
 
-function NewStrategyForm({ onAdd }: { onAdd: (name: string, allowThrough: number) => void }) {
+function NewStrategyForm({ library, onAdd }: { library: SavedStrategy[]; onAdd: (name: string, allowThrough: number) => void }) {
   const [name, setName] = useState('');
   const [allow, setAllow] = useState('5');
   const parsed = parseAllowThrough(allow);
+  const problem = parsed === null ? null : blockStrategyProblem(library, parsed);
   return (
     <form
       className="new-strat"
       onSubmit={(e) => {
         e.preventDefault();
-        if (parsed === null) return;
+        if (parsed === null || problem !== null) return;
         onAdd(name, parsed);
         setName('');
       }}
@@ -160,11 +164,12 @@ function NewStrategyForm({ onAdd }: { onAdd: (name: string, allowThrough: number
           <span>Allow at most X damage per turn</span>
           <input type="number" inputMode="numeric" min={0} step={1} value={allow} aria-invalid={parsed === null} onChange={(e) => setAllow(e.target.value)} />
         </label>
-        <button type="submit" className="btn" disabled={parsed === null}>
+        <button type="submit" className="btn" disabled={parsed === null || problem !== null}>
           Add
         </button>
       </div>
       {parsed === null && <small className="warn">Allowance must be a whole number, 0 or more.</small>}
+      {problem && <small className="warn">{problem}</small>}
     </form>
   );
 }

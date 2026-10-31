@@ -3,7 +3,7 @@
  * user strategies (block strategies with a custom allowance) live in
  * localStorage. All storage access is wrapped so the app works without it.
  */
-import type { SavedStrategy, StrategyConfig } from '../../engine/types';
+import { MAX_STRATEGIES_PER_RUN, type SavedStrategy, type StrategyConfig } from '../../engine/types';
 
 export const STORAGE_KEY = 'sts2sim.strategies.v1';
 /** parseStrategyCode accepts at most 4 digits, so URLs stay valid. */
@@ -131,4 +131,20 @@ export function describeConfig(config: StrategyConfig): string {
     : config.allowThrough === 0
       ? 'Try to block all incoming damage, then attack'
       : `Block until at most ${config.allowThrough} damage gets through each turn, then attack`;
+}
+
+/** The library holds at most this many strategies, defaults included. */
+export const MAX_LIBRARY_SIZE = MAX_STRATEGIES_PER_RUN;
+
+/**
+ * Why a block strategy allowing `allowThrough` can't be added (or another one
+ * changed to it), or null if it can. `exceptId` is the strategy being edited.
+ */
+export function blockStrategyProblem(library: readonly SavedStrategy[], allowThrough: number, exceptId?: string): string | null {
+  const twin = library.find((s) => s.id !== exceptId && s.config.kind === 'block' && s.config.allowThrough === allowThrough);
+  if (twin) return `"${twin.name}" already allows ${allowThrough} damage per turn.`;
+  if (exceptId === undefined && library.length >= MAX_LIBRARY_SIZE) {
+    return `You can have at most ${MAX_LIBRARY_SIZE} strategies. Delete one to add another.`;
+  }
+  return null;
 }

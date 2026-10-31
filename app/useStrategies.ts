@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import type { SavedStrategy, StrategyColor } from '../engine/types';
 import { deselectStrategy, pruneSelection, selectStrategy, setColor, type Selection } from './lib/colors';
 import {
+  blockStrategyProblem,
   DEFAULT_STRATEGIES,
   addUserStrategy,
   browserStorage,
@@ -48,13 +49,16 @@ export function useStrategies() {
     toggle: (id: string) => setSelection((sel) => (sel.some((s) => s.strategyId === id) ? deselectStrategy(sel, id) : selectStrategy(sel, id))),
     color: (id: string, c: StrategyColor) => setSelection((sel) => setColor(sel, id, c)),
     add: (name: string, allow: number) => {
+      if (blockStrategyProblem(library, allow) !== null) return;
       const next = addUserStrategy(user, name, allow, newId);
       commit(next);
       const added = next[next.length - 1];
       if (added) setSelection((sel) => selectStrategy(sel, added.id));
     },
     rename: (id: string, name: string) => commit(renameUserStrategy(user, id, name)),
-    allowThrough: (id: string, n: number) => commit(setAllowThrough(user, id, n)),
+    allowThrough: (id: string, n: number) => {
+      if (blockStrategyProblem(library, n, id) === null) commit(setAllowThrough(user, id, n));
+    },
     remove: (id: string) => commit(deleteUserStrategy(user, id)),
   };
 }

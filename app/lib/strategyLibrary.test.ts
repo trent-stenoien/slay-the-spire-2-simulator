@@ -11,6 +11,7 @@ import {
   saveUserStrategies,
   setAllowThrough,
   type StorageLike,
+  blockStrategyProblem,
 } from './strategyLibrary';
 
 function memStorage(initial?: string): StorageLike & { data: Map<string, string> } {
@@ -103,5 +104,25 @@ describe('strategy library edits', () => {
     ['abc', null],
   ])('parseAllowThrough(%j) = %j', (t, v) => {
     expect(parseAllowThrough(t)).toBe(v);
+  });
+});
+
+describe('blockStrategyProblem', () => {
+  const lib = fullLibrary([{ id: 'u1', name: 'Block, allow 2', config: { kind: 'block', allowThrough: 2 } }]);
+
+  it('rejects a duplicate allowance, including the built-in Scared Block (0)', () => {
+    expect(blockStrategyProblem(lib, 2)).toMatch(/already allows 2/);
+    expect(blockStrategyProblem(lib, 0)).toMatch(/already allows 0/);
+    expect(blockStrategyProblem(lib, 3)).toBeNull();
+  });
+
+  it('lets a strategy keep its own allowance while editing', () => {
+    expect(blockStrategyProblem(lib, 2, 'u1')).toBeNull();
+  });
+
+  it('caps the library at 5 strategies, defaults included', () => {
+    const full = fullLibrary([3, 4, 5].map((n) => ({ id: `u${n}`, name: `b${n}`, config: { kind: 'block' as const, allowThrough: n } })));
+    expect(full).toHaveLength(5);
+    expect(blockStrategyProblem(full, 9)).toMatch(/at most 5/);
   });
 });
