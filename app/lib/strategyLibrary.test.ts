@@ -13,6 +13,7 @@ import {
   setAllowThrough,
   type StorageLike,
   blockStrategyProblem,
+  MAX_LIBRARY_SIZE,
 } from './strategyLibrary';
 
 function memStorage(initial?: string): StorageLike & { data: Map<string, string> } {
@@ -121,10 +122,16 @@ describe('blockStrategyProblem', () => {
     expect(blockStrategyProblem(lib, 2, 'u1')).toBeNull();
   });
 
-  it('caps the library at 5 strategies, defaults included', () => {
-    const full = fullLibrary([3, 4, 5].map((n) => ({ id: `u${n}`, name: `b${n}`, config: { kind: 'block' as const, allowThrough: n } })));
-    expect(full).toHaveLength(5);
-    expect(blockStrategyProblem(full, 9)).toMatch(/at most 5/);
+  it('caps the library at 10 strategies, defaults included', () => {
+    const extra = Array.from({ length: 8 }, (_, i) => ({ id: `u${i + 3}`, name: `b${i + 3}`, config: { kind: 'block' as const, allowThrough: i + 3 } }));
+    const nine = fullLibrary(extra.slice(0, 7));
+    expect(nine).toHaveLength(9);
+    expect(blockStrategyProblem(nine, 20)).toBeNull();
+    const full = fullLibrary(extra);
+    expect(full).toHaveLength(MAX_LIBRARY_SIZE);
+    expect(MAX_LIBRARY_SIZE).toBe(10);
+    expect(blockStrategyProblem(full, 20)).toMatch(/at most 10/);
+    expect(blockStrategyProblem(full, 5, 'u5')).toBeNull();
   });
 });
 
