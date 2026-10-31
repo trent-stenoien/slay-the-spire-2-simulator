@@ -151,13 +151,16 @@ describe('views render', () => {
     expect(html).not.toContain('Burning Blood');
   });
 
-  it('renders results with death rate as a percentage, no turn-cap column, and the game version', () => {
+  it('renders results with death rate as a percentage, no turn-cap column, and the description line', () => {
     const html = renderToStaticMarkup(<ResultsView data={gameData} result={result} />);
     expect(html).toContain('10.0%');
     expect(html).not.toContain('Turn-cap rate');
     expect(html).not.toContain('20.0%');
-    expect(html.match(/<th scope="col">/g)).toHaveLength(4);
-    expect(html).toContain('v0.107.1');
+    expect(html.match(/<th scope="col">/g)).toHaveLength(5);
+    expect(html).not.toContain('v0.107.1');
+    expect(html).not.toContain('run seed');
+    expect(html).not.toContain('-card deck');
+    expect(html).toContain('<p class="muted small">Ironclad vs Nibbit, Ascension 5. 10,000 simulated combats per strategy.</p>');
     expect(html).toContain('<svg');
     // The combat picker defaults to the first listed (lowest HP lost) strategy: Scared Block.
     expect(html).toContain('?v=1&amp;c=I&amp;e=Nb&amp;a=5&amp;d=St5De4Ba1&amp;s=2751716061&amp;st=b0');
@@ -169,8 +172,19 @@ describe('views render', () => {
     expect(html).not.toContain('Avg turns to kill');
     const table = html.slice(html.indexOf('<table'), html.indexOf('</table>'));
     expect(table).not.toContain('—');
-    expect(table).toContain('<td>9.5</td>');
-    expect(table).toContain('<td>6.4</td>');
+    expect(table).toContain('<td>9.50</td>');
+    expect(table).toContain('<td>6.40</td>');
+    expect(table).toContain('<td>8.40</td>');
+    expect(table).toContain('<td>3.20</td>');
+  });
+
+  it('adds a "HP lost, P25-P75" column right after Avg HP lost with en-dash values', () => {
+    const html = renderToStaticMarkup(<ResultsView data={gameData} result={result} />);
+    const heads = [...html.matchAll(/<th scope="col">([^<]*)<\/th>/g)].map((m) => m[1]);
+    expect(heads).toEqual(['Strategy', 'Avg HP lost', 'HP lost, P25-P75', 'Avg combat turn length', 'Death rate']);
+    const table = html.slice(html.indexOf('<table'), html.indexOf('</table>'));
+    expect(table).toContain('<td>0\u20131</td>'); // Scared Block [4,4,2]
+    expect(table).toContain('<td>3\u20134</td>'); // Greedy Damage [0,0,2,3,5]
   });
 
   it('puts the legend above the chart, as toggle buttons, with the KDE smoothing slider', () => {

@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { deriveSeed } from '../../engine/rng';
 import type { GameData, RunResult } from '../../engine/types';
 import { COLOR_HEX } from '../lib/colors';
-import { fmtNumber, fmtRate, sortedResultRows } from '../lib/results';
-import { deckSize } from '../lib/deck';
+import { describeRun, fmtHpLostRange, fmtNumber, fmtRate, sortedResultRows } from '../lib/results';
 import { DistributionChart } from './DistributionChart';
 import { logHref } from '../lib/links';
 
@@ -11,21 +10,18 @@ import { logHref } from '../lib/links';
 export function ResultsView({ data, result }: { data: GameData; result: RunResult }) {
   const rows = sortedResultRows(result);
   const cfg = result.config;
-  const enemy = data.enemies[cfg.enemyId]?.name ?? cfg.enemyId;
   const combats = rows[0]?.summary.combats ?? 0;
 
   return (
     <div className="results">
-      <p className="muted small">
-        {combats} combats per strategy vs {enemy}, A{cfg.ascension}, {deckSize(cfg.deck)}-card deck, run seed {cfg.runSeed}. Game version{' '}
-        {result.gameVersion}.
-      </p>
+      <p className="muted small">{describeRun(data, cfg)}</p>
       <div className="table-wrap">
         <table className="stats">
           <thead>
             <tr>
               <th scope="col">Strategy</th>
               <th scope="col">Avg HP lost</th>
+              <th scope="col">HP lost, P25-P75</th>
               <th scope="col">Avg combat turn length</th>
               <th scope="col">Death rate</th>
             </tr>
@@ -38,6 +34,7 @@ export function ResultsView({ data, result }: { data: GameData; result: RunResul
                   {r.name}
                 </th>
                 <td>{fmtNumber(r.summary.avgHpLost)}</td>
+                <td>{fmtHpLostRange(r.summary.hpLostCounts)}</td>
                 <td>{fmtNumber(r.summary.avgTurns)}</td>
                 <td>{fmtRate(r.summary.deathRate)}</td>
               </tr>

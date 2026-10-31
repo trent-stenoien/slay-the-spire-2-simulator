@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { RunResult, StrategySummary } from '../../engine/types';
 import { gameData } from '../../data';
-import { relicNote, fmtNumber, fmtRate, parseSeedInput, randomSeed, resultRows, sortResultRows, type ResultRow } from './results';
+import { describeRun, fmtHpLostRange, resolveRunSeed, relicNote, fmtNumber, fmtRate, parseSeedInput, randomSeed, resultRows, sortResultRows, type ResultRow } from './results';
 
 function fakeSummary(strategyId: string, over: Partial<StrategySummary> = {}): StrategySummary {
   return {
@@ -45,7 +45,9 @@ describe('results helpers', () => {
   });
 
   it('formats numbers and rates', () => {
-    expect(fmtNumber(10.25)).toBe('10.3');
+    expect(fmtNumber(10.25)).toBe('10.25');
+    expect(fmtNumber(6)).toBe('6.00');
+    expect(fmtNumber(9.5)).toBe('9.50');
     expect(fmtNumber(null)).toBe('—');
     expect(fmtRate(0.25)).toBe('25.0%');
     expect(fmtRate(0)).toBe('0.0%');
@@ -85,5 +87,27 @@ describe('relicNote', () => {
     expect(relicNote(gameData, 'ironclad')).toBe("Burning Blood's 6 HP heal is not simulated.");
     expect(relicNote(gameData, 'silent')).toBe(`${gameData.characters.silent!.startingRelic} (starting relic) is not simulated.`);
     expect(relicNote(gameData, 'nobody')).toBe('The starting relic (starting relic) is not simulated.');
+  });
+
+  it('describes the run from its own config, not the live setup', () => {
+    expect(describeRun(gameData, result.config)).toBe('Ironclad vs Nibbit, Ascension 0. 10,000 simulated combats per strategy.');
+    expect(describeRun(gameData, { ...result.config, ascension: 7 })).toContain('Ascension 7.');
+  });
+
+  it('formats the P25-P75 range with an en dash, or one number when equal', () => {
+    expect(fmtHpLostRange([0, 0, 2, 3, 5])).toBe('3\u20134');
+    expect(fmtHpLostRange([0, 0, 0, 10])).toBe('3');
+    expect(fmtHpLostRange([0, 0, 0, 10])).not.toContain('\u2013');
+    expect(fmtHpLostRange([])).toBe('—');
+    expect(fmtHpLostRange([0, 0, 0])).toBe('—');
+  });
+
+  it('resolves the run seed: the field value, a generated one when blank, undefined when invalid', () => {
+    expect(resolveRunSeed('42')).toBe(42);
+    expect(resolveRunSeed(' 0 ')).toBe(0);
+    expect(resolveRunSeed('', () => 0.5)).toBe(0x80000000);
+    expect(resolveRunSeed('', () => 0)).toBe(0);
+    expect(resolveRunSeed('abc')).toBeUndefined();
+    expect(resolveRunSeed('4294967296')).toBeUndefined();
   });
 });

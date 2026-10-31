@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { GameData, RunResult } from '../../engine/types';
 import type { SimulationProgress } from '../sim/runSimulation';
-import { parseSeedInput, relicNote } from '../lib/results';
+import { parseSeedInput, relicNote, resolveRunSeed } from '../lib/results';
 import { Panel } from './Panel';
 import { ResultsView } from './ResultsView';
 
@@ -19,7 +19,7 @@ interface Props {
   status: RunStatus;
   /** Why the run can't start, or null when it can. */
   blocker: string | null;
-  onRun: (seed: number | null) => void;
+  onRun: (seed: number) => void;
 }
 
 const SEED_ERROR = 'Seed must be a whole number from 0 to 4294967295.';
@@ -37,7 +37,11 @@ export function ResultsPanel({ data, characterId, result, status, blocker, onRun
   const disabled = running || reason !== null;
   const pct = status.kind === 'running' && status.progress && status.progress.total > 0 ? (status.progress.done / status.progress.total) * 100 : 0;
   const start = () => {
-    if (!disabled) onRun(seed ?? null);
+    if (disabled) return;
+    const used = resolveRunSeed(seedText);
+    if (used === undefined) return;
+    setSeedText(String(used));
+    onRun(used);
   };
 
   const errorText =
