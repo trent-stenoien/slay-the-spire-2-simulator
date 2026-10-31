@@ -37,8 +37,11 @@ export type Effect =
   /**
    * Deal `damage` per hit, `hits` times. Strength and modifiers apply per hit.
    * `allEnemies` marks area attacks; with one enemy (v1) it hits that enemy.
+   * `xTimes` (X-cost cards only): the attack repeats X times, so total hits =
+   * `hits` × (X + `xBonus`), where X is the energy spent on the card and
+   * `xBonus` (default 0) covers "X+1 times" upgrades. X = 0 deals no hits.
    */
-  | { type: 'attack'; damage: number; hits: number; allEnemies?: boolean }
+  | { type: 'attack'; damage: number; hits: number; allEnemies?: boolean; xTimes?: boolean; xBonus?: number }
   | { type: 'gainBlock'; amount: number }
   | { type: 'gainStrength'; amount: number }
   | { type: 'applyVulnerable'; amount: number }
@@ -50,6 +53,11 @@ export type Effect =
    * to its Poison (ignores Block, Strength, Weak, Vulnerable), then Poison goes down by 1.
    */
   | { type: 'applyPoison'; amount: number }
+  /**
+   * Gain `amount` energy now (cards only). Spendable this turn; it does not carry
+   * over, since energy is set to energyPerTurn at the start of the next turn.
+   */
+  | { type: 'gainEnergy'; amount: number }
   /** Regent's Stars resource. Recorded only; not simulated yet. */
   | { type: 'gainStars'; amount: number };
 
@@ -239,8 +247,10 @@ export interface CardInstance {
   name: string;
   type: CardType;
   upgraded: boolean;
-  /** Effective cost; `null` if unplayable. */
+  /** Effective cost; `null` if unplayable. X-cost cards have cost 0 and `xCost: true`. */
   cost: number | null;
+  /** Present and true for X-cost cards: playing one spends all energy, X = energy spent. */
+  xCost?: boolean;
   keywords: CardKeyword[];
   effects: Effect[];
 }
@@ -346,7 +356,10 @@ export type GameEvent =
   | { t: 'shuffle'; reason: 'start' | 'reshuffle'; count: number }
   | { t: 'turnStart'; turn: number; side: Side }
   | { t: 'draw'; uid: number; cardId: string }
-  | { t: 'play'; uid: number; cardId: string; energyLeft: number }
+  /** `x` is present for X-cost cards: the energy spent on it. */
+  | { t: 'play'; uid: number; cardId: string; energyLeft: number; x?: number }
+  /** The player gained energy from a card. */
+  | { t: 'energy'; amount: number; total: number }
   | { t: 'damage'; source: Side; target: Side; amount: number; blocked: number; hpLoss: number }
   | { t: 'block'; side: Side; amount: number; total: number }
   | { t: 'blockReset'; side: Side }

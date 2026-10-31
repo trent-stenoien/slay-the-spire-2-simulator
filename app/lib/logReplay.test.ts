@@ -43,6 +43,8 @@ describe('log replay', () => {
       'Enemy hits for 12, 5 blocked, 7 HP lost',
     );
     expect(describeEvent({ t: 'play', uid: 1, cardId: 'bash', energyLeft: 1 }, name)).toBe('Play Bash (1 energy left)');
+    expect(describeEvent({ t: 'play', uid: 2, cardId: 'whirlwind', energyLeft: 0, x: 3 }, name)).toBe('Play Whirlwind (X = 3, 0 energy left)');
+    expect(describeEvent({ t: 'energy', amount: 2, total: 4 }, name)).toBe('You gain 2 energy (4 energy)');
     expect(describeEvent({ t: 'debuff', side: 'enemy', kind: 'vulnerable', amount: 2, total: 2 }, name)).toBe(
       'Enemy gets 2 Vulnerable (total 2)',
     );

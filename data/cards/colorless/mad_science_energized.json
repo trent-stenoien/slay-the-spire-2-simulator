@@ -13,6 +13,10 @@
     {
       "type": "gainBlock",
       "amount": 8
+    },
+    {
+      "type": "gainEnergy",
+      "amount": 2
     }
   ],
   "upgraded": {
@@ -22,7 +26,7 @@
   },
   "description": "Gain 8 Block. / Gain [E] [E].",
   "upgradedDescription": "Innate. / Gain 8 Block. / Gain [E] [E].",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

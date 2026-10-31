@@ -81,7 +81,7 @@ export function makeCardInstance(def: CardDef, upgraded: boolean, uid: number): 
   const effects = (up?.effects ?? def.effects).map((e) => ({ ...e }));
   let cost: number | null = up?.cost !== undefined ? up.cost : def.cost;
   if (keywords.includes('unplayable')) cost = null;
-  return {
+  const inst: CardInstance = {
     uid,
     cardId: def.id,
     name: upgraded ? `${def.name}+` : def.name,
@@ -91,6 +91,16 @@ export function makeCardInstance(def: CardDef, upgraded: boolean, uid: number): 
     keywords,
     effects,
   };
+  if (def.xCost) {
+    inst.cost = cost === null ? null : 0;
+    inst.xCost = true;
+  }
+  return inst;
+}
+
+/** Total hits of an attack effect, given X (the energy spent on an X-cost card; 0 otherwise). */
+export function attackHits(e: { hits: number; xTimes?: boolean; xBonus?: number }, x: number): number {
+  return e.xTimes ? e.hits * Math.max(0, x + (e.xBonus ?? 0)) : e.hits;
 }
 
 export function isPlayable(card: CardInstance, energy: number): boolean {
@@ -218,13 +228,13 @@ export function simulateCombat(
    * Resolve effects from `source`. Attacks and debuffs hit the opponent; block
    * and Strength go to the source. Returns true if the opponent died.
    */
-  const resolveEffects = (source: Side, effects: readonly Effect[]): boolean => {
+  const resolveEffects = (source: Side, effects: readonly Effect[], x = 0): boolean => {
     const other: Side = source === 'player' ? 'enemy' : 'player';
     const self = fighter(source);
     for (const e of effects) {
       switch (e.type) {
         case 'attack':
-          if (doAttack(source, other, e.damage, e.hits)) return true;
+          if (doAttack(source, other, e.damage, attackHits(e, x))) return true;
           break;
         case 'gainBlock': {
           const amt = blockGain(e.amount, self.debuffs.frail);
@@ -249,6 +259,11 @@ export function simulateCombat(
           if (source !== 'player') throw new Error('Poison on the player is not simulated yet');
           enemy.poison += e.amount;
           if (log) log.push({ t: 'poison', amount: e.amount, total: enemy.poison });
+          break;
+        case 'gainEnergy':
+          if (source !== 'player') throw new Error('Enemies have no energy');
+          player.energy += e.amount;
+          if (log) log.push({ t: 'energy', amount: e.amount, total: player.energy });
           break;
         case 'gainStars':
           throw new Error('Stars are not simulated yet');
@@ -344,9 +359,15 @@ export function simulateCombat(
         throw new Error(`Strategy tried to play illegal card uid ${decision.uid} on turn ${state.turn}`);
       }
       player.hand.splice(idx, 1);
-      player.energy -= card.cost as number;
-      if (log) log.push({ t: 'play', uid: card.uid, cardId: card.cardId, energyLeft: player.energy });
-      const killed = resolveEffects('player', card.effects);
+      // X-cost: X is all the energy available, and the card spends all of it.
+      const x = card.xCost ? player.energy : 0;
+      player.energy -= card.xCost ? x : (card.cost as number);
+      if (log) {
+        const ev: GameEvent = { t: 'play', uid: card.uid, cardId: card.cardId, energyLeft: player.energy };
+        if (card.xCost) ev.x = x;
+        log.push(ev);
+      }
+      const killed = resolveEffects('player', card.effects, x);
       if (card.keywords.includes('exhaust')) {
         player.exhaustPile.push(card);
         if (log) log.push({ t: 'exhaust', uid: card.uid, cardId: card.cardId, reason: 'keyword' });

@@ -239,6 +239,55 @@ describe('validateGameData on broken fixtures', () => {
     expect(errs).toContainEqual(expect.stringMatching(/enemies\/nibbit.*ascension\.9\.moves\.butt\.effects\[1\]\.type.*Poison/));
   });
 
+  it('accepts gainEnergy on cards and rejects it on enemy moves', () => {
+    const d = fixture();
+    d.cards.strike.effects.push({ type: 'gainEnergy', amount: 1 });
+    expect(errorsOf(d)).toEqual([]);
+    d.cards.strike.effects.push({ type: 'gainEnergy', amount: -1 });
+    expect(errorsOf(d)).toContainEqual(expect.stringMatching(/cards\/strike.*effects\[2\]\.amount/));
+    const e = fixture();
+    e.enemies.nibbit.moves.hiss.effects.push({ type: 'gainEnergy', amount: 1 });
+    expect(errorsOf(e)).toContainEqual(expect.stringMatching(/enemies\/nibbit.*moves\.hiss\.effects\[1\]\.type.*energy/));
+  });
+
+  it('X-cost: simulated only with an xTimes effect; xTimes only on X-cost cards; xBonus needs xTimes', () => {
+    const d = fixture();
+    d.cards.strike.effects[0].xTimes = true;
+    d.cards.defend.effects = [{ type: 'attack', damage: 1, hits: 1, xBonus: 1 }];
+    d.cards.whirlwind.effects = [{ type: 'attack', damage: 5, hits: 1, allEnemies: true }];
+    d.cards.whirlwind.upgraded.effects[0].xBonus = -1;
+    const e = fixture();
+    e.enemies.nibbit.moves.butt.effects[0].xTimes = true;
+    const errs = [...errorsOf(d), ...errorsOf(e)];
+    expect(errs).toContainEqual(expect.stringMatching(/cards\/strike.*effects\[0\]\.xTimes.*X-cost/));
+    expect(errs).toContainEqual(expect.stringMatching(/cards\/defend.*effects\[0\]\.xBonus.*xTimes/));
+    expect(errs).toContainEqual(expect.stringMatching(/cards\/whirlwind.*"simulated".*scales with X/));
+    expect(errs).toContainEqual(expect.stringMatching(/cards\/whirlwind.*upgraded\.effects\[0\]\.xBonus/));
+    expect(errs).toContainEqual(expect.stringMatching(/enemies\/nibbit.*moves\.butt\.effects\[0\]\.xTimes/));
+  });
+
+  it('X-Star cards stay unsimulated', () => {
+    const d = fixture();
+    const stardust = Object.values(d.cards).find((c: any) => c.xStarCost === true) as any;
+    expect(stardust?.simulated).toBe(false);
+    stardust.simulated = true;
+    expect(errorsOf(d)).toContainEqual(expect.stringMatching(/"simulated"/));
+  });
+
+  it('energy, X-cost and Tremble cards (#1, #22, #23) have the expected effects', () => {
+    const c = gameData.cards;
+    expect(c.whirlwind).toMatchObject({ xCost: true, cost: 0, simulated: true,
+      effects: [{ type: 'attack', damage: 5, hits: 1, allEnemies: true, xTimes: true }],
+      upgraded: { effects: [{ type: 'attack', damage: 8, hits: 1, allEnemies: true, xTimes: true }] } });
+    expect(c.forgotten_ritual).toMatchObject({ simulated: true, effects: [{ type: 'gainEnergy', amount: 3 }], upgraded: { effects: [{ type: 'gainEnergy', amount: 4 }] } });
+    expect(c.fuel).toMatchObject({ simulated: true, effects: [{ type: 'gainEnergy', amount: 1 }], upgraded: { effects: [{ type: 'gainEnergy', amount: 2 }] } });
+    expect(c.production).toMatchObject({ simulated: true, effects: [{ type: 'gainEnergy', amount: 2 }], upgraded: { effects: [{ type: 'gainEnergy', amount: 3 }] } });
+    expect(c.luminesce).toMatchObject({ simulated: true, keywords: ['retain', 'exhaust'], effects: [{ type: 'gainEnergy', amount: 2 }], upgraded: { effects: [{ type: 'gainEnergy', amount: 3 }] } });
+    expect(c.mad_science_energized).toMatchObject({ simulated: true, effects: [{ type: 'gainBlock', amount: 8 }, { type: 'gainEnergy', amount: 2 }] });
+    for (const id of ['bloodletting', 'offering', 'brightest_flame', 'cascade', 'volley']) expect(c[id]?.simulated).toBe(false);
+    expect(c.tremble).toMatchObject({ simulated: true, effects: [{ type: 'applyVulnerable', amount: 3 }] });
+  });
+
   it('allows innate and retain on simulated cards, base and upgraded', () => {
     const d = fixture();
     d.cards.bash.keywords = ['innate'];

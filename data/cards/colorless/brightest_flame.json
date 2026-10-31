@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainEnergy",
+      "amount": 2
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainEnergy",
+        "amount": 3
+      }
+    ]
+  },
   "description": "Gain [E][E]. / Draw 2 cards. / Lose 2 Max HP.",
   "upgradedDescription": "Gain [E][E][E]. / Draw 3 cards. / Lose 2 Max HP.",
   "simulated": false,

@@ -12,11 +12,23 @@
     "retain",
     "exhaust"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainEnergy",
+      "amount": 2
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainEnergy",
+        "amount": 3
+      }
+    ]
+  },
   "description": "Retain. / Gain [E][E]. / Exhaust.",
   "upgradedDescription": "Retain. / Gain [E][E][E]. / Exhaust.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

@@ -14,6 +14,9 @@ describe('card text', () => {
     [{ type: 'applyWeak', amount: 1 } as const, 'Apply 1 Weak'],
     [{ type: 'applyFrail', amount: 3 } as const, 'Apply 3 Frail'],
     [{ type: 'applyPoison', amount: 3 } as const, 'Apply 3 Poison'],
+    [{ type: 'gainEnergy', amount: 2 } as const, 'Gain 2 Energy'],
+    [{ type: 'attack', damage: 5, hits: 1, allEnemies: true, xTimes: true } as const, 'Deal 5 damage to ALL enemies X times'],
+    [{ type: 'attack', damage: 3, hits: 1, xTimes: true, xBonus: 1 } as const, 'Deal 3 damage X+1 times'],
   ])('%o → %s', (e, text) => {
     expect(effectText(e)).toBe(text);
   });
@@ -29,6 +32,10 @@ describe('card text', () => {
       cost: '—',
       lines: ['Unplayable', 'Ethereal', 'Eternal'],
     });
+  });
+
+  it('shows X as the cost of X-cost cards', () => {
+    expect(cardText(card('whirlwind'), true)).toEqual({ name: 'Whirlwind+', cost: 'X', lines: ['Deal 8 damage to ALL enemies X times'] });
   });
 
   it('applies an upgrade cost change', () => {

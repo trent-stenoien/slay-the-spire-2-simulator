@@ -11,7 +11,12 @@
   "keywords": [
     "exhaust"
   ],
-  "effects": [],
+  "effects": [
+    {
+      "type": "gainEnergy",
+      "amount": 2
+    }
+  ],
   "upgraded": {},
   "description": "Lose 6 HP. / Gain [E][E]. / Draw 3 cards. / Exhaust.",
   "upgradedDescription": "Lose 6 HP. / Gain [E][E]. / Draw 5 cards. / Exhaust.",
