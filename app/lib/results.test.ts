@@ -64,18 +64,18 @@ describe('results helpers', () => {
     expect(parseSeedInput('-3')).toBeUndefined();
   });
 
-  it('sorts rows by avg HP lost, then avg turns (null last), then selection order; keeps colors', () => {
-    const row = (id: string, strategyIndex: number, avgHpLost: number, avgTurnsToKill: number | null): ResultRow => ({
+  it('sorts rows by avg HP lost, then death rate, then avg combat turns, then selection order; keeps colors', () => {
+    const row = (id: string, strategyIndex: number, avgHpLost: number, deathRate: number, avgTurns: number): ResultRow => ({
       strategyId: id,
       name: id,
       color: (['blue', 'red', 'purple', 'green', 'yellow'] as const)[strategyIndex]!,
       strategyIndex,
-      summary: fakeSummary(id, { avgHpLost, avgTurnsToKill }),
+      summary: fakeSummary(id, { avgHpLost, deathRate, avgTurns }),
     });
-    const rows = [row('a', 0, 5, 4), row('b', 1, 2, null), row('c', 2, 2, 7), row('d', 3, 5, 4), row('e', 4, 2, 7)];
+    const rows = [row('a', 0, 5, 0, 4), row('b', 1, 2, 0.5, 3), row('c', 2, 2, 0.1, 9), row('d', 3, 5, 0, 4), row('e', 4, 2, 0.1, 7)];
     const sorted = sortResultRows(rows);
-    expect(sorted.map((r) => r.strategyId)).toEqual(['c', 'e', 'b', 'a', 'd']);
-    expect(sorted.map((r) => r.color)).toEqual(['purple', 'yellow', 'red', 'blue', 'green']);
+    expect(sorted.map((r) => r.strategyId)).toEqual(['e', 'c', 'b', 'a', 'd']);
+    expect(sorted.map((r) => r.color)).toEqual(['yellow', 'purple', 'red', 'blue', 'green']);
     expect(rows.map((r) => r.strategyId)).toEqual(['a', 'b', 'c', 'd', 'e']);
   });
 });
