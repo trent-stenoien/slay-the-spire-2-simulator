@@ -22,6 +22,25 @@ export function deckPool(data: GameData, characterId: string): CardDef[] {
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
+/**
+ * Cards the engine adds to every deck at the given ascension, per
+ * `manifest.ascensionCards` (cumulative: each entry applies at its level or above).
+ * They are never part of `setup.deck`.
+ */
+export function automaticCards(data: GameData, ascension: number): { card: CardDef; level: number }[] {
+  return data.manifest.ascensionCards
+    .filter((e) => ascension >= e.level)
+    .flatMap((e) => {
+      const card = data.cards[e.cardId];
+      return card ? [{ card, level: e.level }] : [];
+    });
+}
+
+/** Size of the real combat deck: the built deck plus automatic ascension cards. */
+export function combatDeckSize(data: GameData, deck: Deck, ascension: number): number {
+  return deckSize(deck) + automaticCards(data, ascension).length;
+}
+
 export function deckSize(deck: Deck): number {
   return deck.reduce((n, e) => n + e.count, 0);
 }
@@ -111,28 +130,32 @@ export const DEFAULT_FILTERS: PoolFilters = { statuses: false, curses: false, mu
  * Cards the selector lists. Default: simulated single-player cards from the
  * shared, selected character and colorless folders. Each filter adds its
  * category; multiplayer-only cards (of any shown category) need `multiplayer`.
- * Ascender's Bane is never listed (the engine adds it at A5+). Sorted by name.
+ * Ascender's Bane is never addable by hand, so it is excluded here; it is
+ * listed (locked) only when `ascension` reaches its manifest level, via
+ * `automaticCards`. Sorted by name.
  */
-export function filteredPool(data: GameData, characterId: string, filters: PoolFilters): CardDef[] {
+export function filteredPool(data: GameData, characterId: string, filters: PoolFilters, ascension = 0): CardDef[] {
   const code = data.characters[characterId]?.code;
   if (!code) return [];
-  return Object.values(data.cards)
+  const auto = automaticCards(data, ascension).map((a) => a.card);
+  const autoIds = new Set(data.manifest.ascensionCards.map((e) => e.cardId));
+  const pool = Object.values(data.cards)
     .filter((c) => c.simulated)
-    .filter((c) => c.id !== 'ascenders_bane')
+    .filter((c) => !autoIds.has(c.id))
     .filter((c) => filters.multiplayer || !c.multiplayerOnly)
     .filter((c) => {
       if (c.type === 'status') return filters.statuses;
       if (c.type === 'curse') return filters.curses;
       if (c.type === 'quest') return false;
       return c.character === code || c.character === 'colorless' || c.character === 'shared';
-    })
-    .sort((a, b) => a.name.localeCompare(b.name));
+    });
+  return [...pool, ...auto].sort((a, b) => a.name.localeCompare(b.name));
 }
 
 /** Pool cards matching the search and filters, grouped by data folder in a fixed order. Empty groups are dropped. */
-export function groupedPool(data: GameData, characterId: string, query: string, filters: PoolFilters = DEFAULT_FILTERS): CardGroup[] {
+export function groupedPool(data: GameData, characterId: string, query: string, filters: PoolFilters = DEFAULT_FILTERS, ascension = 0): CardGroup[] {
   const groups = new Map<string, CardDef[]>();
-  for (const card of filteredPool(data, characterId, filters)) {
+  for (const card of filteredPool(data, characterId, filters, ascension)) {
     if (!matchesSearch(card, query)) continue;
     const label = cardFolder(card);
     groups.set(label, [...(groups.get(label) ?? []), card]);

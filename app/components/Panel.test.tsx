@@ -32,7 +32,7 @@ describe('Panel', () => {
 
   it('puts Deck and Strategies action links in the body, not the title bar', () => {
     const deck = renderToStaticMarkup(
-      <DeckBuilder data={gameData} characterId="ironclad" deck={gameData.characters.ironclad!.startingDeck} onChange={() => {}} onReset={() => {}} />,
+      <DeckBuilder data={gameData} characterId="ironclad" ascension={0} deck={gameData.characters.ironclad!.startingDeck} onChange={() => {}} onReset={() => {}} />,
     );
     expect(deck.indexOf('Reset to starter deck')).toBeGreaterThan(deck.indexOf('id="deck-body"'));
     expect(deck.indexOf('Reset to starter deck')).toBeGreaterThan(deck.indexOf('</h2>'));

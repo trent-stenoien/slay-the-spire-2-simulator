@@ -49,8 +49,6 @@ export function SetupPanel({ data, setup, onCharacter, onEnemy, onAscension }: P
     const z = ZONES.find((x) => x.act === a && hasEnemies(x.zone));
     if (z) pickZone(z.zone);
   };
-  const baneLevel = data.manifest.ascensionCards.find((c) => c.cardId === 'ascenders_bane')?.level;
-  const bane = baneLevel !== undefined && setup.ascension >= baneLevel;
 
   return (
     <Panel id="setup" title="Setup">
@@ -110,11 +108,6 @@ export function SetupPanel({ data, setup, onCharacter, onEnemy, onAscension }: P
           </select>
         </label>
       </div>
-      {bane && (
-        <p className="note">
-          Ascension {baneLevel}+: Ascender's Bane is added to the deck automatically (it is not shown in the deck builder).
-        </p>
-      )}
     </Panel>
   );
 }

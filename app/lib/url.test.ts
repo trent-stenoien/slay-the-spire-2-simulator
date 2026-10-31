@@ -19,6 +19,12 @@ describe('deck encoding', () => {
     ).toBe('St4St+1');
   });
 
+  it("does not encode Ascender's Bane at A5+ (the engine adds it)", () => {
+    expect(encodeDeck(data, starter)).toBe('St5De4Ba1');
+    expect(buildQuery(data, { ...defaultSetup(data), ascension: 5 })).toContain('d=St5De4Ba1');
+    expect(buildQuery(data, { ...defaultSetup(data), ascension: 5 })).not.toContain('As');
+  });
+
   it('skips zero-count entries', () => {
     expect(encodeDeck(data, [{ cardId: 'bash', upgraded: false, count: 0 }])).toBe('');
   });

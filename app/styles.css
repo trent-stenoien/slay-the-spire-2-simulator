@@ -812,3 +812,11 @@ code {
     transition: none;
   }
 }
+
+/* Cards the engine adds automatically (e.g. Ascender's Bane): locked count, no stepper */
+.card-row .auto-note {
+  grid-column: 1 / -1;
+}
+.stepper.locked {
+  padding: 0 14px;
+}

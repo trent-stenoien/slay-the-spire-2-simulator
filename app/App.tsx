@@ -117,6 +117,7 @@ function Simulator({ setup, setSetup }: { setup: SetupState; setSetup: (s: Setup
           <DeckBuilder
             data={data}
             characterId={setup.characterId}
+            ascension={setup.ascension}
             deck={setup.deck}
             onChange={(deck) => setSetup({ ...setup, deck })}
             onReset={() => setSetup({ ...setup, deck: startingDeckFor(data, setup.characterId) })}

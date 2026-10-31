@@ -3,11 +3,12 @@ import { Panel } from './Panel';
 import type { CardDef, Deck, GameData } from '../../engine/types';
 import { cardText } from '../lib/cardText';
 import type { CostColorKey, PoolFilters } from '../lib/deck';
-import { DEFAULT_FILTERS, changeCount, copiesOf, costColorKey, deckSize, groupedPool, unsimulatedStarters } from '../lib/deck';
+import { DEFAULT_FILTERS, automaticCards, changeCount, combatDeckSize, copiesOf, costColorKey, groupedPool, unsimulatedStarters } from '../lib/deck';
 
 interface Props {
   data: GameData;
   characterId: string;
+  ascension: number;
   deck: Deck;
   onChange: (deck: Deck) => void;
   onReset: () => void;
@@ -20,12 +21,14 @@ const FILTER_BUTTONS: [keyof PoolFilters, string][] = [
 ];
 
 /** Searchable card pool, grouped by data folder; one row per card with normal and upgraded counts. */
-export function DeckBuilder({ data, characterId, deck, onChange, onReset }: Props) {
+export function DeckBuilder({ data, characterId, ascension, deck, onChange, onReset }: Props) {
   const [query, setQuery] = useState('');
   const [filters, setFilters] = useState<PoolFilters>(DEFAULT_FILTERS);
   useEffect(() => setFilters(DEFAULT_FILTERS), [characterId]);
-  const groups = groupedPool(data, characterId, query, filters);
-  const size = deckSize(deck);
+  const groups = groupedPool(data, characterId, query, filters, ascension);
+  const auto = new Map(automaticCards(data, ascension).map((a) => [a.card.id, a.level]));
+  const builtSize = deck.reduce((n, e) => n + e.count, 0);
+  const size = combatDeckSize(data, deck, ascension);
   const leftOut = unsimulatedStarters(data, characterId);
 
   return (
@@ -38,7 +41,7 @@ export function DeckBuilder({ data, characterId, deck, onChange, onReset }: Prop
       {leftOut.length > 0 && (
         <p className="note">Not simulated yet, so left out of the starter deck: {leftOut.join(', ')}.</p>
       )}
-      {size === 0 && <p className="warn">The deck is empty. Add at least one card.</p>}
+      {builtSize === 0 && <p className="warn">The deck is empty. Add at least one card.</p>}
       <div className="deck-tools">
         <input
           type="search"
@@ -64,7 +67,7 @@ export function DeckBuilder({ data, characterId, deck, onChange, onReset }: Prop
       </div>
       {groups.length === 0 && <p className="muted small">No cards match{query.trim() ? ` "${query}"` : ' the current filters'}.</p>}
       {groups.map((g) => {
-        const inDeck = g.cards.reduce((n, c) => n + copiesOf(deck, c.id, false) + copiesOf(deck, c.id, true), 0);
+        const inDeck = g.cards.reduce((n, c) => n + (auto.has(c.id) ? 1 : copiesOf(deck, c.id, false) + copiesOf(deck, c.id, true)), 0);
         return (
           <details key={g.key} className="card-group" open>
             <summary>
@@ -72,7 +75,7 @@ export function DeckBuilder({ data, characterId, deck, onChange, onReset }: Prop
             </summary>
             <ul className="card-list">
               {g.cards.map((card) => (
-                <CardRow key={card.id} card={card} colorKey={costColorKey(card, characterId, data)} deck={deck} onChange={onChange} />
+                <CardRow key={card.id} card={card} colorKey={costColorKey(card, characterId, data)} deck={deck} autoLevel={auto.get(card.id)} onChange={onChange} />
               ))}
             </ul>
           </details>
@@ -82,10 +85,11 @@ export function DeckBuilder({ data, characterId, deck, onChange, onReset }: Prop
   );
 }
 
-function CardRow({ card, colorKey, deck, onChange }: { card: CardDef; colorKey: CostColorKey; deck: Deck; onChange: (d: Deck) => void }) {
+function CardRow({ card, colorKey, deck, autoLevel, onChange }: { card: CardDef; colorKey: CostColorKey; deck: Deck; autoLevel?: number; onChange: (d: Deck) => void }) {
   const base = cardText(card, false);
   const up = card.upgraded ? cardText(card, true) : null;
-  const n = copiesOf(deck, card.id, false);
+  const locked = autoLevel !== undefined;
+  const n = locked ? 1 : copiesOf(deck, card.id, false);
   const nUp = copiesOf(deck, card.id, true);
   return (
     <li className={`card-row row-${colorKey} type-${card.type}${n + nUp > 0 ? ' in-deck' : ''}`}>
@@ -97,7 +101,16 @@ function CardRow({ card, colorKey, deck, onChange }: { card: CardDef; colorKey: 
       </div>
       <span className="card-label">Standard</span>
       <span className="card-text">{base.lines.join('. ')}</span>
-      <Stepper label={base.name} tag="Standard" n={n} onStep={(d) => onChange(changeCount(deck, card.id, false, d))} />
+      {locked ? (
+        <div className="stepper locked" title="Added automatically">
+          <span className="count" aria-label={`${n} standard copy of ${base.name}, added automatically`}>
+            {n}
+          </span>
+        </div>
+      ) : (
+        <Stepper label={base.name} tag="Standard" n={n} onStep={(d) => onChange(changeCount(deck, card.id, false, d))} />
+      )}
+      {locked && <span className="auto-note muted small">Added automatically at Ascension {autoLevel}+</span>}
       {up && (
         <>
           <span className="card-label">Upgraded</span>
