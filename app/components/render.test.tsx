@@ -180,9 +180,30 @@ describe('views render', () => {
     expect(html.match(/<button type="button" class="legend-item" aria-pressed="true"/g)).toHaveLength(2);
     expect(html).toContain('type="range"');
     expect(html).toContain('min="0.25"');
-    expect(html).toContain('max="3"');
-    expect(html).toContain('value="1"');
-    expect(html).toContain('×1.00');
+    expect(html).toContain('max="5"');
+    expect(html).toContain('value="3"');
+    expect(html).toContain('×3.00');
+    // Reset is disabled at the ×3 default.
+    expect(html).toMatch(/<button type="button" class="btn-link small" disabled="">Reset<\/button>/);
+  });
+
+  it('aligns the legend with the plot area and renders names for bold-on-hover', () => {
+    const html = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
+    expect(html).toContain('class="legend" aria-label="Strategies (click to show or hide)" style="padding-left:8.125%"');
+    expect(html).toContain('<span class="legend-name" data-text="Scared Block">Scared Block</span>');
+  });
+
+  it('draws no percentile markers while two strategies are visible', () => {
+    const html = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
+    expect(html).not.toContain('class="pmark"');
+    expect(html).not.toContain('P50 =');
+  });
+
+  it('draws five labelled percentile markers when only one strategy is in the results', () => {
+    const one = resultRows(result).filter((r) => r.strategyId === 'g'); // [0, 0, 2, 3, 5]: 10 combats
+    const html = renderToStaticMarkup(<DistributionChart rows={one} />);
+    expect(html.match(/class="pmark"/g)).toHaveLength(5);
+    for (const label of ['P5 = 2', 'P25 = 3', 'P50 = 3', 'P75 = 4', 'P95 = 4']) expect(html).toContain(`>${label}</text>`);
   });
 
   it('lists strategies by avg HP lost, lowest first, in table, legend and chart, keeping colors', () => {

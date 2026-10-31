@@ -6,13 +6,16 @@ import {
   BANDWIDTH_FACTOR,
   bandwidthFactorLabel,
   clampBandwidthFactor,
-  curvesMaxY,
+  curveRange,
+  curvesMaxYInRange,
   kdeBandwidth,
   linePath,
   linearScale,
   niceMax,
   niceTicks,
   percentLabel,
+  percentileMarkers,
+  staggerLabels,
   toggleHidden,
   visibleHpLostRange,
   type CurveShape,
@@ -30,6 +33,10 @@ const MODES: { id: ChartMode; label: string }[] = [
 const W = 640;
 const H = 320;
 const M = { top: 12, right: 16, bottom: 44, left: 52 };
+/** Percentile marker labels: font size and row height in viewBox units, and an approximate glyph width. */
+const MARK_FONT = 11;
+const MARK_ROW = 13;
+const MARK_CHAR_W = 6.4;
 
 interface Computed {
   range: [number, number];
@@ -37,21 +44,24 @@ interface Computed {
 }
 
 function compute(rows: readonly ResultRow[], hidden: ReadonlySet<string>, mode: ChartMode, bandwidthFactor: number): Computed {
-  // The x range fits only the visible strategies, so hiding or showing a line rescales the axis.
+  // The x range fits only the visible strategies ([P5 − 2, P95 + 2]), so hiding or showing a
+  // line rescales the axis. Curves extend 1 HP past it on each side and are clipped at the edge.
   const range = visibleHpLostRange(rows, hidden);
+  const span = curveRange(range);
   const curve = (counts: number[]) =>
     mode === 'kde'
-      ? kdeCurve(counts, range, { bandwidth: kdeBandwidth(counts, bandwidthFactor) })
+      ? kdeCurve(counts, span, { bandwidth: kdeBandwidth(counts, bandwidthFactor) })
       : mode === 'raw'
-        ? rawCurve(counts, range)
-        : cumulativeCurve(counts, range);
+        ? rawCurve(counts, span)
+        : cumulativeCurve(counts, span);
   return { range, curves: rows.map((r) => curve(r.summary.hpLostCounts)) };
 }
 
 /**
  * Overlaid HP-lost distributions, one line + light fill per strategy. The legend sits
- * above the chart; clicking an entry hides or shows that strategy's line (hidden entries
- * stay in the legend, dimmed). The KDE view has a smoothing (bandwidth) slider.
+ * above the chart, aligned with the plot area; clicking an entry hides or shows that
+ * strategy's line (hidden entries stay in the legend, dimmed). The KDE view has a smoothing
+ * (bandwidth) slider. With exactly one strategy visible, its P5/P25/P50/P75/P95 are marked.
  */
 export function DistributionChart({ rows }: { rows: ResultRow[] }) {
   const [mode, setMode] = useState<ChartMode>('kde');
@@ -73,9 +83,18 @@ export function DistributionChart({ rows }: { rows: ResultRow[] }) {
 
   const { range, curves } = computed;
   const visible = rows.map((r) => !hidden.has(r.strategyId));
-  const yMax = mode === 'cumulative' ? 100 : niceMax(curvesMaxY(curves.filter((_, i) => visible[i])), 5, 1);
+  const yMax = mode === 'cumulative' ? 100 : niceMax(curvesMaxYInRange(curves.filter((_, i) => visible[i]), range), 5, 1);
   const sx = linearScale(range, [M.left, W - M.right]);
-  const sy = linearScale([0, yMax], [H - M.bottom, M.top]);
+  const markers = percentileMarkers(rows, hidden);
+  const markerLabels = staggerLabels(
+    markers.map((m) => ({ x: sx(m.value), width: m.label.length * MARK_CHAR_W + 4 })),
+    [M.left + 2, W - M.right - 2],
+  );
+  // Marker labels get their own band above the plot, so they never sit on the curves.
+  const labelRows = markerLabels.reduce((n, l) => Math.max(n, l.row + 1), 0);
+  const top = M.top + (labelRows > 0 ? labelRows * MARK_ROW + 2 : 0);
+  const labelY = (row: number) => M.top + MARK_FONT - 2 + row * MARK_ROW;
+  const sy = linearScale([0, yMax], [H - M.bottom, top]);
   const xTicks = niceTicks(range[0], range[1], 8, true);
   const yTicks = niceTicks(0, yMax, 5);
   const shape: CurveShape = mode === 'raw' ? 'step' : 'smooth';
@@ -116,7 +135,7 @@ export function DistributionChart({ rows }: { rows: ResultRow[] }) {
           </button>
         </div>
       )}
-      <ul className="legend" aria-label="Strategies (click to show or hide)">
+      <ul className="legend" aria-label="Strategies (click to show or hide)" style={{ paddingLeft: `${(M.left / W) * 100}%` }}>
         {rows.map((r, i) => (
           <li key={r.strategyId}>
             <button
@@ -127,7 +146,9 @@ export function DistributionChart({ rows }: { rows: ResultRow[] }) {
               onClick={() => setHidden((h) => toggleHidden(h, r.strategyId))}
             >
               <span className="legend-swatch" style={{ background: COLOR_HEX[r.color] }} aria-hidden />
-              {r.name}
+              <span className="legend-name" data-text={r.name}>
+                {r.name}
+              </span>
             </button>
           </li>
         ))}
@@ -135,7 +156,7 @@ export function DistributionChart({ rows }: { rows: ResultRow[] }) {
       <svg className="chart" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`HP lost distribution, ${mode} view`}>
         <defs>
           <clipPath id={clipId}>
-            <rect x={M.left} y={M.top} width={W - M.left - M.right} height={H - M.top - M.bottom} />
+            <rect x={M.left} y={top} width={W - M.left - M.right} height={H - top - M.bottom} />
           </clipPath>
         </defs>
         {yTicks.map((t) => (
@@ -155,11 +176,11 @@ export function DistributionChart({ rows }: { rows: ResultRow[] }) {
           </g>
         ))}
         <line className="axis" x1={M.left} x2={W - M.right} y1={H - M.bottom} y2={H - M.bottom} />
-        <line className="axis" x1={M.left} x2={M.left} y1={M.top} y2={H - M.bottom} />
+        <line className="axis" x1={M.left} x2={M.left} y1={top} y2={H - M.bottom} />
         <text className="axis-label" x={(M.left + W - M.right) / 2} y={H - 6} textAnchor="middle">
           HP lost
         </text>
-        <text className="axis-label" transform={`translate(14 ${(M.top + H - M.bottom) / 2}) rotate(-90)`} textAnchor="middle">
+        <text className="axis-label" transform={`translate(14 ${(top + H - M.bottom) / 2}) rotate(-90)`} textAnchor="middle">
           {yLabel}
         </text>
         <g clipPath={`url(#${clipId})`}>
@@ -174,6 +195,25 @@ export function DistributionChart({ rows }: { rows: ResultRow[] }) {
             );
           })}
         </g>
+        {markers.length > 0 && (
+          <g className="pmarks" aria-label="Percentiles of HP lost">
+            {markers.map((m, i) => (
+              <line key={`l${m.p}`} className="pmark" x1={sx(m.value)} x2={sx(m.value)} y1={labelY(markerLabels[i]!.row) + 3} y2={H - M.bottom} />
+            ))}
+            {markers.map((m, i) => (
+              <text
+                key={`t${m.p}`}
+                className="pmark-label"
+                x={markerLabels[i]!.x}
+                y={labelY(markerLabels[i]!.row)}
+                textAnchor="middle"
+                fontSize={MARK_FONT}
+              >
+                {m.label}
+              </text>
+            ))}
+          </g>
+        )}
       </svg>
     </div>
   );

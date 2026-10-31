@@ -8,6 +8,12 @@ import {
   toggleHidden,
   visibleHpLostRange,
   EMPTY_X_RANGE,
+  NO_DATA_X_RANGE,
+  curveRange,
+  curvesMaxYInRange,
+  hpLostPercentile,
+  percentileMarkers,
+  staggerLabels,
   areaPath,
   curvesMaxY, linePath, linearScale, niceMax, niceStep, niceTicks, percentLabel } from './chart';
 
@@ -88,53 +94,192 @@ describe('legend toggle', () => {
 describe('KDE smoothing slider', () => {
   const counts = [0, 2, 5, 9, 4, 1, 0, 3, 6, 2];
 
-  it('defaults to ×1 = the Silverman bandwidth, over a ×0.25 to ×3 range', () => {
-    expect(BANDWIDTH_FACTOR).toMatchObject({ min: 0.25, max: 3, default: 1 });
-    expect(kdeBandwidth(counts, BANDWIDTH_FACTOR.default)).toBe(silvermanBandwidth(counts));
+  it('defaults to ×3 the Silverman bandwidth, over a ×0.25 to ×5 range', () => {
+    expect(BANDWIDTH_FACTOR).toMatchObject({ min: 0.25, max: 5, default: 3 });
+    expect(kdeBandwidth(counts, BANDWIDTH_FACTOR.default)).toBeCloseTo(silvermanBandwidth(counts) * 3);
   });
 
   it('scales the Silverman bandwidth by the factor', () => {
     const base = silvermanBandwidth(counts);
     expect(kdeBandwidth(counts, 0.5)).toBeCloseTo(base * 0.5);
-    expect(kdeBandwidth(counts, 2.5)).toBeCloseTo(base * 2.5);
+    expect(kdeBandwidth(counts, 4.5)).toBeCloseTo(base * 4.5);
   });
 
-  it('clamps the factor into range; non-finite gives ×1', () => {
+  it('clamps the factor into range; non-finite gives the ×3 default', () => {
     expect(clampBandwidthFactor(0.1)).toBe(0.25);
-    expect(clampBandwidthFactor(10)).toBe(3);
-    expect(clampBandwidthFactor(Number.NaN)).toBe(1);
-    expect(kdeBandwidth(counts, 99)).toBeCloseTo(silvermanBandwidth(counts) * 3);
+    expect(clampBandwidthFactor(10)).toBe(5);
+    expect(clampBandwidthFactor(Number.NaN)).toBe(3);
+    expect(kdeBandwidth(counts, 99)).toBeCloseTo(silvermanBandwidth(counts) * 5);
   });
 
   it('labels the factor', () => {
-    expect(bandwidthFactorLabel(1)).toBe('×1.00');
+    expect(bandwidthFactorLabel(3)).toBe('×3.00');
     expect(bandwidthFactorLabel(0.25)).toBe('×0.25');
   });
 });
 
-describe('visibleHpLostRange', () => {
-  const row = (strategyId: string, hpLostCounts: number[]) => ({
-    strategyId,
-    summary: { strategyId, combats: 1, avgHpLost: 0, avgTurnsToKill: null, avgTurns: 1, deathRate: 0, turnCapRate: 0, hpLostCounts },
+describe('hpLostPercentile (nearest rank on the histogram)', () => {
+  it('returns null with no combats', () => {
+    expect(hpLostPercentile([], 50)).toBeNull();
+    expect(hpLostPercentile([0, 0, 0], 50)).toBeNull();
   });
+
+  it('returns the only value for a single combat, at every percentile', () => {
+    for (const p of [0, 5, 50, 95, 100]) expect(hpLostPercentile([0, 0, 0, 1], p)).toBe(3);
+  });
+
+  it('returns the common value when every combat lost the same HP', () => {
+    for (const p of [5, 25, 50, 75, 95]) expect(hpLostPercentile([0, 0, 0, 0, 0, 0, 0, 40], p)).toBe(7);
+  });
+
+  it('uses rank ceil(p/100 × N), at least 1', () => {
+    // 10 combats: values 0..9 once each. Rank ceil(p/10) → value rank-1.
+    const counts = Array(10).fill(1);
+    expect(hpLostPercentile(counts, 0)).toBe(0);
+    expect(hpLostPercentile(counts, 5)).toBe(0); // rank 1
+    expect(hpLostPercentile(counts, 25)).toBe(2); // rank 3
+    expect(hpLostPercentile(counts, 50)).toBe(4); // rank 5
+    expect(hpLostPercentile(counts, 51)).toBe(5); // rank 6
+    expect(hpLostPercentile(counts, 95)).toBe(9); // rank 10
+    expect(hpLostPercentile(counts, 100)).toBe(9);
+  });
+
+  it('walks the counts, skipping empty bins', () => {
+    // 20 combats: 2×1 HP, 15×4 HP, 3×30 HP.
+    const counts: number[] = [];
+    counts[1] = 2;
+    counts[4] = 15;
+    counts[30] = 3;
+    const filled = Array.from({ length: 31 }, (_, i) => counts[i] ?? 0);
+    expect(hpLostPercentile(filled, 5)).toBe(1); // rank 1
+    expect(hpLostPercentile(filled, 10)).toBe(1); // rank 2
+    expect(hpLostPercentile(filled, 11)).toBe(4); // rank 3
+    expect(hpLostPercentile(filled, 85)).toBe(4); // rank 17
+    expect(hpLostPercentile(filled, 86)).toBe(30); // rank 18
+  });
+
+  it('clamps p into [0, 100]', () => {
+    expect(hpLostPercentile([1, 1], -5)).toBe(0);
+    expect(hpLostPercentile([1, 1], 500)).toBe(1);
+  });
+});
+
+const row = (strategyId: string, hpLostCounts: number[]) => ({
+  strategyId,
+  summary: { strategyId, combats: 1, avgHpLost: 0, avgTurnsToKill: null, avgTurns: 1, deathRate: 0, turnCapRate: 0, hpLostCounts },
+});
+/** A histogram with `n` combats at each given HP value. */
+const hist = (entries: Record<number, number>) => {
+  const max = Math.max(...Object.keys(entries).map(Number));
+  return Array.from({ length: max + 1 }, (_, i) => entries[i] ?? 0);
+};
+
+describe('visibleHpLostRange: [max(0, P5 - 2), P95 + 2] over visible strategies', () => {
   const a = row('a', [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 5]); // 10..12
   const b = row('b', [0, 0, 0, 2, 1]); // 3..4
+  // 100 combats: 1 at 0 HP, 98 at 20 HP, 1 at 90 HP. P5 = P95 = 20, so the outliers are cut off.
+  const outliers = row('o', hist({ 0: 1, 20: 98, 90: 1 }));
 
-  it('spans all strategies when none are hidden, padded by 2', () => {
+  it('spans the lowest P5 and highest P95 of all visible strategies, padded by 2', () => {
     expect(visibleHpLostRange([a, b], new Set())).toEqual([1, 14]);
+  });
+
+  it('ignores outliers below P5 and above P95', () => {
+    expect(visibleHpLostRange([outliers], new Set())).toEqual([18, 22]);
   });
 
   it('rescales to the strategies still visible', () => {
     expect(visibleHpLostRange([a, b], new Set(['a']))).toEqual([1, 6]);
     expect(visibleHpLostRange([a, b], new Set(['b']))).toEqual([8, 14]);
+    expect(visibleHpLostRange([a, outliers], new Set())).toEqual([8, 22]);
   });
 
   it('clamps the minimum at 0', () => {
     expect(visibleHpLostRange([row('c', [1])], new Set())).toEqual([0, 2]);
   });
 
-  it('gives a default range when everything is hidden or there are no rows', () => {
+  it('gives the default range when everything is hidden or there are no rows', () => {
     expect(visibleHpLostRange([a, b], new Set(['a', 'b']))).toEqual(EMPTY_X_RANGE);
     expect(visibleHpLostRange([], new Set())).toEqual(EMPTY_X_RANGE);
+  });
+
+  it('gives [0, 2] when the visible strategies have no combats', () => {
+    expect(visibleHpLostRange([row('e', [])], new Set())).toEqual(NO_DATA_X_RANGE);
+  });
+});
+
+describe('clipping helpers', () => {
+  it('curves are computed 1 HP past the axis range on each side (not below 0)', () => {
+    expect(curveRange([5, 20])).toEqual([4, 21]);
+    expect(curveRange([0, 4])).toEqual([0, 5]);
+  });
+
+  it('the Y max ignores points outside the axis range', () => {
+    const c = [{ x: 3, y: 50 }, { x: 5, y: 7 }, { x: 10, y: 2 }, { x: 11, y: 90 }];
+    expect(curvesMaxYInRange([c], [4, 10])).toBe(7);
+  });
+});
+
+describe('percentileMarkers', () => {
+  const a = row('a', Array(10).fill(1)); // 0..9 once each
+  const b = row('b', [0, 0, 0, 2, 1]);
+
+  it('marks P5, P25, P50, P75, P95 when exactly one strategy is visible', () => {
+    expect(percentileMarkers([a, b], new Set(['b']))).toEqual([
+      { p: 5, value: 0, label: 'P5 = 0' },
+      { p: 25, value: 2, label: 'P25 = 2' },
+      { p: 50, value: 4, label: 'P50 = 4' },
+      { p: 75, value: 7, label: 'P75 = 7' },
+      { p: 95, value: 9, label: 'P95 = 9' },
+    ]);
+    expect(percentileMarkers([a], new Set()).map((m) => m.label)).toEqual(['P5 = 0', 'P25 = 2', 'P50 = 4', 'P75 = 7', 'P95 = 9']);
+  });
+
+  it('shows nothing with zero or two or more visible strategies', () => {
+    expect(percentileMarkers([a, b], new Set())).toEqual([]);
+    expect(percentileMarkers([a, b], new Set(['a', 'b']))).toEqual([]);
+    expect(percentileMarkers([], new Set())).toEqual([]);
+  });
+
+  it('shows nothing when the visible strategy has no combats', () => {
+    expect(percentileMarkers([row('e', [])], new Set())).toEqual([]);
+  });
+
+  it('every marker lies inside the X range', () => {
+    const o = row('o', hist({ 0: 1, 20: 98, 90: 1 }));
+    const [lo, hi] = visibleHpLostRange([o], new Set());
+    for (const m of percentileMarkers([o], new Set())) {
+      expect(m.value).toBeGreaterThanOrEqual(lo);
+      expect(m.value).toBeLessThanOrEqual(hi);
+    }
+  });
+});
+
+describe('staggerLabels', () => {
+  it('keeps well-separated labels on one row', () => {
+    expect(staggerLabels([{ x: 50, width: 20 }, { x: 100, width: 20 }], [0, 200])).toEqual([
+      { x: 50, row: 0 },
+      { x: 100, row: 0 },
+    ]);
+  });
+
+  it('moves colliding labels to the next free row and reuses rows', () => {
+    const out = staggerLabels(
+      [
+        { x: 50, width: 40 },
+        { x: 60, width: 40 },
+        { x: 70, width: 40 },
+        { x: 150, width: 40 },
+      ],
+      [0, 300],
+    );
+    expect(out.map((o) => o.row)).toEqual([0, 1, 2, 0]);
+  });
+
+  it('clamps labels inside the bounds', () => {
+    expect(staggerLabels([{ x: 2, width: 20 }, { x: 199, width: 20 }], [0, 200])).toEqual([
+      { x: 10, row: 0 },
+      { x: 190, row: 0 },
+    ]);
   });
 });
