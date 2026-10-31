@@ -1,0 +1,132 @@
+# Moves an issue's card on the Projects (v2) board when a `status: <column>` label
+# is added, so cards can be moved with repo-scoped label calls only.
+name: Board sync
+
+on:
+  issues:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: Issue number
+        required: true
+        type: number
+      status:
+        description: Board column (Backlog, Questions, Ready, In progress, In review, Done)
+        required: true
+        type: string
+
+permissions:
+  issues: write
+
+concurrency:
+  group: board-sync-${{ github.event.issue.number || inputs.issue }}
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    # startsWith is case-insensitive in Actions expressions.
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.label.name, 'status:')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set board Status from label
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PROJECT_OWNER: trent-stenoien
+          PROJECT_NUMBER: '4'
+          EVENT_NAME: ${{ github.event_name }}
+          LABEL_NAME: ${{ github.event.label.name }}
+          EVENT_ISSUE: ${{ github.event.issue.number }}
+          INPUT_ISSUE: ${{ inputs.issue }}
+          INPUT_STATUS: ${{ inputs.status }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "::error::Repo secret PROJECT_TOKEN is missing or empty (needs a classic token with 'project' scope)."
+            exit 1
+          fi
+
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            ISSUE="$INPUT_ISSUE"
+            WANTED="$INPUT_STATUS"
+          else
+            ISSUE="$EVENT_ISSUE"
+            WANTED="${LABEL_NAME#*:}"
+          fi
+          # Trim and lowercase for case-insensitive matching.
+          WANTED="$(echo "$WANTED" | sed -E 's/^[[:space:]]+|[[:space:]]+$//g' | tr '[:upper:]' '[:lower:]')"
+          echo "Issue #$ISSUE -> status '$WANTED'"
+
+          OWNER="${REPO%%/*}"
+          NAME="${REPO##*/}"
+
+          # Look up project id, Status field id and option ids by name.
+          PROJECT_JSON="$(gh api graphql -f login="$PROJECT_OWNER" -F number="$PROJECT_NUMBER" -f query='
+            query($login: String!, $number: Int!) {
+              user(login: $login) {
+                projectV2(number: $number) {
+                  id
+                  field(name: "Status") {
+                    ... on ProjectV2SingleSelectField { id options { id name } }
+                  }
+                }
+              }
+            }')"
+          PROJECT_ID="$(jq -r '.data.user.projectV2.id // empty' <<<"$PROJECT_JSON")"
+          FIELD_ID="$(jq -r '.data.user.projectV2.field.id // empty' <<<"$PROJECT_JSON")"
+          if [ -z "$PROJECT_ID" ] || [ -z "$FIELD_ID" ]; then
+            echo "::error::Could not find project $PROJECT_OWNER/$PROJECT_NUMBER or its Status field. Response: $PROJECT_JSON"
+            exit 1
+          fi
+          OPTION_ID="$(jq -r --arg w "$WANTED" \
+            '.data.user.projectV2.field.options[] | select((.name | ascii_downcase) == $w) | .id' <<<"$PROJECT_JSON" | head -n1)"
+          if [ -z "$OPTION_ID" ]; then
+            OPTIONS="$(jq -r '[.data.user.projectV2.field.options[].name] | join(", ")' <<<"$PROJECT_JSON")"
+            echo "::error::No Status option matches '$WANTED'. Valid options: $OPTIONS"
+            exit 1
+          fi
+
+          # Issue node id.
+          CONTENT_ID="$(gh api graphql -f owner="$OWNER" -f name="$NAME" -F number="$ISSUE" -f query='
+            query($owner: String!, $name: String!, $number: Int!) {
+              repository(owner: $owner, name: $name) { issue(number: $number) { id } }
+            }' --jq '.data.repository.issue.id')"
+          if [ -z "$CONTENT_ID" ] || [ "$CONTENT_ID" = "null" ]; then
+            echo "::error::Issue #$ISSUE not found in $REPO."
+            exit 1
+          fi
+
+          # Add to the board (returns the existing item if it is already there).
+          ITEM_ID="$(gh api graphql -f project="$PROJECT_ID" -f content="$CONTENT_ID" -f query='
+            mutation($project: ID!, $content: ID!) {
+              addProjectV2ItemById(input: {projectId: $project, contentId: $content}) { item { id } }
+            }' --jq '.data.addProjectV2ItemById.item.id')"
+
+          gh api graphql -f project="$PROJECT_ID" -f item="$ITEM_ID" -f field="$FIELD_ID" -f option="$OPTION_ID" -f query='
+            mutation($project: ID!, $item: ID!, $field: ID!, $option: String!) {
+              updateProjectV2ItemFieldValue(input: {
+                projectId: $project, itemId: $item, fieldId: $field,
+                value: {singleSelectOptionId: $option}
+              }) { projectV2Item { id } }
+            }' >/dev/null
+          echo "Set issue #$ISSUE Status to '$WANTED' on board $PROJECT_OWNER/$PROJECT_NUMBER."
+
+          # Remove every other `status: *` label so exactly one remains.
+          # Label edits use GITHUB_TOKEN (its events do not retrigger this workflow).
+          GH_TOKEN="$REPO_TOKEN" gh api "repos/$REPO/issues/$ISSUE/labels" --jq '.[].name' |
+          while IFS= read -r label; do
+            lower="$(echo "$label" | tr '[:upper:]' '[:lower:]')"
+            case "$lower" in
+              status:*) ;;
+              *) continue ;;
+            esac
+            value="$(echo "${lower#*:}" | sed -E 's/^[[:space:]]+|[[:space:]]+$//g')"
+            if [ "$value" != "$WANTED" ]; then
+              encoded="$(jq -rn --arg l "$label" '$l | @uri')"
+              echo "Removing label '$label'"
+              GH_TOKEN="$REPO_TOKEN" gh api -X DELETE "repos/$REPO/issues/$ISSUE/labels/$encoded" >/dev/null
+            fi
+          done
