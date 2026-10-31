@@ -223,3 +223,24 @@ describe('assembleGameData', () => {
     expect(errors).toEqual([expect.stringMatching(/cards.*"x".*a\.json.*b\.json/)]);
   });
 });
+
+describe('imported characters and enemies', () => {
+  it.each([
+    ['S', 'silent', 70, 12, 'Ring of the Snake'],
+    ['D', 'defect', 75, 10, 'Cracked Core'],
+    ['N', 'necrobinder', 66, 10, 'Bound Phylactery'],
+    ['R', 'regent', 75, 10, 'Divine Right'],
+  ])('%s is %s with %i HP, %i starting cards and %s', (code, id, hp, cards, relic) => {
+    const ch = characterByCode(code);
+    expect(ch).toMatchObject({ id, maxHp: hp, startingRelic: relic });
+    expect(ch?.startingDeck.reduce((n, e) => n + e.count, 0)).toBe(cards);
+  });
+
+  it('Seapunk cycles Sea Kick, Spinning Kick, Bubble Burp', () => {
+    expect(enemyByCode('Sp')?.pattern.order).toEqual(['seaKick', 'spinningKick', 'bubbleBurp']);
+  });
+
+  it('Fuzzy Wurm Crawler cycles Acid Goop, Inhale, Acid Goop', () => {
+    expect(enemyByCode('FW')?.pattern.order).toEqual(['acidGoop', 'inhale', 'acidGoop']);
+  });
+});

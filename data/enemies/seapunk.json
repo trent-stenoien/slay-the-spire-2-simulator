@@ -1,0 +1,32 @@
+{
+  "id": "seapunk",
+  "code": "Sp",
+  "name": "Seapunk",
+  "act": 1,
+  "zone": "underdocks",
+  "difficulty": "easy",
+  "hp": { "min": 44, "max": 46 },
+  "moves": {
+    "seaKick": { "name": "Sea Kick", "effects": [{ "type": "attack", "damage": 11, "hits": 1 }] },
+    "spinningKick": { "name": "Spinning Kick", "effects": [{ "type": "attack", "damage": 2, "hits": 4 }] },
+    "bubbleBurp": {
+      "name": "Bubble Burp",
+      "effects": [{ "type": "gainBlock", "amount": 7 }, { "type": "gainStrength", "amount": 1 }]
+    }
+  },
+  "pattern": { "type": "cycle", "order": ["seaKick", "spinningKick", "bubbleBurp"], "start": "first" },
+  "ascension": {
+    "8": {
+      "hp": { "min": 47, "max": 49 },
+      "moves": { "bubbleBurp": { "effects": [{ "type": "gainBlock", "amount": 8 }, { "type": "gainStrength", "amount": 1 }] } }
+    },
+    "9": {
+      "moves": {
+        "seaKick": { "effects": [{ "type": "attack", "damage": 13, "hits": 1 }] },
+        "bubbleBurp": { "effects": [{ "type": "gainBlock", "amount": 8 }, { "type": "gainStrength", "amount": 2 }] }
+      }
+    }
+  },
+  "source": "slaythespire.wiki.gg",
+  "lastUpdateVersion": "v0.107.1"
+}

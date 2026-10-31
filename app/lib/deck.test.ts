@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { gameData } from '../../data';
-import { changeCount, copiesOf, deckPool, deckSize, toggleUpgrade } from './deck';
+import { changeCount, copiesOf, deckPool, deckSize, isCharacterSimulated, toggleUpgrade } from './deck';
 import type { Deck } from '../../engine/types';
 
 const deck: Deck = [
@@ -45,5 +45,12 @@ describe('deck edits', () => {
       deck[1],
     ]);
     expect(deck[0]!.count).toBe(5); // input untouched
+  });
+});
+
+describe('isCharacterSimulated', () => {
+  it('is true for Ironclad and false for a starter deck with unsupported cards', () => {
+    expect(isCharacterSimulated(gameData, gameData.characters.ironclad!)).toBe(true);
+    expect(isCharacterSimulated(gameData, gameData.characters.defect!)).toBe(false);
   });
 });

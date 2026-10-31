@@ -1,0 +1,16 @@
+{
+  "id": "regent",
+  "code": "R",
+  "name": "Regent",
+  "maxHp": 75,
+  "energyPerTurn": 3,
+  "drawPerTurn": 5,
+  "startingDeck": [
+    { "cardId": "strike", "upgraded": false, "count": 4 },
+    { "cardId": "defend", "upgraded": false, "count": 4 },
+    { "cardId": "falling_star", "upgraded": false, "count": 1 },
+    { "cardId": "venerate", "upgraded": false, "count": 1 }
+  ],
+  "startingRelic": "Divine Right",
+  "lastUpdateVersion": "v0.107.1"
+}

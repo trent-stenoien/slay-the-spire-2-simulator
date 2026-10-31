@@ -11,7 +11,7 @@
  */
 import { parseStrategyCode, strategyCode } from '../../engine/strategies';
 import type { CardDef, Deck, GameData, StrategyConfig } from '../../engine/types';
-import { deckPool } from './deck';
+import { deckPool, isCharacterSimulated } from './deck';
 
 export const URL_VERSION = '1';
 export const MAX_ASCENSION = 20;
@@ -42,8 +42,9 @@ export interface ParsedUrl {
 
 /** Setup used when the URL has no (valid) params: first character, first enemy, A0, starter deck. */
 export function defaultSetup(data: GameData): SetupState {
-  const character = Object.values(data.characters)[0];
-  const enemy = Object.values(data.enemies)[0];
+  const characters = Object.values(data.characters);
+  const character = data.characters.ironclad ?? characters.find((c) => isCharacterSimulated(data, c)) ?? characters[0];
+  const enemy = data.enemies.nibbit ?? Object.values(data.enemies)[0];
   if (!character || !enemy) throw new Error('Game data has no characters or enemies');
   return {
     characterId: character.id,
@@ -176,7 +177,10 @@ export function parseQuery(data: GameData, search: string): ParsedUrl {
   let characterOk = true;
   if (c !== undefined) {
     const ch = Object.values(data.characters).find((x) => x.code === c);
-    if (ch) {
+    if (ch && !isCharacterSimulated(data, ch)) {
+      errors.push(`${ch.name} can't be simulated yet (their starting deck has unsupported cards)`);
+      characterOk = false;
+    } else if (ch) {
       setup.characterId = ch.id;
       setup.deck = ch.startingDeck.map((e) => ({ ...e }));
     } else {

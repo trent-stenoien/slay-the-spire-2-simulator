@@ -1,0 +1,16 @@
+{
+  "id": "defect",
+  "code": "D",
+  "name": "Defect",
+  "maxHp": 75,
+  "energyPerTurn": 3,
+  "drawPerTurn": 5,
+  "startingDeck": [
+    { "cardId": "strike", "upgraded": false, "count": 4 },
+    { "cardId": "defend", "upgraded": false, "count": 4 },
+    { "cardId": "zap", "upgraded": false, "count": 1 },
+    { "cardId": "dualcast", "upgraded": false, "count": 1 }
+  ],
+  "startingRelic": "Cracked Core",
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -1,0 +1,20 @@
+{
+  "id": "fuzzy_wurm_crawler",
+  "code": "FW",
+  "name": "Fuzzy Wurm Crawler",
+  "act": 1,
+  "zone": "overgrowth",
+  "difficulty": "easy",
+  "hp": { "min": 55, "max": 57 },
+  "moves": {
+    "acidGoop": { "name": "Acid Goop", "effects": [{ "type": "attack", "damage": 4, "hits": 1 }] },
+    "inhale": { "name": "Inhale", "effects": [{ "type": "gainStrength", "amount": 7 }] }
+  },
+  "pattern": { "type": "cycle", "order": ["acidGoop", "inhale", "acidGoop"], "start": "first" },
+  "ascension": {
+    "8": { "hp": { "min": 58, "max": 59 } },
+    "9": { "moves": { "acidGoop": { "effects": [{ "type": "attack", "damage": 6, "hits": 1 }] } } }
+  },
+  "source": "slaythespire.wiki.gg",
+  "lastUpdateVersion": "v0.107.1"
+}

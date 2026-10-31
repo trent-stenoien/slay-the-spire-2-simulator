@@ -1,5 +1,10 @@
 /** Deck-builder logic: the card pool and immutable deck edits. */
-import type { CardDef, Deck, GameData } from '../../engine/types';
+import type { CardDef, CharacterDef, Deck, GameData } from '../../engine/types';
+
+/** True when every card in the character's starting deck can be simulated. */
+export function isCharacterSimulated(data: GameData, ch: CharacterDef): boolean {
+  return ch.startingDeck.every((e) => data.cards[e.cardId]?.simulated === true);
+}
 
 /**
  * Cards the deck builder offers for a character: its own cards plus

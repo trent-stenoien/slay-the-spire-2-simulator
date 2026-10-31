@@ -1,4 +1,5 @@
 import type { GameData } from '../../engine/types';
+import { isCharacterSimulated } from '../lib/deck';
 import { MAX_ASCENSION, type SetupState } from '../lib/url';
 
 interface Props {
@@ -24,8 +25,9 @@ export function SetupPanel({ data, setup, onCharacter, onEnemy, onAscension }: P
           <span>Character</span>
           <select value={setup.characterId} onChange={(e) => onCharacter(e.target.value)}>
             {characters.map((c) => (
-              <option key={c.id} value={c.id}>
+              <option key={c.id} value={c.id} disabled={!isCharacterSimulated(data, c)}>
                 {c.name}
+                {isCharacterSimulated(data, c) ? '' : ' (not simulated yet)'}
               </option>
             ))}
           </select>

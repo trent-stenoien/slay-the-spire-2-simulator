@@ -1,7 +1,8 @@
 # Open questions — characters and enemies
 
-- **Wiki access**: the character/enemy pass needs the per-character and per-enemy wiki pages (starting decks, max HP, max enemy HP, move order); the raw Cargo tables don't have them.
-- **Shrinker Beetle / Shrink**: what does Shrink do, and is it in scope?
-- **Seapunk Spinning Kick 2×4**: does the hit count change at any Ascension?
-- **Fuzzy Wurm Crawler**: is the pattern Acid Goop / Inhale alternating, or random?
-- **Thorns, Ravenous, Slimed**: needed for the multi-enemy Easy encounters; in scope for v2?
+- **Ascension 2 HP**: the wiki says characters start below max HP at A2+ (Silent 56, Defect/Regent 60, Necrobinder 52). The sim always starts at max HP. Model it?
+- **Starting relics**: Ring of the Snake (+2 draw on turn 1), Cracked Core (Channel 1 Lightning), Bound Phylactery (Summon 1 each turn), Divine Right (start with 3 Stars) — none simulated, like Burning Blood. Ring of the Snake is the easy one; add it?
+- **Shrinker Beetle**: opens with Shrinker (Shrink: your attacks deal 30% less damage, after Strength), then alternates Chomp/Stomp. Needs an "opener" pattern and a Shrink effect — contract change.
+- **Sludge Spinner**: Oil Spray first, then random with no repeats. Needs a random pattern type — contract change.
+- **Thorns, Ravenous, Slimed**: needed for the multi-enemy Easy encounters (Toadpoles, Corpse Slugs, Slimes); in scope for v2?
+- **Wiki version**: the Necrobinder page shows beta V0.111.0 content (beta-only multiplayer cards). Main is v0.107.1; keep importing main-branch data only?
