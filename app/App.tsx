@@ -8,7 +8,6 @@ import { SetupPanel } from './components/SetupPanel';
 import { StrategyPanel } from './components/StrategyPanel';
 import { deckSize, startingDeckFor } from './lib/deck';
 import { setupHref } from './lib/links';
-import { randomSeed } from './lib/results';
 import { buildQuery, parseQuery, type SetupState } from './lib/url';
 import { runSimulation } from './sim/runSimulation';
 import { useStrategies } from './useStrategies';
@@ -74,7 +73,7 @@ function Simulator({ setup, setSetup }: { setup: SetupState; setSetup: (s: Setup
   const blocker =
     deckSize(setup.deck) === 0 ? 'Add at least one card to the deck.' : strategies.selection.length === 0 ? 'Select at least one strategy.' : null;
 
-  const run = async (fixedSeed: number | null) => {
+  const run = async (runSeed: number) => {
     const strategiesForRun: RunStrategy[] = strategies.selection.flatMap((sel) => {
       const s = strategies.library.find((x) => x.id === sel.strategyId);
       return s ? [{ strategy: s, color: sel.color }] : [];
@@ -85,7 +84,7 @@ function Simulator({ setup, setSetup }: { setup: SetupState; setSetup: (s: Setup
       enemyId: setup.enemyId,
       ascension: setup.ascension,
       strategies: strategiesForRun,
-      runSeed: fixedSeed ?? randomSeed(),
+      runSeed,
     };
     setStatus({ kind: 'running', progress: null });
     try {

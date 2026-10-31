@@ -1,5 +1,7 @@
 /** Joins a RunResult's summaries with the run's strategies and formats stats. */
-import type { GameData, RunResult, StrategyColor, StrategySummary } from '../../engine/types';
+import { COMBATS_PER_RUN } from '../../engine/types';
+import type { GameData, RunConfig, RunResult, StrategyColor, StrategySummary } from '../../engine/types';
+import { hpLostPercentile } from './chart';
 
 export interface ResultRow {
   strategyId: string;
@@ -44,7 +46,7 @@ export function sortedResultRows(result: RunResult): ResultRow[] {
   return sortResultRows(resultRows(result));
 }
 
-export function fmtNumber(n: number | null, digits = 1): string {
+export function fmtNumber(n: number | null, digits = 2): string {
   return n === null || !Number.isFinite(n) ? '—' : n.toFixed(digits);
 }
 
@@ -72,4 +74,28 @@ export function relicNote(data: GameData, characterId: string): string {
   return characterId === 'ironclad'
     ? "Burning Blood's 6 HP heal is not simulated."
     : `${data.characters[characterId]?.startingRelic ?? 'The starting relic'} (starting relic) is not simulated.`;
+}
+
+/**
+ * The seed a run will use: the field's number, or a newly generated one when it is blank.
+ * undefined when the field text is invalid. `random` is injectable for tests.
+ */
+export function resolveRunSeed(text: string, random: () => number = Math.random): number | undefined {
+  const parsed = parseSeedInput(text);
+  return parsed === undefined ? undefined : (parsed ?? randomSeed(random));
+}
+
+/** "Ironclad vs Nibbit, Ascension 0. 10,000 simulated combats per strategy." from the run's own config. */
+export function describeRun(data: GameData, cfg: RunConfig): string {
+  const character = data.characters[cfg.characterId]?.name ?? cfg.characterId;
+  const enemy = data.enemies[cfg.enemyId]?.name ?? cfg.enemyId;
+  return `${character} vs ${enemy}, Ascension ${cfg.ascension}. ${COMBATS_PER_RUN.toLocaleString('en-US')} simulated combats per strategy.`;
+}
+
+/** "P25–P75" of HP lost (EN DASH), or one number when they are equal; "—" with no combats. */
+export function fmtHpLostRange(hpLostCounts: readonly number[]): string {
+  const lo = hpLostPercentile(hpLostCounts, 25);
+  const hi = hpLostPercentile(hpLostCounts, 75);
+  if (lo === null || hi === null) return '—';
+  return lo === hi ? String(lo) : `${lo}\u2013${hi}`;
 }
