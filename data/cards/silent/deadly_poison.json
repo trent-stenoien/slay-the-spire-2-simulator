@@ -9,11 +9,23 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "applyPoison",
+      "amount": 5
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "applyPoison",
+        "amount": 7
+      }
+    ]
+  },
   "description": "Apply 5 Poison.",
   "upgradedDescription": "Apply 7 Poison.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

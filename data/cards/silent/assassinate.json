@@ -38,7 +38,7 @@
   },
   "description": "Innate. / Deal 10 damage. / Apply 1 Vulnerable. / Exhaust.",
   "upgradedDescription": "Innate. / Deal 13 damage. / Apply 2 Vulnerable. / Exhaust.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

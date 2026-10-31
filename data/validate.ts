@@ -20,7 +20,7 @@ const CARD_TYPES = ['attack', 'skill', 'power', 'status', 'curse', 'quest'] as c
 const CARD_RARITIES = ['basic', 'common', 'uncommon', 'rare', 'ancient', 'event', 'token', 'status', 'curse', 'quest'] as const;
 const CARD_KEYWORDS = ['unplayable', 'ethereal', 'eternal', 'exhaust', 'retain', 'innate', 'sly'] as const;
 /** Keywords and effects the engine implements; a `simulated` card may use only these. */
-const SIMULATED_KEYWORDS = new Set(['unplayable', 'ethereal', 'eternal', 'exhaust']);
+const SIMULATED_KEYWORDS = new Set(['unplayable', 'ethereal', 'eternal', 'exhaust', 'innate', 'retain']);
 const UNSIMULATED_EFFECTS = new Set(['gainStars']);
 const CHARACTER_CODES = ['I', 'S', 'D', 'N', 'R'] as const;
 const ZONES = ['overgrowth', 'underdocks', 'hive', 'glory'] as const;
@@ -32,6 +32,7 @@ const AMOUNT_EFFECTS = [
   'applyVulnerable',
   'applyWeak',
   'applyFrail',
+  'applyPoison',
   'gainStars',
 ] as const;
 const TWO_CHAR_CODE = /^[A-Za-z0-9]{2}$/;
@@ -136,6 +137,14 @@ function checkEffects(r: Reporter, list: unknown, path: string): void {
     } else {
       r.oneOf(e, 'type', ['attack', ...AMOUNT_EFFECTS], `${p}.type`);
     }
+  });
+}
+
+/** v1 simulates Poison on enemies only, so enemy moves may not apply it. */
+function checkNoEnemyPoison(r: Reporter, list: unknown, path: string): void {
+  if (!Array.isArray(list)) return;
+  list.forEach((e, i) => {
+    if (isObj(e) && e.type === 'applyPoison') r.add(`${path}[${i}].type`, 'is "applyPoison", but Poison on the player is not simulated');
   });
 }
 
@@ -281,6 +290,7 @@ function checkEnemy(r: Reporter, e: Obj): void {
       }
       r.str(m, 'name', `${p}.name`);
       checkEffects(r, m.effects, `${p}.effects`);
+      checkNoEnemyPoison(r, m.effects, `${p}.effects`);
     }
   }
   checkPattern(r, e.pattern, 'pattern', moveIds);
@@ -303,7 +313,10 @@ function checkEnemy(r: Reporter, e: Obj): void {
             const mp = `${p}.moves.${id}`;
             if (!moveIds.has(id)) r.add(mp, `overrides unknown move id "${id}"`);
             if (!isObj(m)) r.add(mp, 'must be an object');
-            else checkEffects(r, m.effects, `${mp}.effects`);
+            else {
+              checkEffects(r, m.effects, `${mp}.effects`);
+              checkNoEnemyPoison(r, m.effects, `${mp}.effects`);
+            }
           }
         }
       }

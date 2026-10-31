@@ -36,6 +36,7 @@ The contract is `engine/types.ts` (`CardDef`, `Effect`). Read it once before sta
 | Apply N Vulnerable. | `{ "type": "applyVulnerable", "amount": N }` |
 | Apply N Weak. | `{ "type": "applyWeak", "amount": N }` |
 | Apply N Frail. | `{ "type": "applyFrail", "amount": N }` |
+| Apply N Poison. (fixed N, the one/target enemy) | `{ "type": "applyPoison", "amount": N }` |
 | Gain N Stars. | `{ "type": "gainStars", "amount": N }` |
 
 Effects go in card-text order. Damage/Block numbers are the printed base values
@@ -43,16 +44,18 @@ Effects go in card-text order. Damage/Block numbers are the printed base values
 FULL upgraded list in `upgraded.effects` (it replaces the base list). If only the cost or
 keywords change, leave `upgraded.effects` out.
 
-Anything not in the table (draw, discard, energy gain, lose HP, Poison, Doom, Orbs,
+Anything not in the table (draw, discard, energy gain, lose HP, Doom, Orbs,
 Summon, Forge, "this turn" Strength, conditions, X-cost scaling, "for each", random
-targets, creating cards, powers, multiplayer, …) has no effect object. Record the parts
+targets, creating cards, powers, multiplayer, Poison that is conditional, scaling,
+"ALL enemies" or random-target, …) has no effect object. Record the parts
 you CAN express, in order, and skip the rest.
 
 ## simulated
 
 Set `"simulated": true` only when ALL of these hold, for base AND upgraded versions:
 1. Every sentence of the text is captured by the effects/keywords above.
-2. Keywords are only `unplayable`, `ethereal`, `eternal`, `exhaust`.
+2. Keywords are only `unplayable`, `ethereal`, `eternal`, `exhaust`, `innate`, `retain`
+   (`sly` is recorded only, not simulated).
 3. No `gainStars` effect, no `starCost`, not `xCost`.
 4. Type is attack or skill (powers, statuses with end-of-turn effects, quests → false).
    Exception: a status/curse whose whole text is keywords (e.g. `Unplayable. Ethereal.`)

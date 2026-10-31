@@ -28,6 +28,8 @@ export function effectText(e: Effect): string {
       return `Apply ${e.amount} Weak`;
     case 'applyFrail':
       return `Apply ${e.amount} Frail`;
+    case 'applyPoison':
+      return `Apply ${e.amount} Poison`;
     case 'gainStars':
       return `Gain ${e.amount} Stars`;
   }

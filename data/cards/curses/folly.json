@@ -18,7 +18,7 @@
   "upgraded": null,
   "description": "Unplayable. / Ethereal. / Innate. / Eternal.",
   "upgradedDescription": null,
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

@@ -23,7 +23,7 @@
   },
   "description": "Deal 12 damage 3 times.",
   "upgradedDescription": "Innate. / Deal 12 damage 3 times.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

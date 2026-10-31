@@ -13,6 +13,7 @@ describe('card text', () => {
     [{ type: 'applyVulnerable', amount: 2 } as const, 'Apply 2 Vulnerable'],
     [{ type: 'applyWeak', amount: 1 } as const, 'Apply 1 Weak'],
     [{ type: 'applyFrail', amount: 3 } as const, 'Apply 3 Frail'],
+    [{ type: 'applyPoison', amount: 3 } as const, 'Apply 3 Poison'],
   ])('%o → %s', (e, text) => {
     expect(effectText(e)).toBe(text);
   });

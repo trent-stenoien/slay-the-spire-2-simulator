@@ -14,6 +14,10 @@
       "type": "attack",
       "damage": 6,
       "hits": 1
+    },
+    {
+      "type": "applyPoison",
+      "amount": 3
     }
   ],
   "upgraded": {
@@ -22,12 +26,16 @@
         "type": "attack",
         "damage": 8,
         "hits": 1
+      },
+      {
+        "type": "applyPoison",
+        "amount": 4
       }
     ]
   },
   "description": "Deal 6 damage. / Apply 3 Poison.",
   "upgradedDescription": "Deal 8 damage. / Apply 4 Poison.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

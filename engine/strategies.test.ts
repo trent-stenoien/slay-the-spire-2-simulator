@@ -24,7 +24,7 @@ function playTurn(config: StrategyConfig, hand: CardInstance[], incoming: number
     },
     enemy: {
       enemyId: 'x', name: 'x', hp: 100, maxHp: 100, block: 0, strength: 0,
-      debuffs: { vulnerable: 0, weak: 0, frail: 0 }, patternIndex: 0,
+      debuffs: { vulnerable: 0, weak: 0, frail: 0 }, poison: 0, patternIndex: 0,
     },
   } satisfies CombatState;
   const played: string[] = [];

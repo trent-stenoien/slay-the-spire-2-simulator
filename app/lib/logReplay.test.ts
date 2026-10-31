@@ -47,6 +47,26 @@ describe('log replay', () => {
       'Enemy gets 2 Vulnerable (total 2)',
     );
     expect(describeEvent({ t: 'blockReset', side: 'player' }, name)).toBeNull();
+    expect(describeEvent({ t: 'poison', amount: 3, total: 5 }, name)).toBe('Enemy gets 3 Poison (total 5)');
+    expect(describeEvent({ t: 'poisonDamage', amount: 5, hpAfter: 37 }, name)).toBe('Enemy loses 5 HP from Poison (37 HP left)');
+  });
+
+  it('tracks Poison stacks and Poison HP loss', () => {
+    const log = [
+      { t: 'combatStart', seed: 1, enemyHp: 40, playerHp: 70 },
+      { t: 'turnStart', turn: 1, side: 'player' },
+      { t: 'poison', amount: 3, total: 3 },
+      { t: 'turnEnd', turn: 1, side: 'player' },
+      { t: 'turnStart', turn: 1, side: 'enemy' },
+      { t: 'blockReset', side: 'enemy' },
+      { t: 'poisonDamage', amount: 3, hpAfter: 37 },
+      { t: 'enemyMove', moveId: 'm', name: 'M' },
+      { t: 'turnEnd', turn: 1, side: 'enemy' },
+    ] as const;
+    const rp = buildReplay(log);
+    expect(rp.rounds[0]!.end.enemy).toMatchObject({ hp: 37, poison: 2 });
+    expect(rp.rounds[0]!.start.enemy.poison).toBe(0);
+    expect(rp.rounds[0]!.enemyEvents.map((e) => e.t)).toContain('poisonDamage');
   });
 
   it('works out the intended move, including after a kill', () => {

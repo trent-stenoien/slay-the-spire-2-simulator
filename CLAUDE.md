@@ -35,8 +35,12 @@ If a task needs a type change, stop and report what you need and why.
   Block absorbs hits in order.
 - Turn order: player block resets → energy refills → draw 5 (reshuffle discard into
   draw pile mid-draw if needed) → strategy plays → end of player turn: Ethereal
-  cards in hand exhaust, rest of hand discarded, debuffs on BOTH player and enemy
-  tick down by 1 → enemy block resets → enemy move → pattern advances.
+  cards in hand exhaust, rest of hand discarded, debuffs on the PLAYER tick down
+  by 1 → enemy block resets → Poison: enemy loses HP equal to its Poison (ignores
+  Block and modifiers; a kill wins before the move), then Poison −1 → enemy move →
+  pattern advances → end of enemy turn:
+  debuffs on the ENEMY tick down by 1 (so 1 Vulnerable applied by the player
+  lasts through that player turn and the enemy's next move).
 - Ascension overrides are cumulative (A9 applies A8 then A9). Ascender's Bane is
   added automatically at A5+ via `manifest.ascensionCards`.
 - `hpLost` is measured before any healing. Burning Blood is not simulated.

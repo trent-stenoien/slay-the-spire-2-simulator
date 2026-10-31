@@ -178,6 +178,7 @@ export function simulateCombat(
       block: 0,
       strength: 0,
       debuffs: emptyDebuffs(),
+      poison: 0,
       patternIndex: startIndex,
     },
   };
@@ -244,6 +245,11 @@ export function simulateCombat(
         case 'applyFrail':
           applyDebuff(other, 'frail', e.amount);
           break;
+        case 'applyPoison':
+          if (source !== 'player') throw new Error('Poison on the player is not simulated yet');
+          enemy.poison += e.amount;
+          if (log) log.push({ t: 'poison', amount: e.amount, total: enemy.poison });
+          break;
         case 'gainStars':
           throw new Error('Stars are not simulated yet');
       }
@@ -268,6 +274,17 @@ export function simulateCombat(
       player.hand.push(card);
     }
     return true;
+  };
+
+  /** Each debuff on `side` goes down by 1 (at the end of that side's turn). */
+  const tickDebuffs = (side: Side) => {
+    const f = fighter(side);
+    for (const kind of DEBUFF_KINDS) {
+      if (f.debuffs[kind] > 0) {
+        f.debuffs[kind]--;
+        if (log) log.push({ t: 'debuffTick', side, kind, total: f.debuffs[kind] });
+      }
+    }
   };
 
   const currentMoveId = (): string => order[enemy.patternIndex] as string;
@@ -295,7 +312,18 @@ export function simulateCombat(
     player.block = 0;
     if (log) log.push({ t: 'blockReset', side: 'player' });
     player.energy = character.energyPerTurn;
-    for (let i = 0; i < character.drawPerTurn; i++) {
+    let drawCount = character.drawPerTurn;
+    if (state.turn === 1) {
+      // Innate: move Innate cards to the top of the draw pile (keeping their
+      // shuffled relative order) so they are drawn first, and draw at least
+      // that many cards, capped at the hand limit.
+      const innate = player.drawPile.filter((c) => c.keywords.includes('innate'));
+      if (innate.length > 0) {
+        player.drawPile = [...player.drawPile.filter((c) => !c.keywords.includes('innate')), ...innate];
+        drawCount = Math.min(Math.max(character.drawPerTurn, innate.length), HAND_LIMIT);
+      }
+    }
+    for (let i = 0; i < drawCount; i++) {
       if (!drawOne()) break;
     }
 
@@ -328,38 +356,41 @@ export function simulateCombat(
       if (killed || enemy.hp <= 0) return finish('win');
     }
 
-    // 3. Player turn end.
+    // 3. Player turn end. Ethereal exhausts first (even if Retain), Retain stays, the rest is discarded.
+    const retained: CardInstance[] = [];
     for (const card of player.hand) {
       if (card.keywords.includes('ethereal')) {
         player.exhaustPile.push(card);
         if (log) log.push({ t: 'exhaust', uid: card.uid, cardId: card.cardId, reason: 'ethereal' });
+      } else if (card.keywords.includes('retain')) {
+        retained.push(card);
       } else {
         player.discardPile.push(card);
         if (log) log.push({ t: 'discard', uid: card.uid, cardId: card.cardId, reason: 'endOfTurn' });
       }
     }
-    player.hand = [];
-    for (const side of ['player', 'enemy'] as const) {
-      const f = fighter(side);
-      for (const kind of DEBUFF_KINDS) {
-        if (f.debuffs[kind] > 0) {
-          f.debuffs[kind]--;
-          if (log) log.push({ t: 'debuffTick', side, kind, total: f.debuffs[kind] });
-        }
-      }
-    }
+    player.hand = retained;
+    tickDebuffs('player');
     if (log) log.push({ t: 'turnEnd', turn: state.turn, side: 'player' });
 
     // 4. Enemy turn.
     if (log) log.push({ t: 'turnStart', turn: state.turn, side: 'enemy' });
     enemy.block = 0;
-    if (log) {
-      log.push({ t: 'blockReset', side: 'enemy' });
-      log.push({ t: 'enemyMove', moveId, name: move.name });
+    if (log) log.push({ t: 'blockReset', side: 'enemy' });
+    // Poison: HP loss equal to stacks (ignores Block and modifiers), then -1. A kill ends combat before the move.
+    if (enemy.poison > 0) {
+      const amount = enemy.poison;
+      enemy.hp -= amount;
+      enemy.poison--;
+      if (log) log.push({ t: 'poisonDamage', amount, hpAfter: Math.max(enemy.hp, 0) });
+      if (enemy.hp <= 0) return finish('win');
     }
+    if (log) log.push({ t: 'enemyMove', moveId, name: move.name });
     const playerDied = resolveEffects('enemy', move.effects);
     enemy.patternIndex = (enemy.patternIndex + 1) % order.length;
     if (playerDied || player.hp <= 0) return finish('loss');
+    // Debuffs on the enemy tick down at the end of the enemy's own turn, after its move.
+    tickDebuffs('enemy');
     if (log) log.push({ t: 'turnEnd', turn: state.turn, side: 'enemy' });
 
     // 5. Turn cap.
