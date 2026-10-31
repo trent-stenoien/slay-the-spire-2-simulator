@@ -30,7 +30,7 @@
   },
   "description": "Innate. / Deal 11 damage. / Exhaust.",
   "upgradedDescription": "Innate. / Deal 15 damage. / Exhaust.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

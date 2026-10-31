@@ -176,15 +176,23 @@ describe('validateGameData on broken fixtures', () => {
 
   it('rejects simulated cards that use unsimulated mechanics', () => {
     const d = fixture();
-    d.cards.bash.keywords = ['retain'];
+    d.cards.bash.keywords = ['sly'];
     d.cards.strike.effects.push({ type: 'gainStars', amount: 2 });
     d.cards.defend.starCost = 1;
     const errs = errorsOf(d);
-    expect(errs).toContainEqual(expect.stringMatching(/cards\/bash.*"simulated".*retain/));
+    expect(errs).toContainEqual(expect.stringMatching(/cards\/bash.*"simulated".*sly/));
     expect(errs).toContainEqual(expect.stringMatching(/cards\/strike.*"simulated".*gainStars/));
     expect(errs).toContainEqual(expect.stringMatching(/cards\/defend.*"simulated".*Star cost/));
     d.cards.bash.simulated = false;
     expect(errorsOf(d).some((e) => e.includes('cards/bash'))).toBe(false);
+  });
+
+  it('allows innate and retain on simulated cards, base and upgraded', () => {
+    const d = fixture();
+    d.cards.bash.keywords = ['innate'];
+    d.cards.strike.keywords = ['retain'];
+    d.cards.defend.upgraded.keywords = ['retain', 'innate'];
+    expect(errorsOf(d)).toEqual([]);
   });
 
   it('reports non-numeric ascension keys and overrides of unknown moves', () => {

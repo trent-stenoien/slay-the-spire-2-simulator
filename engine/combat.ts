@@ -306,7 +306,18 @@ export function simulateCombat(
     player.block = 0;
     if (log) log.push({ t: 'blockReset', side: 'player' });
     player.energy = character.energyPerTurn;
-    for (let i = 0; i < character.drawPerTurn; i++) {
+    let drawCount = character.drawPerTurn;
+    if (state.turn === 1) {
+      // Innate: move Innate cards to the top of the draw pile (keeping their
+      // shuffled relative order) so they are drawn first, and draw at least
+      // that many cards, capped at the hand limit.
+      const innate = player.drawPile.filter((c) => c.keywords.includes('innate'));
+      if (innate.length > 0) {
+        player.drawPile = [...player.drawPile.filter((c) => !c.keywords.includes('innate')), ...innate];
+        drawCount = Math.min(Math.max(character.drawPerTurn, innate.length), HAND_LIMIT);
+      }
+    }
+    for (let i = 0; i < drawCount; i++) {
       if (!drawOne()) break;
     }
 
@@ -339,17 +350,20 @@ export function simulateCombat(
       if (killed || enemy.hp <= 0) return finish('win');
     }
 
-    // 3. Player turn end.
+    // 3. Player turn end. Ethereal exhausts first (even if Retain), Retain stays, the rest is discarded.
+    const retained: CardInstance[] = [];
     for (const card of player.hand) {
       if (card.keywords.includes('ethereal')) {
         player.exhaustPile.push(card);
         if (log) log.push({ t: 'exhaust', uid: card.uid, cardId: card.cardId, reason: 'ethereal' });
+      } else if (card.keywords.includes('retain')) {
+        retained.push(card);
       } else {
         player.discardPile.push(card);
         if (log) log.push({ t: 'discard', uid: card.uid, cardId: card.cardId, reason: 'endOfTurn' });
       }
     }
-    player.hand = [];
+    player.hand = retained;
     tickDebuffs('player');
     if (log) log.push({ t: 'turnEnd', turn: state.turn, side: 'player' });
 

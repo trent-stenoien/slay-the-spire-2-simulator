@@ -20,7 +20,7 @@ const CARD_TYPES = ['attack', 'skill', 'power', 'status', 'curse', 'quest'] as c
 const CARD_RARITIES = ['basic', 'common', 'uncommon', 'rare', 'ancient', 'event', 'token', 'status', 'curse', 'quest'] as const;
 const CARD_KEYWORDS = ['unplayable', 'ethereal', 'eternal', 'exhaust', 'retain', 'innate', 'sly'] as const;
 /** Keywords and effects the engine implements; a `simulated` card may use only these. */
-const SIMULATED_KEYWORDS = new Set(['unplayable', 'ethereal', 'eternal', 'exhaust']);
+const SIMULATED_KEYWORDS = new Set(['unplayable', 'ethereal', 'eternal', 'exhaust', 'innate', 'retain']);
 const UNSIMULATED_EFFECTS = new Set(['gainStars']);
 const CHARACTER_CODES = ['I', 'S', 'D', 'N', 'R'] as const;
 const ZONES = ['overgrowth', 'underdocks', 'hive', 'glory'] as const;

@@ -52,7 +52,8 @@ you CAN express, in order, and skip the rest.
 
 Set `"simulated": true` only when ALL of these hold, for base AND upgraded versions:
 1. Every sentence of the text is captured by the effects/keywords above.
-2. Keywords are only `unplayable`, `ethereal`, `eternal`, `exhaust`.
+2. Keywords are only `unplayable`, `ethereal`, `eternal`, `exhaust`, `innate`, `retain`
+   (`sly` is recorded only, not simulated).
 3. No `gainStars` effect, no `starCost`, not `xCost`.
 4. Type is attack or skill (powers, statuses with end-of-turn effects, quests → false).
    Exception: a status/curse whose whole text is keywords (e.g. `Unplayable. Ethereal.`)

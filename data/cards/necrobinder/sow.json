@@ -31,7 +31,7 @@
   },
   "description": "Retain. / Deal 8 damage to ALL enemies.",
   "upgradedDescription": "Retain. / Deal 11 damage to ALL enemies.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

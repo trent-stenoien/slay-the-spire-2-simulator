@@ -28,7 +28,7 @@
   },
   "description": "Innate. / Gain 10 Block. / Exhaust.",
   "upgradedDescription": "Innate. / Gain 13 Block. / Exhaust.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

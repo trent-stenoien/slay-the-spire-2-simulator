@@ -31,7 +31,7 @@
   },
   "description": "Deal 12 damage. / Apply 2 Weak. / Apply 2 Vulnerable.",
   "upgradedDescription": "Innate. / Deal 12 damage. / Apply 2 Weak. / Apply 2 Vulnerable.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

@@ -29,7 +29,7 @@
   },
   "description": "Retain. / Deal 27 damage.",
   "upgradedDescription": "Retain. / Deal 33 damage.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

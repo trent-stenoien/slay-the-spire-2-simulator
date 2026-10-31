@@ -16,7 +16,7 @@
   "upgraded": null,
   "description": "Unplayable. / Retain.",
   "upgradedDescription": null,
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }
