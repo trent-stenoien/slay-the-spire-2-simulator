@@ -178,6 +178,7 @@ export function simulateCombat(
       block: 0,
       strength: 0,
       debuffs: emptyDebuffs(),
+      poison: 0,
       patternIndex: startIndex,
     },
   };
@@ -243,6 +244,11 @@ export function simulateCombat(
           break;
         case 'applyFrail':
           applyDebuff(other, 'frail', e.amount);
+          break;
+        case 'applyPoison':
+          if (source !== 'player') throw new Error('Poison on the player is not simulated yet');
+          enemy.poison += e.amount;
+          if (log) log.push({ t: 'poison', amount: e.amount, total: enemy.poison });
           break;
         case 'gainStars':
           throw new Error('Stars are not simulated yet');
@@ -370,10 +376,16 @@ export function simulateCombat(
     // 4. Enemy turn.
     if (log) log.push({ t: 'turnStart', turn: state.turn, side: 'enemy' });
     enemy.block = 0;
-    if (log) {
-      log.push({ t: 'blockReset', side: 'enemy' });
-      log.push({ t: 'enemyMove', moveId, name: move.name });
+    if (log) log.push({ t: 'blockReset', side: 'enemy' });
+    // Poison: HP loss equal to stacks (ignores Block and modifiers), then -1. A kill ends combat before the move.
+    if (enemy.poison > 0) {
+      const amount = enemy.poison;
+      enemy.hp -= amount;
+      enemy.poison--;
+      if (log) log.push({ t: 'poisonDamage', amount, hpAfter: Math.max(enemy.hp, 0) });
+      if (enemy.hp <= 0) return finish('win');
     }
+    if (log) log.push({ t: 'enemyMove', moveId, name: move.name });
     const playerDied = resolveEffects('enemy', move.effects);
     enemy.patternIndex = (enemy.patternIndex + 1) % order.length;
     if (playerDied || player.hp <= 0) return finish('loss');

@@ -10,6 +10,8 @@ export interface SideSnapshot {
   block: number;
   strength: number;
   debuffs: Debuffs;
+  /** Poison stacks (enemy only; always 0 for the player). */
+  poison: number;
 }
 
 export interface Round {
@@ -55,8 +57,8 @@ export function buildReplay(log: readonly GameEvent[]): Replay {
   const startEv = log.find((e) => e.t === 'combatStart');
   const playerMaxHp = startEv?.t === 'combatStart' ? startEv.playerHp : 0;
   const enemyMaxHp = startEv?.t === 'combatStart' ? startEv.enemyHp : 0;
-  const player: SideSnapshot = { hp: playerMaxHp, maxHp: playerMaxHp, block: 0, strength: 0, debuffs: emptyDebuffs() };
-  const enemy: SideSnapshot = { hp: enemyMaxHp, maxHp: enemyMaxHp, block: 0, strength: 0, debuffs: emptyDebuffs() };
+  const player: SideSnapshot = { hp: playerMaxHp, maxHp: playerMaxHp, block: 0, strength: 0, debuffs: emptyDebuffs(), poison: 0 };
+  const enemy: SideSnapshot = { hp: enemyMaxHp, maxHp: enemyMaxHp, block: 0, strength: 0, debuffs: emptyDebuffs(), poison: 0 };
   const side = (s: 'player' | 'enemy') => (s === 'player' ? player : enemy);
 
   const rounds: Round[] = [];
@@ -97,6 +99,13 @@ export function buildReplay(log: readonly GameEvent[]): Replay {
       case 'debuff':
       case 'debuffTick':
         side(ev.side).debuffs[ev.kind as DebuffKind] = ev.total;
+        break;
+      case 'poison':
+        enemy.poison = ev.total;
+        break;
+      case 'poisonDamage':
+        enemy.hp = ev.hpAfter;
+        enemy.poison = ev.amount - 1;
         break;
       case 'damage': {
         const t = side(ev.target);
@@ -153,6 +162,10 @@ export function describeEvent(ev: GameEvent, name: (cardId: string) => string): 
       return `${who(ev.side)} gain${ev.side === 'enemy' ? 's' : ''} ${ev.amount} Strength (total ${ev.total})`;
     case 'debuff':
       return `${ev.side === 'player' ? 'You get' : 'Enemy gets'} ${ev.amount} ${cap(ev.kind)} (total ${ev.total})`;
+    case 'poison':
+      return `Enemy gets ${ev.amount} Poison (total ${ev.total})`;
+    case 'poisonDamage':
+      return `Enemy loses ${ev.amount} HP from Poison (${ev.hpAfter} HP left)`;
     case 'exhaust':
       return `${name(ev.cardId)} exhausted${ev.reason === 'ethereal' ? ' (Ethereal)' : ''}`;
     case 'discard':

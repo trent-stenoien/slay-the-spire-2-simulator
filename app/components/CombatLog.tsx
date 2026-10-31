@@ -193,6 +193,7 @@ function Fighter({ label, start, end }: { label: string; start: SideSnapshot; en
         Block at end {end.block}
         {end.strength ? ` · Strength ${end.strength}` : ''}
         {deb.map(([k, v]) => ` · ${k} ${v}`).join('')}
+        {end.poison ? ` · poison ${end.poison}` : ''}
       </div>
     </div>
   );

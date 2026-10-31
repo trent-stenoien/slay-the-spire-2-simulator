@@ -44,6 +44,12 @@ export type Effect =
   | { type: 'applyVulnerable'; amount: number }
   | { type: 'applyWeak'; amount: number }
   | { type: 'applyFrail'; amount: number }
+  /**
+   * Apply `amount` Poison to the enemy (cards only; v1 has no Poison on the player).
+   * At the start of the enemy's turn, after its Block is removed, it loses HP equal
+   * to its Poison (ignores Block, Strength, Weak, Vulnerable), then Poison goes down by 1.
+   */
+  | { type: 'applyPoison'; amount: number }
   /** Regent's Stars resource. Recorded only; not simulated yet. */
   | { type: 'gainStars'; amount: number };
 
@@ -69,7 +75,7 @@ export type CardRarity =
   | 'curse'
   | 'quest';
 
-/** Engine-simulated keywords: unplayable, ethereal, eternal, exhaust. The rest are recorded only. */
+/** Engine-simulated keywords: unplayable, ethereal, eternal, exhaust, retain, innate. `sly` is recorded only. */
 export type CardKeyword = 'unplayable' | 'ethereal' | 'eternal' | 'exhaust' | 'retain' | 'innate' | 'sly';
 
 /**
@@ -262,6 +268,8 @@ export interface EnemyState {
   block: number;
   strength: number;
   debuffs: Debuffs;
+  /** Poison stacks. Not a tick-down debuff: it drops by 1 only after dealing its damage. */
+  poison: number;
   /** Index into the resolved pattern's `order`. */
   patternIndex: number;
 }
@@ -345,6 +353,10 @@ export type GameEvent =
   | { t: 'strength'; side: Side; amount: number; total: number }
   | { t: 'debuff'; side: Side; kind: DebuffKind; amount: number; total: number }
   | { t: 'debuffTick'; side: Side; kind: DebuffKind; total: number }
+  /** Poison applied to the enemy. */
+  | { t: 'poison'; amount: number; total: number }
+  /** Poison HP loss at the start of the enemy's turn; Poison is then amount − 1. */
+  | { t: 'poisonDamage'; amount: number; hpAfter: number }
   | { t: 'exhaust'; uid: number; cardId: string; reason: 'ethereal' | 'keyword' }
   | { t: 'discard'; uid: number; cardId: string; reason: 'endOfTurn' | 'handLimit' }
   | { t: 'enemyMove'; moveId: string; name: string }

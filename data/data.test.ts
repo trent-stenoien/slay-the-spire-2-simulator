@@ -187,6 +187,20 @@ describe('validateGameData on broken fixtures', () => {
     expect(errorsOf(d).some((e) => e.includes('cards/bash'))).toBe(false);
   });
 
+  it('accepts applyPoison on cards and rejects it on enemy moves', () => {
+    const d = fixture();
+    d.cards.strike.effects.push({ type: 'applyPoison', amount: 3 });
+    expect(errorsOf(d)).toEqual([]);
+    d.cards.strike.effects.push({ type: 'applyPoison', amount: -1 });
+    expect(errorsOf(d)).toContainEqual(expect.stringMatching(/cards\/strike.*effects\[2\]\.amount/));
+    const e = fixture();
+    e.enemies.nibbit.moves.hiss.effects.push({ type: 'applyPoison', amount: 2 });
+    e.enemies.nibbit.ascension['9'].moves.butt.effects.push({ type: 'applyPoison', amount: 2 });
+    const errs = errorsOf(e);
+    expect(errs).toContainEqual(expect.stringMatching(/enemies\/nibbit.*moves\.hiss\.effects\[1\]\.type.*Poison/));
+    expect(errs).toContainEqual(expect.stringMatching(/enemies\/nibbit.*ascension\.9\.moves\.butt\.effects\[1\]\.type.*Poison/));
+  });
+
   it('allows innate and retain on simulated cards, base and upgraded', () => {
     const d = fixture();
     d.cards.bash.keywords = ['innate'];

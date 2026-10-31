@@ -11,11 +11,23 @@
   "keywords": [
     "retain"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "applyPoison",
+      "amount": 7
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "applyPoison",
+        "amount": 10
+      }
+    ]
+  },
   "description": "Retain. / Apply 7 Poison.",
   "upgradedDescription": "Retain. / Apply 10 Poison.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }
