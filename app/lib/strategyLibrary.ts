@@ -3,7 +3,7 @@
  * user strategies (block strategies with a custom allowance) live in
  * localStorage. All storage access is wrapped so the app works without it.
  */
-import { MAX_STRATEGIES_PER_RUN, type SavedStrategy, type StrategyConfig } from '../../engine/types';
+import { type SavedStrategy, type StrategyConfig } from '../../engine/types';
 
 export const STORAGE_KEY = 'sts2sim.strategies.v1';
 /** parseStrategyCode accepts at most 4 digits, so URLs stay valid. */
@@ -146,7 +146,8 @@ export function describeConfig(config: StrategyConfig): string {
 }
 
 /** The library holds at most this many strategies, defaults included. */
-export const MAX_LIBRARY_SIZE = MAX_STRATEGIES_PER_RUN;
+/** (Only MAX_STRATEGIES_PER_RUN of them can be selected for one run.) */
+export const MAX_LIBRARY_SIZE = 10;
 
 /**
  * Why a block strategy allowing `allowThrough` can't be added (or another one

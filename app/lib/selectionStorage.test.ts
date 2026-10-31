@@ -72,8 +72,9 @@ describe('selection storage', () => {
   });
 
   it(`caps the selection at ${MAX_STRATEGIES_PER_RUN}`, () => {
-    const big = fullLibrary([1, 2, 3, 4, 5, 6].map((i) => custom(`c${i}`, i)));
+    const big = fullLibrary([1, 2, 3, 4, 5, 6, 7, 8].map((i) => custom(`c${i}`, i)));
     const s = memStorage(JSON.stringify(big.map((x) => ({ strategyId: x.id, color: 'blue' }))));
+    expect(big).toHaveLength(10);
     const sel = loadSelection(s, big);
     expect(sel).toHaveLength(MAX_STRATEGIES_PER_RUN);
     expect(sel.map((x) => x.strategyId)).toEqual(big.slice(0, MAX_STRATEGIES_PER_RUN).map((x) => x.id));
