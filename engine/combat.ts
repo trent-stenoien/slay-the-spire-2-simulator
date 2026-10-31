@@ -270,6 +270,17 @@ export function simulateCombat(
     return true;
   };
 
+  /** Each debuff on `side` goes down by 1 (at the end of that side's turn). */
+  const tickDebuffs = (side: Side) => {
+    const f = fighter(side);
+    for (const kind of DEBUFF_KINDS) {
+      if (f.debuffs[kind] > 0) {
+        f.debuffs[kind]--;
+        if (log) log.push({ t: 'debuffTick', side, kind, total: f.debuffs[kind] });
+      }
+    }
+  };
+
   const currentMoveId = (): string => order[enemy.patternIndex] as string;
 
   const finish = (outcome: Outcome): CombatResult => {
@@ -339,15 +350,7 @@ export function simulateCombat(
       }
     }
     player.hand = [];
-    for (const side of ['player', 'enemy'] as const) {
-      const f = fighter(side);
-      for (const kind of DEBUFF_KINDS) {
-        if (f.debuffs[kind] > 0) {
-          f.debuffs[kind]--;
-          if (log) log.push({ t: 'debuffTick', side, kind, total: f.debuffs[kind] });
-        }
-      }
-    }
+    tickDebuffs('player');
     if (log) log.push({ t: 'turnEnd', turn: state.turn, side: 'player' });
 
     // 4. Enemy turn.
@@ -360,6 +363,8 @@ export function simulateCombat(
     const playerDied = resolveEffects('enemy', move.effects);
     enemy.patternIndex = (enemy.patternIndex + 1) % order.length;
     if (playerDied || player.hp <= 0) return finish('loss');
+    // Debuffs on the enemy tick down at the end of the enemy's own turn, after its move.
+    tickDebuffs('enemy');
     if (log) log.push({ t: 'turnEnd', turn: state.turn, side: 'enemy' });
 
     // 5. Turn cap.

@@ -261,7 +261,7 @@ describe('damage rules in combat', () => {
     expect(events(r.log, 'damage')[0]).toMatchObject({ amount: 10, blocked: 0, hpLoss: 10 });
   });
 
-  it('enemy debuffs target the player, Weak reduces the enemy\'s hits, Frail reduces block, and both sides tick', () => {
+  it('enemy debuffs target the player, Weak reduces the enemy\'s hits, Frail reduces block, and each side ticks on its own turn end', () => {
     const e = makeEnemy('hexer', 999, {
       hex: { name: 'Hex', effects: [{ type: 'applyFrail', amount: 2 }, { type: 'applyVulnerable', amount: 1 }] },
       hit: { name: 'Hit', effects: [{ type: 'attack', damage: 10, hits: 1 }] },
@@ -282,15 +282,86 @@ describe('damage rules in combat', () => {
     ]);
     // Frail 2 → block 8 × 0.75 = 6.
     expect(events(log, 'block')[0]).toMatchObject({ side: 'player', amount: 6, total: 6 });
-    // End of player turn 2: player Frail 2→1, Vulnerable 1→0; enemy Weak 1→0.
+    // End of player turn 2: player Frail 2→1, Vulnerable 1→0. Enemy Weak 1→0 only after its move.
     const turn2Ticks = events(log, 'debuffTick').slice(0, 3);
     expect(turn2Ticks).toEqual([
       { t: 'debuffTick', side: 'player', kind: 'vulnerable', total: 0 },
       { t: 'debuffTick', side: 'player', kind: 'frail', total: 1 },
       { t: 'debuffTick', side: 'enemy', kind: 'weak', total: 0 },
     ]);
-    // Weak and Vulnerable both expired before the hit: full 10, 6 blocked.
-    expect(events(log, 'damage')[0]).toMatchObject({ amount: 10, blocked: 6, hpLoss: 4 });
+    // Player Vulnerable expired, enemy Weak still active on its hit: 10 × 0.75 = 7, 6 blocked.
+    expect(events(log, 'damage')[0]).toMatchObject({ amount: 7, blocked: 6, hpLoss: 1 });
+    const hitIdx = log.findIndex((e) => e.t === 'damage');
+    const weakTickIdx = log.findIndex((e) => e.t === 'debuffTick' && e.side === 'enemy');
+    expect(weakTickIdx).toBeGreaterThan(hitIdx);
+  });
+
+  it('1 Vulnerable on the enemy boosts that player turn and is gone by the next one', () => {
+    const data = withEnemy(makeGameData(), dummy());
+    data.cards.tap = {
+      ...cards.strike!, id: 'tap', code: 'Tp', cost: 0,
+      effects: [{ type: 'applyVulnerable', amount: 1 }], upgraded: null,
+    };
+    const config = cfg({ enemyId: 'dummy', deck: deckOf(['tap', 1], ['strike', 9]) });
+    const strat = scripted((turn) => (turn === 1 ? ['tap', 'strike', 'strike'] : turn === 2 ? ['strike'] : []));
+    const r = simulateCombat(data, config, strat, { log: true });
+    const log = r.log!;
+    expect(events(log, 'damage').slice(0, 3).map((d) => d.amount)).toEqual([9, 9, 6]);
+    // The tick happens at the end of the enemy turn, after its move, not at the end of the player turn.
+    const tickIdx = log.findIndex((e) => e.t === 'debuffTick' && e.side === 'enemy' && e.kind === 'vulnerable');
+    const moveIdx = log.findIndex((e) => e.t === 'enemyMove');
+    const playerEndIdx = log.findIndex((e) => e.t === 'turnEnd' && e.side === 'player');
+    const enemyEndIdx = log.findIndex((e) => e.t === 'turnEnd' && e.side === 'enemy');
+    expect(tickIdx).toBeGreaterThan(playerEndIdx);
+    expect(tickIdx).toBeGreaterThan(moveIdx);
+    expect(tickIdx).toBeLessThan(enemyEndIdx);
+    expect(log[tickIdx]).toEqual({ t: 'debuffTick', side: 'enemy', kind: 'vulnerable', total: 0 });
+  });
+
+  it('Weak applied to the enemy reduces its very next attack', () => {
+    const e = makeEnemy('brute', 999, { hit: { name: 'Hit', effects: [{ type: 'attack', damage: 12, hits: 1 }] } });
+    const data = withEnemy(makeGameData(), e);
+    data.cards.sap = {
+      ...cards.strike!, id: 'sap', code: 'Sp', cost: 0,
+      effects: [{ type: 'applyWeak', amount: 1 }], upgraded: null,
+    };
+    const intents: number[] = [];
+    const strat: Strategy = {
+      decide(view) {
+        if (view.state.turn === 1) {
+          const c = view.playable.find((p) => p.cardId === 'sap');
+          if (c) return { kind: 'play', uid: c.uid };
+          intents.push(view.intent.totalIncoming);
+        }
+        return { kind: 'endTurn' };
+      },
+    };
+    const r = simulateCombat(data, cfg({ enemyId: 'brute', deck: deckOf(['sap', 1], ['defend', 9]) }), strat, { log: true });
+    expect(intents).toEqual([9]); // intent already reflects Weak
+    expect(events(r.log, 'damage').slice(0, 2).map((d) => d.amount)).toEqual([9, 12]);
+  });
+
+  it('player debuffs still tick at the end of the player turn', () => {
+    const e = makeEnemy('hexer2', 999, {
+      hex: { name: 'Hex', effects: [{ type: 'applyWeak', amount: 1 }] },
+      wait: { name: 'Wait', effects: [] },
+    });
+    const data = withEnemy(makeGameData(), e);
+    const r = simulateCombat(data, cfg({ enemyId: 'hexer2', deck: deckOf(['defend', 5]) }), passive, { log: true });
+    const log = r.log!;
+    const tickIdx = log.findIndex((ev) => ev.t === 'debuffTick' && ev.side === 'player');
+    const t2End = log.findIndex((ev) => ev.t === 'turnEnd' && ev.turn === 2 && ev.side === 'player');
+    const t2EnemyStart = log.findIndex((ev) => ev.t === 'turnStart' && ev.turn === 2 && ev.side === 'enemy');
+    expect(tickIdx).toBeLessThan(t2End);
+    expect(t2End).toBeLessThan(t2EnemyStart);
+  });
+
+  it('debuff timing is deterministic', () => {
+    const data = makeGameData();
+    const a = runCombat(data, cfg({ seed: 4242 }), { log: true });
+    const b = runCombat(data, cfg({ seed: 4242 }), { log: true });
+    expect(a).toEqual(b);
+    expect(events(a.log, 'debuffTick').every((t) => t.side === 'enemy')).toBe(true);
   });
 });
 
