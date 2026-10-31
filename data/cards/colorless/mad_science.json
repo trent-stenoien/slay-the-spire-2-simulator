@@ -19,5 +19,6 @@
   "upgradedDescription": "Innate. / This card can be created and customized at the event Tinker Time.",
   "simulated": false,
   "multiplayerOnly": false,
-  "lastUpdateVersion": "v0.107.1"
+  "lastUpdateVersion": "v0.107.1",
+  "hidden": true
 }

@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainStrength",
+      "amount": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainStrength",
+        "amount": 2
+      }
+    ]
+  },
   "description": "Gain 1 Strength. / Gain 1 Dexterity.",
   "upgradedDescription": "Gain 2 Strength. / Gain 2 Dexterity.",
   "simulated": false,

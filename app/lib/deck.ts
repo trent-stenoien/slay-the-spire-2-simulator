@@ -18,7 +18,7 @@ export function deckPool(data: GameData, characterId: string): CardDef[] {
   return Object.values(data.cards)
     .filter((c) => c.character === code || c.character === 'colorless' || c.character === 'shared')
     .filter((c) => !(c.type === 'curse' && c.keywords.includes('unplayable')))
-    .filter((c) => c.simulated && !c.multiplayerOnly)
+    .filter((c) => c.simulated && !c.multiplayerOnly && !c.hidden)
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
@@ -145,7 +145,7 @@ export function filteredPool(data: GameData, characterId: string, filters: PoolF
   const auto = automaticCards(data, ascension).map((a) => a.card);
   const autoIds = new Set(data.manifest.ascensionCards.map((e) => e.cardId));
   const pool = Object.values(data.cards)
-    .filter((c) => c.simulated)
+    .filter((c) => c.simulated && !c.hidden)
     .filter((c) => !autoIds.has(c.id))
     .filter((c) => filters.multiplayer || !c.multiplayerOnly)
     .filter((c) => {

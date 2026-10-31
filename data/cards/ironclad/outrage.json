@@ -25,8 +25,8 @@
       }
     ]
   },
-  "description": "Deal 9 damage. Add a copy of this card into EVERYONE'S Discard Pile.",
-  "upgradedDescription": "Deal 13 damage. Add a copy of this card into EVERYONE'S Discard Pile.",
+  "description": "Deal 9 damage. / Add a copy of this card into EVERYONE'S Discard Pile.",
+  "upgradedDescription": "Deal 13 damage. / Add a copy of this card into EVERYONE'S Discard Pile.",
   "simulated": false,
   "multiplayerOnly": true,
   "lastUpdateVersion": "v0.107.1"
