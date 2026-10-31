@@ -9,11 +9,25 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 3,
+      "hits": 3
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 3,
+        "hits": 4
+      }
+    ]
+  },
   "description": "Deal 3 damage to a random enemy 3 times.",
   "upgradedDescription": "Deal 3 damage to a random enemy 4 times.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

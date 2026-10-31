@@ -27,7 +27,7 @@
   },
   "description": "Deal 7 damage to a random enemy twice.",
   "upgradedDescription": "Deal 9 damage to a random enemy twice.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }
