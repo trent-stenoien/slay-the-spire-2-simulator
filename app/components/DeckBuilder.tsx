@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { Panel } from './Panel';
 import type { CardDef, Deck, GameData } from '../../engine/types';
 import { cardText } from '../lib/cardText';
+import { cardWikiUrl } from '../lib/wiki';
 import type { CostColorKey, PoolFilters } from '../lib/deck';
-import { DEFAULT_FILTERS, automaticCards, changeCount, combatDeckSize, copiesOf, costColorKey, groupedPool, removeCard, unsimulatedStarters } from '../lib/deck';
+import { DEFAULT_FILTERS, automaticCards, foldersForFilter, changeCount, combatDeckSize, copiesOf, costColorKey, groupedPool, removeCard, unsimulatedStarters } from '../lib/deck';
 
 interface Props {
   data: GameData;
@@ -24,7 +25,24 @@ const FILTER_BUTTONS: [keyof PoolFilters, string][] = [
 export function DeckBuilder({ data, characterId, ascension, deck, onChange, onReset }: Props) {
   const [query, setQuery] = useState('');
   const [filters, setFilters] = useState<PoolFilters>(DEFAULT_FILTERS);
-  useEffect(() => setFilters(DEFAULT_FILTERS), [characterId]);
+  // Folders start collapsed; turning a filter on expands the folders it adds.
+  const [expanded, setExpanded] = useState<ReadonlySet<string>>(new Set());
+  useEffect(() => {
+    setFilters(DEFAULT_FILTERS);
+    setExpanded(new Set());
+  }, [characterId]);
+  const toggleFilter = (key: keyof PoolFilters) => {
+    if (!filters[key]) setExpanded((e) => new Set([...e, ...foldersForFilter(data, characterId, key, ascension)]));
+    setFilters((f) => ({ ...f, [key]: !f[key] }));
+  };
+  const setFolder = (key: string, open: boolean) =>
+    setExpanded((e) => {
+      if (e.has(key) === open) return e;
+      const next = new Set(e);
+      if (open) next.add(key);
+      else next.delete(key);
+      return next;
+    });
   const groups = groupedPool(data, characterId, query, filters, ascension);
   const auto = new Map(automaticCards(data, ascension).map((a) => [a.card.id, a.level]));
   const builtSize = deck.reduce((n, e) => n + e.count, 0);
@@ -58,7 +76,7 @@ export function DeckBuilder({ data, characterId, ascension, deck, onChange, onRe
               type="button"
               className="pill"
               aria-pressed={filters[key]}
-              onClick={() => setFilters((f) => ({ ...f, [key]: !f[key] }))}
+              onClick={() => toggleFilter(key)}
             >
               {label}
             </button>
@@ -69,7 +87,7 @@ export function DeckBuilder({ data, characterId, ascension, deck, onChange, onRe
       {groups.map((g) => {
         const inDeck = g.cards.reduce((n, c) => n + (auto.has(c.id) ? 1 : copiesOf(deck, c.id, false) + copiesOf(deck, c.id, true)), 0);
         return (
-          <details key={g.key} className="card-group" open>
+          <details key={g.key} className="card-group" open={expanded.has(g.key)} onToggle={(e) => setFolder(g.key, e.currentTarget.open)}>
             <summary>
               {g.label} <span className="muted small">({g.cards.length} {g.cards.length === 1 ? 'card' : 'cards'}{inDeck > 0 ? `, ${inDeck} in deck` : ''})</span>
             </summary>
@@ -97,7 +115,11 @@ function CardRow({ card, colorKey, deck, autoLevel, onChange }: { card: CardDef;
         <span className={`cost cost-${colorKey}`} title="Energy cost">
           {base.cost}
         </span>
-        <span className="card-name">{base.name}</span>
+        <span className="card-name">
+          <a href={cardWikiUrl(card.name)} target="_blank" rel="noopener noreferrer" title={`${base.name} on the wiki (opens in a new tab)`}>
+            {base.name}
+          </a>
+        </span>
         {!locked && n + nUp > 0 && (
           <button
             type="button"

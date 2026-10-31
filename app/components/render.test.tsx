@@ -7,6 +7,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
 import { gameData } from '../../data';
 import type { RunResult } from '../../engine/types';
+import indexHtml from '../../index.html?raw';
 import { App } from '../App';
 import { resultRows } from '../lib/results';
 import { defaultSetup } from '../lib/url';
@@ -223,5 +224,48 @@ describe('views render', () => {
       <SetupPanel data={gameData} setup={{ ...defaultSetup(gameData), ascension: 5 }} onCharacter={() => {}} onEnemy={() => {}} onAscension={() => {}} />,
     );
     expect(setup).not.toContain('Ascender');
+  });
+});
+
+describe('deck folders, links and page layout', () => {
+  const deckHtml = () =>
+    renderToStaticMarkup(
+      <DeckBuilder data={gameData} characterId="ironclad" ascension={0} deck={startingDeckFor(gameData, 'ironclad')} onChange={() => {}} onReset={() => {}} />,
+    );
+
+  it('renders every card folder collapsed on load', () => {
+    const html = deckHtml();
+    const tags = [...html.matchAll(/<details[^>]*>/g)].map((m) => m[0]);
+    expect(tags.length).toBeGreaterThan(1);
+    for (const tag of tags) expect(tag).not.toMatch(/\sopen/);
+  });
+
+  it('links each card name to its wiki page in a new tab', () => {
+    const html = deckHtml();
+    expect(html).toContain(
+      '<a href="https://slaythespire.wiki.gg/wiki/Slay_the_Spire_2:Bludgeon" target="_blank" rel="noopener noreferrer"',
+    );
+    // The clear-X stays a sibling of the name, not inside the link.
+    expect(html).not.toMatch(/<a [^>]*>[^<]*<button/);
+  });
+
+  it('puts Setup in the right column above Strategies, with Deck on the left', () => {
+    const html = renderToStaticMarkup(<App />);
+    const left = html.indexOf('col col-deck');
+    const right = html.indexOf('col col-side');
+    expect(left).toBeGreaterThan(-1);
+    expect(right).toBeGreaterThan(left);
+    const at = (id: string) => html.indexOf(`id="${id}-h"`);
+    expect(at('deck')).toBeGreaterThan(left);
+    expect(at('deck')).toBeLessThan(right);
+    expect(at('setup')).toBeGreaterThan(right);
+    expect(at('strat')).toBeGreaterThan(at('setup'));
+  });
+
+  it('titles the page "Slay the Spire 2" but leaves the browser tab title alone', () => {
+    const html = renderToStaticMarkup(<App />);
+    expect(html).toMatch(/<h1><a [^>]*>Slay the Spire 2<\/a><\/h1>/);
+    expect(html).not.toContain('STS2 Combat Simulator');
+    expect(indexHtml).toContain('<title>STS2 Combat Simulator</title>');
   });
 });

@@ -29,7 +29,7 @@ export function App() {
     <div className="app">
       <header className="app-head">
         <h1>
-          <a href={setupHref(data, setup)}>STS2 Combat Simulator</a>
+          <a href={setupHref(data, setup)}>Slay the Spire 2</a>
         </h1>
         <div className="app-sub muted small">
           <p>Monte Carlo comparison of Slay the Spire 2 play strategies.</p>
@@ -107,14 +107,7 @@ function Simulator({ setup, setSetup }: { setup: SetupState; setSetup: (s: Setup
     <>
       <ResultsPanel data={data} result={result} status={status} blocker={blocker} onRun={run} />
       <div className="grid">
-        <div className="col">
-          <SetupPanel
-            data={data}
-            setup={setup}
-            onCharacter={(id) => setSetup({ ...setup, characterId: id, deck: startingDeckFor(data, id) })}
-            onEnemy={(id) => setSetup({ ...setup, enemyId: id })}
-            onAscension={(a) => setSetup({ ...setup, ascension: a })}
-          />
+        <div className="col col-deck">
           <DeckBuilder
             data={data}
             characterId={setup.characterId}
@@ -124,7 +117,14 @@ function Simulator({ setup, setSetup }: { setup: SetupState; setSetup: (s: Setup
             onReset={() => setSetup({ ...setup, deck: startingDeckFor(data, setup.characterId) })}
           />
         </div>
-        <div className="col">
+        <div className="col col-side">
+          <SetupPanel
+            data={data}
+            setup={setup}
+            onCharacter={(id) => setSetup({ ...setup, characterId: id, deck: startingDeckFor(data, id) })}
+            onEnemy={(id) => setSetup({ ...setup, enemyId: id })}
+            onAscension={(a) => setSetup({ ...setup, ascension: a })}
+          />
           <StrategyPanel
             library={strategies.library}
             selection={strategies.selection}
