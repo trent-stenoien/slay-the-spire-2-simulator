@@ -708,9 +708,40 @@ code {
 }
 
 /* Deck builder: search and folder groups */
-.deck-search {
-  width: 100%;
+.deck-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
   margin: 8px 0 4px;
+}
+.deck-search {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+.filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.pill {
+  padding: 3px 10px;
+  min-height: 28px;
+  font-size: 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+.pill[aria-pressed='true'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+.pill:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 .card-group {
   margin-top: 10px;

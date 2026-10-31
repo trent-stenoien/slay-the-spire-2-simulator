@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { gameData } from '../../data';
-import { cardFolder, changeCount, copiesOf, costColorKey, deckPool, deckSize, groupedPool, isCharacterSimulated, matchesSearch, startingDeckFor, toggleUpgrade, unsimulatedStarters } from './deck';
+import { cardFolder, changeCount, copiesOf, costColorKey, deckPool, deckSize, filteredPool, groupedPool, isCharacterSimulated, matchesSearch, startingDeckFor, toggleUpgrade, unsimulatedStarters } from './deck';
 import type { CardDef, Deck } from '../../engine/types';
 
 const deck: Deck = [
@@ -73,6 +73,48 @@ describe('deck builder grouping and search', () => {
     expect(startingDeckFor(gameData, 'ironclad')).toEqual(gameData.characters.ironclad!.startingDeck);
     expect(startingDeckFor(gameData, 'silent').map((e) => e.cardId)).toEqual(['strike', 'defend', 'neutralize']);
     expect(unsimulatedStarters(gameData, 'silent')).toEqual(['Survivor']);
+  });
+});
+
+describe('card selector filters', () => {
+  const off = { statuses: false, curses: false, multiplayer: false };
+  const all = { statuses: true, curses: true, multiplayer: true };
+  const cardsFor = (f: Partial<typeof off>, q = '') =>
+    groupedPool(gameData, 'ironclad', q, { ...off, ...f }).flatMap((g) => g.cards);
+
+  it('by default shows only single-player shared, character and colorless cards', () => {
+    expect(cardsFor({}).some((c) => c.type === 'status' || c.type === 'curse' || c.multiplayerOnly)).toBe(false);
+    expect(groupedPool(gameData, 'ironclad', '', off).map((g) => g.label)).toEqual(['Shared', 'Ironclad', 'Colorless']);
+  });
+
+  it('each toggle adds its category', () => {
+    expect(cardsFor({ statuses: true }).some((c) => c.type === 'status')).toBe(true);
+    expect(cardsFor({ statuses: true }).some((c) => c.type === 'curse' || c.multiplayerOnly)).toBe(false);
+    expect(cardsFor({ curses: true }).some((c) => c.type === 'curse')).toBe(true);
+    expect(cardsFor({ curses: true }).some((c) => c.type === 'status' || c.multiplayerOnly)).toBe(false);
+    // No simulated multiplayer-only card exists in the data yet, so flag one.
+    const data = { ...gameData, cards: { ...gameData.cards, mp_test: { ...gameData.cards.strike!, id: 'mp_test', name: 'MP Test', character: 'colorless' as const, multiplayerOnly: true, simulated: true } } };
+    const ids = (f: Partial<typeof off>) => groupedPool(data, 'ironclad', '', { ...off, ...f }).flatMap((g) => g.cards.map((c) => c.id));
+    expect(ids({})).not.toContain('mp_test');
+    expect(ids({ multiplayer: true })).toContain('mp_test');
+    expect(ids({ statuses: true, curses: true })).not.toContain('mp_test');
+    expect(cardsFor({ multiplayer: true }).some((c) => c.type === 'status' || c.type === 'curse')).toBe(false);
+  });
+
+  it("never lists Ascender's Bane or unsimulated cards", () => {
+    const cards = cardsFor(all);
+    expect(cards.map((c) => c.id)).not.toContain('ascenders_bane');
+    expect(cards.every((c) => c.simulated)).toBe(true);
+    expect(filteredPool(gameData, 'ironclad', all).map((c) => c.id)).not.toContain('ascenders_bane');
+  });
+
+  it('combines with search', () => {
+    const q = cardsFor(all, 'BASH').map((c) => c.id);
+    expect(q).toContain('bash');
+    expect(q).not.toContain('strike');
+    const curse = Object.values(gameData.cards).find((c) => c.type === 'curse' && c.simulated && c.id !== 'ascenders_bane')!;
+    expect(cardsFor({}, curse.name).map((c) => c.id)).not.toContain(curse.id);
+    expect(cardsFor({ curses: true }, curse.name).map((c) => c.id)).toContain(curse.id);
   });
 });
 

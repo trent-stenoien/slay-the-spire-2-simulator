@@ -98,10 +98,41 @@ export function matchesSearch(card: CardDef, query: string): boolean {
   return [card.name, card.description, card.upgradedDescription ?? ''].some((s) => s.toLowerCase().includes(q));
 }
 
-/** Pool cards matching the search, grouped by data folder in a fixed order. Empty groups are dropped. */
-export function groupedPool(data: GameData, characterId: string, query: string): CardGroup[] {
+/** Which optional categories the card selector shows. All off by default. */
+export interface PoolFilters {
+  statuses: boolean;
+  curses: boolean;
+  multiplayer: boolean;
+}
+
+export const DEFAULT_FILTERS: PoolFilters = { statuses: false, curses: false, multiplayer: false };
+
+/**
+ * Cards the selector lists. Default: simulated single-player cards from the
+ * shared, selected character and colorless folders. Each filter adds its
+ * category; multiplayer-only cards (of any shown category) need `multiplayer`.
+ * Ascender's Bane is never listed (the engine adds it at A5+). Sorted by name.
+ */
+export function filteredPool(data: GameData, characterId: string, filters: PoolFilters): CardDef[] {
+  const code = data.characters[characterId]?.code;
+  if (!code) return [];
+  return Object.values(data.cards)
+    .filter((c) => c.simulated)
+    .filter((c) => c.id !== 'ascenders_bane')
+    .filter((c) => filters.multiplayer || !c.multiplayerOnly)
+    .filter((c) => {
+      if (c.type === 'status') return filters.statuses;
+      if (c.type === 'curse') return filters.curses;
+      if (c.type === 'quest') return false;
+      return c.character === code || c.character === 'colorless' || c.character === 'shared';
+    })
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+/** Pool cards matching the search and filters, grouped by data folder in a fixed order. Empty groups are dropped. */
+export function groupedPool(data: GameData, characterId: string, query: string, filters: PoolFilters = DEFAULT_FILTERS): CardGroup[] {
   const groups = new Map<string, CardDef[]>();
-  for (const card of deckPool(data, characterId)) {
+  for (const card of filteredPool(data, characterId, filters)) {
     if (!matchesSearch(card, query)) continue;
     const label = cardFolder(card);
     groups.set(label, [...(groups.get(label) ?? []), card]);

@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { CardDef, Deck, GameData } from '../../engine/types';
 import { cardText } from '../lib/cardText';
-import type { CostColorKey } from '../lib/deck';
-import { changeCount, copiesOf, costColorKey, deckSize, groupedPool, unsimulatedStarters } from '../lib/deck';
+import type { CostColorKey, PoolFilters } from '../lib/deck';
+import { DEFAULT_FILTERS, changeCount, copiesOf, costColorKey, deckSize, groupedPool, unsimulatedStarters } from '../lib/deck';
 
 interface Props {
   data: GameData;
@@ -12,10 +12,18 @@ interface Props {
   onReset: () => void;
 }
 
+const FILTER_BUTTONS: [keyof PoolFilters, string][] = [
+  ['statuses', 'Statuses'],
+  ['curses', 'Curses'],
+  ['multiplayer', 'Multiplayer'],
+];
+
 /** Searchable card pool, grouped by data folder; one row per card with normal and upgraded counts. */
 export function DeckBuilder({ data, characterId, deck, onChange, onReset }: Props) {
   const [query, setQuery] = useState('');
-  const groups = groupedPool(data, characterId, query);
+  const [filters, setFilters] = useState<PoolFilters>(DEFAULT_FILTERS);
+  useEffect(() => setFilters(DEFAULT_FILTERS), [characterId]);
+  const groups = groupedPool(data, characterId, query, filters);
   const size = deckSize(deck);
   const leftOut = unsimulatedStarters(data, characterId);
 
@@ -33,15 +41,30 @@ export function DeckBuilder({ data, characterId, deck, onChange, onReset }: Prop
         <p className="note">Not simulated yet, so left out of the starter deck: {leftOut.join(', ')}.</p>
       )}
       {size === 0 && <p className="warn">The deck is empty. Add at least one card.</p>}
-      <input
-        type="search"
-        className="deck-search"
-        placeholder="Search cards by name or text"
-        aria-label="Search cards"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-      {groups.length === 0 && <p className="muted small">No simulated cards match "{query}".</p>}
+      <div className="deck-tools">
+        <input
+          type="search"
+          className="deck-search"
+          placeholder="Search cards by name or text"
+          aria-label="Search cards"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <div className="filter-pills" role="group" aria-label="Show more card types">
+          {FILTER_BUTTONS.map(([key, label]) => (
+            <button
+              key={key}
+              type="button"
+              className="pill"
+              aria-pressed={filters[key]}
+              onClick={() => setFilters((f) => ({ ...f, [key]: !f[key] }))}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+      {groups.length === 0 && <p className="muted small">No cards match{query.trim() ? ` "${query}"` : ' the current filters'}.</p>}
       {groups.map((g) => {
         const inDeck = g.cards.reduce((n, c) => n + copiesOf(deck, c.id, false) + copiesOf(deck, c.id, true), 0);
         return (
