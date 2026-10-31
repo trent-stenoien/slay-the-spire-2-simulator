@@ -697,19 +697,33 @@ svg.chart {
 .legend-item.off {
   opacity: 0.4;
 }
+/* Percentile marks: a shade of the strategy color (--mark-color), pulled toward the text color
+   so it stays readable on both light and dark surfaces. */
+.chart .pmark-set {
+  --mark-shade: var(--mark-color, var(--text));
+}
+@supports (color: color-mix(in srgb, red 50%, blue)) {
+  .chart .pmark-set {
+    --mark-shade: color-mix(in srgb, var(--mark-color, var(--text)) 72%, var(--text));
+  }
+}
 .chart .pmark {
-  stroke: var(--text);
-  stroke-opacity: 0.55;
+  stroke: var(--mark-shade);
+  stroke-opacity: 0.8;
   stroke-width: 1;
   stroke-dasharray: 4 3;
 }
 .chart .pmark-label {
-  fill: var(--text);
+  fill: var(--mark-shade);
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
   paint-order: stroke;
   stroke: var(--surface);
   stroke-width: 3px;
   stroke-linejoin: round;
+}
+.chart .pband {
+  fill-opacity: 0.13;
 }
 .bandwidth {
   display: flex;
@@ -719,9 +733,36 @@ svg.chart {
   margin-top: 8px;
   font-size: 0.9rem;
 }
-.bandwidth input[type='range'] {
+/* Slider + its tick labels. Labels sit at the thumb-center positions:
+   thumb/2 + f × (track width − thumb). The tick marks themselves come from the <datalist>. */
+.bandwidth-slider {
+  --thumb: 16px;
   flex: 1 1 140px;
   max-width: 260px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 2px;
+}
+.bandwidth-slider input[type='range'] {
+  width: 100%;
+  margin: 0;
+  /* No text-input padding/border, so the track spans the full width and the labels line up. */
+  padding: 0;
+  border: 0;
+}
+.bandwidth-ticks {
+  position: relative;
+  height: 1.2em;
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.bandwidth-tick {
+  position: absolute;
+  top: 0;
+  left: calc(var(--thumb) / 2 + var(--f) * (100% - var(--thumb)));
+  transform: translateX(-50%);
+  line-height: 1.2;
 }
 .bandwidth output {
   min-width: 4.5ch;

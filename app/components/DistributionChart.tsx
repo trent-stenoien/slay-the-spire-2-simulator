@@ -1,9 +1,11 @@
-import { useId, useState } from 'react';
+import { useId, useState, type CSSProperties } from 'react';
 import { cumulativeCurve, kdeCurve, rawCurve, type CurvePoint } from '../../engine/stats';
 import { COLOR_HEX } from '../lib/colors';
 import {
+  aboveCurvePath,
   areaPath,
   BANDWIDTH_FACTOR,
+  bandwidthTicks,
   bandwidthFactorLabel,
   clampBandwidthFactor,
   curveRange,
@@ -14,8 +16,8 @@ import {
   niceMax,
   niceTicks,
   percentLabel,
-  percentileMarkers,
-  staggerLabels,
+  groupedLabelRows,
+  percentileMarkerSets,
   toggleHidden,
   visibleHpLostRange,
   type CurveShape,
@@ -61,7 +63,9 @@ function compute(rows: readonly ResultRow[], hidden: ReadonlySet<string>, mode: 
  * Overlaid HP-lost distributions, one line + light fill per strategy. The legend sits
  * above the chart, aligned with the plot area; clicking an entry hides or shows that
  * strategy's line (hidden entries stay in the legend, dimmed). The KDE view has a smoothing
- * (bandwidth) slider. With exactly one strategy visible, its P5/P25/P50/P75/P95 are marked.
+ * (bandwidth) slider with ticks at ×1-×4. With one or two strategies visible, each one's
+ * P5/P25/P50/P75/P95 are marked in its color (one label row block per strategy), with a light
+ * P25-P75 band drawn only above its curve. With three or more visible, no marks are drawn.
  */
 export function DistributionChart({ rows }: { rows: ResultRow[] }) {
   const [mode, setMode] = useState<ChartMode>('kde');
@@ -85,13 +89,13 @@ export function DistributionChart({ rows }: { rows: ResultRow[] }) {
   const visible = rows.map((r) => !hidden.has(r.strategyId));
   const yMax = mode === 'cumulative' ? 100 : niceMax(curvesMaxYInRange(curves.filter((_, i) => visible[i]), range), 5, 1);
   const sx = linearScale(range, [M.left, W - M.right]);
-  const markers = percentileMarkers(rows, hidden);
-  const markerLabels = staggerLabels(
-    markers.map((m) => ({ x: sx(m.value), width: m.label.length * MARK_CHAR_W + 4 })),
+  const markerSets = percentileMarkerSets(rows, hidden);
+  const markerLabels = groupedLabelRows(
+    markerSets.map((set) => set.markers.map((m) => ({ x: sx(m.value), width: m.label.length * MARK_CHAR_W + 4 }))),
     [M.left + 2, W - M.right - 2],
   );
-  // Marker labels get their own band above the plot, so they never sit on the curves.
-  const labelRows = markerLabels.reduce((n, l) => Math.max(n, l.row + 1), 0);
+  // Marker labels get their own strip above the plot, so they never sit on the curves.
+  const labelRows = markerLabels.flat().reduce((n, l) => Math.max(n, l.row + 1), 0);
   const top = M.top + (labelRows > 0 ? labelRows * MARK_ROW + 2 : 0);
   const labelY = (row: number) => M.top + MARK_FONT - 2 + row * MARK_ROW;
   const sy = linearScale([0, yMax], [H - M.bottom, top]);
@@ -112,16 +116,31 @@ export function DistributionChart({ rows }: { rows: ResultRow[] }) {
       {mode === 'kde' && (
         <div className="bandwidth">
           <label htmlFor={sliderId}>Smoothing</label>
-          <input
-            id={sliderId}
-            type="range"
-            min={BANDWIDTH_FACTOR.min}
-            max={BANDWIDTH_FACTOR.max}
-            step={BANDWIDTH_FACTOR.step}
-            value={bandwidthFactor}
-            aria-valuetext={`${bandwidthFactorLabel(bandwidthFactor)} Silverman bandwidth`}
-            onChange={(e) => setBandwidthFactor(clampBandwidthFactor(Number(e.target.value)))}
-          />
+          <span className="bandwidth-slider">
+            <input
+              id={sliderId}
+              type="range"
+              list={`${sliderId}-ticks`}
+              min={BANDWIDTH_FACTOR.min}
+              max={BANDWIDTH_FACTOR.max}
+              step={BANDWIDTH_FACTOR.step}
+              value={bandwidthFactor}
+              aria-valuetext={`${bandwidthFactorLabel(bandwidthFactor)} Silverman bandwidth`}
+              onChange={(e) => setBandwidthFactor(clampBandwidthFactor(Number(e.target.value)))}
+            />
+            <datalist id={`${sliderId}-ticks`}>
+              {bandwidthTicks().map((t) => (
+                <option key={t.value} value={t.value} label={t.label} />
+              ))}
+            </datalist>
+            <span className="bandwidth-ticks" aria-hidden>
+              {bandwidthTicks().map((t) => (
+                <span key={t.value} className="bandwidth-tick" style={{ '--f': t.fraction } as CSSProperties}>
+                  {t.label}
+                </span>
+              ))}
+            </span>
+          </span>
           <output htmlFor={sliderId} className="small">
             {bandwidthFactorLabel(bandwidthFactor)}
           </output>
@@ -158,6 +177,14 @@ export function DistributionChart({ rows }: { rows: ResultRow[] }) {
           <clipPath id={clipId}>
             <rect x={M.left} y={top} width={W - M.left - M.right} height={H - top - M.bottom} />
           </clipPath>
+          {markerSets.map(({ row }) => {
+            const i = rows.indexOf(row);
+            return (
+              <clipPath key={row.strategyId} id={`${clipId}-above-${i}`}>
+                <path d={aboveCurvePath(curves[i]!, sx, sy, top, shape)} />
+              </clipPath>
+            );
+          })}
         </defs>
         {yTicks.map((t) => (
           <g key={`y${t}`}>
@@ -184,6 +211,24 @@ export function DistributionChart({ rows }: { rows: ResultRow[] }) {
           {yLabel}
         </text>
         <g clipPath={`url(#${clipId})`}>
+          {/* P25-P75 bands, only between each marked strategy's curve and the top of the plot. */}
+          {markerSets.map(({ row, markers }) => {
+            const i = rows.indexOf(row);
+            const p25 = markers.find((m) => m.p === 25)!.value;
+            const p75 = markers.find((m) => m.p === 75)!.value;
+            return (
+              <rect
+                key={`band-${row.strategyId}`}
+                className="pband"
+                x={sx(p25)}
+                y={top}
+                width={Math.max(0, sx(p75) - sx(p25))}
+                height={H - M.bottom - top}
+                fill={COLOR_HEX[row.color]}
+                clipPath={`url(#${clipId}-above-${i})`}
+              />
+            );
+          })}
           {curves.map((pts, i) => {
             if (!visible[i]) return null;
             const color = COLOR_HEX[rows[i]!.color];
@@ -195,22 +240,30 @@ export function DistributionChart({ rows }: { rows: ResultRow[] }) {
             );
           })}
         </g>
-        {markers.length > 0 && (
+        {markerSets.length > 0 && (
           <g className="pmarks" aria-label="Percentiles of HP lost">
-            {markers.map((m, i) => (
-              <line key={`l${m.p}`} className="pmark" x1={sx(m.value)} x2={sx(m.value)} y1={labelY(markerLabels[i]!.row) + 3} y2={H - M.bottom} />
+            {markerSets.map(({ row, markers }, s) => (
+              <g key={row.strategyId} className="pmark-set" style={{ '--mark-color': COLOR_HEX[row.color] } as CSSProperties}>
+                {markers.map((m, i) => (
+                  <line key={`l${m.p}`} className="pmark" x1={sx(m.value)} x2={sx(m.value)} y1={labelY(markerLabels[s]![i]!.row) + 3} y2={H - M.bottom} />
+                ))}
+              </g>
             ))}
-            {markers.map((m, i) => (
-              <text
-                key={`t${m.p}`}
-                className="pmark-label"
-                x={markerLabels[i]!.x}
-                y={labelY(markerLabels[i]!.row)}
-                textAnchor="middle"
-                fontSize={MARK_FONT}
-              >
-                {m.label}
-              </text>
+            {markerSets.map(({ row, markers }, s) => (
+              <g key={`t-${row.strategyId}`} className="pmark-set" style={{ '--mark-color': COLOR_HEX[row.color] } as CSSProperties}>
+                {markers.map((m, i) => (
+                  <text
+                    key={`t${m.p}`}
+                    className="pmark-label"
+                    x={markerLabels[s]![i]!.x}
+                    y={labelY(markerLabels[s]![i]!.row)}
+                    textAnchor="middle"
+                    fontSize={MARK_FONT}
+                  >
+                    {m.label}
+                  </text>
+                ))}
+              </g>
             ))}
           </g>
         )}

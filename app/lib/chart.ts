@@ -124,6 +124,15 @@ export function kdeBandwidth(hpLostCounts: readonly number[], factor: number): n
   return silvermanBandwidth(hpLostCounts) * clampBandwidthFactor(factor);
 }
 
+/** Labelled tick marks under the smoothing slider. */
+export const BANDWIDTH_TICKS = [1, 2, 3, 4] as const;
+
+/** Tick label and position along the slider track (0 = min, 1 = max) for each of BANDWIDTH_TICKS. */
+export function bandwidthTicks(): { value: number; label: string; fraction: number }[] {
+  const { min, max } = BANDWIDTH_FACTOR;
+  return BANDWIDTH_TICKS.map((value) => ({ value, label: `×${value}`, fraction: (value - min) / (max - min) }));
+}
+
 /** Slider label: "×1.00". */
 export function bandwidthFactorLabel(factor: number): string {
   return `×${clampBandwidthFactor(factor).toFixed(2)}`;
@@ -192,8 +201,11 @@ export function curvesMaxYInRange(curves: readonly (readonly Point[])[], range: 
   return curvesMaxY(curves.map((c) => c.filter((p) => p.x >= range[0] && p.x <= range[1])));
 }
 
-/** Percentiles marked on the chart when exactly one strategy is visible. */
+/** Percentiles marked on the chart for each visible strategy (when at most MAX_MARKED_STRATEGIES are visible). */
 export const MARKER_PERCENTILES = [5, 25, 50, 75, 95] as const;
+
+/** Percentile marks are drawn while one or two strategies are visible, and hidden with three or more. */
+export const MAX_MARKED_STRATEGIES = 2;
 
 export interface PercentileMarker {
   p: number;
@@ -201,21 +213,67 @@ export interface PercentileMarker {
   label: string;
 }
 
-/**
- * Labelled percentile markers ("P50 = 7") for the single visible strategy's raw HP lost.
- * Empty when zero or two or more strategies are visible, or the visible one has no combats.
- */
-export function percentileMarkers(rows: readonly ChartRow[], hidden: ReadonlySet<string>): PercentileMarker[] {
-  const shown = rows.filter((r) => !hidden.has(r.strategyId));
-  if (shown.length !== 1) return [];
-  const counts = shown[0]!.summary.hpLostCounts;
+/** One strategy's labelled P5/P25/P50/P75/P95 of raw HP lost, or [] if it has no combats. */
+export function strategyPercentileMarkers(hpLostCounts: readonly number[]): PercentileMarker[] {
   const out: PercentileMarker[] = [];
   for (const p of MARKER_PERCENTILES) {
-    const value = hpLostPercentile(counts, p);
+    const value = hpLostPercentile(hpLostCounts, p);
     if (value === null) return [];
     out.push({ p, value, label: `P${p} = ${value}` });
   }
   return out;
+}
+
+/**
+ * Percentile marks per visible strategy, in row order: one entry per visible strategy that has
+ * combats. Empty when no strategy, or more than MAX_MARKED_STRATEGIES strategies, are visible.
+ */
+export function percentileMarkerSets<R extends ChartRow>(
+  rows: readonly R[],
+  hidden: ReadonlySet<string>,
+): { row: R; markers: PercentileMarker[] }[] {
+  const shown = rows.filter((r) => !hidden.has(r.strategyId));
+  if (shown.length === 0 || shown.length > MAX_MARKED_STRATEGIES) return [];
+  return shown
+    .map((row) => ({ row, markers: strategyPercentileMarkers(row.summary.hpLostCounts) }))
+    .filter((s) => s.markers.length > 0);
+}
+
+/**
+ * Labelled percentile markers ("P50 = 7") for a single visible strategy's raw HP lost.
+ * Empty unless exactly one strategy is visible and it has combats.
+ */
+export function percentileMarkers(rows: readonly ChartRow[], hidden: ReadonlySet<string>): PercentileMarker[] {
+  const shown = rows.filter((r) => !hidden.has(r.strategyId));
+  if (shown.length !== 1) return [];
+  return strategyPercentileMarkers(shown[0]!.summary.hpLostCounts);
+}
+
+/**
+ * Closed path of the region ABOVE a curve: the line, then up to `topY` and back. Used as a
+ * clip path so the P25-P75 band fills only the space between the curve and the top of the plot.
+ */
+export function aboveCurvePath(points: readonly Point[], sx: (v: number) => number, sy: (v: number) => number, topY: number, shape: CurveShape = 'smooth'): string {
+  return areaPath(points, sx, sy, topY, shape);
+}
+
+/**
+ * Label rows for several strategies' marker labels: each strategy gets its own block of rows
+ * (in order), and labels that collide within a strategy are staggered into extra rows of that
+ * block (see `staggerLabels`). Returns, per strategy, each label's center x and global row index.
+ */
+export function groupedLabelRows(
+  groups: readonly (readonly { x: number; width: number }[])[],
+  bounds: [number, number],
+  gap = 4,
+): { x: number; row: number }[][] {
+  let offset = 0;
+  return groups.map((items) => {
+    const placed = staggerLabels(items, bounds, gap);
+    const out = placed.map((l) => ({ x: l.x, row: l.row + offset }));
+    offset += placed.reduce((n, l) => Math.max(n, l.row + 1), 0);
+    return out;
+  });
 }
 
 /**
