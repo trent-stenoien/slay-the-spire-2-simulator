@@ -820,3 +820,9 @@ code {
 .stepper.locked {
   padding: 0 14px;
 }
+
+/* Deck builder: remove-all-copies X on a card row */
+.card-head .card-clear {
+  margin-left: auto;
+  flex: none;
+}

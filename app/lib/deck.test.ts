@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { gameData } from '../../data';
-import { automaticCards, cardFolder, combatDeckSize, changeCount, copiesOf, costColorKey, deckPool, deckSize, filteredPool, groupedPool, isCharacterSimulated, matchesSearch, startingDeckFor, toggleUpgrade, unsimulatedStarters } from './deck';
+import { automaticCards, cardFolder, combatDeckSize, changeCount, copiesOf, costColorKey, deckPool, deckSize, filteredPool, groupedPool, isCharacterSimulated, matchesSearch, removeCard, startingDeckFor, toggleUpgrade, unsimulatedStarters } from './deck';
 import type { CardDef, Deck } from '../../engine/types';
 
 const deck: Deck = [
@@ -45,6 +45,25 @@ describe('deck edits', () => {
       deck[1],
     ]);
     expect(deck[0]!.count).toBe(5); // input untouched
+  });
+});
+
+describe('removeCard', () => {
+  const mixed: Deck = [...deck, { cardId: 'defend', upgraded: true, count: 1 }];
+
+  it('removes both the standard and upgraded entries', () => {
+    expect(removeCard(mixed, 'defend')).toEqual([deck[0]]);
+    expect(copiesOf(removeCard(mixed, 'defend'), 'defend', false)).toBe(0);
+    expect(copiesOf(removeCard(mixed, 'defend'), 'defend', true)).toBe(0);
+  });
+
+  it('leaves other cards untouched and does not mutate the input', () => {
+    expect(removeCard(mixed, 'defend')).toContainEqual(deck[0]);
+    expect(mixed).toHaveLength(3);
+  });
+
+  it('is a no-op for an absent card', () => {
+    expect(removeCard(deck, 'bash')).toBe(deck);
   });
 });
 
