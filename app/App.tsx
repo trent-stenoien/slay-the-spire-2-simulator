@@ -133,6 +133,7 @@ function Simulator({ setup, setSetup }: { setup: SetupState; setSetup: (s: Setup
             onRename={strategies.rename}
             onAllowThrough={strategies.allowThrough}
             onDelete={strategies.remove}
+            onClearAll={strategies.clearAll}
           />
           <RunPanel status={status} blocker={blocker} onRun={run} />
         </div>

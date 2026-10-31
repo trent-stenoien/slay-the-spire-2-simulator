@@ -262,6 +262,29 @@ button:disabled {
 .btn-link.danger {
   color: var(--loss);
 }
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  min-height: 28px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  color: var(--accent);
+  cursor: pointer;
+}
+.icon-btn:hover {
+  background: var(--surface-2);
+}
+.icon-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.icon-btn.danger:hover {
+  color: var(--loss);
+}
 .btn-small {
   font-size: 0.8rem;
   padding: 2px 8px !important;
@@ -411,7 +434,7 @@ button:disabled {
 }
 .strat-actions {
   display: flex;
-  gap: 12px;
+  gap: 4px;
 }
 .strat-edit {
   flex-basis: 100%;

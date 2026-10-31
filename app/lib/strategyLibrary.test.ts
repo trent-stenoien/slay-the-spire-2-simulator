@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   DEFAULT_STRATEGIES,
   STORAGE_KEY,
+  clearUserStrategies,
   addUserStrategy,
   deleteUserStrategy,
   fullLibrary,
@@ -124,5 +125,34 @@ describe('blockStrategyProblem', () => {
     const full = fullLibrary([3, 4, 5].map((n) => ({ id: `u${n}`, name: `b${n}`, config: { kind: 'block' as const, allowThrough: n } })));
     expect(full).toHaveLength(5);
     expect(blockStrategyProblem(full, 9)).toMatch(/at most 5/);
+  });
+});
+
+describe('clearUserStrategies', () => {
+  const withRemove = (initial?: string) => {
+    const m = memStorage(initial);
+    return Object.assign(m, { removeItem: (k: string) => void m.data.delete(k) });
+  };
+
+  it('removes the storage key and leaves no user strategies', () => {
+    const s = withRemove(JSON.stringify([{ id: 'u1', name: 'A', config: { kind: 'block', allowThrough: 3 } }]));
+    expect(clearUserStrategies(s)).toBe(true);
+    expect(s.data.has(STORAGE_KEY)).toBe(false);
+    expect(loadUserStrategies(s)).toEqual([]);
+  });
+
+  it('succeeds when nothing is stored', () => {
+    expect(clearUserStrategies(withRemove())).toBe(true);
+  });
+
+  it('returns false for null storage or storage without removeItem', () => {
+    expect(clearUserStrategies(null)).toBe(false);
+    expect(clearUserStrategies(memStorage('[]'))).toBe(false);
+  });
+
+  it('tolerates storage that throws', () => {
+    const bad: StorageLike = { ...throwing, removeItem: () => { throw new Error('denied'); } };
+    expect(clearUserStrategies(bad)).toBe(false);
+    expect(fullLibrary([]).map((s) => s.name)).toEqual(['Greedy Damage', 'Scared Block']);
   });
 });

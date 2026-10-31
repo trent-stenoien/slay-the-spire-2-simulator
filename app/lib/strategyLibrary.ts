@@ -12,6 +12,7 @@ export const MAX_ALLOW_THROUGH = 9999;
 export interface StorageLike {
   getItem(key: string): string | null;
   setItem(key: string, value: string): void;
+  removeItem?(key: string): void;
 }
 
 export const DEFAULT_STRATEGIES: readonly SavedStrategy[] = [
@@ -78,6 +79,17 @@ export function saveUserStrategies(storage: StorageLike | null, list: readonly S
   if (!storage) return false;
   try {
     storage.setItem(STORAGE_KEY, JSON.stringify(list.filter((s) => !isBuiltIn(s.id))));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** Removes the stored user strategies. Returns false if storage is missing or removal failed. */
+export function clearUserStrategies(storage: StorageLike | null): boolean {
+  if (!storage?.removeItem) return false;
+  try {
+    storage.removeItem(STORAGE_KEY);
     return true;
   } catch {
     return false;

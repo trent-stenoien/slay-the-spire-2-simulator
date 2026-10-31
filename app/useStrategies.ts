@@ -6,6 +6,7 @@ import {
   DEFAULT_STRATEGIES,
   addUserStrategy,
   browserStorage,
+  clearUserStrategies,
   deleteUserStrategy,
   fullLibrary,
   loadUserStrategies,
@@ -60,5 +61,10 @@ export function useStrategies() {
       if (blockStrategyProblem(library, n, id) === null) commit(setAllowThrough(user, id, n));
     },
     remove: (id: string) => commit(deleteUserStrategy(user, id)),
+    clearAll: () => {
+      clearUserStrategies(storage);
+      setUser([]);
+      setSelection((sel) => pruneSelection(sel, DEFAULT_STRATEGIES.map((s) => s.id)));
+    },
   };
 }

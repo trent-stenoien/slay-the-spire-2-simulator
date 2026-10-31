@@ -13,6 +13,7 @@ interface Props {
   onRename: (id: string, name: string) => void;
   onAllowThrough: (id: string, allowThrough: number) => void;
   onDelete: (id: string) => void;
+  onClearAll: () => void;
 }
 
 /** Saved-strategy library with per-run selection and colors. */
@@ -26,6 +27,17 @@ export function StrategyPanel(props: Props) {
         <span className="muted">
           {selection.length}/{MAX_STRATEGIES_PER_RUN} selected
         </span>
+        {library.some((s) => !isBuiltIn(s.id)) && (
+          <button
+            type="button"
+            className="btn-link danger"
+            onClick={() => {
+              if (globalThis.confirm?.('Delete all custom strategies?') ?? true) props.onClearAll();
+            }}
+          >
+            Clear custom strategies
+          </button>
+        )}
       </div>
       {!storageOk && <p className="note">Browser storage is unavailable; custom strategies last only until you close the page.</p>}
       <ul className="strat-list">
@@ -86,17 +98,25 @@ function StrategyRow({
       )}
       {!builtIn && (
         <div className="strat-actions">
-          <button type="button" className="btn-link" onClick={() => setEditing((v) => !v)}>
-            {editing ? 'Done' : 'Edit'}
+          <button
+            type="button"
+            className="icon-btn"
+            aria-label={editing ? `Done editing ${s.name}` : `Edit ${s.name}`}
+            title={editing ? `Done editing ${s.name}` : `Edit ${s.name}`}
+            onClick={() => setEditing((v) => !v)}
+          >
+            {editing ? <CheckIcon /> : <PencilIcon />}
           </button>
           <button
             type="button"
-            className="btn-link danger"
+            className="icon-btn danger"
+            aria-label={`Delete ${s.name}`}
+            title={`Delete ${s.name}`}
             onClick={() => {
               if (globalThis.confirm?.(`Delete "${s.name}"?`) ?? true) onDelete(s.id);
             }}
           >
-            Delete
+            <XIcon />
           </button>
         </div>
       )}
@@ -112,6 +132,30 @@ function StrategyRow({
     </li>
   );
 }
+
+function Icon({ children }: { children: React.ReactNode }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+      {children}
+    </svg>
+  );
+}
+const PencilIcon = () => (
+  <Icon>
+    <path d="M12 20h9" />
+    <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" />
+  </Icon>
+);
+const CheckIcon = () => (
+  <Icon>
+    <path d="M20 6 9 17l-5-5" />
+  </Icon>
+);
+const XIcon = () => (
+  <Icon>
+    <path d="M18 6 6 18M6 6l12 12" />
+  </Icon>
+);
 
 function AllowInput({ library, id, value, onCommit }: { library: SavedStrategy[]; id: string; value: number; onCommit: (n: number) => void }) {
   const [text, setText] = useState(String(value));
