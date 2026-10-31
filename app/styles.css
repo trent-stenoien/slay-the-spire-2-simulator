@@ -727,9 +727,6 @@ svg.chart {
   stroke-width: 3px;
   stroke-linejoin: round;
 }
-.chart .pband {
-  fill-opacity: 0.13;
-}
 .bandwidth {
   display: flex;
   flex-wrap: wrap;
@@ -768,6 +765,47 @@ svg.chart {
   left: calc(var(--thumb) / 2 + var(--f) * (100% - var(--thumb)));
   transform: translateX(-50%);
   line-height: 1.2;
+}
+/* Reset: no color change on click/visit, and the plain arrow cursor (even when disabled). */
+.btn-link.bandwidth-reset,
+.btn-link.bandwidth-reset:hover,
+.btn-link.bandwidth-reset:active,
+.btn-link.bandwidth-reset:focus,
+.btn-link.bandwidth-reset:visited,
+.btn-link.bandwidth-reset:disabled {
+  color: var(--accent);
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+}
+.info-pop {
+  position: relative;
+  display: inline-flex;
+}
+.info-pop .icon-btn {
+  min-width: 22px;
+  min-height: 22px;
+  color: var(--muted);
+}
+.info-pop-card {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 6px);
+  left: 0;
+  width: max-content;
+  max-width: min(280px, 80vw);
+  padding: 8px 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.18);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+.info-pop-card p {
+  margin: 0 0 6px;
+}
+.info-pop-card a {
+  white-space: nowrap;
 }
 .bandwidth output {
   min-width: 4.5ch;

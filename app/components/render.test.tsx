@@ -15,6 +15,7 @@ import { startingDeckFor } from '../lib/deck';
 import { DeckBuilder } from './DeckBuilder';
 import { CombatLog } from './CombatLog';
 import { DistributionChart } from './DistributionChart';
+import { InfoPopover } from './InfoPopover';
 import { ResultsPanel } from './ResultsPanel';
 import { ResultsView } from './ResultsView';
 import { SetupPanel } from './SetupPanel';
@@ -190,7 +191,7 @@ describe('views render', () => {
   it('puts the legend above the chart, as toggle buttons, with the KDE smoothing slider', () => {
     const html = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
     expect(html.indexOf('class="legend"')).toBeGreaterThan(-1);
-    expect(html.indexOf('class="legend"')).toBeLessThan(html.indexOf('<svg'));
+    expect(html.indexOf('class="legend"')).toBeLessThan(html.indexOf('<svg class="chart"'));
     expect(html.match(/<button type="button" class="legend-item" aria-pressed="true"/g)).toHaveLength(2);
     expect(html).toContain('type="range"');
     expect(html).toContain('min="0.25"');
@@ -198,12 +199,16 @@ describe('views render', () => {
     expect(html).toContain('value="3"');
     expect(html).toContain('×3.00');
     // Reset is disabled at the ×3 default.
-    expect(html).toMatch(/<button type="button" class="btn-link small" disabled="">Reset<\/button>/);
+    expect(html).toMatch(/<button type="button" class="btn-link bandwidth-reset small" disabled="">Reset<\/button>/);
   });
 
   it('aligns the legend with the plot area and renders names for bold-on-hover', () => {
     const html = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
-    expect(html).toContain('class="legend" aria-label="Strategies (click to show or hide)" style="padding-left:8.125%"');
+    // Picker, smoothing row and legend sit in one block inset to the Y axis.
+    expect(html).toContain('class="chart-controls" style="padding-left:8.125%"');
+    expect(html.indexOf('class="chart-controls"')).toBeLessThan(html.indexOf('class="segmented"'));
+    expect(html.indexOf('class="legend"')).toBeLessThan(html.indexOf('</div><svg class="chart"'));
+    expect(html).toContain('class="legend" aria-label="Strategies (click to show or hide)"');
     expect(html).toContain('<span class="legend-name" data-text="Scared Block">Scared Block</span>');
   });
 
@@ -215,6 +220,7 @@ describe('views render', () => {
     expect(html).toContain('--mark-color:#8a5cd6');
     expect(html).toContain('--mark-color:#2f6fdf');
     expect(html).toMatch(/class="pband"[^>]*fill="#8a5cd6"[^>]*clip-path="url\(#[^)]*-above-1\)"/);
+    expect(html.match(/class="pband"[^>]*fill-opacity="0.075"/g)).toHaveLength(2);
   });
 
   it('draws no percentile marks while three strategies are visible', () => {
@@ -234,12 +240,27 @@ describe('views render', () => {
     for (const label of ['P5 = 2', 'P25 = 3', 'P50 = 3', 'P75 = 4', 'P95 = 4']) expect(html).toContain(`>${label}</text>`);
   });
 
-  it('labels the smoothing slider at ×1, ×2, ×3 and ×4', () => {
+  it('labels the smoothing slider at its min (×0.25), ×1-×4 and its max (×5)', () => {
     const html = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
-    for (const l of ['×1', '×2', '×3', '×4']) expect(html).toMatch(new RegExp(`class="bandwidth-tick" style="--f:[0-9.]+">${l}</span>`));
-    expect(html.match(/class="bandwidth-tick"/g)).toHaveLength(4);
-    expect(html).toMatch(/<option value="1" label="×1">/);
-    expect(html).toMatch(/<option value="4" label="×4">/);
+    for (const l of ['×0.25', '×1', '×2', '×3', '×4', '×5']) expect(html).toMatch(new RegExp(`class="bandwidth-tick" style="--f:[0-9.]+">${l}</span>`));
+    expect(html.match(/class="bandwidth-tick"/g)).toHaveLength(6);
+    expect(html).toMatch(/<option value="0.25" label="×0.25">/);
+    expect(html).toMatch(/<option value="5" label="×5">/);
+  });
+
+  it('has a closed info button next to Smoothing', () => {
+    const html = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
+    expect(html).toMatch(/Smoothing<\/label><span class="info-pop"><button[^>]*aria-label="About smoothing"[^>]*aria-expanded="false"/);
+    expect(html).not.toContain('info-pop-card');
+  });
+
+  it('renders the open info popover with the explanation and a safe new-tab KDE link', () => {
+    const html = renderToStaticMarkup(<InfoPopover defaultOpen />);
+    expect(html).toContain('aria-expanded="true"');
+    expect(html).toContain('role="dialog"');
+    expect(html).toContain('left shows more detail');
+    expect(html).toContain('smooths the curve more');
+    expect(html).toContain('href="https://en.wikipedia.org/wiki/Kernel_density_estimation" target="_blank" rel="noopener noreferrer"');
   });
 
   it('lists strategies by avg HP lost, lowest first, in table, legend and chart, keeping colors', () => {
