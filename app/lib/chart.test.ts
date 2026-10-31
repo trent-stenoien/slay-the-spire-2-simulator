@@ -174,7 +174,7 @@ describe('hpLostPercentile (nearest rank on the histogram)', () => {
 
 const row = (strategyId: string, hpLostCounts: number[]) => ({
   strategyId,
-  summary: { strategyId, combats: 1, avgHpLost: 0, avgTurnsToKill: null, avgTurns: 1, deathRate: 0, turnCapRate: 0, hpLostCounts },
+  summary: { strategyId, combats: 1, avgHpLost: 0, avgTurnsToKill: null, avgTurns: 1, deathRate: 0, turnCapRate: 0, hpLostCounts, firstCombatByHpLost: {} },
 });
 /** A histogram with `n` combats at each given HP value. */
 const hist = (entries: Record<number, number>) => {

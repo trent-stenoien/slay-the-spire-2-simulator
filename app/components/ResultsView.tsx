@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState, type CSSProperties } from 'react';
 import { deriveSeed } from '../../engine/rng';
 import type { GameData, RunResult } from '../../engine/types';
 import { COLOR_HEX } from '../lib/colors';
-import { describeRun, fmtHpLostRange, fmtNumber, fmtRate, sortedResultRows } from '../lib/results';
+import { describeRun, fmtHpLostRange, fmtNumber, fmtRate, sortedResultRows, type ResultRow } from '../lib/results';
 import { DistributionChart } from './DistributionChart';
 import { logHref } from '../lib/links';
-import { combatRangeLabel, effectiveStrategyId, fromDisplayCombat, toDisplayCombat } from '../lib/combatPicker';
+import { checkedVisibleIds, combatRangeLabel, fromDisplayCombat, percentileLinkTarget, pickerButton, toDisplayCombat } from '../lib/combatPicker';
 
 /** The results body (stats table, chart, combat picker), strategies sorted by avg HP lost. */
 export function ResultsView({ data, result }: { data: GameData; result: RunResult }) {
@@ -44,43 +44,82 @@ export function ResultsView({ data, result }: { data: GameData; result: RunResul
           </tbody>
         </table>
       </div>
-      {rows.length > 0 && <DistributionChart rows={rows} hidden={hidden} onHiddenChange={setHidden} />}
+      {rows.length > 0 && (
+        <DistributionChart
+          rows={rows}
+          hidden={hidden}
+          onHiddenChange={setHidden}
+          percentileHref={(markedIds, strategyId, hpLost) => {
+            const row = rows.find((r) => r.strategyId === strategyId);
+            const t = row ? percentileLinkTarget(markedIds, strategyId, hpLost, row.summary.firstCombatByHpLost) : null;
+            return t ? combatHref(data, result, rows, t.strategyIds, t.combatIndex) : undefined;
+          }}
+        />
+      )}
       {rows.length > 0 && <ViewCombat data={data} result={result} combats={combats} hidden={hidden} />}
     </div>
   );
 }
 
-function ViewCombat({ data, result, combats, hidden }: { data: GameData; result: RunResult; combats: number; hidden: ReadonlySet<string> }) {
+/**
+ * "View a combat": a checkbox per strategy shown on the chart (in its color) and one shared
+ * combat number. One checked strategy opens its combat log; 2+ open the compare view.
+ */
+export function ViewCombat({
+  data,
+  result,
+  combats,
+  hidden,
+  initialChecked,
+}: {
+  data: GameData;
+  result: RunResult;
+  combats: number;
+  hidden: ReadonlySet<string>;
+  /** Strategy ids checked at first (default: the first row). */
+  initialChecked?: readonly string[];
+}) {
   const rows = sortedResultRows(result);
   const [idx, setIdx] = useState(0); // 0-based internally; the field shows idx + 1
   const [text, setText] = useState(String(toDisplayCombat(0)));
-  const [strategyId, setStrategyId] = useState(rows[0]?.strategyId ?? '');
-  // Only strategies shown on the chart can be picked; a newly hidden selection moves to the first visible one.
-  const effectiveId = effectiveStrategyId(rows.map((r) => r.strategyId), hidden, strategyId);
-  useEffect(() => {
-    if (effectiveId !== null && effectiveId !== strategyId) setStrategyId(effectiveId);
-  }, [effectiveId, strategyId]);
-  const visibleRows = rows.filter((r) => !hidden.has(r.strategyId));
-  const row = rows.find((r) => r.strategyId === effectiveId);
+  const [checked, setChecked] = useState<ReadonlySet<string>>(() => new Set(initialChecked ?? rows.slice(0, 1).map((r) => r.strategyId)));
   if (rows.length === 0) return null;
+  // Strategies hidden on the chart are not listed, and never count as checked.
+  const visibleRows = rows.filter((r) => !hidden.has(r.strategyId));
+  const ids = checkedVisibleIds(
+    rows.map((r) => r.strategyId),
+    hidden,
+    checked,
+  );
+  const button = pickerButton(ids.length);
   const seed = deriveSeed(result.config.runSeed, idx);
-  const href = row ? logHref(data, result.config, seed, result.config.strategies[row.strategyIndex]!.strategy.config, idx) : undefined;
-  const disabled = !row;
+  const href = button.disabled ? undefined : combatHref(data, result, rows, ids, idx);
+  const toggle = (id: string) =>
+    setChecked((c) => {
+      const next = new Set(c);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
 
   return (
     <div className="view-combat">
       <h3>View a combat</h3>
       <div className="field-row">
-        <label className="field">
-          <span>Strategy</span>
-          <select value={row?.strategyId ?? ''} disabled={disabled} onChange={(e) => setStrategyId(e.target.value)}>
-            {visibleRows.map((r) => (
-              <option key={r.strategyId} value={r.strategyId}>
+        <fieldset className="field strategy-checks">
+          <legend>Strategies</legend>
+          {visibleRows.length === 0 ? (
+            <span className="muted small">None shown on the chart.</span>
+          ) : (
+            visibleRows.map((r) => (
+              <label key={r.strategyId} className="strategy-check" style={{ '--strategy-color': COLOR_HEX[r.color] } as CSSProperties}>
+                <input type="checkbox" checked={checked.has(r.strategyId)} onChange={() => toggle(r.strategyId)} />
+                <span className="legend-swatch" style={{ background: COLOR_HEX[r.color] }} aria-hidden />
                 {r.name}
-              </option>
-            ))}
-          </select>
-        </label>
+              </label>
+            ))
+          )}
+        </fieldset>
         <label className="field field-narrow">
           <span>{combatRangeLabel(combats)}</span>
           <input
@@ -89,7 +128,7 @@ function ViewCombat({ data, result, combats, hidden }: { data: GameData; result:
             min={1}
             max={Math.max(1, combats)}
             value={text}
-            disabled={disabled}
+            disabled={visibleRows.length === 0}
             onChange={(e) => {
               setText(e.target.value);
               const n = fromDisplayCombat(e.target.value, combats);
@@ -97,21 +136,35 @@ function ViewCombat({ data, result, combats, hidden }: { data: GameData; result:
             }}
           />
         </label>
-        {disabled ? (
+        {button.disabled ? (
           <span className="btn" aria-disabled="true" role="link" style={{ opacity: 0.5, pointerEvents: 'none' }}>
-            Open combat log
+            {button.label}
           </span>
         ) : (
           <a className="btn" href={href} target="_blank" rel="noopener">
-            Open combat log
+            {button.label}
           </a>
         )}
       </div>
       <p className="muted small">
-        {disabled
+        {visibleRows.length === 0
           ? 'Show at least one strategy on the chart to view its combats.'
-          : `Combat ${toDisplayCombat(idx)} uses seed ${seed}; every strategy faces the same combat for a given number.`}
+          : button.disabled
+            ? 'Check at least one strategy to view its combat.'
+            : `Combat ${toDisplayCombat(idx)} uses seed ${seed}; every strategy faces the same combat for a given number.`}
       </p>
     </div>
   );
+}
+
+/** Link to combat `idx` for the given strategy ids (in order): its combat log, or the compare view for 2+. */
+export function combatHref(data: GameData, result: RunResult, rows: readonly ResultRow[], ids: readonly string[], idx: number): string {
+  const picked = ids.flatMap((id) => rows.filter((r) => r.strategyId === id));
+  const seed = deriveSeed(result.config.runSeed, idx);
+  return logHref(data, result.config, {
+    seed,
+    strategies: picked.map((r) => result.config.strategies[r.strategyIndex]!.strategy.config),
+    ...(picked.length > 1 ? { colors: picked.map((r) => r.color) } : {}),
+    combatIndex: idx,
+  });
 }

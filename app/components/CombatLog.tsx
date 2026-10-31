@@ -1,15 +1,15 @@
-import { useEffect, useMemo, useState } from 'react';
-import { computeIntent, runCombat } from '../../engine/combat';
-import { resolveEnemy } from '../../engine/enemy';
+import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react';
 import { strategyCode } from '../../engine/strategies';
-import type { Effect, EnemyIntent, GameData, GameEvent } from '../../engine/types';
-import { describeConfig } from '../lib/strategyLibrary';
-import { ascensionLabel, buildReplay, describeEvent, enemyIntentLabel, intendedMoveId, type SideSnapshot } from '../lib/logReplay';
+import type { GameData, GameEvent, StrategyColor, StrategyConfig } from '../../engine/types';
+import { browserStorage, defaultName, describeConfig, fullLibrary, loadUserStrategies } from '../lib/strategyLibrary';
+import { ascensionLabel, buildReplay, describeEvent, enemyIntentLabel, type SideSnapshot } from '../lib/logReplay';
 import { setupHref } from '../lib/links';
 import type { LogTarget, SetupState } from '../lib/url';
 import { Panel } from './Panel';
 import { deckSize } from '../lib/deck';
 import { toDisplayCombat } from '../lib/combatPicker';
+import { clampTurn, columnTurn, outcomeLabel, replayCombat, sharedTurnCount, type ReplayedCombat, type TurnIntent } from '../lib/compare';
+import { COLOR_HEX, COLORS } from '../lib/colors';
 
 interface Props {
   data: GameData;
@@ -17,52 +17,30 @@ interface Props {
   target: LogTarget;
 }
 
-/** Replays one combat from a seed + strategy and steps through it turn by turn. */
-export function CombatLog({ data, setup, target }: Props) {
-  const outcome = useMemo(() => {
-    try {
-      const r = runCombat(
-        data,
-        { characterId: setup.characterId, deck: setup.deck, enemyId: setup.enemyId, ascension: setup.ascension, strategy: target.strategy, seed: target.seed },
-        { log: true },
-      );
-      const replay = buildReplay(r.log ?? []);
-      const base = data.enemies[setup.enemyId];
-      const resolved = base ? resolveEnemy(base, setup.ascension) : null;
-      // Intent as the player saw it at the start of each turn.
-      const intents = replay.rounds.map((round, i): { intent: EnemyIntent; effects: Effect[] } | null => {
-        if (!resolved) return null;
-        const id = intendedMoveId(replay.rounds, i, resolved.pattern.order, resolved.pattern.start);
-        const move = id ? resolved.moves[id] : undefined;
-        return id && move ? { intent: computeIntent(id, move, round.start.enemy, round.start.player), effects: move.effects } : null;
-      });
-      return { ok: true as const, replay, intents, result: r };
-    } catch (err) {
-      return { ok: false as const, error: err instanceof Error ? err.message : String(err) };
-    }
-  }, [data, setup, target]);
-
-  const [turnIdx, setTurnIdx] = useState(0);
-  const roundCount = outcome.ok ? outcome.replay.rounds.length : 0;
-
+/** Left/Right arrow keys step the turn (ignored while typing in a field). */
+function useTurnKeys(count: number, setTurnIdx: (f: (i: number) => number) => void) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement) return;
-      if (e.key === 'ArrowRight') setTurnIdx((i) => Math.min(roundCount - 1, i + 1));
-      if (e.key === 'ArrowLeft') setTurnIdx((i) => Math.max(0, i - 1));
+      if (e.key === 'ArrowRight') setTurnIdx((i) => clampTurn(i + 1, count));
+      if (e.key === 'ArrowLeft') setTurnIdx((i) => clampTurn(i - 1, count));
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [roundCount]);
+  }, [count, setTurnIdx]);
+}
 
+/** The log page for a link: the single combat log, or the compare view for 2+ strategies. */
+export function CombatLog({ data, setup, target }: Props) {
+  return target.strategies.length > 1 ? <CompareLog data={data} setup={setup} target={target} /> : <SingleLog data={data} setup={setup} target={target} />;
+}
+
+function LogHeader({ data, setup, target, children }: Props & { children: ReactNode }) {
   const enemy = data.enemies[setup.enemyId];
-  const name = (id: string) => data.cards[id]?.name ?? id;
-  const back = setupHref(data, setup);
-
   return (
-    <Panel id="log" title="Combat Log">
+    <>
       <div className="panel-actions">
-        <a className="btn-link" href={back}>
+        <a className="btn-link" href={setupHref(data, setup)}>
           Back to setup
         </a>
       </div>
@@ -72,28 +50,39 @@ export function CombatLog({ data, setup, target }: Props) {
         </p>
       )}
       <p className="muted small">
-        {enemy?.name ?? setup.enemyId}, {ascensionLabel(setup.ascension)}, {deckSize(setup.deck)}-card deck. Strategy: {describeConfig(target.strategy)} (
-        <code>{strategyCode(target.strategy)}</code>). Seed {target.seed}.
+        {enemy?.name ?? setup.enemyId}, {ascensionLabel(setup.ascension)}, {deckSize(setup.deck)}-card deck. {children}Seed {target.seed}.
       </p>
+    </>
+  );
+}
+
+/** Replays one combat from a seed + strategy and steps through it turn by turn. */
+function SingleLog({ data, setup, target }: Props) {
+  const strategy = target.strategies[0]!;
+  const outcome = useMemo(() => replayCombat(data, setup, strategy, target.seed), [data, setup, strategy, target.seed]);
+  const [turnIdx, setTurnIdx] = useState(0);
+  const roundCount = outcome.ok ? outcome.replay.rounds.length : 0;
+  useTurnKeys(roundCount, setTurnIdx);
+  const name = (id: string) => data.cards[id]?.name ?? id;
+  const idx = clampTurn(turnIdx, roundCount);
+
+  return (
+    <Panel id="log" title="Combat Log">
+      <LogHeader data={data} setup={setup} target={target}>
+        Strategy: {describeConfig(strategy)} (<code>{strategyCode(strategy)}</code>).{' '}
+      </LogHeader>
       {!outcome.ok ? (
         <p className="warn">Could not replay this combat: {outcome.error}</p>
       ) : (
         <>
           <p className={`outcome outcome-${outcome.result.outcome}`}>
-            {outcome.result.outcome === 'win' ? 'Won' : outcome.result.outcome === 'loss' ? 'Died' : 'Hit the turn cap'} on turn {outcome.result.turns}, losing{' '}
-            {outcome.result.hpLost} HP.
+            {outcomeLabel(outcome.result.outcome)} on turn {outcome.result.turns}, losing {outcome.result.hpLost} HP.
           </p>
           {roundCount > 0 && (
-            <Round
-              idx={Math.min(turnIdx, roundCount - 1)}
-              count={roundCount}
-              round={outcome.replay.rounds[Math.min(turnIdx, roundCount - 1)]!}
-              intent={outcome.intents[Math.min(turnIdx, roundCount - 1)] ?? null}
-              characterId={setup.characterId}
-              name={name}
-              onStep={(d) => setTurnIdx((i) => Math.max(0, Math.min(roundCount - 1, i + d)))}
-              onJump={setTurnIdx}
-            />
+            <div className="round">
+              <TurnNav idx={idx} count={roundCount} onStep={(d) => setTurnIdx((i) => clampTurn(i + d, roundCount))} onJump={setTurnIdx} />
+              <RoundBody round={outcome.replay.rounds[idx]!} intent={outcome.intents[idx] ?? null} characterId={setup.characterId} name={name} />
+            </div>
           )}
         </>
       )}
@@ -101,49 +90,131 @@ export function CombatLog({ data, setup, target }: Props) {
   );
 }
 
-function Round({
+/** Saved name for a strategy config (from this browser's library), or its default name. */
+function strategyName(config: StrategyConfig): string {
+  const code = strategyCode(config);
+  const saved = fullLibrary(loadUserStrategies(browserStorage())).find((s) => strategyCode(s.config) === code);
+  return saved?.name ?? (config.kind === 'block' ? defaultName(config.allowThrough) : describeConfig(config));
+}
+
+interface Column {
+  config: StrategyConfig;
+  name: string;
+  color: StrategyColor;
+  combat: ReplayedCombat;
+}
+
+/** Several strategies on the same combat, side by side, all showing the same turn. */
+function CompareLog({ data, setup, target }: Props) {
+  const columns = useMemo(
+    (): Column[] =>
+      target.strategies.map((config, i) => ({
+        config,
+        name: strategyName(config),
+        color: target.colors?.[i] ?? COLORS[i % COLORS.length]!,
+        combat: replayCombat(data, setup, config, target.seed),
+      })),
+    [data, setup, target],
+  );
+  const count = sharedTurnCount(columns.map((c) => (c.combat.ok ? c.combat.replay.rounds.length : 0)));
+  const [turnIdx, setTurnIdx] = useState(0);
+  useTurnKeys(count, setTurnIdx);
+  const idx = clampTurn(turnIdx, count);
+  const name = (id: string) => data.cards[id]?.name ?? id;
+
+  return (
+    <Panel id="log" title="Combat Log">
+      <LogHeader data={data} setup={setup} target={target}>
+        Comparing {columns.length} strategies.{' '}
+      </LogHeader>
+      {count > 0 && <TurnNav idx={idx} count={count} onStep={(d) => setTurnIdx((i) => clampTurn(i + d, count))} onJump={setTurnIdx} />}
+      <div className="compare-cols" style={{ '--cols': columns.length } as CSSProperties}>
+        {columns.map((col) => (
+          <section key={strategyCode(col.config)} className="compare-col" style={{ '--strategy-color': COLOR_HEX[col.color] } as CSSProperties} aria-label={col.name}>
+            <header className="compare-head">
+              <h3>
+                <span className="legend-swatch" style={{ background: COLOR_HEX[col.color] }} aria-hidden />
+                {col.name}
+              </h3>
+              {col.combat.ok ? (
+                <p className={`outcome small outcome-${col.combat.result.outcome}`}>
+                  {outcomeLabel(col.combat.result.outcome)} on turn {col.combat.result.turns}, lost {col.combat.result.hpLost} HP
+                </p>
+              ) : (
+                <p className="warn small">Could not replay: {col.combat.error}</p>
+              )}
+            </header>
+            {col.combat.ok && <CompareCell combat={col.combat} idx={idx} characterId={setup.characterId} name={name} />}
+          </section>
+        ))}
+      </div>
+    </Panel>
+  );
+}
+
+function CompareCell({
+  combat,
   idx,
-  count,
+  characterId,
+  name,
+}: {
+  combat: Extract<ReplayedCombat, { ok: true }>;
+  idx: number;
+  characterId: string;
+  name: (id: string) => string;
+}) {
+  const at = columnTurn(combat.replay.rounds.length, idx);
+  if (at.kind === 'ended') {
+    return (
+      <p className={`compare-ended outcome outcome-${combat.result.outcome}`}>
+        Combat ended on turn {at.endTurn}: {outcomeLabel(combat.result.outcome).toLowerCase()}, lost {combat.result.hpLost} HP.
+      </p>
+    );
+  }
+  return <RoundBody round={combat.replay.rounds[at.index]!} intent={combat.intents[at.index] ?? null} characterId={characterId} name={name} />;
+}
+
+function TurnNav({ idx, count, onStep, onJump }: { idx: number; count: number; onStep: (d: number) => void; onJump: (i: number) => void }) {
+  return (
+    <div className="turn-nav">
+      <button type="button" className="btn" onClick={() => onStep(-1)} disabled={idx === 0} aria-label="Previous turn">
+        ← Prev
+      </button>
+      <label className="turn-pick">
+        Turn{' '}
+        <select value={idx} onChange={(e) => onJump(Number(e.target.value))}>
+          {Array.from({ length: count }, (_, i) => (
+            <option key={i} value={i}>
+              {i + 1}
+            </option>
+          ))}
+        </select>{' '}
+        of {count}
+      </label>
+      <button type="button" className="btn" onClick={() => onStep(1)} disabled={idx >= count - 1} aria-label="Next turn">
+        Next →
+      </button>
+    </div>
+  );
+}
+
+/** One turn: both fighters, the intent the player saw, then the Your Turn and Enemy Turn blocks. */
+function RoundBody({
   round,
   intent,
   characterId,
   name,
-  onStep,
-  onJump,
 }: {
-  intent: { intent: EnemyIntent; effects: Effect[] } | null;
+  intent: TurnIntent;
   characterId: string;
-  idx: number;
-  count: number;
   round: ReturnType<typeof buildReplay>['rounds'][number];
   name: (id: string) => string;
-  onStep: (d: number) => void;
-  onJump: (i: number) => void;
 }) {
   const lines = (evs: GameEvent[]) => evs.map((e) => describeEvent(e, name)).filter((s): s is string => s !== null);
   const playerLines = lines(round.playerEvents);
   const enemyLines = lines(round.enemyEvents).filter((l) => !l.startsWith('Enemy uses'));
   return (
-    <div className="round">
-      <div className="turn-nav">
-        <button type="button" className="btn" onClick={() => onStep(-1)} disabled={idx === 0} aria-label="Previous turn">
-          ← Prev
-        </button>
-        <label className="turn-pick">
-          Turn{' '}
-          <select value={idx} onChange={(e) => onJump(Number(e.target.value))}>
-            {Array.from({ length: count }, (_, i) => (
-              <option key={i} value={i}>
-                {i + 1}
-              </option>
-            ))}
-          </select>{' '}
-          of {count}
-        </label>
-        <button type="button" className="btn" onClick={() => onStep(1)} disabled={idx >= count - 1} aria-label="Next turn">
-          Next →
-        </button>
-      </div>
+    <div className="round-body">
       <div className="fighters">
         <Fighter label="You" start={round.start.player} end={round.end.player} />
         <Fighter label="Enemy" start={round.start.enemy} end={round.end.enemy} />

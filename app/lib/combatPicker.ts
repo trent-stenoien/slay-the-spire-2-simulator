@@ -18,11 +18,31 @@ export function combatRangeLabel(combats: number): string {
 }
 
 /**
- * The strategy the picker should have selected: the current one while it is visible on the
- * chart, otherwise the first visible one (in picker order), or null when all are hidden.
+ * The checked strategies that can be opened: those both checked and visible on the chart,
+ * in picker order. Strategies hidden on the chart are not listed in the picker, so they never count.
  */
-export function effectiveStrategyId(orderedIds: readonly string[], hidden: ReadonlySet<string>, selectedId: string): string | null {
-  const visible = orderedIds.filter((id) => !hidden.has(id));
-  if (visible.includes(selectedId)) return selectedId;
-  return visible[0] ?? null;
+export function checkedVisibleIds(orderedIds: readonly string[], hidden: ReadonlySet<string>, checked: ReadonlySet<string>): string[] {
+  return orderedIds.filter((id) => !hidden.has(id) && checked.has(id));
+}
+
+/** The picker button: "Open combat log" for one checked strategy, "Compare" for 2+, disabled for none. */
+export function pickerButton(checkedCount: number): { label: 'Open combat log' | 'Compare'; disabled: boolean } {
+  return { label: checkedCount >= 2 ? 'Compare' : 'Open combat log', disabled: checkedCount === 0 };
+}
+
+/**
+ * Where a percentile label links: the lowest-numbered combat in which the clicked label's strategy
+ * lost exactly `hpLost` HP, opened for every strategy currently showing percentiles (1 = its combat
+ * log, 2 = the compare view), in chart order. Null when that strategy never lost exactly `hpLost`.
+ */
+export function percentileLinkTarget(
+  markedIds: readonly string[],
+  clickedId: string,
+  hpLost: number,
+  firstCombatByHpLost: Readonly<Record<number, number>>,
+): { combatIndex: number; strategyIds: string[] } | null {
+  if (!markedIds.includes(clickedId)) return null;
+  const combatIndex = firstCombatByHpLost[hpLost];
+  if (combatIndex === undefined) return null;
+  return { combatIndex, strategyIds: [...markedIds] };
 }

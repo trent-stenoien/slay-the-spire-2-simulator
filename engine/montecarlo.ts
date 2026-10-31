@@ -48,6 +48,9 @@ export function runCombatRange(
  * - deathRate, turnCapRate: FRACTIONS in [0, 1] (not percentages).
  * - hpLostCounts[n]: combats that lost exactly n HP; length = max hpLost + 1
  *   (at least 1, so an empty run gives [0]).
+ * - firstCombatByHpLost[n]: the position in `results` of the first combat that lost
+ *   exactly n HP. `results` must be in combat-index order starting at combat 0 (as
+ *   runCombatRange(…, 0, n) and mergeChunkResults produce), so this is the lowest combat index.
  * An empty result list gives zeros everywhere (no NaN).
  */
 export function summarize(strategyId: string, results: readonly CombatResult[]): StrategySummary {
@@ -73,7 +76,11 @@ export function summarize(strategyId: string, results: readonly CombatResult[]):
     }
   }
   const hpLostCounts = new Array<number>(maxHp + 1).fill(0);
-  for (const r of results) hpLostCounts[r.hpLost] = (hpLostCounts[r.hpLost] ?? 0) + 1;
+  const firstCombatByHpLost: Record<number, number> = {};
+  results.forEach((r, i) => {
+    hpLostCounts[r.hpLost] = (hpLostCounts[r.hpLost] ?? 0) + 1;
+    if (!(r.hpLost in firstCombatByHpLost)) firstCombatByHpLost[r.hpLost] = i;
+  });
   return {
     strategyId,
     combats: n,
@@ -83,6 +90,7 @@ export function summarize(strategyId: string, results: readonly CombatResult[]):
     deathRate: n > 0 ? losses / n : 0,
     turnCapRate: n > 0 ? caps / n : 0,
     hpLostCounts,
+    firstCombatByHpLost,
   };
 }
 

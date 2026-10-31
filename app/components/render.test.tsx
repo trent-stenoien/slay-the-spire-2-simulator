@@ -17,7 +17,7 @@ import { CombatLog } from './CombatLog';
 import { DistributionChart } from './DistributionChart';
 import { InfoPopover } from './InfoPopover';
 import { ResultsPanel } from './ResultsPanel';
-import { ResultsView } from './ResultsView';
+import { ResultsView, ViewCombat } from './ResultsView';
 import { SetupPanel } from './SetupPanel';
 import { StrategyPanel } from './StrategyPanel';
 import { DEFAULT_STRATEGIES } from '../lib/strategyLibrary';
@@ -52,8 +52,8 @@ const result: RunResult = {
     ],
   },
   summaries: [
-    { strategyId: 'g', combats: 10, avgHpLost: 8.4, avgTurnsToKill: 6.1, avgTurns: 6.4, deathRate: 0.1, turnCapRate: 0, hpLostCounts: [0, 0, 2, 3, 5] },
-    { strategyId: 's', combats: 10, avgHpLost: 3.2, avgTurnsToKill: null, avgTurns: 9.5, deathRate: 0, turnCapRate: 0.2, hpLostCounts: [4, 4, 2] },
+    { strategyId: 'g', combats: 10, avgHpLost: 8.4, avgTurnsToKill: 6.1, avgTurns: 6.4, deathRate: 0.1, turnCapRate: 0, hpLostCounts: [0, 0, 2, 3, 5], firstCombatByHpLost: { 2: 4, 3: 0, 4: 1 } },
+    { strategyId: 's', combats: 10, avgHpLost: 3.2, avgTurnsToKill: null, avgTurns: 9.5, deathRate: 0, turnCapRate: 0.2, hpLostCounts: [4, 4, 2], firstCombatByHpLost: { 0: 1, 1: 0, 2: 7 } },
   ],
 };
 
@@ -303,7 +303,7 @@ describe('views render', () => {
 
   it('renders a combat log with intent', () => {
     const html = renderToStaticMarkup(
-      <CombatLog data={gameData} setup={defaultSetup(gameData)} target={{ seed: 123456, strategy: { kind: 'block', allowThrough: 4 } }} />,
+      <CombatLog data={gameData} setup={defaultSetup(gameData)} target={{ seed: 123456, strategies: [{ kind: 'block', allowThrough: 4 }] }} />,
     );
     expect(html).toContain('Turn');
     expect(html).toContain('Enemy Intent: Butt (12 damage)');
@@ -321,7 +321,7 @@ describe('views render', () => {
 
   it('shows the 1-based combat number on the log page when the link carries it', () => {
     const html = renderToStaticMarkup(
-      <CombatLog data={gameData} setup={defaultSetup(gameData)} target={{ seed: 123456, strategy: { kind: 'block', allowThrough: 4 }, combatIndex: 0 }} />,
+      <CombatLog data={gameData} setup={defaultSetup(gameData)} target={{ seed: 123456, strategies: [{ kind: 'block', allowThrough: 4 }], combatIndex: 0 }} />,
     );
     expect(html).toContain('Combat #1');
   });
@@ -332,6 +332,67 @@ describe('views render', () => {
     expect(html).toContain(`Combat # (1-${combats})`);
     expect(html).not.toContain('(0–');
     expect(html).toMatch(/href="[^"]*&amp;n=0"/);
+  });
+
+  it('lists a checkbox per visible strategy; one checked opens the combat log', () => {
+    const html = renderToStaticMarkup(<ViewCombat data={gameData} result={result} combats={10} hidden={new Set()} />);
+    expect(html.match(/type="checkbox"/g)).toHaveLength(2);
+    expect(html).not.toContain('<select');
+    expect(html).toContain('>Open combat log</a>');
+    expect(html).toMatch(/href="[^"]*&amp;st=b0&amp;n=0"/); // sorted first: Scared Block, no k for one strategy
+    const hidden = renderToStaticMarkup(<ViewCombat data={gameData} result={result} combats={10} hidden={new Set(['g'])} />);
+    expect(hidden.match(/type="checkbox"/g)).toHaveLength(1);
+    expect(hidden).not.toContain('Greedy Damage');
+  });
+
+  it('reads Compare with 2+ checked and links every checked strategy with its color', () => {
+    const html = renderToStaticMarkup(<ViewCombat data={gameData} result={result} combats={10} hidden={new Set()} initialChecked={['g', 's']} />);
+    expect(html).toContain('>Compare</a>');
+    expect(html).toMatch(/href="[^"]*&amp;st=b0,g&amp;k=p,b&amp;n=0"/);
+  });
+
+  it('disables the button with nothing checked (or every checked strategy hidden)', () => {
+    for (const html of [
+      renderToStaticMarkup(<ViewCombat data={gameData} result={result} combats={10} hidden={new Set()} initialChecked={[]} />),
+      renderToStaticMarkup(<ViewCombat data={gameData} result={result} combats={10} hidden={new Set(['g'])} initialChecked={['g']} />),
+    ]) {
+      expect(html).toContain('aria-disabled="true"');
+      expect(html).not.toContain('</a>');
+    }
+  });
+
+  it('renders the compare view: one column per strategy on the same turn, with name, color and outcome', () => {
+    const html = renderToStaticMarkup(
+      <CombatLog
+        data={gameData}
+        setup={defaultSetup(gameData)}
+        target={{ seed: 123456, strategies: [{ kind: 'greedyDamage' }, { kind: 'block', allowThrough: 0 }, { kind: 'block', allowThrough: 5 }], colors: ['blue', 'red', 'green'], combatIndex: 4 }}
+      />,
+    );
+    expect(html).toContain('Combat #5');
+    expect(html.match(/class="compare-col"/g)).toHaveLength(3);
+    expect(html.match(/class="turn-nav"/g)).toHaveLength(1);
+    expect(html.match(/<h4>Your Turn<\/h4>/g)).toHaveLength(3);
+    expect(html.match(/Enemy Intent: /g)).toHaveLength(3);
+    expect(html).toContain('Greedy Damage');
+    expect(html).toContain('Scared Block');
+    expect(html).toContain('#2f6fdf');
+    expect(html).toContain('#d6453d');
+    expect(html.match(/(Won|Died|Hit the turn cap) on turn \d+, lost \d+ HP/g)).toHaveLength(3);
+  });
+
+  it('links percentile labels to the first combat with that HP lost', () => {
+    // One strategy shown: Greedy's labels carry only its own id (P75 = 4).
+    const one = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} hidden={new Set(['s'])} percentileHref={(ids, id, hp) => `#${ids.join('+')}/${id}/${hp}`} />);
+    expect(one.match(/class="pmark-link"/g)).toHaveLength(5);
+    expect(one).toContain('href="#g/g/4"');
+    expect(one).toContain('href="#g/g/3"');
+    // ResultsView builds the real links: two strategies shown, so each label opens the compare view.
+    const html = renderToStaticMarkup(<ResultsView data={gameData} result={result} />);
+    expect(html.match(/class="pmark-link"/g)).toHaveLength(10);
+    // Greedy P75 = 4 -> first combat index 1; Greedy P50 = 3 and Scared P50 = 1 -> index 0. Both strategies, in chart order.
+    expect(html).toMatch(/class="pmark-link" href="[^"]*&amp;st=b0,g&amp;k=p,b&amp;n=1"/);
+    expect(html).toMatch(/class="pmark-link" href="[^"]*&amp;st=b0,g&amp;k=p,b&amp;n=0"/);
   });
 
   it('marks characters with unsimulated starters as work in progress', () => {

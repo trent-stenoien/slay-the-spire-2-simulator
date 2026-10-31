@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { gameData } from '../../data';
-import { buildQuery, decodeDeck, defaultSetup, encodeDeck, parseQuery, splitQuery } from './url';
+import { buildQuery, decodeDeck, defaultSetup, encodeDeck, parseQuery, splitQuery, type LogTarget } from './url';
 
 const data = gameData;
 const starter = data.characters.ironclad!.startingDeck;
@@ -73,14 +73,14 @@ describe('query strings', () => {
   });
 
   it('builds the documented combat-log URL', () => {
-    expect(buildQuery(data, setup, { seed: 123456, strategy: { kind: 'block', allowThrough: 4 } })).toBe(
+    expect(buildQuery(data, setup, { seed: 123456, strategies: [{ kind: 'block', allowThrough: 4 }] })).toBe(
       'v=1&c=I&e=Nb&a=0&d=St5De4Ba1&s=123456&st=b4',
     );
   });
 
   it('round-trips setup and log target', () => {
     const s = { ...setup, ascension: 9, deck: [{ cardId: 'bash', upgraded: true, count: 2 }] };
-    const log = { seed: 4294967295, strategy: { kind: 'greedyDamage' as const } };
+    const log = { seed: 4294967295, strategies: [{ kind: 'greedyDamage' as const }] };
     const parsed = parseQuery(data, `?${buildQuery(data, s, log)}`);
     expect(parsed).toEqual({ setup: s, log, errors: [] });
   });
@@ -152,21 +152,81 @@ describe('query strings', () => {
 });
 
 describe('combat number (n) in log links', () => {
-  const strategy = { kind: 'greedyDamage' as const };
+  const strategies = [{ kind: 'greedyDamage' as const }];
   it('is appended last and round-trips as the 0-based index', () => {
-    const q = buildQuery(data, defaultSetup(data), { seed: 7, strategy, combatIndex: 41 });
+    const q = buildQuery(data, defaultSetup(data), { seed: 7, strategies, combatIndex: 41 });
     expect(q.endsWith('&n=41')).toBe(true);
     expect(parseQuery(data, q).log).toMatchObject({ seed: 7, combatIndex: 41 });
   });
   it('is absent from links that do not carry it, and the seed link is unchanged', () => {
-    const q = buildQuery(data, defaultSetup(data), { seed: 7, strategy });
+    const q = buildQuery(data, defaultSetup(data), { seed: 7, strategies });
     expect(q).not.toContain('&n=');
     expect(parseQuery(data, q).log?.combatIndex).toBeUndefined();
   });
   it('ignores an invalid n without an error', () => {
-    const q = buildQuery(data, defaultSetup(data), { seed: 7, strategy }) + '&n=10000';
+    const q = buildQuery(data, defaultSetup(data), { seed: 7, strategies }) + '&n=10000';
     const r = parseQuery(data, q);
     expect(r.errors).toEqual([]);
     expect(r.log?.combatIndex).toBeUndefined();
+  });
+});
+
+describe('compare links (several strategies in st, colors in k)', () => {
+  const setup = defaultSetup(data);
+  const three: LogTarget = {
+    seed: 99,
+    strategies: [{ kind: 'block', allowThrough: 4 }, { kind: 'greedyDamage' }, { kind: 'block', allowThrough: 0 }],
+    colors: ['blue', 'red', 'green'],
+    combatIndex: 41,
+  };
+
+  it('builds the documented compare URL', () => {
+    expect(buildQuery(data, setup, three)).toBe('v=1&c=I&e=Nb&a=0&d=St5De4Ba1&s=99&st=b4,g,b0&k=b,r,g&n=41');
+  });
+
+  it('round-trips 2 to 5 strategies with colors and combat number', () => {
+    expect(parseQuery(data, `?${buildQuery(data, setup, three)}`)).toEqual({ setup, log: three, errors: [] });
+    const five: LogTarget = {
+      seed: 0,
+      strategies: [0, 1, 2, 3].map((n) => ({ kind: 'block' as const, allowThrough: n })).concat([{ kind: 'block', allowThrough: 9999 }]),
+      colors: ['blue', 'green', 'yellow', 'red', 'purple'],
+    };
+    expect(parseQuery(data, `?${buildQuery(data, setup, five)}`)).toEqual({ setup, log: five, errors: [] });
+    const two: LogTarget = { seed: 5, strategies: [{ kind: 'greedyDamage' }, { kind: 'block', allowThrough: 3 }] };
+    expect(parseQuery(data, `?${buildQuery(data, setup, two)}`)).toEqual({ setup, log: two, errors: [] });
+  });
+
+  it('keeps single-strategy links unchanged (no k unless colors are given)', () => {
+    const q = buildQuery(data, setup, { seed: 1, strategies: [{ kind: 'greedyDamage' }] });
+    expect(q).toBe('v=1&c=I&e=Nb&a=0&d=St5De4Ba1&s=1&st=g');
+    expect(parseQuery(data, '?v=1&c=I&e=Nb&a=0&d=St5De4Ba1&s=1&st=b4&n=3').log).toEqual({ seed: 1, strategies: [{ kind: 'block', allowThrough: 4 }], combatIndex: 3 });
+  });
+
+  it('survives URL-encoded commas', () => {
+    expect(parseQuery(data, '?s=1&st=b4%2Cg&k=b%2Cr').log).toEqual({ seed: 1, strategies: [{ kind: 'block', allowThrough: 4 }, { kind: 'greedyDamage' }], colors: ['blue', 'red'] });
+  });
+
+  it.each([
+    ['s=1&st=g,g', /more than once/],
+    ['s=1&st=b0,b1,b2,b3,b4,b5', /at most 5/],
+    ['s=1&st=g,', /strategy code ""/],
+    ['s=1&st=g,x', /strategy code "x"/],
+  ])('rejects %s', (q, msg) => {
+    const r = parseQuery(data, `?${q}`);
+    expect(r.log).toBeNull();
+    expect(r.errors[0]).toMatch(msg);
+  });
+
+  it.each(['b', 'b,r,g', 'b,x', 'blue,red', ''])('ignores a bad k "%s" without an error', (k) => {
+    const r = parseQuery(data, `?s=1&st=g,b0&k=${k}`);
+    expect(r.errors).toEqual([]);
+    expect(r.log?.colors).toBeUndefined();
+    expect(r.log?.strategies).toHaveLength(2);
+  });
+
+  it('refuses to build a link with 0 or more than 5 strategies', () => {
+    expect(() => buildQuery(data, setup, { seed: 1, strategies: [] })).toThrow();
+    const six = [0, 1, 2, 3, 4, 5].map((n) => ({ kind: 'block' as const, allowThrough: n }));
+    expect(() => buildQuery(data, setup, { seed: 1, strategies: six })).toThrow();
   });
 });
