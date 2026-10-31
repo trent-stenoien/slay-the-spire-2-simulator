@@ -3,6 +3,7 @@ import { gameData } from '../data';
 import type { RunConfig, RunResult, RunStrategy } from '../engine/types';
 import { CombatLog } from './components/CombatLog';
 import { DeckBuilder } from './components/DeckBuilder';
+import { FeedbackDialog } from './components/FeedbackDialog';
 import { ResultsPanel, type RunStatus } from './components/ResultsPanel';
 import { SetupPanel } from './components/SetupPanel';
 import { StrategyPanel } from './components/StrategyPanel';
@@ -50,7 +51,10 @@ export function App() {
       )}
       <main>{logTarget ? <CombatLog data={data} setup={setup} target={logTarget} /> : <Simulator setup={setup} setSetup={setSetup} />}</main>
       <footer className="muted small">
-        Card and enemy data from slaythespire.wiki.gg (CC BY-SA 4.0). Not affiliated with Mega Crit.
+        <p>Card and enemy data from slaythespire.wiki.gg (CC BY-SA 4.0). Not affiliated with Mega Crit.</p>
+        <p>
+          <FeedbackDialog gameVersion={data.manifest.gameVersion} />
+        </p>
       </footer>
     </div>
   );

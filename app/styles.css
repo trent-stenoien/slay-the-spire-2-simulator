@@ -144,6 +144,9 @@ footer {
   margin: 24px 0 8px;
   text-align: center;
 }
+footer p {
+  margin: 0 0 4px;
+}
 
 .muted {
   color: var(--muted);
@@ -244,12 +247,14 @@ small.warn {
   flex: 0 1 150px;
 }
 input,
+textarea,
 select,
 button {
   font: inherit;
   color: var(--text);
 }
 input,
+textarea,
 select {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -1002,4 +1007,66 @@ code {
 .card-head .card-clear {
   margin-left: auto;
   flex: none;
+}
+
+/* Feedback dialog */
+textarea {
+  resize: vertical;
+}
+.feedback-dialog {
+  text-align: left;
+  width: min(480px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  padding: 16px;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.feedback-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+.feedback-form {
+  display: grid;
+  gap: 6px;
+}
+.feedback-form p {
+  margin: 4px 0;
+}
+.feedback-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.feedback-head h2 {
+  margin: 0;
+}
+.feedback-type {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  border: none;
+  padding: 0;
+  margin: 0 0 4px;
+}
+.feedback-type legend {
+  padding: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.feedback-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.feedback-type label {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  font-size: 1rem;
+  color: var(--text);
+}
+.feedback-type input {
+  width: auto;
 }
