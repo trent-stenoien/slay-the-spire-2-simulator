@@ -193,9 +193,22 @@ describe('views render', () => {
     expect(html).toContain('<span class="legend-name" data-text="Scared Block">Scared Block</span>');
   });
 
-  it('draws no percentile markers while two strategies are visible', () => {
+  it('draws percentile marks for each of two visible strategies, in their colors, with a P25-P75 band each', () => {
     const html = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
+    expect(html.match(/class="pmark"/g)).toHaveLength(10);
+    expect(html.match(/class="pmark-label"/g)).toHaveLength(10);
+    expect(html.match(/class="pband"/g)).toHaveLength(2);
+    expect(html).toContain('--mark-color:#8a5cd6');
+    expect(html).toContain('--mark-color:#2f6fdf');
+    expect(html).toMatch(/class="pband"[^>]*fill="#8a5cd6"[^>]*clip-path="url\(#[^)]*-above-1\)"/);
+  });
+
+  it('draws no percentile marks while three strategies are visible', () => {
+    const rows = resultRows(result);
+    const third = { ...rows[0]!, strategyId: 'x', name: 'Third', color: 'green' as const };
+    const html = renderToStaticMarkup(<DistributionChart rows={[...rows, third]} />);
     expect(html).not.toContain('class="pmark"');
+    expect(html).not.toContain('class="pband"');
     expect(html).not.toContain('P50 =');
   });
 
@@ -203,7 +216,16 @@ describe('views render', () => {
     const one = resultRows(result).filter((r) => r.strategyId === 'g'); // [0, 0, 2, 3, 5]: 10 combats
     const html = renderToStaticMarkup(<DistributionChart rows={one} />);
     expect(html.match(/class="pmark"/g)).toHaveLength(5);
+    expect(html.match(/class="pband"/g)).toHaveLength(1);
     for (const label of ['P5 = 2', 'P25 = 3', 'P50 = 3', 'P75 = 4', 'P95 = 4']) expect(html).toContain(`>${label}</text>`);
+  });
+
+  it('labels the smoothing slider at ×1, ×2, ×3 and ×4', () => {
+    const html = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
+    for (const l of ['×1', '×2', '×3', '×4']) expect(html).toMatch(new RegExp(`class="bandwidth-tick" style="--f:[0-9.]+">${l}</span>`));
+    expect(html.match(/class="bandwidth-tick"/g)).toHaveLength(4);
+    expect(html).toMatch(/<option value="1" label="×1">/);
+    expect(html).toMatch(/<option value="4" label="×4">/);
   });
 
   it('lists strategies by avg HP lost, lowest first, in table, legend and chart, keeping colors', () => {

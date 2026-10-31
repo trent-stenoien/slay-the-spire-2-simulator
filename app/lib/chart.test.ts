@@ -13,6 +13,12 @@ import {
   curvesMaxYInRange,
   hpLostPercentile,
   percentileMarkers,
+  percentileMarkerSets,
+  MAX_MARKED_STRATEGIES,
+  aboveCurvePath,
+  groupedLabelRows,
+  bandwidthTicks,
+  BANDWIDTH_TICKS,
   staggerLabels,
   areaPath,
   curvesMaxY, linePath, linearScale, niceMax, niceStep, niceTicks, percentLabel } from './chart';
@@ -281,5 +287,96 @@ describe('staggerLabels', () => {
       { x: 10, row: 0 },
       { x: 190, row: 0 },
     ]);
+  });
+});
+
+describe('bandwidthTicks', () => {
+  it('labels ×1, ×2, ×3 and ×4 at their positions on the ×0.25-×5 track', () => {
+    expect(BANDWIDTH_TICKS).toEqual([1, 2, 3, 4]);
+    const ticks = bandwidthTicks();
+    expect(ticks.map((t) => t.label)).toEqual(['×1', '×2', '×3', '×4']);
+    expect(ticks.map((t) => t.value)).toEqual([1, 2, 3, 4]);
+    expect(ticks[0]!.fraction).toBeCloseTo(0.75 / 4.75);
+    expect(ticks[3]!.fraction).toBeCloseTo(3.75 / 4.75);
+    for (const t of ticks) {
+      expect(t.value).toBeGreaterThanOrEqual(BANDWIDTH_FACTOR.min);
+      expect(t.value).toBeLessThanOrEqual(BANDWIDTH_FACTOR.max);
+    }
+  });
+});
+
+describe('percentileMarkerSets', () => {
+  const a = row('a', Array(10).fill(1));
+  const b = row('b', [0, 0, 0, 2, 1]);
+  const c = row('c', [1, 1, 1]);
+
+  it('marks one or two visible strategies, in row order', () => {
+    expect(MAX_MARKED_STRATEGIES).toBe(2);
+    const one = percentileMarkerSets([a, b, c], new Set(['b', 'c']));
+    expect(one.map((s) => s.row.strategyId)).toEqual(['a']);
+    expect(one[0]!.markers.map((m) => m.label)).toEqual(['P5 = 0', 'P25 = 2', 'P50 = 4', 'P75 = 7', 'P95 = 9']);
+    const two = percentileMarkerSets([a, b, c], new Set(['c']));
+    expect(two.map((s) => s.row.strategyId)).toEqual(['a', 'b']);
+    expect(two[1]!.markers.map((m) => m.value)).toEqual([3, 3, 3, 4, 4]);
+  });
+
+  it('hides marks with zero or three or more visible strategies', () => {
+    expect(percentileMarkerSets([a, b, c], new Set())).toEqual([]);
+    expect(percentileMarkerSets([a, b, c], new Set(['a', 'b', 'c']))).toEqual([]);
+    expect(percentileMarkerSets([], new Set())).toEqual([]);
+  });
+
+  it('skips a visible strategy with no combats', () => {
+    expect(percentileMarkerSets([a, row('e', [])], new Set()).map((s) => s.row.strategyId)).toEqual(['a']);
+  });
+});
+
+describe('aboveCurvePath', () => {
+  const sx = linearScale([0, 10], [0, 100]);
+  const sy = linearScale([0, 10], [100, 0]);
+  const pts = [{ x: 0, y: 2 }, { x: 5, y: 8 }, { x: 10, y: 4 }];
+
+  it('closes the curve up to the top of the plot (smooth)', () => {
+    expect(aboveCurvePath(pts, sx, sy, 10)).toBe('M0,80L50,20L100,60L100,10L0,10Z');
+  });
+
+  it('follows the bar tops in the step (Raw) view', () => {
+    expect(aboveCurvePath([{ x: 1, y: 5 }, { x: 2, y: 10 }], sx, sy, 0, 'step')).toBe('M5,50L15,50L15,0L25,0L25,0L5,0Z');
+  });
+
+  it('is empty for an empty curve', () => {
+    expect(aboveCurvePath([], sx, sy, 0)).toBe('');
+  });
+});
+
+describe('groupedLabelRows', () => {
+  it('gives each strategy its own block of label rows', () => {
+    const out = groupedLabelRows(
+      [
+        [{ x: 50, width: 20 }, { x: 100, width: 20 }],
+        [{ x: 50, width: 20 }, { x: 100, width: 20 }],
+      ],
+      [0, 200],
+    );
+    expect(out).toEqual([
+      [{ x: 50, row: 0 }, { x: 100, row: 0 }],
+      [{ x: 50, row: 1 }, { x: 100, row: 1 }],
+    ]);
+  });
+
+  it('staggers collisions inside a strategy and shifts the next strategy below them', () => {
+    const out = groupedLabelRows(
+      [
+        [{ x: 50, width: 40 }, { x: 60, width: 40 }],
+        [{ x: 150, width: 20 }],
+      ],
+      [0, 200],
+    );
+    expect(out[0]!.map((l) => l.row)).toEqual([0, 1]);
+    expect(out[1]!.map((l) => l.row)).toEqual([2]);
+  });
+
+  it('handles no groups', () => {
+    expect(groupedLabelRows([], [0, 200])).toEqual([]);
   });
 });
