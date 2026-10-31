@@ -72,7 +72,7 @@ function StrategyRow({
         <span>
           <span className="strat-name">{s.name}</span>
           {builtIn && <span className="tag">default</span>}
-          <span className="strat-desc">{describeConfig(s.config)}</span>
+          {builtIn && <span className="strat-desc">{describeConfig(s.config)}</span>}
         </span>
       </label>
       {!builtIn && (
@@ -91,9 +91,7 @@ function StrategyRow({
             className="icon-btn danger"
             aria-label={`Delete ${s.name}`}
             title={`Delete ${s.name}`}
-            onClick={() => {
-              if (globalThis.confirm?.(`Delete "${s.name}"?`) ?? true) onDelete(s.id);
-            }}
+            onClick={() => onDelete(s.id)}
           >
             <XIcon />
           </button>
@@ -123,7 +121,7 @@ function StrategyRow({
       {editing && s.config.kind === 'block' && (
         <div className="strat-edit">
           <label className="field">
-            <span>Name</span>
+            <span>Title</span>
             <input defaultValue={s.name} onBlur={(e) => onRename(s.id, e.target.value)} maxLength={40} />
           </label>
           <AllowInput library={library} id={s.id} value={s.config.allowThrough} onCommit={(n) => onAllowThrough(s.id, n)} />
@@ -198,10 +196,10 @@ function NewStrategyForm({ library, onAdd }: { library: SavedStrategy[]; onAdd: 
         setName('');
       }}
     >
-      <h3>New block strategy</h3>
+      <h3>New Strategy</h3>
       <div className="field-row">
         <label className="field">
-          <span>Name</span>
+          <span>Title</span>
           <input value={name} placeholder={`Block, allow ${parsed ?? 'X'}`} maxLength={40} onChange={(e) => setName(e.target.value)} />
         </label>
         <label className="field field-narrow">

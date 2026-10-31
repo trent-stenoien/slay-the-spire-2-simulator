@@ -15,6 +15,8 @@ import { CombatLog } from './CombatLog';
 import { DistributionChart } from './DistributionChart';
 import { ResultsView } from './ResultsView';
 import { SetupPanel } from './SetupPanel';
+import { StrategyPanel } from './StrategyPanel';
+import { DEFAULT_STRATEGIES } from '../lib/strategyLibrary';
 
 vi.mock('../../engine/stats', () => {
   const curve = (counts: readonly number[], range: [number, number]) => {
@@ -58,6 +60,30 @@ describe('views render', () => {
     expect(html).toContain('Scared Block');
     expect(html).toContain('Deal 8 damage. Apply 2 Vulnerable');
     expect(html).not.toContain('Ascender');
+  });
+
+  it('strategy panel: Title label, New Strategy heading, no description on custom strategies', () => {
+    const custom = { id: 'u1', name: 'Mine', config: { kind: 'block' as const, allowThrough: 3 } };
+    const noop = () => {};
+    const html = renderToStaticMarkup(
+      <StrategyPanel
+        library={[...DEFAULT_STRATEGIES, custom]}
+        selection={[]}
+        storageOk
+        onToggle={noop}
+        onColor={noop}
+        onAdd={noop}
+        onRename={noop}
+        onAllowThrough={noop}
+        onDelete={noop}
+        onClearAll={noop}
+      />,
+    );
+    expect(html).toContain('New Strategy');
+    expect(html).not.toContain('New block strategy');
+    expect(html).toContain('<span>Title</span>');
+    expect(html).not.toContain('<span>Name</span>');
+    expect(html.match(/strat-desc/g)?.length).toBe(DEFAULT_STRATEGIES.length);
   });
 
   it('renders results with rates as percentages and the game version', () => {
