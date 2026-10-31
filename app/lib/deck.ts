@@ -157,6 +157,19 @@ export function filteredPool(data: GameData, characterId: string, filters: PoolF
   return [...pool, ...auto].sort((a, b) => a.name.localeCompare(b.name));
 }
 
+/**
+ * Group keys (see `groupedPool`) of the folders a filter adds cards to, so the
+ * deck builder can expand them when the filter is turned on. Multiplayer adds
+ * multiplayer-only cards to whichever folders would otherwise be shown.
+ */
+export function foldersForFilter(data: GameData, characterId: string, filter: keyof PoolFilters, ascension = 0): string[] {
+  if (filter === 'statuses') return ['status'];
+  if (filter === 'curses') return ['curses'];
+  const only = { ...DEFAULT_FILTERS, statuses: true, curses: true, multiplayer: true };
+  const keys = new Set(filteredPool(data, characterId, only, ascension).filter((c) => c.multiplayerOnly).map((c) => cardFolder(c).toLowerCase()));
+  return [...keys];
+}
+
 /** Pool cards matching the search and filters, grouped by data folder in a fixed order. Empty groups are dropped. */
 export function groupedPool(data: GameData, characterId: string, query: string, filters: PoolFilters = DEFAULT_FILTERS, ascension = 0): CardGroup[] {
   const groups = new Map<string, CardDef[]>();

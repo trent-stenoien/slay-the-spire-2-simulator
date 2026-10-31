@@ -163,6 +163,15 @@ footer {
     align-items: start;
   }
 }
+/* Phone width: one column, with Setup and Strategies ahead of the long Deck list. */
+.col-side {
+  order: -1;
+}
+@media (min-width: 860px) {
+  .col-side {
+    order: 0;
+  }
+}
 .col {
   display: grid;
   gap: 16px;
@@ -422,6 +431,15 @@ button:disabled {
   font-weight: 700;
   min-width: 0;
   overflow-wrap: anywhere;
+}
+.card-name a {
+  color: inherit;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+.card-name a:hover,
+.card-name a:focus-visible {
+  text-decoration: underline solid;
 }
 .card-label {
   font-size: 0.85rem;

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { gameData } from '../../data';
-import { automaticCards, cardFolder, combatDeckSize, changeCount, copiesOf, costColorKey, deckPool, deckSize, filteredPool, groupedPool, isCharacterSimulated, matchesSearch, removeCard, startingDeckFor, toggleUpgrade, unsimulatedStarters } from './deck';
+import { automaticCards, cardFolder, combatDeckSize, changeCount, copiesOf, costColorKey, deckPool, deckSize, filteredPool, foldersForFilter, groupedPool, isCharacterSimulated, matchesSearch, removeCard, startingDeckFor, toggleUpgrade, unsimulatedStarters } from './deck';
 import type { CardDef, Deck } from '../../engine/types';
 
 const deck: Deck = [
@@ -204,5 +204,23 @@ describe("automatic ascension cards (Ascender's Bane)", () => {
     expect(combatDeckSize(gameData, deck, level - 1)).toBe(deckSize(deck));
     expect(combatDeckSize(gameData, deck, level)).toBe(deckSize(deck) + 1);
     expect(deck.some((e) => e.cardId === 'ascenders_bane')).toBe(false);
+  });
+});
+
+describe('foldersForFilter', () => {
+  it('maps Statuses and Curses to their own folders, matching groupedPool keys', () => {
+    expect(foldersForFilter(gameData, 'ironclad', 'statuses')).toEqual(['status']);
+    expect(foldersForFilter(gameData, 'ironclad', 'curses')).toEqual(['curses']);
+    const keys = groupedPool(gameData, 'ironclad', '', { statuses: true, curses: true, multiplayer: false }).map((g) => g.key);
+    expect(keys).toContain('status');
+    expect(keys).toContain('curses');
+  });
+
+  it('maps Multiplayer to the folders of the multiplayer-only cards it adds', () => {
+    const folders = foldersForFilter(gameData, 'ironclad', 'multiplayer');
+    const withIt = groupedPool(gameData, 'ironclad', '', { statuses: true, curses: true, multiplayer: true });
+    const without = groupedPool(gameData, 'ironclad', '', { statuses: true, curses: true, multiplayer: false });
+    const gained = withIt.filter((g) => g.cards.length > (without.find((w) => w.key === g.key)?.cards.length ?? 0)).map((g) => g.key);
+    expect([...folders].sort()).toEqual(gained.sort());
   });
 });
