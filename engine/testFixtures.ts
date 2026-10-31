@@ -135,8 +135,8 @@ export const nibbit: EnemyDef = {
   hp: { min: 42, max: 46 },
   moves: {
     butt: { name: 'Butt', effects: [{ type: 'attack', damage: 12, hits: 1 }] },
-    hesitantStrike: {
-      name: 'Hesitant Strike',
+    hesitantSlice: {
+      name: 'Hesitant Slice',
       effects: [
         { type: 'attack', damage: 6, hits: 1 },
         { type: 'gainBlock', amount: 5 },
@@ -144,13 +144,23 @@ export const nibbit: EnemyDef = {
     },
     hiss: { name: 'Hiss', effects: [{ type: 'gainStrength', amount: 2 }] },
   },
-  pattern: { type: 'cycle', order: ['butt', 'hesitantStrike', 'hiss'], start: 'first' },
+  pattern: { type: 'cycle', order: ['butt', 'hesitantSlice', 'hiss'], start: 'first' },
   ascension: {
-    '8': { hp: { min: 44, max: 48 } },
+    '8': {
+      hp: { min: 44, max: 48 },
+      moves: {
+        hesitantSlice: {
+          effects: [
+            { type: 'attack', damage: 6, hits: 1 },
+            { type: 'gainBlock', amount: 6 },
+          ],
+        },
+      },
+    },
     '9': {
       moves: {
         butt: { effects: [{ type: 'attack', damage: 13, hits: 1 }] },
-        hesitantStrike: {
+        hesitantSlice: {
           effects: [
             { type: 'attack', damage: 7, hits: 1 },
             { type: 'gainBlock', amount: 6 },
