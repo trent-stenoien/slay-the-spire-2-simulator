@@ -259,6 +259,27 @@ describe('views render', () => {
     expect(html).toContain('HP lost');
   });
 
+  it('draws a 15% fill path per visible strategy in the Cumulative view, with the P25-P75 band kept above the curve', () => {
+    const rows = resultRows(result);
+    const html = renderToStaticMarkup(<DistributionChart rows={rows} initialMode="cumulative" />);
+    expect(html).toContain('aria-label="HP lost distribution, cumulative view"');
+    expect(html.match(/<path class="curve-fill"[^>]*fill-opacity="0.15"/g)).toHaveLength(2);
+    expect(html).toMatch(/class="curve-fill"[^>]*fill="#8a5cd6"/);
+    expect(html).toMatch(/class="curve-fill"[^>]*fill="#2f6fdf"/);
+    // Fills sit inside the clipped group, so X-range clipping applies to them too.
+    const clipped = html.slice(html.indexOf('<g clip-path'));
+    expect(clipped.match(/class="curve-fill"/g)).toHaveLength(2);
+    expect(html.match(/class="pband"/g)).toHaveLength(2);
+    expect(html.match(/-above-\d\)/g)).toHaveLength(2);
+  });
+
+  it('draws one Cumulative fill when only one strategy is shown', () => {
+    const rows = resultRows(result);
+    const one = rows.slice(0, 1);
+    const html = renderToStaticMarkup(<DistributionChart rows={one} initialMode="cumulative" />);
+    expect(html.match(/class="curve-fill"/g)).toHaveLength(1);
+  });
+
   it('renders a combat log with intent', () => {
     const html = renderToStaticMarkup(
       <CombatLog data={gameData} setup={defaultSetup(gameData)} target={{ seed: 123456, strategy: { kind: 'block', allowThrough: 4 } }} />,
