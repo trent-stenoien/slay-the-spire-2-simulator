@@ -67,8 +67,8 @@ function compute(rows: readonly ResultRow[], hidden: ReadonlySet<string>, mode: 
  * P5/P25/P50/P75/P95 are marked in its color (one label row block per strategy), with a light
  * P25-P75 band drawn only above its curve. With three or more visible, no marks are drawn.
  */
-export function DistributionChart({ rows }: { rows: ResultRow[] }) {
-  const [mode, setMode] = useState<ChartMode>('kde');
+export function DistributionChart({ rows, initialMode = 'kde' }: { rows: ResultRow[]; initialMode?: ChartMode }) {
+  const [mode, setMode] = useState<ChartMode>(initialMode);
   const [hidden, setHidden] = useState<ReadonlySet<string>>(() => new Set());
   const [bandwidthFactor, setBandwidthFactor] = useState<number>(BANDWIDTH_FACTOR.default);
   const clipId = useId();
@@ -234,7 +234,7 @@ export function DistributionChart({ rows }: { rows: ResultRow[] }) {
             const color = COLOR_HEX[rows[i]!.color];
             return (
               <g key={rows[i]!.strategyId}>
-                {mode !== 'cumulative' && <path d={areaPath(pts, sx, sy, sy(0), shape)} fill={color} fillOpacity={0.15} stroke="none" />}
+                <path className="curve-fill" d={areaPath(pts, sx, sy, sy(0), shape)} fill={color} fillOpacity={0.15} stroke="none" />
                 <path d={linePath(pts, sx, sy, shape)} fill="none" stroke={color} strokeWidth={2} strokeLinejoin="round" />
               </g>
             );
