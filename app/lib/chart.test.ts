@@ -18,7 +18,9 @@ import {
   aboveCurvePath,
   groupedLabelRows,
   bandwidthTicks,
-  BANDWIDTH_TICKS,
+  bandwidthTickValues,
+  BAND_OPACITY,
+  CURVE_FILL_OPACITY,
   staggerLabels,
   areaPath,
   curvesMaxY, linePath, linearScale, niceMax, niceStep, niceTicks, percentLabel } from './chart';
@@ -291,17 +293,30 @@ describe('staggerLabels', () => {
 });
 
 describe('bandwidthTicks', () => {
-  it('labels ×1, ×2, ×3 and ×4 at their positions on the ×0.25-×5 track', () => {
-    expect(BANDWIDTH_TICKS).toEqual([1, 2, 3, 4]);
+  it('labels the slider min (×0.25), ×1-×4 and the max (×5) at their positions', () => {
     const ticks = bandwidthTicks();
-    expect(ticks.map((t) => t.label)).toEqual(['×1', '×2', '×3', '×4']);
-    expect(ticks.map((t) => t.value)).toEqual([1, 2, 3, 4]);
-    expect(ticks[0]!.fraction).toBeCloseTo(0.75 / 4.75);
-    expect(ticks[3]!.fraction).toBeCloseTo(3.75 / 4.75);
+    expect(ticks.map((t) => t.label)).toEqual(['×0.25', '×1', '×2', '×3', '×4', '×5']);
+    expect(ticks[0]!.fraction).toBe(0);
+    expect(ticks[1]!.fraction).toBeCloseTo(0.75 / 4.75);
+    expect(ticks[4]!.fraction).toBeCloseTo(3.75 / 4.75);
+    expect(ticks[5]!.fraction).toBe(1);
     for (const t of ticks) {
       expect(t.value).toBeGreaterThanOrEqual(BANDWIDTH_FACTOR.min);
       expect(t.value).toBeLessThanOrEqual(BANDWIDTH_FACTOR.max);
     }
+  });
+
+  it('follows the slider range: a ×0 minimum gives ticks ×0 to ×5 without duplicates', () => {
+    expect(bandwidthTickValues(0, 5)).toEqual([0, 1, 2, 3, 4, 5]);
+    expect(bandwidthTicks(0, 5).map((t) => t.fraction)).toEqual([0, 0.2, 0.4, 0.6, 0.8, 1]);
+  });
+});
+
+describe('fill opacities', () => {
+  it('makes the P25-P75 band twice as transparent as the fill under the curve', () => {
+    expect(CURVE_FILL_OPACITY).toBe(0.15);
+    expect(BAND_OPACITY).toBe(0.075);
+    expect(BAND_OPACITY).toBe(CURVE_FILL_OPACITY / 2);
   });
 });
 

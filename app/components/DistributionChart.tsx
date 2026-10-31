@@ -5,6 +5,8 @@ import {
   aboveCurvePath,
   areaPath,
   BANDWIDTH_FACTOR,
+  BAND_OPACITY,
+  CURVE_FILL_OPACITY,
   bandwidthTicks,
   bandwidthFactorLabel,
   clampBandwidthFactor,
@@ -23,6 +25,7 @@ import {
   type CurveShape,
 } from '../lib/chart';
 import type { ResultRow } from '../lib/results';
+import { InfoPopover } from './InfoPopover';
 
 export type ChartMode = 'kde' | 'raw' | 'cumulative';
 
@@ -63,7 +66,7 @@ function compute(rows: readonly ResultRow[], hidden: ReadonlySet<string>, mode: 
  * Overlaid HP-lost distributions, one line + light fill per strategy. The legend sits
  * above the chart, aligned with the plot area; clicking an entry hides or shows that
  * strategy's line (hidden entries stay in the legend, dimmed). The KDE view has a smoothing
- * (bandwidth) slider with ticks at ×1-×4. With one or two strategies visible, each one's
+ * (bandwidth) slider with ticks from its min to its max. With one or two strategies visible, each one's
  * P5/P25/P50/P75/P95 are marked in its color (one label row block per strategy), with a light
  * P25-P75 band drawn only above its curve. With three or more visible, no marks are drawn.
  */
@@ -106,6 +109,8 @@ export function DistributionChart({ rows, initialMode = 'kde' }: { rows: ResultR
 
   return (
     <div className="chart-box">
+      {/* Picker, smoothing row and legend share the plot's left edge (the Y axis). */}
+      <div className="chart-controls" style={{ paddingLeft: `${(M.left / W) * 100}%` }}>
       <div className="segmented" role="tablist" aria-label="Chart view">
         {MODES.map((m) => (
           <button key={m.id} type="button" role="tab" aria-selected={mode === m.id} className={mode === m.id ? 'on' : ''} onClick={() => setMode(m.id)}>
@@ -116,6 +121,7 @@ export function DistributionChart({ rows, initialMode = 'kde' }: { rows: ResultR
       {mode === 'kde' && (
         <div className="bandwidth">
           <label htmlFor={sliderId}>Smoothing</label>
+          <InfoPopover />
           <span className="bandwidth-slider">
             <input
               id={sliderId}
@@ -146,7 +152,7 @@ export function DistributionChart({ rows, initialMode = 'kde' }: { rows: ResultR
           </output>
           <button
             type="button"
-            className="btn-link small"
+            className="btn-link bandwidth-reset small"
             disabled={bandwidthFactor === BANDWIDTH_FACTOR.default}
             onClick={() => setBandwidthFactor(BANDWIDTH_FACTOR.default)}
           >
@@ -154,7 +160,7 @@ export function DistributionChart({ rows, initialMode = 'kde' }: { rows: ResultR
           </button>
         </div>
       )}
-      <ul className="legend" aria-label="Strategies (click to show or hide)" style={{ paddingLeft: `${(M.left / W) * 100}%` }}>
+      <ul className="legend" aria-label="Strategies (click to show or hide)">
         {rows.map((r, i) => (
           <li key={r.strategyId}>
             <button
@@ -172,6 +178,7 @@ export function DistributionChart({ rows, initialMode = 'kde' }: { rows: ResultR
           </li>
         ))}
       </ul>
+      </div>
       <svg className="chart" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`HP lost distribution, ${mode} view`}>
         <defs>
           <clipPath id={clipId}>
@@ -225,6 +232,7 @@ export function DistributionChart({ rows, initialMode = 'kde' }: { rows: ResultR
                 width={Math.max(0, sx(p75) - sx(p25))}
                 height={H - M.bottom - top}
                 fill={COLOR_HEX[row.color]}
+                fillOpacity={BAND_OPACITY}
                 clipPath={`url(#${clipId}-above-${i})`}
               />
             );
@@ -234,7 +242,7 @@ export function DistributionChart({ rows, initialMode = 'kde' }: { rows: ResultR
             const color = COLOR_HEX[rows[i]!.color];
             return (
               <g key={rows[i]!.strategyId}>
-                <path className="curve-fill" d={areaPath(pts, sx, sy, sy(0), shape)} fill={color} fillOpacity={0.15} stroke="none" />
+                <path className="curve-fill" d={areaPath(pts, sx, sy, sy(0), shape)} fill={color} fillOpacity={CURVE_FILL_OPACITY} stroke="none" />
                 <path d={linePath(pts, sx, sy, shape)} fill="none" stroke={color} strokeWidth={2} strokeLinejoin="round" />
               </g>
             );

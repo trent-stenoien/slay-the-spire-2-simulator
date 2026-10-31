@@ -124,13 +124,24 @@ export function kdeBandwidth(hpLostCounts: readonly number[], factor: number): n
   return silvermanBandwidth(hpLostCounts) * clampBandwidthFactor(factor);
 }
 
-/** Labelled tick marks under the smoothing slider. */
-export const BANDWIDTH_TICKS = [1, 2, 3, 4] as const;
+/** Opacity of the fill under each curve, and of the P25-P75 band above it (twice as transparent). */
+export const CURVE_FILL_OPACITY = 0.15;
+export const BAND_OPACITY = CURVE_FILL_OPACITY / 2;
 
-/** Tick label and position along the slider track (0 = min, 1 = max) for each of BANDWIDTH_TICKS. */
-export function bandwidthTicks(): { value: number; label: string; fraction: number }[] {
-  const { min, max } = BANDWIDTH_FACTOR;
-  return BANDWIDTH_TICKS.map((value) => ({ value, label: `×${value}`, fraction: (value - min) / (max - min) }));
+/**
+ * Labelled tick marks under the smoothing slider: the slider's own min and max (a non-integer
+ * end such as the ×0.25 minimum is labelled as is) plus every whole multiplier between them,
+ * so the ticks follow the slider if its range changes.
+ */
+export function bandwidthTickValues(min: number = BANDWIDTH_FACTOR.min, max: number = BANDWIDTH_FACTOR.max): number[] {
+  const values = new Set<number>([min, max]);
+  for (let v = Math.ceil(min); v <= Math.floor(max); v++) values.add(v);
+  return [...values].sort((a, b) => a - b);
+}
+
+/** Tick label and position along the slider track (0 = min, 1 = max). */
+export function bandwidthTicks(min: number = BANDWIDTH_FACTOR.min, max: number = BANDWIDTH_FACTOR.max): { value: number; label: string; fraction: number }[] {
+  return bandwidthTickValues(min, max).map((value) => ({ value, label: `×${value}`, fraction: (value - min) / (max - min) }));
 }
 
 /** Slider label: "×1.00". */
