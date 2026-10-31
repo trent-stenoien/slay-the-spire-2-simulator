@@ -72,7 +72,7 @@ describe('log replay', () => {
   });
 
   it('works out the intended move, including after a kill', () => {
-    expect(intendedMoveId(replay.rounds, 0, ['butt', 'hesitantStrike', 'hiss'], 'first')).toBe('butt');
+    expect(intendedMoveId(replay.rounds, 0, ['butt', 'hesitantSlice', 'hiss'], 'first')).toBe('butt');
     const r = (id: string | null) => ({ enemyMoveId: id }) as Round;
     const order = ['a', 'b', 'c'];
     expect(intendedMoveId([r('c'), r(null)], 1, order, 'first')).toBe('a');

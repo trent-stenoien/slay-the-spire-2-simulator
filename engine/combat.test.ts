@@ -229,7 +229,7 @@ describe('damage rules in combat', () => {
 
   it('enemy Strength persists: Nibbit second Butt hits 14 at A0', () => {
     const r = simulateCombat(makeGameData(), cfg({ deck: [] }), passive, { log: true });
-    expect(events(r.log, 'enemyMove').slice(0, 4).map((m) => m.moveId)).toEqual(['butt', 'hesitantStrike', 'hiss', 'butt']);
+    expect(events(r.log, 'enemyMove').slice(0, 4).map((m) => m.moveId)).toEqual(['butt', 'hesitantSlice', 'hiss', 'butt']);
     expect(events(r.log, 'damage').slice(0, 3).map((d) => d.amount)).toEqual([12, 6, 14]);
   });
 
@@ -242,7 +242,7 @@ describe('damage rules in combat', () => {
     const strat = scripted((turn) => (turn <= 4 ? ['strike'] : []));
     const r = simulateCombat(makeGameData(), cfg({ deck: deckOf(['strike', 10]) }), strat, { log: true });
     const playerHits = events(r.log, 'damage').filter((d) => d.source === 'player');
-    // Turn 1, 2: no enemy block. Hesitant Strike (enemy turn 2) gives 5 block.
+    // Turn 1, 2: no enemy block. Hesitant Slice (enemy turn 2) gives 5 block.
     // Turn 3: Strike 6 → 5 blocked, 1 HP. Enemy block resets on its turn 3.
     // Turn 4: full damage again.
     expect(playerHits.map((d) => [d.blocked, d.hpLoss])).toEqual([[0, 6], [0, 6], [5, 1], [0, 6]]);

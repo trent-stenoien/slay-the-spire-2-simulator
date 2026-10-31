@@ -7,25 +7,31 @@ describe('resolveEnemy (Nibbit)', () => {
     const e = resolveEnemy(nibbit, 0);
     expect(e.hp).toEqual({ min: 42, max: 46 });
     expect(e.moves.butt!.effects).toEqual([{ type: 'attack', damage: 12, hits: 1 }]);
-    expect(e.moves.hesitantStrike!.effects).toEqual([
+    expect(e.moves.hesitantSlice!.effects).toEqual([
       { type: 'attack', damage: 6, hits: 1 },
       { type: 'gainBlock', amount: 5 },
     ]);
     expect(e.moves.hiss!.effects).toEqual([{ type: 'gainStrength', amount: 2 }]);
   });
 
-  it('A8 changes only HP', () => {
+  it('A8 changes HP and Hesitant Slice block only', () => {
     const e = resolveEnemy(nibbit, 8);
+    const a0 = resolveEnemy(nibbit, 0);
     expect(e.hp).toEqual({ min: 44, max: 48 });
-    expect(e.moves).toEqual(resolveEnemy(nibbit, 0).moves);
+    expect(e.moves.hesitantSlice!.effects).toEqual([
+      { type: 'attack', damage: 6, hits: 1 },
+      { type: 'gainBlock', amount: 6 },
+    ]);
+    expect(e.moves.butt).toEqual(a0.moves.butt);
+    expect(e.moves.hiss).toEqual(a0.moves.hiss);
   });
 
   it('A9 applies A8 HP plus the A9 move overrides, keeping names', () => {
     const e = resolveEnemy(nibbit, 9);
     expect(e.hp).toEqual({ min: 44, max: 48 });
     expect(e.moves.butt).toEqual({ name: 'Butt', effects: [{ type: 'attack', damage: 13, hits: 1 }] });
-    expect(e.moves.hesitantStrike).toEqual({
-      name: 'Hesitant Strike',
+    expect(e.moves.hesitantSlice).toEqual({
+      name: 'Hesitant Slice',
       effects: [
         { type: 'attack', damage: 7, hits: 1 },
         { type: 'gainBlock', amount: 6 },
