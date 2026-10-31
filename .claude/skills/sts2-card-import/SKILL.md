@@ -20,8 +20,10 @@ The contract is `engine/types.ts` (`CardDef`, `Effect`). Read it once before sta
 Import only main-release data (the game version in `data/manifest.json`), never beta-branch
 data. The wiki marks beta content with a "Beta Content Warning" banner or "(Beta only
 currently)"; skip those cards, and use the main-release numbers where a page shows both.
-If a card already in `data/cards/` turns out to be beta-only, don't delete it (card codes
-are permanent): add a question instead.
+If a card already in `data/cards/` turns out to be beta-only, don't delete it yourself: add a
+question instead. Beta-only cards that were removed (Soulbound, Underworld, Cacophony) are
+listed in `data/reserved-codes.json`; their codes stay reserved (codes are permanent), the
+skeleton script skips them, and the validator rejects any card that uses a reserved code.
 
 ## Reading the card text
 
@@ -50,6 +52,7 @@ are permanent): add a question instead.
 | Gain [E] / [E][E] / N [E]. (this turn) | `{ "type": "gainEnergy", "amount": N }` |
 | (X-cost card) Deal N damage X times. | `{ "type": "attack", "damage": N, "hits": 1, "xTimes": true }` |
 | (X-cost card) Deal N damage to ALL enemies X times. | `{ "type": "attack", "damage": N, "hits": 1, "allEnemies": true, "xTimes": true }` |
+| (X-cost card) Deal N damage to a random enemy X times. | `{ "type": "attack", "damage": N, "hits": 1, "xTimes": true }` (no target flag) |
 | (X-cost card) Deal N damage X+1 times. | `{ "type": "attack", "damage": N, "hits": 1, "xTimes": true, "xBonus": 1 }` |
 
 `gainEnergy` is only for energy gained right now. "Next turn, gain [E]", "Gain [E] at the
@@ -63,9 +66,9 @@ Channel X, play X cards, …) and Regent's X-Star cards have no effect object.
 
 Fights are single-enemy for now: a random-target attack always hits the one enemy, and
 ALL-enemies damage counts once. `engine/types.ts` has no `randomTarget` flag, so random-target
-damage is a plain `attack`. This covers fixed damage only: random-target "X times" (e.g. Volley;
-not settled yet, unlike the single-target and ALL-enemies `xTimes` rows above), "for each",
-Osty and power triggers ("Whenever …, deal N damage to a random enemy") still have no effect object.
+damage is a plain `attack`, including random-target "X times" (e.g. Volley, an `xTimes`
+attack like the rows above). "For each", Osty and power triggers ("Whenever …, deal N damage
+to a random enemy") still have no effect object.
 
 Effects go in card-text order. Damage/Block numbers are the printed base values
 (Strength is applied by the engine). If the upgraded effects differ in any way, write the
