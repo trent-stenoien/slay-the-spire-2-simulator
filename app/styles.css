@@ -21,7 +21,6 @@
   --char-necrobinder: #8e4fd0;
   --char-defect: #2f6fdf;
   --char-colorless: #8a8a8a;
-  --char-curse: #000000;
   --radius: 8px;
   color-scheme: light;
 }
@@ -44,7 +43,6 @@
     --axis: #8d877e;
     --win: #6cc391;
     --loss: #e0705e;
-    --char-curse: #0a0a0a;
     --char-colorless: #9a9a9a;
     color-scheme: dark;
   }
@@ -67,7 +65,6 @@
   --axis: #8d877e;
   --win: #6cc391;
   --loss: #e0705e;
-  --char-curse: #0a0a0a;
   --char-colorless: #9a9a9a;
   color-scheme: dark;
 }
@@ -366,7 +363,17 @@ button:disabled {
   border-color: var(--char-colorless);
 }
 .cost-curse {
-  border-color: var(--char-curse);
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .cost-curse {
+    box-shadow: 0 0 0 1px var(--border);
+  }
+}
+:root[data-theme='dark'] .cost-curse {
+  box-shadow: 0 0 0 1px var(--border);
 }
 .card-name {
   font-weight: 700;
