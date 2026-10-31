@@ -81,8 +81,8 @@ function CardRow({ card, deck, onChange }: { card: CardDef; deck: Deck; onChange
         )}
       </div>
       <div className="steppers">
-        <Stepper label={base.name} tag="" n={n} onStep={(d) => onChange(changeCount(deck, card.id, false, d))} />
-        {up && <Stepper label={up.name} tag="+" n={nUp} onStep={(d) => onChange(changeCount(deck, card.id, true, d))} />}
+        <Stepper label={base.name} tag="Standard" n={n} onStep={(d) => onChange(changeCount(deck, card.id, false, d))} />
+        {up && <Stepper label={up.name} tag="Upgraded" n={nUp} onStep={(d) => onChange(changeCount(deck, card.id, true, d))} />}
       </div>
     </li>
   );
@@ -90,15 +90,15 @@ function CardRow({ card, deck, onChange }: { card: CardDef; deck: Deck; onChange
 
 function Stepper({ label, tag, n, onStep }: { label: string; tag: string; n: number; onStep: (delta: number) => void }) {
   return (
-    <div className="stepper" title={tag ? 'Upgraded copies' : 'Normal copies'}>
+    <div className="stepper" title={`${tag} copies`}>
       <span className="stepper-tag">{tag}</span>
-      <button type="button" aria-label={`Remove one ${label}`} disabled={n === 0} onClick={() => onStep(-1)}>
+      <button type="button" aria-label={`Remove one ${tag.toLowerCase()} ${label}`} disabled={n === 0} onClick={() => onStep(-1)}>
         −
       </button>
-      <span className="count" aria-label={`${n} copies of ${label}`}>
+      <span className="count" aria-label={`${n} ${tag.toLowerCase()} copies of ${label}`}>
         {n}
       </span>
-      <button type="button" aria-label={`Add one ${label}`} disabled={n >= 99} onClick={() => onStep(1)}>
+      <button type="button" aria-label={`Add one ${tag.toLowerCase()} ${label}`} disabled={n >= 99} onClick={() => onStep(1)}>
         +
       </button>
     </div>

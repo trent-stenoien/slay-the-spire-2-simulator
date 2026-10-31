@@ -615,7 +615,10 @@ code {
   flex: none;
 }
 .stepper-tag {
-  width: 1ch;
-  font-weight: 700;
+  flex: none;
+  width: 8ch;
+  text-align: right;
+  font-size: 0.75rem;
+  font-weight: 400;
   color: var(--muted);
 }
