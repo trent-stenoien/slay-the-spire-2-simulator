@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { gameData } from '../../data';
-import { cardFolder, changeCount, copiesOf, costColorKey, deckPool, deckSize, filteredPool, groupedPool, isCharacterSimulated, matchesSearch, startingDeckFor, toggleUpgrade, unsimulatedStarters } from './deck';
+import { automaticCards, cardFolder, combatDeckSize, changeCount, copiesOf, costColorKey, deckPool, deckSize, filteredPool, groupedPool, isCharacterSimulated, matchesSearch, startingDeckFor, toggleUpgrade, unsimulatedStarters } from './deck';
 import type { CardDef, Deck } from '../../engine/types';
 
 const deck: Deck = [
@@ -151,5 +151,39 @@ describe('costColorKey', () => {
     expect(costColorKey(card('colorless', 'curse'), 'ironclad', gameData)).toBe('curse');
     expect(costColorKey(card('I', 'curse'), 'ironclad', gameData)).toBe('curse');
     expect(costColorKey(card('colorless', 'quest'), 'ironclad', gameData)).toBe('curse');
+  });
+});
+
+describe("automatic ascension cards (Ascender's Bane)", () => {
+  const off = { statuses: false, curses: false, multiplayer: false };
+  const on = { ...off, curses: true };
+  const curseIds = (asc: number, f = off) =>
+    groupedPool(gameData, 'ironclad', '', f, asc).find((g) => g.label === 'Curses')?.cards.map((c) => c.id) ?? [];
+  const level = gameData.manifest.ascensionCards[0]!.level;
+
+  it('none below the manifest level, Bane at and above it', () => {
+    expect(automaticCards(gameData, level - 1)).toEqual([]);
+    expect(automaticCards(gameData, level).map((a) => a.card.id)).toEqual(['ascenders_bane']);
+    expect(automaticCards(gameData, 10).map((a) => a.card.id)).toEqual(['ascenders_bane']);
+    expect(automaticCards(gameData, level)[0]!.level).toBe(level);
+  });
+
+  it('is listed under Curses with the filter off, alone', () => {
+    expect(curseIds(level)).toEqual(['ascenders_bane']);
+  });
+
+  it('is listed alongside other curses with the filter on, and never below the level', () => {
+    const ids = curseIds(level, on);
+    expect(ids).toContain('ascenders_bane');
+    expect(ids.length).toBeGreaterThan(1);
+    expect(ids.filter((i) => i === 'ascenders_bane')).toHaveLength(1);
+    expect(curseIds(level - 1)).toEqual([]);
+    expect(curseIds(level - 1, on)).not.toContain('ascenders_bane');
+  });
+
+  it('counts toward the combat deck size but is not added to the deck', () => {
+    expect(combatDeckSize(gameData, deck, level - 1)).toBe(deckSize(deck));
+    expect(combatDeckSize(gameData, deck, level)).toBe(deckSize(deck) + 1);
+    expect(deck.some((e) => e.cardId === 'ascenders_bane')).toBe(false);
   });
 });

@@ -10,6 +10,7 @@ import type { RunResult } from '../../engine/types';
 import { App } from '../App';
 import { resultRows } from '../lib/results';
 import { defaultSetup } from '../lib/url';
+import { startingDeckFor } from '../lib/deck';
 import { DeckBuilder } from './DeckBuilder';
 import { CombatLog } from './CombatLog';
 import { DistributionChart } from './DistributionChart';
@@ -124,11 +125,31 @@ describe('views render', () => {
 
   it('tints deck rows with the same key as the cost circle', () => {
     const html = renderToStaticMarkup(
-      <DeckBuilder data={gameData} characterId="silent" deck={[]} onChange={() => {}} onReset={() => {}} />,
+      <DeckBuilder data={gameData} characterId="silent" ascension={0} deck={[]} onChange={() => {}} onReset={() => {}} />,
     );
     expect(html).toContain('row-silent');
     const rows = [...html.matchAll(/<li class="card-row row-(\w+)[^"]*">.*?<span class="cost cost-(\w+)"/g)];
     expect(rows.length).toBeGreaterThan(0);
     for (const [, row, cost] of rows) expect(row).toBe(cost);
+  });
+
+  it("shows Ascender's Bane locked in the Curses group at A5, not at A4, and drops the old setup note", () => {
+    const render = (ascension: number) =>
+      renderToStaticMarkup(
+        <DeckBuilder data={gameData} characterId="ironclad" ascension={ascension} deck={startingDeckFor(gameData, 'ironclad')} onChange={() => {}} onReset={() => {}} />,
+      );
+    const a5 = render(5);
+    expect(a5).toContain('Ascender&#x27;s Bane');
+    expect(a5).toContain('Added automatically at Ascension 5+');
+    expect(a5).toContain('(11 cards)');
+    expect(a5).toContain('1 in deck');
+    expect(a5).not.toContain('Add one standard Ascender');
+    const a4 = render(4);
+    expect(a4).not.toContain('Ascender');
+    expect(a4).toContain('(10 cards)');
+    const setup = renderToStaticMarkup(
+      <SetupPanel data={gameData} setup={{ ...defaultSetup(gameData), ascension: 5 }} onCharacter={() => {}} onEnemy={() => {}} onAscension={() => {}} />,
+    );
+    expect(setup).not.toContain('Ascender');
   });
 });
