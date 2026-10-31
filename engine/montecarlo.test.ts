@@ -89,6 +89,14 @@ describe('runCombatRange', () => {
 });
 
 describe('summarize', () => {
+  it('keeps the lowest combat index for each HP lost value', () => {
+    const s = summarize('x', [result('win', 3, 4), result('win', 3, 0), result('win', 3, 4), result('loss', 9, 80), result('win', 3, 0)]);
+    expect(s.firstCombatByHpLost).toEqual({ 4: 0, 0: 1, 80: 3 });
+    // Keys are exactly the HP values that occurred.
+    const seen = s.hpLostCounts.flatMap((c, hp) => (c > 0 ? [hp] : []));
+    expect(Object.keys(s.firstCombatByHpLost).map(Number).sort((a, b) => a - b)).toEqual(seen);
+  });
+
   it('computes averages, rates (as fractions) and the histogram', () => {
     const s = summarize('x', [
       result('win', 3, 0),
@@ -136,6 +144,7 @@ describe('summarize', () => {
       deathRate: 0,
       turnCapRate: 0,
       hpLostCounts: [0],
+      firstCombatByHpLost: {},
     });
   });
 });

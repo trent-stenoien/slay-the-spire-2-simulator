@@ -58,6 +58,25 @@ describe('mergeChunkResults', () => {
     const merged = mergeChunkResults(gameData.manifest.gameVersion, config, shuffled);
     expect(merged).toEqual(runSimulationSync(gameData, config, combats));
   });
+  it('keeps the minimum combat index per HP lost across chunks', () => {
+    const combats = 90;
+    const chunks = planChunks(config.strategies.length, combats, 7);
+    const results: ChunkResult[] = chunks.map((chunk) => ({
+      chunk,
+      results: runCombatRange(gameData, config, chunk.strategyIndex, chunk.from, chunk.to),
+    }));
+    const reversed = [...results].reverse();
+    const merged = mergeChunkResults(gameData.manifest.gameVersion, config, reversed);
+    merged.summaries.forEach((summary, s) => {
+      const all = runCombatRange(gameData, config, s, 0, combats);
+      const expected: Record<number, number> = {};
+      all.forEach((r, i) => {
+        if (expected[r.hpLost] === undefined) expected[r.hpLost] = i;
+      });
+      expect(summary.firstCombatByHpLost).toEqual(expected);
+      for (const [hp, idx] of Object.entries(summary.firstCombatByHpLost)) expect(all[idx]!.hpLost).toBe(Number(hp));
+    });
+  });
   it('rejects a chunk with the wrong number of results', () => {
     const [chunk] = planChunks(1, 10);
     expect(() => mergeChunkResults('v', config, [{ chunk: chunk!, results: [] }])).toThrow();

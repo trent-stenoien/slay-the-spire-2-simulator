@@ -13,6 +13,7 @@ function fakeSummary(strategyId: string, over: Partial<StrategySummary> = {}): S
     deathRate: 0.25,
     turnCapRate: 0,
     hpLostCounts: [0, 0, 1, 0, 2, 1],
+    firstCombatByHpLost: { 2: 0, 4: 1, 5: 3 },
     ...over,
   };
 }

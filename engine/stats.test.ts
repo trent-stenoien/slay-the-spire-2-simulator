@@ -13,6 +13,7 @@ function summary(hpLostCounts: number[]): StrategySummary {
     deathRate: 0,
     turnCapRate: 0,
     hpLostCounts,
+    firstCombatByHpLost: {},
   };
 }
 

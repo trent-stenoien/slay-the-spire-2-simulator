@@ -74,12 +74,18 @@ export function DistributionChart({
   initialMode = 'kde',
   hidden: hiddenProp,
   onHiddenChange,
+  percentileHref,
 }: {
   rows: ResultRow[];
   initialMode?: ChartMode;
   /** Optional controlled legend state (ids of hidden strategies); the parent can then react to it. */
   hidden?: ReadonlySet<string>;
   onHiddenChange?: (hidden: ReadonlySet<string>) => void;
+  /**
+   * Optional link for a percentile label: given the ids of every strategy showing percentiles
+   * (chart order), the label's strategy and its HP value. Labels without an href stay plain text.
+   */
+  percentileHref?: (markedIds: string[], strategyId: string, hpLost: number) => string | undefined;
 }) {
   const [mode, setMode] = useState<ChartMode>(initialMode);
   const [ownHidden, setOwnHidden] = useState<ReadonlySet<string>>(() => new Set());
@@ -275,18 +281,28 @@ export function DistributionChart({
             ))}
             {markerSets.map(({ row, markers }, s) => (
               <g key={`t-${row.strategyId}`} className="pmark-set" style={{ '--mark-color': COLOR_HEX[row.color] } as CSSProperties}>
-                {markers.map((m, i) => (
-                  <text
-                    key={`t${m.p}`}
-                    className="pmark-label"
-                    x={markerLabels[s]![i]!.x}
-                    y={labelY(markerLabels[s]![i]!.row)}
-                    textAnchor="middle"
-                    fontSize={MARK_FONT}
-                  >
-                    {m.label}
-                  </text>
-                ))}
+                {markers.map((m, i) => {
+                  const label = (
+                    <text
+                      key={`t${m.p}`}
+                      className="pmark-label"
+                      x={markerLabels[s]![i]!.x}
+                      y={labelY(markerLabels[s]![i]!.row)}
+                      textAnchor="middle"
+                      fontSize={MARK_FONT}
+                    >
+                      {m.label}
+                    </text>
+                  );
+                  const href = percentileHref?.(markerSets.map((set) => set.row.strategyId), row.strategyId, m.value);
+                  return href ? (
+                    <a key={`t${m.p}`} className="pmark-link" href={href} target="_blank" rel="noopener" aria-label={`${row.name}: ${m.label} HP lost, open the first combat with that HP lost`}>
+                      {label}
+                    </a>
+                  ) : (
+                    label
+                  );
+                })}
               </g>
             ))}
           </g>

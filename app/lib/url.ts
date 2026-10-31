@@ -3,6 +3,16 @@
  *
  *   ?v=1&c=I&e=Nb&a=0&d=St5De4Ba1            setup link
  *   ?v=1&c=I&e=Nb&a=0&d=St5De4Ba1&s=123&st=b4 combat-log link
+ *   ?v=1&c=I&e=Nb&a=0&d=St5De4Ba1&s=123&st=b4,g,b0&k=b,r,g&n=41  compare link
+ *
+ * Log params:
+ *   s   per-combat seed (required for a log link)
+ *   st  strategy code, or 2–5 distinct codes joined by "," for the side-by-side
+ *       compare view (codes never contain ","). One code = the single combat log.
+ *   k   optional, display-only: one color letter per `st` entry, joined by ","
+ *       (b blue, g green, y yellow, r red, p purple). Ignored when malformed or
+ *       when its length differs from `st`.
+ *   n   optional, display-only: 0-based combat number within the run.
  *
  * Deck: concatenated entries of card code (2 chars) + optional "+" (upgraded)
  * + count (decimal, no leading zeros). The "+" is written literally, so the
@@ -10,7 +20,7 @@
  * would turn "+" into a space).
  */
 import { parseStrategyCode, strategyCode } from '../../engine/strategies';
-import type { CardDef, Deck, GameData, StrategyConfig } from '../../engine/types';
+import { MAX_STRATEGIES_PER_RUN, type CardDef, type Deck, type GameData, type StrategyColor, type StrategyConfig } from '../../engine/types';
 import { deckPool, startingDeckFor } from './deck';
 
 export const URL_VERSION = '1';
@@ -18,6 +28,10 @@ export const MAX_ASCENSION = 10;
 const MAX_SEED = 0xffffffff;
 const MAX_COPIES = 99;
 const MAX_COMBAT_INDEX = 9999;
+
+/** One-letter color codes for the `k` param. */
+const COLOR_LETTER: Record<StrategyColor, string> = { blue: 'b', green: 'g', yellow: 'y', red: 'r', purple: 'p' };
+const LETTER_COLOR = new Map(Object.entries(COLOR_LETTER).map(([c, l]) => [l, c as StrategyColor]));
 
 export interface SetupState {
   characterId: string;
@@ -29,7 +43,10 @@ export interface SetupState {
 export interface LogTarget {
   /** Per-combat seed passed straight to runCombat. */
   seed: number;
-  strategy: StrategyConfig;
+  /** 1 strategy: the single combat log. 2–MAX_STRATEGIES_PER_RUN: the compare view, in column order. */
+  strategies: StrategyConfig[];
+  /** Optional display colors, one per strategy (`k`). */
+  colors?: StrategyColor[];
   /** 0-based combat number within the run, when the link came from the results picker (optional `n`). Display only. */
   combatIndex?: number;
 }
@@ -112,7 +129,7 @@ export function decodeDeck(data: GameData, characterId: string, text: string): D
 // Query string
 // ---------------------------------------------------------------------------
 
-/** Build the query string (without "?"). Param order is fixed: v c e a d [s st [n]]. */
+/** Build the query string (without "?"). Param order is fixed: v c e a d [s st [k] [n]]. */
 export function buildQuery(data: GameData, setup: SetupState, log?: LogTarget | null): string {
   const character = data.characters[setup.characterId];
   const enemy = data.enemies[setup.enemyId];
@@ -125,7 +142,13 @@ export function buildQuery(data: GameData, setup: SetupState, log?: LogTarget | 
     `a=${setup.ascension}`,
     `d=${encodeDeck(data, setup.deck)}`,
   ];
-  if (log) parts.push(`s=${log.seed >>> 0}`, `st=${strategyCode(log.strategy)}`);
+  if (log) {
+    if (log.strategies.length < 1 || log.strategies.length > MAX_STRATEGIES_PER_RUN) {
+      throw new Error(`A log link needs 1–${MAX_STRATEGIES_PER_RUN} strategies, got ${log.strategies.length}`);
+    }
+    parts.push(`s=${log.seed >>> 0}`, `st=${log.strategies.map(strategyCode).join(',')}`);
+    if (log.colors && log.colors.length === log.strategies.length) parts.push(`k=${log.colors.map((c) => COLOR_LETTER[c]).join(',')}`);
+  }
   if (log && log.combatIndex !== undefined) parts.push(`n=${log.combatIndex}`);
   return parts.join('&');
 }
@@ -216,7 +239,7 @@ export function parseQuery(data: GameData, search: string): ParsedUrl {
   const st = p.get('st');
   if (s !== undefined || st !== undefined) {
     let seed: number | null = null;
-    let strategy: StrategyConfig | null = null;
+    let strategies: StrategyConfig[] | null = null;
     if (s === undefined) errors.push('Combat link is missing the seed (s)');
     else {
       seed = parseIntStrict(s, MAX_SEED);
@@ -224,11 +247,14 @@ export function parseQuery(data: GameData, search: string): ParsedUrl {
     }
     if (st === undefined) errors.push('Combat link is missing the strategy (st)');
     else {
-      strategy = parseStrategyCode(st);
-      if (!strategy) errors.push(`Unknown strategy code "${st}"`);
+      const r = parseStrategyList(st);
+      if (r.ok) strategies = r.strategies;
+      else errors.push(r.error);
     }
-    if (seed !== null && strategy) {
-      log = { seed, strategy };
+    if (seed !== null && strategies) {
+      log = { seed, strategies };
+      const colors = parseColorList(p.get('k'), strategies.length);
+      if (colors) log.colors = colors;
       const n = p.get('n');
       // Optional and display-only: a bad value is ignored, never an error.
       const combatIndex = n === undefined ? null : parseIntStrict(n, MAX_COMBAT_INDEX);
@@ -237,4 +263,28 @@ export function parseQuery(data: GameData, search: string): ParsedUrl {
   }
 
   return { setup, log, errors };
+}
+
+/** Parse `st`: one strategy code, or up to MAX_STRATEGIES_PER_RUN distinct codes joined by ",". */
+export function parseStrategyList(text: string): { ok: true; strategies: StrategyConfig[] } | { ok: false; error: string } {
+  const codes = text.split(',');
+  if (codes.length > MAX_STRATEGIES_PER_RUN) return { ok: false, error: `A combat link holds at most ${MAX_STRATEGIES_PER_RUN} strategies, got ${codes.length}` };
+  const strategies: StrategyConfig[] = [];
+  const seen = new Set<string>();
+  for (const code of codes) {
+    const config = parseStrategyCode(code);
+    if (!config) return { ok: false, error: `Unknown strategy code "${code}"` };
+    if (seen.has(code)) return { ok: false, error: `Strategy code "${code}" appears more than once` };
+    seen.add(code);
+    strategies.push(config);
+  }
+  return { ok: true, strategies };
+}
+
+/** Parse the optional, display-only `k`; null when absent, malformed or not one color per strategy. */
+export function parseColorList(text: string | undefined, count: number): StrategyColor[] | null {
+  if (text === undefined) return null;
+  const colors = text.split(',').map((l) => LETTER_COLOR.get(l));
+  if (colors.length !== count || colors.some((c) => c === undefined)) return null;
+  return colors as StrategyColor[];
 }

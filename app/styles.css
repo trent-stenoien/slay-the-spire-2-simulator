@@ -815,6 +815,48 @@ svg.chart {
   border-top: 1px solid var(--border);
   margin-top: 16px;
 }
+/* View a combat: one checkbox per strategy, in its color. */
+.strategy-checks {
+  border: none;
+  margin: 0;
+  padding: 0;
+  flex: 1 1 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+.strategy-checks legend {
+  padding: 0;
+  margin-bottom: 4px;
+}
+.strategy-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.strategy-check input {
+  width: auto;
+  margin: 0;
+  accent-color: var(--strategy-color);
+}
+.strategy-check .legend-swatch {
+  margin-right: 0;
+}
+/* Percentile labels that open a combat. */
+.chart .pmark-link {
+  cursor: pointer;
+}
+.chart .pmark-link:hover .pmark-label,
+.chart .pmark-link:focus-visible .pmark-label {
+  text-decoration: underline;
+}
+.chart .pmark-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
 
 /* Combat log */
 .outcome {
@@ -866,6 +908,43 @@ svg.chart {
 }
 .combat-number {
   margin: 4px 0;
+}
+/* Compare view: one column per strategy, all on the same turn; stacked on narrow screens. */
+.app:has(.compare-cols) {
+  max-width: 1600px;
+}
+.compare-cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 760px) {
+  .compare-cols {
+    grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
+  }
+}
+.compare-col {
+  min-width: 0;
+  border-top: 4px solid var(--strategy-color, var(--border));
+  padding-top: 8px;
+}
+.compare-head h3 {
+  margin: 0;
+  font-size: 1rem;
+  overflow-wrap: anywhere;
+}
+.compare-head .outcome {
+  margin: 2px 0 0;
+}
+.compare-col .fighters {
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+.compare-ended {
+  margin: 16px 0;
+  padding: 12px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  text-align: center;
 }
 .intent {
   margin: 16px 0 6px;

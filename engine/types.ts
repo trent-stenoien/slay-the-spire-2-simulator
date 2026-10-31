@@ -436,6 +436,11 @@ export interface StrategySummary {
   turnCapRate: number;
   /** hpLostCounts[n] = number of combats that lost exactly n HP. */
   hpLostCounts: number[];
+  /**
+   * firstCombatByHpLost[n] = the lowest 0-based combat index that lost exactly n HP.
+   * Has a key only for HP values that occurred (the non-zero entries of hpLostCounts).
+   */
+  firstCombatByHpLost: Record<number, number>;
 }
 
 export interface RunResult {
