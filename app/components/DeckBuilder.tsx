@@ -67,7 +67,7 @@ function CardRow({ card, colorKey, deck, onChange }: { card: CardDef; colorKey: 
   const n = copiesOf(deck, card.id, false);
   const nUp = copiesOf(deck, card.id, true);
   return (
-    <li className={`card-row type-${card.type}${n + nUp > 0 ? ' in-deck' : ''}`}>
+    <li className={`card-row row-${colorKey} type-${card.type}${n + nUp > 0 ? ' in-deck' : ''}`}>
       <div className="card-head">
         <span className={`cost cost-${colorKey}`} title="Energy cost">
           {base.cost}

@@ -317,8 +317,34 @@ button:disabled {
   align-items: center;
   column-gap: 10px;
   row-gap: 4px;
-  padding: 8px 0;
-  border-top: 1px solid var(--border);
+  padding: 8px 10px;
+  margin: 0 0 6px;
+  border-radius: 8px;
+  background: var(--row-bg, var(--surface-2));
+}
+.row-ironclad {
+  --row-bg: color-mix(in srgb, var(--char-ironclad) 12%, var(--surface));
+}
+.row-silent {
+  --row-bg: color-mix(in srgb, var(--char-silent) 12%, var(--surface));
+}
+.row-regent {
+  --row-bg: color-mix(in srgb, var(--char-regent) 14%, var(--surface));
+}
+.row-necrobinder {
+  --row-bg: color-mix(in srgb, var(--char-necrobinder) 12%, var(--surface));
+}
+.row-defect {
+  --row-bg: color-mix(in srgb, var(--char-defect) 12%, var(--surface));
+}
+.row-colorless {
+  --row-bg: color-mix(in srgb, var(--char-colorless) 14%, var(--surface));
+}
+.row-curse {
+  --row-bg: color-mix(in srgb, #000 22%, var(--surface));
+}
+.card-row .stepper button {
+  background: var(--surface);
 }
 .card-row:not(.in-deck) .card-name,
 .card-row:not(.in-deck) .card-label,
