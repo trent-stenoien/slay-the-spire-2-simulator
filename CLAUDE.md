@@ -18,8 +18,9 @@ request (branch name, what changed, test/typecheck/build results).
 
 All work is tracked on the Kanban board https://github.com/users/trent-stenoien/projects/4.
 Each card is an issue in this repo (auto-added to the board in Backlog), labelled with an area
-(`engine`, `data`, `ui`, `strategy`) and a version (`version: v1`, or `version: future` when none
-was set). Columns: Backlog → Questions or Ready → In progress → In review → Done.
+(`engine`, `data`, `ui`, `strategy`) and a version: `version: v1` (Ironclad focus),
+`version: v2` (other characters' mechanics, multi-enemy fights), or `version: future` when none
+was set. Cards for a version later than the one in development stay in Backlog. Columns: Backlog → Questions or Ready → In progress → In review → Done.
 
 - Planning phase: the user and orchestrator add cards. No new sub-agents start.
 - Building phase: the orchestrator assigns Ready cards to sub-agents.
