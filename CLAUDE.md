@@ -34,6 +34,8 @@ was set. Cards for a version later than the one in development stay in Backlog. 
   inside Web Workers and Vitest.
 - `data/` — hand-entered JSON: `manifest.json`, `cards/` (shared Strike/Defend at the top level; `ironclad/`, `colorless/`, `curses/` subfolders), `enemies/`, `characters/`.
   Source: slaythespire.wiki.gg (CC BY-SA 4.0; keep attribution in `data/LICENSE`).
+  Import main-release data only (the version in `manifest.json`), never beta. The wiki marks
+  beta content with a "Beta Content Warning" or "(Beta only currently)".
 - `app/` — React UI, workers, charts. May import from `engine/` and `data/`.
 
 ## The contract

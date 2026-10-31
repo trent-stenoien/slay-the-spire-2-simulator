@@ -15,6 +15,14 @@ or `lastUpdateVersion`. Never touch `engine/` or `data/validate.ts`.
 
 The contract is `engine/types.ts` (`CardDef`, `Effect`). Read it once before starting.
 
+## Main-release data only
+
+Import only main-release data (the game version in `data/manifest.json`), never beta-branch
+data. The wiki marks beta content with a "Beta Content Warning" banner or "(Beta only
+currently)"; skip those cards, and use the main-release numbers where a page shows both.
+If a card already in `data/cards/` turns out to be beta-only, don't delete it (card codes
+are permanent): add a question instead.
+
 ## Reading the card text
 
 `description` / `upgradedDescription` are already split into base and upgraded text.
@@ -31,6 +39,7 @@ The contract is `engine/types.ts` (`CardDef`, `Effect`). Read it once before sta
 | Deal N damage. | `{ "type": "attack", "damage": N, "hits": 1 }` |
 | Deal N damage twice / K times. | `{ "type": "attack", "damage": N, "hits": K }` |
 | Deal N damage to ALL enemies. | `{ "type": "attack", "damage": N, "hits": 1, "allEnemies": true }` |
+| Deal N damage to a random enemy (K times / twice). | `{ "type": "attack", "damage": N, "hits": K }` (no target flag) |
 | Gain N Block. | `{ "type": "gainBlock", "amount": N }` |
 | Gain N Strength. (permanent) | `{ "type": "gainStrength", "amount": N }` |
 | Apply N Vulnerable. | `{ "type": "applyVulnerable", "amount": N }` |
@@ -39,15 +48,20 @@ The contract is `engine/types.ts` (`CardDef`, `Effect`). Read it once before sta
 | Apply N Poison. (fixed N, the one/target enemy) | `{ "type": "applyPoison", "amount": N }` |
 | Gain N Stars. | `{ "type": "gainStars", "amount": N }` |
 
+Fights are single-enemy for now: a random-target attack always hits the one enemy, and
+ALL-enemies damage counts once. `engine/types.ts` has no `randomTarget` flag, so random-target
+damage is a plain `attack`. This covers fixed damage only: X-cost ("X times"), "for each",
+Osty and power triggers ("Whenever …, deal N damage to a random enemy") still have no effect object.
+
 Effects go in card-text order. Damage/Block numbers are the printed base values
 (Strength is applied by the engine). If the upgraded effects differ in any way, write the
 FULL upgraded list in `upgraded.effects` (it replaces the base list). If only the cost or
 keywords change, leave `upgraded.effects` out.
 
 Anything not in the table (draw, discard, energy gain, lose HP, Doom, Orbs,
-Summon, Forge, "this turn" Strength, conditions, X-cost scaling, "for each", random
-targets, creating cards, powers, multiplayer, Poison that is conditional, scaling,
-"ALL enemies" or random-target, …) has no effect object. Record the parts
+Summon, Forge, "this turn" Strength, conditions, X-cost scaling, "for each",
+creating cards, powers, multiplayer, Poison that is conditional, scaling,
+or random-target Poison/debuffs, …) has no effect object. Record the parts
 you CAN express, in order, and skip the rest.
 
 ## simulated

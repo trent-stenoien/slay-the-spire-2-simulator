@@ -8,3 +8,5 @@
 - **Echoing Slash, Skewer, Malaise (X-cost and conditional scaling)**: Should X-cost, "for each" and "repeat on kill" scaling be added? Recorded as partial/empty.
 - **Dexterity / Intangible / Thorns / Retain**: No Dexterity or Intangible effects exist; Dexterity-based cards (Footwork, Anticipate, Wraith Form) are empty and unsimulated.
 - **Multiplayer wording (Blade Symphony, Concoct, Fade, Flanking, Sneaky, Nightmare)**: Should multiplayer-only text cards be left permanently unsimulated?
+- **Ricochet** (#6): random-target damage recorded as a plain `attack` 3×4 (3×5 upgraded), no `randomTarget` flag in the contract; still false because of Sly.
+- **Bouncing Flask**: "Apply 3 Poison to a random enemy 3 times" against one enemy is 9 Poison; should it be recorded as three `applyPoison` 3 effects and simulated, or left until Poison targeting is settled? Left empty and false for now.
