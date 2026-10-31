@@ -9,8 +9,20 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "gainEnergy",
+      "amount": 2
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "gainEnergy",
+        "amount": 3
+      }
+    ]
+  },
   "description": "Lose 3 HP. / Gain [E][E].",
   "upgradedDescription": "Lose 3 HP. / Gain [E][E][E].",
   "simulated": false,

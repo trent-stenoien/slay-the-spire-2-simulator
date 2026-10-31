@@ -2,11 +2,31 @@ import { describe, expect, it } from 'vitest';
 import { makeCardInstance } from './combat';
 import { createStrategy, parseStrategyCode, pickAttack, pickBlock, strategyCode } from './strategies';
 import { cards } from './testFixtures';
-import type { CardInstance, CombatState, StrategyConfig, StrategyView } from './types';
+import type { CardDef, CardInstance, CombatState, StrategyConfig, StrategyView } from './types';
+
+/** Extra test cards: Tremble (#1), energy gain (#22), X-cost (#23). */
+const extra: Record<string, CardDef> = {
+  tremble: {
+    ...cards.defend!, id: 'tremble', code: 'Tl', cost: 1, keywords: ['exhaust'],
+    effects: [{ type: 'applyVulnerable', amount: 3 }], upgraded: { effects: [{ type: 'applyVulnerable', amount: 4 }] },
+  },
+  fuel: { ...cards.defend!, id: 'fuel', code: 'Fu', cost: 0, keywords: ['exhaust'], effects: [{ type: 'gainEnergy', amount: 1 }], upgraded: null },
+  ritual: { ...cards.defend!, id: 'ritual', code: 'FR', cost: 1, keywords: ['exhaust'], effects: [{ type: 'gainEnergy', amount: 3 }], upgraded: null },
+  /** Gains exactly its cost back: not a net energy card. */
+  wash: { ...cards.defend!, id: 'wash', code: 'Wa', cost: 1, effects: [{ type: 'gainEnergy', amount: 1 }], upgraded: null },
+  whirlwind: {
+    ...cards.strike!, id: 'whirlwind', code: 'Wh', cost: 0, xCost: true,
+    effects: [{ type: 'attack', damage: 5, hits: 1, allEnemies: true, xTimes: true }], upgraded: null,
+  },
+  xblock: {
+    ...cards.defend!, id: 'xblock', code: 'XB', cost: 0, xCost: true,
+    effects: [{ type: 'gainBlock', amount: 20 }], upgraded: null,
+  },
+};
 
 let nextUid = 0;
-function card(id: keyof typeof cards, upgraded = false): CardInstance {
-  return makeCardInstance(cards[id]!, upgraded, nextUid++);
+function card(id: keyof typeof cards | keyof typeof extra, upgraded = false): CardInstance {
+  return makeCardInstance((cards[id] ?? extra[id])!, upgraded, nextUid++);
 }
 
 /**
@@ -43,8 +63,11 @@ function playTurn(config: StrategyConfig, hand: CardInstance[], incoming: number
     const c = state.player.hand[idx]!;
     expect(view.playable).toContain(c);
     state.player.hand.splice(idx, 1);
-    state.player.energy -= c.cost!;
-    for (const e of c.effects) if (e.type === 'gainBlock') state.player.block += e.amount;
+    state.player.energy -= c.xCost ? state.player.energy : c.cost!;
+    for (const e of c.effects) {
+      if (e.type === 'gainBlock') state.player.block += e.amount;
+      if (e.type === 'gainEnergy') state.player.energy += e.amount;
+    }
     played.push(c.cardId);
   }
   throw new Error('strategy never ended its turn');
@@ -127,6 +150,96 @@ describe('pick helpers', () => {
     const us = makeCardInstance(cards.ultimate_strike!, true, 0);
     const bash = makeCardInstance(cards.bash!, false, 1);
     expect(pickAttack([us, bash])!.cardId).toBe('bash');
+  });
+});
+
+const G: StrategyConfig = { kind: 'greedyDamage' };
+const B0: StrategyConfig = { kind: 'block', allowThrough: 0 };
+const B4: StrategyConfig = { kind: 'block', allowThrough: 4 };
+
+describe('Tremble first (#1)', () => {
+  it('Greedy plays Tremble before Bash and Strikes', () => {
+    expect(playTurn(G, [card(S), card(B), card('tremble'), card(D)], 12)).toEqual(['tremble', B]);
+  });
+
+  it('block strategies play Tremble before blocking', () => {
+    expect(playTurn(B0, [card(D), card(D), card('tremble'), card(S)], 10)).toEqual(['tremble', D, D]);
+    expect(playTurn(B4, [card(S), card(D), card('tremble')], 0)).toEqual(['tremble', S, D]);
+  });
+
+  it('upgraded Tremble counts too; two Trembles go lowest uid first', () => {
+    const t1 = card('tremble', true);
+    const t2 = card('tremble');
+    expect(playTurn(G, [card(S), t2, t1], 0, 2)).toEqual(['tremble', 'tremble']);
+  });
+
+  it('Tremble is played only while affordable; it does not block other plays', () => {
+    expect(playTurn(G, [card('tremble')], 0, 0)).toEqual([]);
+    // Bash first would leave 0 for Tremble; Tremble first leaves 1 for a Strike.
+    expect(playTurn(G, [card(B), card(S), card('tremble')], 0, 2)).toEqual(['tremble', S]);
+  });
+});
+
+describe('energy gain (#22)', () => {
+  it('Greedy plays a net energy card first, then uses the extra energy', () => {
+    // 3 energy + Ritual (1 → 3) = 5: Bash (2) + 3 Strikes.
+    const hand = [card(S), card(S), card(S), card(B), card('ritual')];
+    expect(playTurn(G, hand, 0)).toEqual(['ritual', B, S, S, S]);
+  });
+
+  it('block strategies play it first too, and the extra energy goes to block and attacks', () => {
+    const hand = [card(D), card(D), card(S), card(S), card('fuel')];
+    expect(playTurn(B0, hand, 10)).toEqual(['fuel', D, D, S, S]);
+  });
+
+  it('Tremble still comes before the energy card', () => {
+    expect(playTurn(G, [card(S), card('fuel'), card('tremble')], 0, 1)).toEqual(['tremble', 'fuel', S]);
+  });
+
+  it('an energy card with nothing to spend it on stays in hand', () => {
+    expect(playTurn(G, [card('fuel')], 0)).toEqual([]);
+    expect(playTurn(G, [card('fuel'), card('ascenders_bane')], 0)).toEqual([]);
+  });
+
+  it('a card that only gains back its cost is not played first', () => {
+    expect(playTurn(G, [card('wash'), card(S)], 0, 1)).toEqual([S]);
+  });
+
+  it('at 0 energy, Fuel unlocks a Strike', () => {
+    expect(playTurn(G, [card(S), card('fuel')], 0, 0)).toEqual(['fuel', S]);
+  });
+});
+
+describe('X-cost (#23)', () => {
+  it('Greedy plays X-cost attacks last among attacks, with the leftover energy', () => {
+    expect(playTurn(G, [card('whirlwind'), card(S), card(D)], 0)).toEqual([S, 'whirlwind']);
+    expect(playTurn(G, [card('whirlwind'), card(B), card(S)], 0, 3)).toEqual([B, S]);
+  });
+
+  it('never plays an X-cost card at 0 energy', () => {
+    expect(playTurn(G, [card('whirlwind')], 0, 0)).toEqual([]);
+    expect(playTurn(B0, [card('xblock')], 20, 0)).toEqual([]);
+  });
+
+  it('block strategy: blocks first, then the X attack takes what is left', () => {
+    expect(playTurn(B0, [card('whirlwind'), card(D), card(S)], 5)).toEqual([D, S, 'whirlwind']);
+  });
+
+  it('X-cost block cards are block, played after other block cards', () => {
+    expect(playTurn(B0, [card('xblock'), card(D), card(S)], 30)).toEqual([D, 'xblock']);
+  });
+
+  it('energy cards come before the X attack so X is larger', () => {
+    expect(playTurn(G, [card('whirlwind'), card('ritual')], 0)).toEqual(['ritual', 'whirlwind']);
+  });
+
+  it('pickAttack scores an X attack by the current energy but still ranks it last', () => {
+    const w = card('whirlwind');
+    const s = card(S);
+    expect(pickAttack([w, s], 5)!.uid).toBe(s.uid);
+    expect(pickAttack([w], 5)!.uid).toBe(w.uid);
+    expect(pickAttack([w], 0)).toBeUndefined();
+    expect(pickBlock([card('xblock')], 0)).toBeUndefined();
   });
 });
 

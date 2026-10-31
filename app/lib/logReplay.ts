@@ -148,7 +148,11 @@ export function describeEvent(ev: GameEvent, name: (cardId: string) => string): 
   const who = (s: 'player' | 'enemy') => (s === 'player' ? 'You' : 'Enemy');
   switch (ev.t) {
     case 'play':
-      return `Play ${name(ev.cardId)} (${ev.energyLeft} energy left)`;
+      return ev.x !== undefined
+        ? `Play ${name(ev.cardId)} (X = ${ev.x}, ${ev.energyLeft} energy left)`
+        : `Play ${name(ev.cardId)} (${ev.energyLeft} energy left)`;
+    case 'energy':
+      return `You gain ${ev.amount} energy (${ev.total} energy)`;
     case 'damage': {
       const by = ev.source === 'player' ? 'You hit' : 'Enemy hits';
       const parts = [`${by} for ${ev.amount}`];

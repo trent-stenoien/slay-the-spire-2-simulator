@@ -38,14 +38,27 @@ The contract is `engine/types.ts` (`CardDef`, `Effect`). Read it once before sta
 | Apply N Frail. | `{ "type": "applyFrail", "amount": N }` |
 | Apply N Poison. (fixed N, the one/target enemy) | `{ "type": "applyPoison", "amount": N }` |
 | Gain N Stars. | `{ "type": "gainStars", "amount": N }` |
+| Gain [E] / [E][E] / N [E]. (this turn) | `{ "type": "gainEnergy", "amount": N }` |
+| (X-cost card) Deal N damage X times. | `{ "type": "attack", "damage": N, "hits": 1, "xTimes": true }` |
+| (X-cost card) Deal N damage to ALL enemies X times. | `{ "type": "attack", "damage": N, "hits": 1, "allEnemies": true, "xTimes": true }` |
+| (X-cost card) Deal N damage X+1 times. | `{ "type": "attack", "damage": N, "hits": 1, "xTimes": true, "xBonus": 1 }` |
+
+`gainEnergy` is only for energy gained right now. "Next turn, gain [E]", "Gain [E] at the
+start of each turn", "When this card is Exhausted, gain [E]", conditional gains and
+"Another player gains [E]" have no effect object.
+
+X is all the energy available when the card is played (the card spends all of it).
+`xTimes` (only on cards with `"xCost": true`) makes the attack repeat X times: total hits =
+`hits` × (X + `xBonus`). Only "X times" attacks are expressible; other uses of X (X Weak,
+Channel X, play X cards, …) and Regent's X-Star cards have no effect object.
 
 Effects go in card-text order. Damage/Block numbers are the printed base values
 (Strength is applied by the engine). If the upgraded effects differ in any way, write the
 FULL upgraded list in `upgraded.effects` (it replaces the base list). If only the cost or
 keywords change, leave `upgraded.effects` out.
 
-Anything not in the table (draw, discard, energy gain, lose HP, Doom, Orbs,
-Summon, Forge, "this turn" Strength, conditions, X-cost scaling, "for each", random
+Anything not in the table (draw, discard, delayed or conditional energy gain, lose HP, Doom, Orbs,
+Summon, Forge, "this turn" Strength, conditions, X-cost scaling other than "X times" attacks, "for each", random
 targets, creating cards, powers, multiplayer, Poison that is conditional, scaling,
 "ALL enemies" or random-target, …) has no effect object. Record the parts
 you CAN express, in order, and skip the rest.
@@ -56,7 +69,8 @@ Set `"simulated": true` only when ALL of these hold, for base AND upgraded versi
 1. Every sentence of the text is captured by the effects/keywords above.
 2. Keywords are only `unplayable`, `ethereal`, `eternal`, `exhaust`, `innate`, `retain`
    (`sly` is recorded only, not simulated).
-3. No `gainStars` effect, no `starCost`, not `xCost`.
+3. No `gainStars` effect, no `starCost`, not `xStarCost`. An `xCost` card qualifies only
+   when every X in its text (base and upgraded) is an "X times" attack (`xTimes`).
 4. Type is attack or skill (powers, statuses with end-of-turn effects, quests → false).
    Exception: a status/curse whose whole text is keywords (e.g. `Unplayable. Ethereal.`)
    can be `true`.
@@ -86,6 +100,17 @@ Apparition — base `Ethereal. / Gain 1 Intangible. / Exhaust.`, upgraded `Gain 
 ```json
 "keywords": ["ethereal", "exhaust"], "effects": [],
 "upgraded": { "keywords": ["exhaust"] }, "simulated": false
+```
+Whirlwind (X-cost) — `Deal 5 damage to ALL enemies X times.` → `Deal 8 damage to ALL enemies X times.`
+```json
+"effects": [{ "type": "attack", "damage": 5, "hits": 1, "allEnemies": true, "xTimes": true }],
+"upgraded": { "effects": [{ "type": "attack", "damage": 8, "hits": 1, "allEnemies": true, "xTimes": true }] },
+"simulated": true
+```
+Fuel — `Gain [E]. / Exhaust.` → `Gain [E][E]. / Exhaust.`
+```json
+"keywords": ["exhaust"], "effects": [{ "type": "gainEnergy", "amount": 1 }],
+"upgraded": { "effects": [{ "type": "gainEnergy", "amount": 2 }] }, "simulated": true
 ```
 Dazed (status) — `Unplayable. / Ethereal.` → `"keywords": ["unplayable", "ethereal"], "effects": [], "simulated": true`
 

@@ -16,6 +16,10 @@ export function effectText(e: Effect): string {
     case 'attack':
       {
       const target = e.allEnemies ? ' to ALL enemies' : '';
+      if (e.xTimes) {
+        const x = e.xBonus ? `X+${e.xBonus}` : 'X';
+        return `Deal ${e.damage} damage${target} ${e.hits === 1 ? x : `${e.hits}×(${x})`} times`;
+      }
       return e.hits === 1 ? `Deal ${e.damage} damage${target}` : `Deal ${e.damage} damage${target} ${e.hits} times`;
     }
     case 'gainBlock':
@@ -30,6 +34,8 @@ export function effectText(e: Effect): string {
       return `Apply ${e.amount} Frail`;
     case 'applyPoison':
       return `Apply ${e.amount} Poison`;
+    case 'gainEnergy':
+      return `Gain ${e.amount} Energy`;
     case 'gainStars':
       return `Gain ${e.amount} Stars`;
   }
@@ -37,7 +43,7 @@ export function effectText(e: Effect): string {
 
 export interface CardText {
   name: string;
-  /** "1", "0", or "—" for unplayable. */
+  /** "1", "0", "X" for X-cost, or "—" for unplayable. */
   cost: string;
   /** Keywords first, then effects, one phrase each. */
   lines: string[];
@@ -51,7 +57,7 @@ export function cardText(def: CardDef, upgraded: boolean): CardText {
   const cost = keywords.includes('unplayable') ? null : up?.cost !== undefined ? up.cost : def.cost;
   return {
     name: up ? `${def.name}+` : def.name,
-    cost: cost === null ? '—' : String(cost),
+    cost: cost === null ? '—' : def.xCost ? 'X' : String(cost),
     lines: [...keywords.map((k) => KEYWORD_LABEL[k]), ...effects.map(effectText)],
   };
 }

@@ -33,6 +33,7 @@ const AMOUNT_EFFECTS = [
   'applyWeak',
   'applyFrail',
   'applyPoison',
+  'gainEnergy',
   'gainStars',
 ] as const;
 const TWO_CHAR_CODE = /^[A-Za-z0-9]{2}$/;
@@ -129,6 +130,11 @@ function checkEffects(r: Reporter, list: unknown, path: string): void {
       r.int(e, 'damage', 0, `${p}.damage`);
       r.int(e, 'hits', 1, `${p}.hits`);
       if ('allEnemies' in e && e.allEnemies !== undefined) r.bool(e, 'allEnemies', `${p}.allEnemies`);
+      if ('xTimes' in e && e.xTimes !== undefined) r.bool(e, 'xTimes', `${p}.xTimes`);
+      if ('xBonus' in e && e.xBonus !== undefined) {
+        r.int(e, 'xBonus', 0, `${p}.xBonus`);
+        if (e.xTimes !== true) r.add(`${p}.xBonus`, 'is only allowed with "xTimes": true');
+      }
     } else if (
       typeof e.type === 'string' &&
       (AMOUNT_EFFECTS as readonly string[]).includes(e.type)
@@ -140,12 +146,31 @@ function checkEffects(r: Reporter, list: unknown, path: string): void {
   });
 }
 
-/** v1 simulates Poison on enemies only, so enemy moves may not apply it. */
+/**
+ * Card-only mechanics: v1 simulates Poison on enemies only, enemies have no
+ * energy, and "X times" needs an X-cost card.
+ */
 function checkNoEnemyPoison(r: Reporter, list: unknown, path: string): void {
   if (!Array.isArray(list)) return;
   list.forEach((e, i) => {
-    if (isObj(e) && e.type === 'applyPoison') r.add(`${path}[${i}].type`, 'is "applyPoison", but Poison on the player is not simulated');
+    if (!isObj(e)) return;
+    if (e.type === 'applyPoison') r.add(`${path}[${i}].type`, 'is "applyPoison", but Poison on the player is not simulated');
+    if (e.type === 'gainEnergy') r.add(`${path}[${i}].type`, 'is "gainEnergy", but enemies have no energy');
+    if (e.xTimes === true) r.add(`${path}[${i}].xTimes`, 'is only allowed on X-cost cards');
   });
+}
+
+/** `xTimes` effects only on X-cost cards. */
+function checkXTimes(r: Reporter, c: Obj, list: unknown, path: string): void {
+  if (!Array.isArray(list) || c.xCost === true) return;
+  list.forEach((e, i) => {
+    if (isObj(e) && e.xTimes === true) r.add(`${path}[${i}].xTimes`, 'is only allowed on X-cost cards ("xCost": true)');
+  });
+}
+
+/** True when some effect in the list scales with X. */
+function usesX(list: unknown): boolean {
+  return Array.isArray(list) && list.some((e) => isObj(e) && e.xTimes === true);
 }
 
 function checkKeywords(r: Reporter, list: unknown, path: string): void {
@@ -244,7 +269,13 @@ function checkCard(r: Reporter, c: Obj): void {
       }
     }
     if (c.starCost !== null) r.add('simulated', 'is true but the card has a Star cost');
-    if (c.xCost === true) r.add('simulated', 'is true but X-cost cards are not simulated');
+    if (c.xStarCost === true) r.add('simulated', 'is true but X-Star cards are not simulated');
+    if (c.xCost === true) {
+      const upEffects = isObj(c.upgraded) && Array.isArray(c.upgraded.effects) ? c.upgraded.effects : c.effects;
+      if (!usesX(c.effects) || (c.upgraded !== null && !usesX(upEffects))) {
+        r.add('simulated', 'is true but the X-cost card has no effect that scales with X ("xTimes")');
+      }
+    }
   }
   checkKeywords(r, c.keywords, 'keywords');
   const unplayable = Array.isArray(c.keywords) && c.keywords.includes('unplayable');
@@ -252,6 +283,8 @@ function checkCard(r: Reporter, c: Obj): void {
     r.add('cost', 'must be null exactly when keywords include "unplayable"');
   }
   checkEffects(r, c.effects, 'effects');
+  checkXTimes(r, c, c.effects, 'effects');
+  if (isObj(c.upgraded)) checkXTimes(r, c, c.upgraded.effects, 'upgraded.effects');
   if (c.upgraded !== null) {
     if (!isObj(c.upgraded)) {
       r.add('upgraded', 'must be an object or null');

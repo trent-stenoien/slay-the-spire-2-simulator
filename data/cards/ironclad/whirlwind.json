@@ -9,11 +9,29 @@
   "xCost": true,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 5,
+      "hits": 1,
+      "allEnemies": true,
+      "xTimes": true
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 8,
+        "hits": 1,
+        "allEnemies": true,
+        "xTimes": true
+      }
+    ]
+  },
   "description": "Deal 5 damage to ALL enemies X times.",
   "upgradedDescription": "Deal 8 damage to ALL enemies X times.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }
