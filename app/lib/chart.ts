@@ -1,4 +1,5 @@
 /** Pure scaling helpers for the hand-built SVG distribution chart. */
+import { silvermanBandwidth } from '../../engine/stats';
 
 export interface Point {
   x: number;
@@ -95,4 +96,34 @@ export function areaPath(points: readonly Point[], sx: (v: number) => number, sy
 /** Percent label for an axis tick: "12%", "2.5%". */
 export function percentLabel(v: number): string {
   return `${fmt(v)}%`;
+}
+
+/**
+ * Legend toggle: returns a new set of hidden strategy ids with `id` flipped
+ * (visible -> hidden, hidden -> visible). The input set is not modified.
+ */
+export function toggleHidden(hidden: ReadonlySet<string>, id: string): Set<string> {
+  const next = new Set(hidden);
+  if (next.has(id)) next.delete(id);
+  else next.add(id);
+  return next;
+}
+
+/** KDE smoothing slider: a multiplier on each strategy's Silverman bandwidth. */
+export const BANDWIDTH_FACTOR = { min: 0.25, max: 3, step: 0.05, default: 1 } as const;
+
+/** Clamp a slider value into [min, max]; non-finite values give the default (×1). */
+export function clampBandwidthFactor(factor: number): number {
+  if (!Number.isFinite(factor)) return BANDWIDTH_FACTOR.default;
+  return Math.min(BANDWIDTH_FACTOR.max, Math.max(BANDWIDTH_FACTOR.min, factor));
+}
+
+/** KDE bandwidth for one strategy: Silverman's rule × the (clamped) slider factor. */
+export function kdeBandwidth(hpLostCounts: readonly number[], factor: number): number {
+  return silvermanBandwidth(hpLostCounts) * clampBandwidthFactor(factor);
+}
+
+/** Slider label: "×1.00". */
+export function bandwidthFactorLabel(factor: number): string {
+  return `×${clampBandwidthFactor(factor).toFixed(2)}`;
 }

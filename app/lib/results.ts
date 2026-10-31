@@ -1,5 +1,5 @@
 /** Joins a RunResult's summaries with the run's strategies and formats stats. */
-import type { RunResult, StrategyColor, StrategySummary } from '../../engine/types';
+import type { GameData, RunResult, StrategyColor, StrategySummary } from '../../engine/types';
 
 export interface ResultRow {
   strategyId: string;
@@ -64,4 +64,11 @@ export function parseSeedInput(text: string): number | null | undefined {
   if (!/^\d+$/.test(t)) return undefined;
   const n = Number(t);
   return n <= 0xffffffff ? n : undefined;
+}
+
+/** The note on the character's starting relic, which the simulator does not model. */
+export function relicNote(data: GameData, characterId: string): string {
+  return characterId === 'ironclad'
+    ? "Burning Blood's 6 HP heal is not simulated."
+    : `${data.characters[characterId]?.startingRelic ?? 'The starting relic'} (starting relic) is not simulated.`;
 }

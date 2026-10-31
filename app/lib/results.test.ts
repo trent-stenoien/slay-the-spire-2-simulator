@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { RunResult, StrategySummary } from '../../engine/types';
-import { fmtNumber, fmtRate, parseSeedInput, randomSeed, resultRows, sortResultRows, type ResultRow } from './results';
+import { gameData } from '../../data';
+import { relicNote, fmtNumber, fmtRate, parseSeedInput, randomSeed, resultRows, sortResultRows, type ResultRow } from './results';
 
 function fakeSummary(strategyId: string, over: Partial<StrategySummary> = {}): StrategySummary {
   return {
@@ -8,6 +9,7 @@ function fakeSummary(strategyId: string, over: Partial<StrategySummary> = {}): S
     combats: 4,
     avgHpLost: 10.25,
     avgTurnsToKill: 5.5,
+    avgTurns: 6,
     deathRate: 0.25,
     turnCapRate: 0,
     hpLostCounts: [0, 0, 1, 0, 2, 1],
@@ -75,5 +77,13 @@ describe('results helpers', () => {
     expect(sorted.map((r) => r.strategyId)).toEqual(['c', 'e', 'b', 'a', 'd']);
     expect(sorted.map((r) => r.color)).toEqual(['purple', 'yellow', 'red', 'blue', 'green']);
     expect(rows.map((r) => r.strategyId)).toEqual(['a', 'b', 'c', 'd', 'e']);
+  });
+});
+
+describe('relicNote', () => {
+  it('names Burning Blood for the Ironclad and the starting relic otherwise', () => {
+    expect(relicNote(gameData, 'ironclad')).toBe("Burning Blood's 6 HP heal is not simulated.");
+    expect(relicNote(gameData, 'silent')).toBe(`${gameData.characters.silent!.startingRelic} (starting relic) is not simulated.`);
+    expect(relicNote(gameData, 'nobody')).toBe('The starting relic (starting relic) is not simulated.');
   });
 });
