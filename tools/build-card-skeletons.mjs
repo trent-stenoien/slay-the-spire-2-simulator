@@ -8,6 +8,9 @@
 // Existing card files are never overwritten (pass --refresh-meta to update their
 // metadata while keeping effects/simulated). Codes are permanent: existing codes are
 // kept and new cards get the first free code from a deterministic candidate list.
+// Codes in data/reserved-codes.json (removed cards, e.g. beta-only ones) count as used
+// and are never handed out again, and those cards' rows are skipped so a re-run does
+// not recreate them.
 //
 // Usage: node tools/build-card-skeletons.mjs [--refresh-meta] [--dry-run]
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
@@ -26,6 +29,8 @@ const KEYWORDS = { 'Unplayable.': 'unplayable', 'Ethereal.': 'ethereal', 'Eterna
 const SHARED = /^(Strike|Defend) \((Ironclad|Silent|Defect|Necrobinder|Regent)\)$/;
 
 const version = JSON.parse(readFileSync(join(ROOT, 'data/manifest.json'), 'utf8')).gameVersion;
+/** Removed cards whose codes stay reserved: { code, id, name, reason }. */
+const RESERVED = JSON.parse(readFileSync(join(ROOT, 'data/reserved-codes.json'), 'utf8')).cards;
 
 export function slug(name) {
   return name.toLowerCase().replace(/['’]/g, '').replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
@@ -77,7 +82,8 @@ function walk(dir) {
 
 function main() {
   const existing = new Map(); // id -> { path, card }
-  const usedCodes = new Set();
+  const usedCodes = new Set(RESERVED.map((r) => r.code));
+  const reservedNames = new Set(RESERVED.map((r) => r.name));
   for (const p of walk(CARDS_DIR)) {
     const card = JSON.parse(readFileSync(p, 'utf8'));
     existing.set(card.id, { path: p, card });
@@ -91,9 +97,10 @@ function main() {
   });
 
   const seen = new Set();
-  let created = 0, refreshed = 0, skipped = 0;
+  let created = 0, refreshed = 0, skipped = 0, reserved = 0;
   for (const r of rows.sort((a, b) => a.Name.localeCompare(b.Name))) {
     if (SHARED.test(r.Name)) { skipped++; continue; }
+    if (reservedNames.has(r.Name)) { reserved++; continue; }
     const id = slug(r.Name);
     if (seen.has(id)) throw new Error(`Duplicate id ${id} (${r.Name})`);
     seen.add(id);
@@ -157,7 +164,7 @@ function main() {
     }
     created++;
   }
-  console.log(`created ${created}, refreshed ${refreshed}, skipped ${skipped} shared Strike/Defend rows, existing kept ${existing.size}`);
+  console.log(`created ${created}, refreshed ${refreshed}, skipped ${skipped} shared Strike/Defend rows and ${reserved} reserved (removed) cards, existing kept ${existing.size}`);
 }
 
 /** Stable key order matching the hand-written files. */

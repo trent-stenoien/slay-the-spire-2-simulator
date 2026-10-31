@@ -1,6 +1,6 @@
 # Colorless card import questions
 
-- ~~**Rip and Tear / Volley**~~ Resolved (#6): a random target is the one enemy in a single-enemy fight, recorded as a plain `attack` (the contract has no `randomTarget` flag). Rip and Tear is simulated; Volley stays false because it is X-cost.
+- ~~**Rip and Tear / Volley**~~ Resolved (#6): a random target is the one enemy in a single-enemy fight, recorded as a plain `attack` (the contract has no `randomTarget` flag). Rip and Tear is simulated; Volley is simulated too, as an `xTimes` attack (#23, #64).
 - **Co-op cards (Believe in You, Coordinate, Lift, Rally, Mimic, Gang Up, Tag Team, Knockdown, Huddle Up, Beacon of Hope)**: multiplayer-only mechanics have no effect object; confirm they should stay unsimulated (Rally's Block recorded as own Block only).
 - **Innate / Retain cards (Dramatic Entrance, Sovereign Blade, Mad Science variants, etc.)**: Innate and Retain are outside the simulated keyword set, so these are false even when effects are fully expressible; confirm.
 - **Shockwave**: "Apply N Weak and Vulnerable to ALL enemies" recorded as applyWeak plus applyVulnerable and marked simulated; confirm.

@@ -11,6 +11,7 @@ import type {
   GameData,
   Manifest,
 } from '../engine/types';
+import reservedCodes from './reserved-codes.json';
 
 export type ValidationResult =
   | { ok: true; data: GameData }
@@ -425,6 +426,23 @@ function checkUniqueCodes(errors: string[], name: string, raw: unknown): void {
   }
 }
 
+/**
+ * Codes of removed cards (e.g. beta-only) stay reserved: no card may use them.
+ * A card that returns to the game takes its reserved code back by removing the
+ * entry from data/reserved-codes.json.
+ */
+function checkReservedCodes(errors: string[], raw: unknown): void {
+  if (!isObj(raw)) return;
+  const reserved = new Map(reservedCodes.cards.map((r) => [r.code, r]));
+  for (const [key, value] of Object.entries(raw)) {
+    if (!isObj(value) || typeof value.code !== 'string') continue;
+    const r = reserved.get(value.code);
+    if (r) {
+      errors.push(`cards/${key}: field "code" "${value.code}" is reserved for removed card "${r.name}" (data/reserved-codes.json): ${r.reason}`);
+    }
+  }
+}
+
 export function validateGameData(raw: unknown): ValidationResult {
   const errors: string[] = [];
   if (!isObj(raw)) return { ok: false, errors: ['gameData: must be an object'] };
@@ -436,6 +454,7 @@ export function validateGameData(raw: unknown): ValidationResult {
   checkCollection(errors, 'enemies', raw.enemies, checkEnemy);
   checkCollection(errors, 'characters', raw.characters, (r, o) => checkCharacter(r, o, cardIds));
   checkUniqueCodes(errors, 'cards', raw.cards);
+  checkReservedCodes(errors, raw.cards);
   checkUniqueCodes(errors, 'enemies', raw.enemies);
   checkUniqueCodes(errors, 'characters', raw.characters);
 

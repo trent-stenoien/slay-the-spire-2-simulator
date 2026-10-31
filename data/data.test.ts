@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { cardByCode, characterByCode, enemyByCode, gameData } from './index';
 import { assembleGameData, validateGameData } from './validate';
+import reservedCodes from './reserved-codes.json';
 import { resolveEnemy } from '../engine/enemy';
 
 const VERSION = 'v0.107.1';
@@ -284,8 +285,30 @@ describe('validateGameData on broken fixtures', () => {
     expect(c.production).toMatchObject({ simulated: true, effects: [{ type: 'gainEnergy', amount: 2 }], upgraded: { effects: [{ type: 'gainEnergy', amount: 3 }] } });
     expect(c.luminesce).toMatchObject({ simulated: true, keywords: ['retain', 'exhaust'], effects: [{ type: 'gainEnergy', amount: 2 }], upgraded: { effects: [{ type: 'gainEnergy', amount: 3 }] } });
     expect(c.mad_science_energized).toMatchObject({ simulated: true, effects: [{ type: 'gainBlock', amount: 8 }, { type: 'gainEnergy', amount: 2 }] });
-    for (const id of ['bloodletting', 'offering', 'brightest_flame', 'cascade', 'volley']) expect(c[id]?.simulated).toBe(false);
+    for (const id of ['bloodletting', 'offering', 'brightest_flame', 'cascade']) expect(c[id]?.simulated).toBe(false);
     expect(c.tremble).toMatchObject({ simulated: true, effects: [{ type: 'applyVulnerable', amount: 3 }] });
+  });
+
+  // Volley (#64): random target is the one enemy (#6), repeated X times (#23).
+  it('Volley is a simulated X-times attack', () => {
+    expect(gameData.cards.volley).toMatchObject({ xCost: true, cost: 0, simulated: true, keywords: [],
+      effects: [{ type: 'attack', damage: 10, hits: 1, xTimes: true }],
+      upgraded: { effects: [{ type: 'attack', damage: 14, hits: 1, xTimes: true }] } });
+    expect(cardByCode('Vl')?.id).toBe('volley');
+  });
+
+  it('beta-only cards are removed and their codes reserved (#59)', () => {
+    for (const { code, id } of reservedCodes.cards) {
+      expect(gameData.cards[id]).toBeUndefined();
+      expect(cardByCode(code)).toBeUndefined();
+    }
+    expect(reservedCodes.cards.map((r) => r.code).sort()).toEqual(['Ca', 'SD', 'Ud']);
+  });
+
+  it('reports a card that uses a reserved code', () => {
+    const d = fixture();
+    d.cards.strike.code = 'Ud';
+    expect(errorsOf(d)).toContainEqual(expect.stringMatching(/cards\/strike.*"code" "Ud".*reserved.*Underworld/));
   });
 
   it('allows innate and retain on simulated cards, base and upgraded', () => {
