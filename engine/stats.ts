@@ -92,6 +92,8 @@ export function kdeCurve(
 ): CurvePoint[] {
   const step = options.step ?? 0.25;
   if (!(step > 0)) throw new RangeError('kdeCurve: step must be > 0');
+  // A bandwidth of 0 (no smoothing) would divide by zero below: draw the raw percentages instead.
+  if (options.bandwidth !== undefined && !(options.bandwidth > 0)) return rawCurve(hpLostCounts, range);
   const n = total(hpLostCounts);
   const bw = options.bandwidth ?? silvermanBandwidth(hpLostCounts);
   const h = bw > 0 ? bw : 1;

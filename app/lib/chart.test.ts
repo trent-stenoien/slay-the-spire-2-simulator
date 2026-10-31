@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { silvermanBandwidth } from '../../engine/stats';
+import { kdeCurve, rawCurve, silvermanBandwidth } from '../../engine/stats';
 import {
   BANDWIDTH_FACTOR,
   bandwidthFactorLabel,
@@ -18,6 +18,7 @@ import {
   aboveCurvePath,
   groupedLabelRows,
   bandwidthTicks,
+  smoothedCurve,
   bandwidthTickValues,
   BAND_OPACITY,
   CURVE_FILL_OPACITY,
@@ -102,8 +103,8 @@ describe('legend toggle', () => {
 describe('KDE smoothing slider', () => {
   const counts = [0, 2, 5, 9, 4, 1, 0, 3, 6, 2];
 
-  it('defaults to ×3 the Silverman bandwidth, over a ×0.25 to ×5 range', () => {
-    expect(BANDWIDTH_FACTOR).toMatchObject({ min: 0.25, max: 5, default: 3 });
+  it('defaults to ×3 the Silverman bandwidth, over a ×0 (Raw) to ×5 range', () => {
+    expect(BANDWIDTH_FACTOR).toMatchObject({ min: 0, max: 5, default: 3 });
     expect(kdeBandwidth(counts, BANDWIDTH_FACTOR.default)).toBeCloseTo(silvermanBandwidth(counts) * 3);
   });
 
@@ -114,7 +115,8 @@ describe('KDE smoothing slider', () => {
   });
 
   it('clamps the factor into range; non-finite gives the ×3 default', () => {
-    expect(clampBandwidthFactor(0.1)).toBe(0.25);
+    expect(clampBandwidthFactor(-1)).toBe(0);
+    expect(clampBandwidthFactor(0.1)).toBe(0.1);
     expect(clampBandwidthFactor(10)).toBe(5);
     expect(clampBandwidthFactor(Number.NaN)).toBe(3);
     expect(kdeBandwidth(counts, 99)).toBeCloseTo(silvermanBandwidth(counts) * 5);
@@ -123,6 +125,27 @@ describe('KDE smoothing slider', () => {
   it('labels the factor', () => {
     expect(bandwidthFactorLabel(3)).toBe('×3.00');
     expect(bandwidthFactorLabel(0.25)).toBe('×0.25');
+  });
+
+  it('reads Raw at ×0', () => {
+    expect(bandwidthFactorLabel(0)).toBe('Raw');
+    expect(bandwidthFactorLabel(-3)).toBe('Raw');
+    expect(bandwidthFactorLabel(0.05)).toBe('×0.05');
+  });
+
+  it('gives a zero bandwidth at ×0 and never divides by zero', () => {
+    expect(kdeBandwidth(counts, 0)).toBe(0);
+    expect(kdeCurve(counts, [0, 9], { bandwidth: 0 }).every((p) => Number.isFinite(p.y))).toBe(true);
+  });
+
+  it('draws the raw percentages at ×0 and the KDE above it', () => {
+    const total = counts.reduce((a, b) => a + b, 0);
+    const raw = smoothedCurve(counts, [0, 9], 0);
+    expect(raw.map((p) => p.x)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    raw.forEach((p, v) => expect(p.y).toBeCloseTo((100 * counts[v]!) / total, 10));
+    expect(raw).toEqual(rawCurve(counts, [0, 9]));
+    expect(smoothedCurve(counts, [0, 9], 3)).toEqual(kdeCurve(counts, [0, 9], { bandwidth: kdeBandwidth(counts, 3) }));
+    expect(smoothedCurve(counts, [0, 9], 3)).not.toEqual(raw);
   });
 });
 
@@ -293,12 +316,12 @@ describe('staggerLabels', () => {
 });
 
 describe('bandwidthTicks', () => {
-  it('labels the slider min (×0.25), ×1-×4 and the max (×5) at their positions', () => {
+  it('labels the slider min (Raw), ×1-×4 and the max (×5) at their positions', () => {
     const ticks = bandwidthTicks();
-    expect(ticks.map((t) => t.label)).toEqual(['×0.25', '×1', '×2', '×3', '×4', '×5']);
+    expect(ticks.map((t) => t.label)).toEqual(['Raw', '×1', '×2', '×3', '×4', '×5']);
     expect(ticks[0]!.fraction).toBe(0);
-    expect(ticks[1]!.fraction).toBeCloseTo(0.75 / 4.75);
-    expect(ticks[4]!.fraction).toBeCloseTo(3.75 / 4.75);
+    expect(ticks[1]!.fraction).toBeCloseTo(0.2);
+    expect(ticks[4]!.fraction).toBeCloseTo(0.8);
     expect(ticks[5]!.fraction).toBe(1);
     for (const t of ticks) {
       expect(t.value).toBeGreaterThanOrEqual(BANDWIDTH_FACTOR.min);
@@ -306,7 +329,7 @@ describe('bandwidthTicks', () => {
     }
   });
 
-  it('follows the slider range: a ×0 minimum gives ticks ×0 to ×5 without duplicates', () => {
+  it('follows the slider range: a ×0 minimum gives ticks Raw, ×1 to ×5 without duplicates', () => {
     expect(bandwidthTickValues(0, 5)).toEqual([0, 1, 2, 3, 4, 5]);
     expect(bandwidthTicks(0, 5).map((t) => t.fraction)).toEqual([0, 0.2, 0.4, 0.6, 0.8, 1]);
   });

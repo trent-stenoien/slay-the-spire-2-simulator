@@ -1,5 +1,5 @@
 /** Pure scaling helpers for the hand-built SVG distribution chart. */
-import { silvermanBandwidth } from '../../engine/stats';
+import { kdeCurve, rawCurve, silvermanBandwidth } from '../../engine/stats';
 import type { StrategySummary } from '../../engine/types';
 
 export interface Point {
@@ -110,8 +110,8 @@ export function toggleHidden(hidden: ReadonlySet<string>, id: string): Set<strin
   return next;
 }
 
-/** KDE smoothing slider: a multiplier on each strategy's Silverman bandwidth. Starts (and resets) at ×3. */
-export const BANDWIDTH_FACTOR = { min: 0.25, max: 5, step: 0.05, default: 3 } as const;
+/** KDE smoothing slider: a multiplier on each strategy's Silverman bandwidth. Starts (and resets) at ×3; ×0 means no smoothing (the raw per-HP percentages). */
+export const BANDWIDTH_FACTOR = { min: 0, max: 5, step: 0.05, default: 3 } as const;
 
 /** Clamp a slider value into [min, max]; non-finite values give the default (×3). */
 export function clampBandwidthFactor(factor: number): number {
@@ -119,9 +119,23 @@ export function clampBandwidthFactor(factor: number): number {
   return Math.min(BANDWIDTH_FACTOR.max, Math.max(BANDWIDTH_FACTOR.min, factor));
 }
 
+/** True when the factor is the slider minimum ×0: no kernel, the line runs through the raw per-HP shares. */
+export function isRawFactor(factor: number): boolean {
+  return clampBandwidthFactor(factor) === 0;
+}
+
 /** KDE bandwidth for one strategy: Silverman's rule × the (clamped) slider factor. */
 export function kdeBandwidth(hpLostCounts: readonly number[], factor: number): number {
   return silvermanBandwidth(hpLostCounts) * clampBandwidthFactor(factor);
+}
+
+/**
+ * The Smoothed view's curve for one strategy: a Gaussian KDE at the slider's bandwidth, or at ×0
+ * the raw per-HP percentages (one point per integer HP, joined by the same smooth line style).
+ */
+export function smoothedCurve(hpLostCounts: readonly number[], range: [number, number], factor: number): Point[] {
+  if (isRawFactor(factor)) return rawCurve(hpLostCounts, range);
+  return kdeCurve(hpLostCounts, range, { bandwidth: kdeBandwidth(hpLostCounts, factor) });
 }
 
 /** Opacity of the fill under each curve, and of the P25-P75 band above it (twice as transparent). */
@@ -130,7 +144,7 @@ export const BAND_OPACITY = CURVE_FILL_OPACITY / 2;
 
 /**
  * Labelled tick marks under the smoothing slider: the slider's own min and max (a non-integer
- * end such as the ×0.25 minimum is labelled as is) plus every whole multiplier between them,
+ * end is labelled as is) plus every whole multiplier between them,
  * so the ticks follow the slider if its range changes.
  */
 export function bandwidthTickValues(min: number = BANDWIDTH_FACTOR.min, max: number = BANDWIDTH_FACTOR.max): number[] {
@@ -139,14 +153,20 @@ export function bandwidthTickValues(min: number = BANDWIDTH_FACTOR.min, max: num
   return [...values].sort((a, b) => a - b);
 }
 
-/** Tick label and position along the slider track (0 = min, 1 = max). */
-export function bandwidthTicks(min: number = BANDWIDTH_FACTOR.min, max: number = BANDWIDTH_FACTOR.max): { value: number; label: string; fraction: number }[] {
-  return bandwidthTickValues(min, max).map((value) => ({ value, label: `×${value}`, fraction: (value - min) / (max - min) }));
+/** "Raw" for ×0, otherwise "×n" (n as given). */
+function factorText(value: number): string {
+  return value === 0 ? 'Raw' : `×${value}`;
 }
 
-/** Slider label: "×1.00". */
+/** Tick label and position along the slider track (0 = min, 1 = max). */
+export function bandwidthTicks(min: number = BANDWIDTH_FACTOR.min, max: number = BANDWIDTH_FACTOR.max): { value: number; label: string; fraction: number }[] {
+  return bandwidthTickValues(min, max).map((value) => ({ value, label: factorText(value), fraction: (value - min) / (max - min) }));
+}
+
+/** Slider label: "×1.00", or "Raw" at ×0. */
 export function bandwidthFactorLabel(factor: number): string {
-  return `×${clampBandwidthFactor(factor).toFixed(2)}`;
+  const f = clampBandwidthFactor(factor);
+  return f === 0 ? 'Raw' : `×${f.toFixed(2)}`;
 }
 
 /** X range shown when every strategy is hidden. */
