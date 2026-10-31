@@ -15,6 +15,13 @@
   --axis: #8a857c;
   --win: #2e7d4f;
   --loss: #b5402f;
+  --char-ironclad: #d6453d;
+  --char-silent: #2e9e5b;
+  --char-regent: #e8860c;
+  --char-necrobinder: #8e4fd0;
+  --char-defect: #2f6fdf;
+  --char-colorless: #8a8a8a;
+  --char-curse: #000000;
   --radius: 8px;
   color-scheme: light;
 }
@@ -37,6 +44,8 @@
     --axis: #8d877e;
     --win: #6cc391;
     --loss: #e0705e;
+    --char-curse: #0a0a0a;
+    --char-colorless: #9a9a9a;
     color-scheme: dark;
   }
 }
@@ -58,6 +67,8 @@
   --axis: #8d877e;
   --win: #6cc391;
   --loss: #e0705e;
+  --char-curse: #0a0a0a;
+  --char-colorless: #9a9a9a;
   color-scheme: dark;
 }
 
@@ -336,11 +347,26 @@ button:disabled {
   background: var(--surface-2);
   border: 1px solid var(--border);
 }
-.type-attack .cost {
-  border-color: #d6453d;
+.cost-ironclad {
+  border-color: var(--char-ironclad);
 }
-.type-skill .cost {
-  border-color: #2f6fdf;
+.cost-silent {
+  border-color: var(--char-silent);
+}
+.cost-regent {
+  border-color: var(--char-regent);
+}
+.cost-necrobinder {
+  border-color: var(--char-necrobinder);
+}
+.cost-defect {
+  border-color: var(--char-defect);
+}
+.cost-colorless {
+  border-color: var(--char-colorless);
+}
+.cost-curse {
+  border-color: var(--char-curse);
 }
 .card-name {
   font-weight: 700;

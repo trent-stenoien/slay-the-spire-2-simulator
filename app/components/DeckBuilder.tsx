@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import type { CardDef, Deck, GameData } from '../../engine/types';
 import { cardText } from '../lib/cardText';
-import { changeCount, copiesOf, deckSize, groupedPool, unsimulatedStarters } from '../lib/deck';
+import type { CostColorKey } from '../lib/deck';
+import { changeCount, copiesOf, costColorKey, deckSize, groupedPool, unsimulatedStarters } from '../lib/deck';
 
 interface Props {
   data: GameData;
@@ -50,7 +51,7 @@ export function DeckBuilder({ data, characterId, deck, onChange, onReset }: Prop
             </summary>
             <ul className="card-list">
               {g.cards.map((card) => (
-                <CardRow key={card.id} card={card} deck={deck} onChange={onChange} />
+                <CardRow key={card.id} card={card} colorKey={costColorKey(card, characterId, data)} deck={deck} onChange={onChange} />
               ))}
             </ul>
           </details>
@@ -60,7 +61,7 @@ export function DeckBuilder({ data, characterId, deck, onChange, onReset }: Prop
   );
 }
 
-function CardRow({ card, deck, onChange }: { card: CardDef; deck: Deck; onChange: (d: Deck) => void }) {
+function CardRow({ card, colorKey, deck, onChange }: { card: CardDef; colorKey: CostColorKey; deck: Deck; onChange: (d: Deck) => void }) {
   const base = cardText(card, false);
   const up = card.upgraded ? cardText(card, true) : null;
   const n = copiesOf(deck, card.id, false);
@@ -68,7 +69,7 @@ function CardRow({ card, deck, onChange }: { card: CardDef; deck: Deck; onChange
   return (
     <li className={`card-row type-${card.type}${n + nUp > 0 ? ' in-deck' : ''}`}>
       <div className="card-head">
-        <span className="cost" title="Energy cost">
+        <span className={`cost cost-${colorKey}`} title="Energy cost">
           {base.cost}
         </span>
         <span className="card-name">{base.name}</span>

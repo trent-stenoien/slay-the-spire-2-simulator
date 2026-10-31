@@ -110,3 +110,19 @@ export function groupedPool(data: GameData, characterId: string, query: string):
     .sort(([a], [b]) => FOLDER_ORDER.indexOf(a) - FOLDER_ORDER.indexOf(b))
     .map(([label, cards]) => ({ key: label.toLowerCase(), label, cards }));
 }
+
+export type CostColorKey = 'ironclad' | 'silent' | 'regent' | 'necrobinder' | 'defect' | 'colorless' | 'curse';
+
+const CODE_COLOR_KEY: Record<string, CostColorKey> = { I: 'ironclad', S: 'silent', R: 'regent', N: 'necrobinder', D: 'defect' };
+
+/**
+ * Which color a card's energy-cost circle gets: its owner's, with shared
+ * cards (Strike/Defend) taking the selected character's. Curses and quests
+ * are 'curse'; colorless and status cards are 'colorless'.
+ */
+export function costColorKey(card: CardDef, characterId: string, data: GameData): CostColorKey {
+  if (card.type === 'curse' || card.type === 'quest') return 'curse';
+  if (card.type === 'status') return 'colorless';
+  const code = card.character === 'shared' ? data.characters[characterId]?.code : card.character;
+  return (code && CODE_COLOR_KEY[code]) || 'colorless';
+}

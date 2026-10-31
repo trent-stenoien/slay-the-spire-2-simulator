@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { gameData } from '../../data';
-import { cardFolder, changeCount, copiesOf, deckPool, deckSize, groupedPool, isCharacterSimulated, matchesSearch, startingDeckFor, toggleUpgrade, unsimulatedStarters } from './deck';
-import type { Deck } from '../../engine/types';
+import { cardFolder, changeCount, copiesOf, costColorKey, deckPool, deckSize, groupedPool, isCharacterSimulated, matchesSearch, startingDeckFor, toggleUpgrade, unsimulatedStarters } from './deck';
+import type { CardDef, Deck } from '../../engine/types';
 
 const deck: Deck = [
   { cardId: 'strike', upgraded: false, count: 5 },
@@ -73,5 +73,41 @@ describe('deck builder grouping and search', () => {
     expect(startingDeckFor(gameData, 'ironclad')).toEqual(gameData.characters.ironclad!.startingDeck);
     expect(startingDeckFor(gameData, 'silent').map((e) => e.cardId)).toEqual(['strike', 'defend', 'neutralize']);
     expect(unsimulatedStarters(gameData, 'silent')).toEqual(['Survivor']);
+  });
+});
+
+describe('costColorKey', () => {
+  const card = (character: string, type = 'skill') => ({ character, type }) as unknown as CardDef;
+  const cases: [string, string][] = [
+    ['I', 'ironclad'],
+    ['S', 'silent'],
+    ['R', 'regent'],
+    ['N', 'necrobinder'],
+    ['D', 'defect'],
+  ];
+
+  it.each(cases)('character %s cards are %s', (code, key) => {
+    expect(costColorKey(card(code), 'ironclad', gameData)).toBe(key);
+  });
+
+  it('shared cards take the selected character color', () => {
+    expect(costColorKey(card('shared', 'attack'), 'ironclad', gameData)).toBe('ironclad');
+    expect(costColorKey(card('shared', 'skill'), 'silent', gameData)).toBe('silent');
+  });
+
+  it('shared cards fall back to colorless for an unknown character', () => {
+    expect(costColorKey(card('shared'), 'nobody', gameData)).toBe('colorless');
+  });
+
+  it('colorless and status cards are colorless', () => {
+    expect(costColorKey(card('colorless'), 'silent', gameData)).toBe('colorless');
+    expect(costColorKey(card('colorless', 'status'), 'silent', gameData)).toBe('colorless');
+    expect(costColorKey(card('I', 'status'), 'ironclad', gameData)).toBe('colorless');
+  });
+
+  it('curses and quests are curse', () => {
+    expect(costColorKey(card('colorless', 'curse'), 'ironclad', gameData)).toBe('curse');
+    expect(costColorKey(card('I', 'curse'), 'ironclad', gameData)).toBe('curse');
+    expect(costColorKey(card('colorless', 'quest'), 'ironclad', gameData)).toBe('curse');
   });
 });
