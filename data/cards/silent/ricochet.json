@@ -11,8 +11,22 @@
   "keywords": [
     "sly"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "attack",
+      "damage": 3,
+      "hits": 4
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "attack",
+        "damage": 3,
+        "hits": 5
+      }
+    ]
+  },
   "description": "Sly. / Deal 3 damage to a random enemy 4 times.",
   "upgradedDescription": "Sly. / Deal 3 damage to a random enemy 5 times.",
   "simulated": false,

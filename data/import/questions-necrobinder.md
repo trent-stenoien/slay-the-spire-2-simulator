@@ -11,3 +11,4 @@
 - **Hang, Sleight of Flesh, Debilitate, Misery**: Debuff-interaction cards (Hang doubling, debuff-triggered damage, doubled Vulnerable/Weak, copying debuffs) need new mechanics; deferred.
 - **Energy gain/loss and Replay (Delay, Invoke, Borrowed Time, Wisp, Neurosurge, Transfigure)**: Should energy gain and extra cost effects be modeled?
 - **Multiplayer wording (Legion of Bone, Glimpse Beyond, Cacophony, Soulbound, Underworld)**: Confirm multiplayer-only or ally-dependent cards stay unsimulated in single-player.
+- **Soulbound, Underworld, Cacophony (beta-only, #9)**: the wiki lists these as beta-only multiplayer cards, but they are in `data/raw/cards.txt` and have files (codes SD, Ud, Ca). Codes are permanent, so they are kept and unsimulated; should they be removed, or kept and flagged?

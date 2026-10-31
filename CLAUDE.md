@@ -28,12 +28,19 @@ was set. Cards for a version later than the one in development stay in Backlog. 
   whose body says `Closes #<issue>`, so it links to the card. They never merge.
 - The orchestrator moves cards on the board, reviews, merges the PR and moves the card to Done.
 
+Moving cards: the orchestrator moves a card by adding a `status: <column>` label to its issue
+(`status: backlog`, `status: questions`, `status: ready`, `status: in progress`,
+`status: in review`, `status: done`). The `board-sync` Action (`.github/workflows/board-sync.yml`)
+sets the card's Status, adds the issue to the board if needed, and removes any other `status: *` label.
+
 ## Layout
 
 - `engine/` — pure TypeScript. No React, no DOM, no imports from `app/`. Must run
   inside Web Workers and Vitest.
 - `data/` — hand-entered JSON: `manifest.json`, `cards/` (shared Strike/Defend at the top level; `ironclad/`, `colorless/`, `curses/` subfolders), `enemies/`, `characters/`.
   Source: slaythespire.wiki.gg (CC BY-SA 4.0; keep attribution in `data/LICENSE`).
+  Import main-release data only (the version in `manifest.json`), never beta. The wiki marks
+  beta content with a "Beta Content Warning" or "(Beta only currently)".
 - `app/` — React UI, workers, charts. May import from `engine/` and `data/`.
 
 ## The contract

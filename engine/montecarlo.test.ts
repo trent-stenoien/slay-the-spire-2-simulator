@@ -100,6 +100,8 @@ describe('summarize', () => {
     expect(s.combats).toBe(4);
     expect(s.avgHpLost).toBeCloseTo((0 + 4 + 80 + 10) / 4);
     expect(s.avgTurnsToKill).toBe(4);
+    // Every combat counts; the turn-cap fight at its full 100 turns.
+    expect(s.avgTurns).toBe((3 + 5 + 7 + 100) / 4);
     expect(s.deathRate).toBe(0.25);
     expect(s.turnCapRate).toBe(0.25);
     expect(s.hpLostCounts).toHaveLength(81);
@@ -116,6 +118,12 @@ describe('summarize', () => {
     expect(s.deathRate).toBe(0.5);
   });
 
+  it('averages combat length over deaths when there are no wins', () => {
+    const s = summarize('x', [result('loss', 4, 80), result('loss', 6, 80)]);
+    expect(s.avgTurnsToKill).toBeNull();
+    expect(s.avgTurns).toBe(5);
+  });
+
   it('keeps hpLostCounts at least length 1 and handles empty input', () => {
     expect(summarize('x', [result('win', 2, 0), result('win', 4, 0)]).hpLostCounts).toEqual([2]);
     const empty = summarize('x', []);
@@ -124,6 +132,7 @@ describe('summarize', () => {
       combats: 0,
       avgHpLost: 0,
       avgTurnsToKill: null,
+      avgTurns: 0,
       deathRate: 0,
       turnCapRate: 0,
       hpLostCounts: [0],

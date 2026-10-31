@@ -163,6 +163,15 @@ footer {
     align-items: start;
   }
 }
+/* Phone width: one column, with Setup and Strategies ahead of the long Deck list. */
+.col-side {
+  order: -1;
+}
+@media (min-width: 860px) {
+  .col-side {
+    order: 0;
+  }
+}
 .col {
   display: grid;
   gap: 16px;
@@ -423,6 +432,15 @@ button:disabled {
   min-width: 0;
   overflow-wrap: anywhere;
 }
+.card-name a {
+  color: inherit;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+.card-name a:hover,
+.card-name a:focus-visible {
+  text-decoration: underline solid;
+}
 .card-label {
   font-size: 0.85rem;
   font-weight: 600;
@@ -648,6 +666,37 @@ svg.chart {
   flex-wrap: wrap;
   gap: 4px 16px;
   font-size: 0.9rem;
+}
+.legend-item {
+  background: none;
+  border: none;
+  padding: 2px 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.legend-item:hover {
+  text-decoration: underline;
+}
+.legend-item.off {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+.bandwidth {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin-top: 8px;
+  font-size: 0.9rem;
+}
+.bandwidth input[type='range'] {
+  flex: 1 1 140px;
+  max-width: 260px;
+}
+.bandwidth output {
+  min-width: 4.5ch;
+  font-variant-numeric: tabular-nums;
 }
 .view-combat {
   border-top: 1px solid var(--border);

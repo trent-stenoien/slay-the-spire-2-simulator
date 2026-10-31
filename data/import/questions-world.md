@@ -5,4 +5,4 @@
 - **Shrinker Beetle**: opens with Shrinker (Shrink: your attacks deal 30% less damage, after Strength), then alternates Chomp/Stomp. Needs an "opener" pattern and a Shrink effect — contract change.
 - **Sludge Spinner**: Oil Spray first, then random with no repeats. Needs a random pattern type — contract change.
 - **Thorns, Ravenous, Slimed**: needed for the multi-enemy Easy encounters (Toadpoles, Corpse Slugs, Slimes); in scope for v2?
-- **Wiki version**: the Necrobinder page shows beta V0.111.0 content (beta-only multiplayer cards). Main is v0.107.1; keep importing main-branch data only?
+- ~~**Wiki version**~~ Resolved (#9): import main-release data only, never beta (rule in CLAUDE.md and the sts2-card-import skill).

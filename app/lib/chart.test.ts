@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { areaPath, curvesMaxY, linePath, linearScale, niceMax, niceStep, niceTicks, percentLabel } from './chart';
+import { silvermanBandwidth } from '../../engine/stats';
+import {
+  BANDWIDTH_FACTOR,
+  bandwidthFactorLabel,
+  clampBandwidthFactor,
+  kdeBandwidth,
+  toggleHidden,
+  areaPath,
+  curvesMaxY, linePath, linearScale, niceMax, niceStep, niceTicks, percentLabel } from './chart';
 
 describe('chart scaling', () => {
   it('linearScale maps and inverts direction', () => {
@@ -57,5 +65,47 @@ describe('chart scaling', () => {
   it('percentLabel', () => {
     expect(percentLabel(12)).toBe('12%');
     expect(percentLabel(2.5)).toBe('2.5%');
+  });
+});
+
+describe('legend toggle', () => {
+  it('hides a visible strategy and shows a hidden one, without mutating the input', () => {
+    const none = new Set<string>();
+    const hidA = toggleHidden(none, 'a');
+    expect([...hidA]).toEqual(['a']);
+    expect(none.size).toBe(0);
+    const hidAB = toggleHidden(hidA, 'b');
+    expect([...hidAB].sort()).toEqual(['a', 'b']);
+    const hidB = toggleHidden(hidAB, 'a');
+    expect([...hidB]).toEqual(['b']);
+    expect(hidAB.has('a')).toBe(true);
+    expect(toggleHidden(hidB, 'b').size).toBe(0);
+  });
+});
+
+describe('KDE smoothing slider', () => {
+  const counts = [0, 2, 5, 9, 4, 1, 0, 3, 6, 2];
+
+  it('defaults to ×1 = the Silverman bandwidth, over a ×0.25 to ×3 range', () => {
+    expect(BANDWIDTH_FACTOR).toMatchObject({ min: 0.25, max: 3, default: 1 });
+    expect(kdeBandwidth(counts, BANDWIDTH_FACTOR.default)).toBe(silvermanBandwidth(counts));
+  });
+
+  it('scales the Silverman bandwidth by the factor', () => {
+    const base = silvermanBandwidth(counts);
+    expect(kdeBandwidth(counts, 0.5)).toBeCloseTo(base * 0.5);
+    expect(kdeBandwidth(counts, 2.5)).toBeCloseTo(base * 2.5);
+  });
+
+  it('clamps the factor into range; non-finite gives ×1', () => {
+    expect(clampBandwidthFactor(0.1)).toBe(0.25);
+    expect(clampBandwidthFactor(10)).toBe(3);
+    expect(clampBandwidthFactor(Number.NaN)).toBe(1);
+    expect(kdeBandwidth(counts, 99)).toBeCloseTo(silvermanBandwidth(counts) * 3);
+  });
+
+  it('labels the factor', () => {
+    expect(bandwidthFactorLabel(1)).toBe('×1.00');
+    expect(bandwidthFactorLabel(0.25)).toBe('×0.25');
   });
 });

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { GameData, RunResult } from '../../engine/types';
 import type { SimulationProgress } from '../sim/runSimulation';
-import { parseSeedInput } from '../lib/results';
+import { parseSeedInput, relicNote } from '../lib/results';
 import { Panel } from './Panel';
 import { ResultsView } from './ResultsView';
 
@@ -13,6 +13,8 @@ export type RunStatus =
 
 interface Props {
   data: GameData;
+  /** The setup's character, for the starting-relic note. */
+  characterId: string;
   result: RunResult | null;
   status: RunStatus;
   /** Why the run can't start, or null when it can. */
@@ -27,7 +29,7 @@ const SEED_ERROR = 'Seed must be a whole number from 0 to 4294967295.';
  * while collapsed); the run seed and the results live in the body. Starts collapsed on
  * every load and expands when a run finishes.
  */
-export function ResultsPanel({ data, result, status, blocker, onRun }: Props) {
+export function ResultsPanel({ data, characterId, result, status, blocker, onRun }: Props) {
   const [seedText, setSeedText] = useState('');
   const seed = parseSeedInput(seedText);
   const running = status.kind === 'running';
@@ -66,6 +68,7 @@ export function ResultsPanel({ data, result, status, blocker, onRun }: Props) {
 
   return (
     <Panel id="res" title="Results" actions={actions} defaultCollapsed expandOn={result ?? undefined}>
+      <p className="note">{relicNote(data, characterId)}</p>
       <form
         className="field-row run-seed"
         onSubmit={(e) => {

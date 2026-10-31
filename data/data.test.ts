@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { cardByCode, characterByCode, enemyByCode, gameData } from './index';
 import { assembleGameData, validateGameData } from './validate';
+import { resolveEnemy } from '../engine/enemy';
 
 const VERSION = 'v0.107.1';
 
@@ -65,9 +66,46 @@ describe('real game data', () => {
     ]);
   });
 
+  // Random-target damage is the one enemy in a single-enemy fight (#6): plain attack, no target flag.
+  it.each([
+    ['sword_boomerang', 3, 3, 3, 4, true],
+    ['rip_and_tear', 7, 2, 9, 2, true],
+    ['ricochet', 3, 4, 3, 5, false], // Sly keeps it unsimulated
+  ] as const)('random-target card %s is a plain multi-hit attack', (id, dmg, hits, upDmg, upHits, simulated) => {
+    const c = gameData.cards[id]!;
+    expect(c.effects).toEqual([{ type: 'attack', damage: dmg, hits }]);
+    expect(c.upgraded?.effects).toEqual([{ type: 'attack', damage: upDmg, hits: upHits }]);
+    expect(c.simulated).toBe(simulated);
+  });
+
   it('Nibbit is at code Nb', () => {
     expect(enemyByCode('Nb')?.id).toBe('nibbit');
     expect(gameData.enemies.nibbit?.code).toBe('Nb');
+  });
+
+  it('Nibbit has the wiki moves: Butt, Hesitant Slice, Hiss', () => {
+    const nb = gameData.enemies.nibbit!;
+    expect(nb.pattern.order).toEqual(['butt', 'hesitantSlice', 'hiss']);
+    expect(nb.moves.hesitantSlice?.name).toBe('Hesitant Slice');
+    expect(nb.moves).not.toHaveProperty('hesitantStrike');
+  });
+
+  // data/raw/intents.txt: Hesitant Slice "Deals (6;7 9) damage. Gains (5;6 8) Block."
+  it.each([
+    [0, { min: 42, max: 46 }, 12, [6, 5], 2],
+    [7, { min: 42, max: 46 }, 12, [6, 5], 2],
+    [8, { min: 44, max: 48 }, 12, [6, 6], 2],
+    [9, { min: 44, max: 48 }, 13, [7, 6], 3],
+    [20, { min: 44, max: 48 }, 13, [7, 6], 3],
+  ] as const)('Nibbit at A%i has the wiki numbers', (asc, hp, butt, [slice, block], hiss) => {
+    const e = resolveEnemy(gameData.enemies.nibbit!, asc);
+    expect(e.hp).toEqual(hp);
+    expect(e.moves.butt!.effects).toEqual([{ type: 'attack', damage: butt, hits: 1 }]);
+    expect(e.moves.hesitantSlice).toEqual({
+      name: 'Hesitant Slice',
+      effects: [{ type: 'attack', damage: slice, hits: 1 }, { type: 'gainBlock', amount: block }],
+    });
+    expect(e.moves.hiss!.effects).toEqual([{ type: 'gainStrength', amount: hiss }]);
   });
 
   it('lookups return undefined for unknown codes', () => {
