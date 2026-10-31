@@ -31,7 +31,7 @@ describe('color assignment', () => {
     expect(isColorTaken(sel, 'a', 'green')).toBe(true);
     expect(isColorTaken(sel, 'b', 'green')).toBe(false);
     expect(setColor(sel, 'a', 'green')).toEqual(sel);
-    expect(setColor(sel, 'a', 'pink').find((s) => s.strategyId === 'a')?.color).toBe('pink');
+    expect(setColor(sel, 'a', 'purple').find((s) => s.strategyId === 'a')?.color).toBe('purple');
   });
 
   it('prunes deleted strategies', () => {

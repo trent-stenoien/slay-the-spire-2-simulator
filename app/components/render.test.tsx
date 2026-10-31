@@ -39,7 +39,7 @@ const result: RunResult = {
     runSeed: 99,
     strategies: [
       { strategy: { id: 'g', name: 'Greedy Damage', config: { kind: 'greedyDamage' } }, color: 'blue' },
-      { strategy: { id: 's', name: 'Scared Block', config: { kind: 'block', allowThrough: 0 } }, color: 'pink' },
+      { strategy: { id: 's', name: 'Scared Block', config: { kind: 'block', allowThrough: 0 } }, color: 'purple' },
     ],
   },
   summaries: [
@@ -72,7 +72,7 @@ describe('views render', () => {
     const html = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
     expect(html.match(/fill-opacity="0.15"/g)).toHaveLength(2);
     expect(html).toContain('stroke="#2f6fdf"');
-    expect(html).toContain('stroke="#d94f9c"');
+    expect(html).toContain('stroke="#8a5cd6"');
     expect(html).toContain('HP lost');
   });
 

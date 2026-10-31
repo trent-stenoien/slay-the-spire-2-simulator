@@ -9,7 +9,7 @@ import type { CombatResult, RunConfig, StrategyConfig } from './types';
 const ironclad = gameData.characters['ironclad']!;
 
 function runConfig(strategies: StrategyConfig[], runSeed = 12345): RunConfig {
-  const colors = ['blue', 'green', 'yellow', 'red', 'pink'] as const;
+  const colors = ['blue', 'green', 'yellow', 'red', 'purple'] as const;
   return {
     characterId: 'ironclad',
     deck: ironclad.startingDeck,

@@ -1,14 +1,14 @@
 /** Strategy selection for a run and its color assignment rules. */
 import { MAX_STRATEGIES_PER_RUN, type StrategyColor } from '../../engine/types';
 
-export const COLORS: readonly StrategyColor[] = ['blue', 'green', 'yellow', 'red', 'pink'];
+export const COLORS: readonly StrategyColor[] = ['blue', 'green', 'yellow', 'red', 'purple'];
 
 export const COLOR_HEX: Record<StrategyColor, string> = {
   blue: '#2f6fdf',
   green: '#2e9e5b',
   yellow: '#d9a400',
   red: '#d6453d',
-  pink: '#d94f9c',
+  purple: '#8a5cd6',
 };
 
 export interface Selection {

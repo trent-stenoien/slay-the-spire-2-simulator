@@ -26,7 +26,7 @@ const result: RunResult = {
     strategies: [
       { strategy: { id: 'a', name: 'Greedy', config: { kind: 'greedyDamage' } }, color: 'blue' },
       { strategy: { id: 'b', name: 'Scared', config: { kind: 'block', allowThrough: 0 } }, color: 'red' },
-      { strategy: { id: 'c', name: 'Missing', config: { kind: 'block', allowThrough: 3 } }, color: 'pink' },
+      { strategy: { id: 'c', name: 'Missing', config: { kind: 'block', allowThrough: 3 } }, color: 'purple' },
     ],
   },
   summaries: [fakeSummary('b', { avgTurnsToKill: null }), fakeSummary('a')],

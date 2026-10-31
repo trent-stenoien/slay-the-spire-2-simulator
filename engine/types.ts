@@ -313,7 +313,7 @@ export type StrategyConfig =
   /** Play block while (incoming − block) > allowThrough, then attack. */
   | { kind: 'block'; allowThrough: number };
 
-export type StrategyColor = 'blue' | 'green' | 'yellow' | 'red' | 'pink';
+export type StrategyColor = 'blue' | 'green' | 'yellow' | 'red' | 'purple';
 
 export interface SavedStrategy {
   id: string;
