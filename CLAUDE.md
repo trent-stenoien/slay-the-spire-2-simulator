@@ -65,7 +65,8 @@ If a task needs a type change, stop and report what you need and why.
 - Ascension overrides are cumulative (A9 applies A8 then A9). Ascender's Bane is
   added automatically at A5+ via `manifest.ascensionCards`.
 - `hpLost` is measured before any healing. Burning Blood is not simulated.
-- Turn cap is 100 (`TURN_CAP`). Codes (cards, enemies, characters) are permanent.
+- Turn cap is 100 (`TURN_CAP`). Codes (cards, enemies, characters) are permanent; codes of
+  removed cards are kept in `data/reserved-codes.json` and must never be reused.
 
 ## Conventions
 
