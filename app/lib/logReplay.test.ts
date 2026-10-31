@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { gameData } from '../../data';
 import { runCombat, deriveSeed } from '../../engine';
-import { buildReplay, describeEvent, intendedMoveId, type Round } from './logReplay';
+import { ascensionLabel, buildReplay, describeEvent, enemyIntentLabel, intendedMoveId, type Round } from './logReplay';
 
 describe('log replay', () => {
   const result = runCombat(
@@ -79,5 +79,26 @@ describe('log replay', () => {
     expect(intendedMoveId([r(null)], 0, order, 'first')).toBe('a');
     expect(intendedMoveId([r(null)], 0, order, 'random')).toBeNull();
     expect(intendedMoveId([], 0, order, 'first')).toBeNull();
+  });
+});
+
+describe('log page text', () => {
+  const intent = { moveId: 'butt', name: 'Butt', attacks: [{ damagePerHit: 12, hits: 1 }], totalIncoming: 12 };
+  it('spells out Ascension', () => {
+    expect(ascensionLabel(0)).toBe('Ascension 0');
+    expect(ascensionLabel(10)).toBe('Ascension 10');
+  });
+  it('formats the enemy intent with the move effects', () => {
+    expect(enemyIntentLabel(intent, [{ type: 'attack', damage: 12, hits: 1 }])).toBe('Enemy Intent: Butt (12 damage)');
+  });
+  it('uses the modified damage and multi-hit and non-attack wording', () => {
+    const multi = { moveId: 'm', name: 'Slice', attacks: [{ damagePerHit: 8, hits: 2 }], totalIncoming: 16 };
+    expect(enemyIntentLabel(multi, [{ type: 'attack', damage: 6, hits: 2 }, { type: 'gainStrength', amount: 2 }])).toBe(
+      'Enemy Intent: Slice (8 damage 2 times, Gain 2 Strength)',
+    );
+  });
+  it('handles unknown intent and effect-less moves', () => {
+    expect(enemyIntentLabel(null)).toBe('Enemy Intent: unknown');
+    expect(enemyIntentLabel({ ...intent, attacks: [], totalIncoming: 0 }, [])).toBe('Enemy Intent: Butt');
   });
 });

@@ -285,8 +285,32 @@ describe('views render', () => {
       <CombatLog data={gameData} setup={defaultSetup(gameData)} target={{ seed: 123456, strategy: { kind: 'block', allowThrough: 4 } }} />,
     );
     expect(html).toContain('Turn');
-    expect(html).toContain('Enemy intent:</strong> Butt: attack 12');
+    expect(html).toContain('Enemy Intent: Butt (12 damage)');
+    expect(html).toContain('<h4>Your Turn</h4>');
+    expect(html).toContain('<h4>Enemy Turn');
+    expect(html).toContain('phase phase-you phase-ironclad');
+    expect(html).toContain('phase phase-enemy');
+    expect(html).toContain('Combat Log');
+    expect(html).not.toContain('Combat log');
+    expect(html).toContain('Ascension 0');
+    expect(html).not.toMatch(/\bA0\b/);
+    expect(html).not.toContain('Combat #');
     expect(html).toMatch(/Won|Died|turn cap/);
+  });
+
+  it('shows the 1-based combat number on the log page when the link carries it', () => {
+    const html = renderToStaticMarkup(
+      <CombatLog data={gameData} setup={defaultSetup(gameData)} target={{ seed: 123456, strategy: { kind: 'block', allowThrough: 4 }, combatIndex: 0 }} />,
+    );
+    expect(html).toContain('Combat #1');
+  });
+
+  it('labels the combat picker 1-10000 and links the 0-based index', () => {
+    const html = renderToStaticMarkup(<ResultsView data={gameData} result={result} />);
+    const combats = resultRows(result)[0]!.summary.combats;
+    expect(html).toContain(`Combat # (1-${combats})`);
+    expect(html).not.toContain('(0–');
+    expect(html).toMatch(/href="[^"]*&amp;n=0"/);
   });
 
   it('marks characters with unsimulated starters as work in progress', () => {

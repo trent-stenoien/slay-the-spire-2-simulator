@@ -150,3 +150,23 @@ describe('query strings', () => {
     expect(m.get('c')).toBe('');
   });
 });
+
+describe('combat number (n) in log links', () => {
+  const strategy = { kind: 'greedyDamage' as const };
+  it('is appended last and round-trips as the 0-based index', () => {
+    const q = buildQuery(data, defaultSetup(data), { seed: 7, strategy, combatIndex: 41 });
+    expect(q.endsWith('&n=41')).toBe(true);
+    expect(parseQuery(data, q).log).toMatchObject({ seed: 7, combatIndex: 41 });
+  });
+  it('is absent from links that do not carry it, and the seed link is unchanged', () => {
+    const q = buildQuery(data, defaultSetup(data), { seed: 7, strategy });
+    expect(q).not.toContain('&n=');
+    expect(parseQuery(data, q).log?.combatIndex).toBeUndefined();
+  });
+  it('ignores an invalid n without an error', () => {
+    const q = buildQuery(data, defaultSetup(data), { seed: 7, strategy }) + '&n=10000';
+    const r = parseQuery(data, q);
+    expect(r.errors).toEqual([]);
+    expect(r.log?.combatIndex).toBeUndefined();
+  });
+});

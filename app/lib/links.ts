@@ -10,6 +10,6 @@ export function setupHref(data: GameData, setup: SetupState): string {
   return `${appBase()}?${buildQuery(data, setup)}`;
 }
 
-export function logHref(data: GameData, setup: SetupState, seed: number, strategy: StrategyConfig): string {
-  return `${appBase()}?${buildQuery(data, setup, { seed, strategy })}`;
+export function logHref(data: GameData, setup: SetupState, seed: number, strategy: StrategyConfig, combatIndex?: number): string {
+  return `${appBase()}?${buildQuery(data, setup, { seed, strategy, combatIndex })}`;
 }
