@@ -6,6 +6,8 @@ import {
   clampBandwidthFactor,
   kdeBandwidth,
   toggleHidden,
+  visibleHpLostRange,
+  EMPTY_X_RANGE,
   areaPath,
   curvesMaxY, linePath, linearScale, niceMax, niceStep, niceTicks, percentLabel } from './chart';
 
@@ -107,5 +109,32 @@ describe('KDE smoothing slider', () => {
   it('labels the factor', () => {
     expect(bandwidthFactorLabel(1)).toBe('×1.00');
     expect(bandwidthFactorLabel(0.25)).toBe('×0.25');
+  });
+});
+
+describe('visibleHpLostRange', () => {
+  const row = (strategyId: string, hpLostCounts: number[]) => ({
+    strategyId,
+    summary: { strategyId, combats: 1, avgHpLost: 0, avgTurnsToKill: null, avgTurns: 1, deathRate: 0, turnCapRate: 0, hpLostCounts },
+  });
+  const a = row('a', [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 5]); // 10..12
+  const b = row('b', [0, 0, 0, 2, 1]); // 3..4
+
+  it('spans all strategies when none are hidden, padded by 2', () => {
+    expect(visibleHpLostRange([a, b], new Set())).toEqual([1, 14]);
+  });
+
+  it('rescales to the strategies still visible', () => {
+    expect(visibleHpLostRange([a, b], new Set(['a']))).toEqual([1, 6]);
+    expect(visibleHpLostRange([a, b], new Set(['b']))).toEqual([8, 14]);
+  });
+
+  it('clamps the minimum at 0', () => {
+    expect(visibleHpLostRange([row('c', [1])], new Set())).toEqual([0, 2]);
+  });
+
+  it('gives a default range when everything is hidden or there are no rows', () => {
+    expect(visibleHpLostRange([a, b], new Set(['a', 'b']))).toEqual(EMPTY_X_RANGE);
+    expect(visibleHpLostRange([], new Set())).toEqual(EMPTY_X_RANGE);
   });
 });

@@ -1,5 +1,5 @@
 import { useId, useState } from 'react';
-import { cumulativeCurve, hpLostRange, kdeCurve, rawCurve, type CurvePoint } from '../../engine/stats';
+import { cumulativeCurve, kdeCurve, rawCurve, type CurvePoint } from '../../engine/stats';
 import { COLOR_HEX } from '../lib/colors';
 import {
   areaPath,
@@ -14,6 +14,7 @@ import {
   niceTicks,
   percentLabel,
   toggleHidden,
+  visibleHpLostRange,
   type CurveShape,
 } from '../lib/chart';
 import type { ResultRow } from '../lib/results';
@@ -35,9 +36,9 @@ interface Computed {
   curves: CurvePoint[][];
 }
 
-function compute(rows: readonly ResultRow[], mode: ChartMode, bandwidthFactor: number): Computed {
-  // The x range covers every strategy, hidden or not, so toggling lines doesn't shift the axis.
-  const range = hpLostRange(rows.map((r) => r.summary));
+function compute(rows: readonly ResultRow[], hidden: ReadonlySet<string>, mode: ChartMode, bandwidthFactor: number): Computed {
+  // The x range fits only the visible strategies, so hiding or showing a line rescales the axis.
+  const range = visibleHpLostRange(rows, hidden);
   const curve = (counts: number[]) =>
     mode === 'kde'
       ? kdeCurve(counts, range, { bandwidth: kdeBandwidth(counts, bandwidthFactor) })
@@ -61,7 +62,7 @@ export function DistributionChart({ rows }: { rows: ResultRow[] }) {
 
   let computed: Computed;
   try {
-    computed = compute(rows, mode, bandwidthFactor);
+    computed = compute(rows, hidden, mode, bandwidthFactor);
   } catch (err) {
     return (
       <div className="chart-box">

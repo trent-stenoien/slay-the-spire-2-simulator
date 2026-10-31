@@ -1,5 +1,6 @@
 /** Pure scaling helpers for the hand-built SVG distribution chart. */
-import { silvermanBandwidth } from '../../engine/stats';
+import { hpLostRange, silvermanBandwidth } from '../../engine/stats';
+import type { StrategySummary } from '../../engine/types';
 
 export interface Point {
   x: number;
@@ -126,4 +127,19 @@ export function kdeBandwidth(hpLostCounts: readonly number[], factor: number): n
 /** Slider label: "×1.00". */
 export function bandwidthFactorLabel(factor: number): string {
   return `×${clampBandwidthFactor(factor).toFixed(2)}`;
+}
+
+/** X range shown when every strategy is hidden. */
+export const EMPTY_X_RANGE: [number, number] = [0, 10];
+
+/**
+ * X-axis range fitted to the strategies not in `hidden`: min/max observed HP lost
+ * padded by 2 (min clamped at 0). With none visible, a default range.
+ */
+export function visibleHpLostRange(
+  rows: readonly { strategyId: string; summary: StrategySummary }[],
+  hidden: ReadonlySet<string>,
+): [number, number] {
+  const shown = rows.filter((r) => !hidden.has(r.strategyId)).map((r) => r.summary);
+  return shown.length === 0 ? [...EMPTY_X_RANGE] : hpLostRange(shown);
 }

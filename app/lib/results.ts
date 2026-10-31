@@ -24,8 +24,8 @@ export function resultRows(result: RunResult): ResultRow[] {
 }
 
 /**
- * Rows ordered by average HP lost, lowest first. Ties break by average turns to kill
- * (lowest first; null = never killed, sorts last), then by run (selection) order.
+ * Rows ordered by average HP lost, lowest first. Ties break by death rate (lowest first),
+ * then by average combat turn length (`avgTurns`, lowest first), then by run (selection) order.
  * Returns a new array; colors travel with each row, so they are unchanged.
  */
 export function sortResultRows(rows: readonly ResultRow[]): ResultRow[] {
@@ -33,7 +33,8 @@ export function sortResultRows(rows: readonly ResultRow[]): ResultRow[] {
   return [...rows].sort(
     (a, b) =>
       num(a.summary.avgHpLost) - num(b.summary.avgHpLost) ||
-      num(a.summary.avgTurnsToKill) - num(b.summary.avgTurnsToKill) ||
+      num(a.summary.deathRate) - num(b.summary.deathRate) ||
+      num(a.summary.avgTurns) - num(b.summary.avgTurns) ||
       a.strategyIndex - b.strategyIndex,
   );
 }
