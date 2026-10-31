@@ -16,6 +16,17 @@ describe('deckPool', () => {
     expect(ids).not.toContain('ascenders_bane');
   });
 
+  it('excludes hidden cards even when simulated', () => {
+    const data = { ...gameData, cards: { ...gameData.cards, hid_test: { ...gameData.cards.strike!, id: 'hid_test', name: 'Hid Test', character: 'colorless' as const, simulated: true, hidden: true } } };
+    expect(deckPool(data, 'ironclad').map((c) => c.id)).not.toContain('hid_test');
+    expect(groupedPool(data, 'ironclad', '', { statuses: true, curses: true, multiplayer: true }).flatMap((g) => g.cards.map((c) => c.id))).not.toContain('hid_test');
+  });
+
+  it('hides the Mad Science placeholder', () => {
+    expect(gameData.cards.mad_science?.hidden).toBe(true);
+    expect(deckPool(gameData, 'ironclad').map((c) => c.id)).not.toContain('mad_science');
+  });
+
   it('is empty for an unknown character', () => {
     expect(deckPool(gameData, 'nobody')).toEqual([]);
   });

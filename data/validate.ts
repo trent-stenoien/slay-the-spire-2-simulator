@@ -257,6 +257,7 @@ function checkCard(r: Reporter, c: Obj): void {
   }
   r.bool(c, 'simulated');
   r.bool(c, 'multiplayerOnly');
+  if ('hidden' in c && c.hidden !== undefined) r.bool(c, 'hidden');
   if (c.simulated === true) {
     const lists: unknown[] = [c.keywords, c.effects];
     if (isObj(c.upgraded)) lists.push(c.upgraded.keywords, c.upgraded.effects);

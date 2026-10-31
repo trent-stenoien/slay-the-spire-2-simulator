@@ -132,6 +132,8 @@ export interface CardDef {
    */
   simulated: boolean;
   multiplayerOnly: boolean;
+  /** Placeholder entry that is kept as data but never offered in the deck builder. */
+  hidden?: boolean;
   /** Game version this entry was last checked against. */
   lastUpdateVersion: GameVersion;
 }
