@@ -14,6 +14,7 @@ import { startingDeckFor } from '../lib/deck';
 import { DeckBuilder } from './DeckBuilder';
 import { CombatLog } from './CombatLog';
 import { DistributionChart } from './DistributionChart';
+import { ResultsPanel } from './ResultsPanel';
 import { ResultsView } from './ResultsView';
 import { SetupPanel } from './SetupPanel';
 import { StrategyPanel } from './StrategyPanel';
@@ -63,6 +64,53 @@ describe('views render', () => {
     expect(html).not.toContain('Ascender');
   });
 
+  it('shows the game version alone, in italics, not inside the description', () => {
+    const html = renderToStaticMarkup(<App />);
+    expect(html).toContain(`<em class="app-version">${gameData.manifest.gameVersion}</em>`);
+    expect(html).not.toContain('Game data');
+    expect(html).toContain('<p>Monte Carlo comparison of Slay the Spire 2 play strategies.</p>');
+  });
+
+  it('puts Results first, collapsed, with the Run button in its title bar and no Run panel', () => {
+    const html = renderToStaticMarkup(<App />);
+    expect(html.indexOf('id="res-h"')).toBeGreaterThan(-1);
+    expect(html.indexOf('id="res-h"')).toBeLessThan(html.indexOf('class="grid"'));
+    expect(html).toMatch(/id="res-h"[^>]*><button[^>]*aria-expanded="false"/);
+    expect(html).toMatch(/id="res-body"[^>]*hidden/);
+    const bar = html.slice(html.indexOf('class="panel-bar"'), html.indexOf('id="res-body"'));
+    expect(bar).toContain('Run simulation');
+    // The Run button is a sibling of the toggle, not nested in it (or in the h2).
+    const toggle = bar.slice(0, bar.indexOf('</h2>'));
+    expect(toggle).not.toContain('Run simulation');
+    expect(html).not.toContain('id="run-h"');
+  });
+
+  it('Results shows the seed input and empty-state text before any run, and blockers in the title bar', () => {
+    const html = renderToStaticMarkup(
+      <ResultsPanel data={gameData} result={null} status={{ kind: 'idle' }} blocker="Select at least one strategy." onRun={() => {}} />,
+    );
+    expect(html).toContain('Run seed (blank = random)');
+    expect(html).toContain('Run a simulation to see the results.');
+    expect(html.indexOf('Run seed')).toBeGreaterThan(html.indexOf('id="res-body"'));
+    const bar = html.slice(0, html.indexOf('id="res-body"'));
+    expect(bar).toContain('Select at least one strategy.');
+    expect(bar).toMatch(/<button[^>]*disabled=""[^>]*title="Select at least one strategy."[^>]*>Run simulation/);
+  });
+
+  it('Results title bar shows progress and a compact error', () => {
+    const running = renderToStaticMarkup(
+      <ResultsPanel data={gameData} result={null} status={{ kind: 'running', progress: { done: 42, total: 100 } }} blocker={null} onRun={() => {}} />,
+    );
+    expect(running.slice(0, running.indexOf('id="res-body"'))).toContain('Running… 42%');
+    const failed = renderToStaticMarkup(
+      <ResultsPanel data={gameData} result={result} status={{ kind: 'error', message: 'boom', notImplemented: false }} blocker={null} onRun={() => {}} />,
+    );
+    const bar = failed.slice(0, failed.indexOf('id="res-body"'));
+    expect(bar).toContain('Run failed');
+    expect(bar).toContain('title="Simulation failed: boom"');
+    expect(failed).not.toContain('Run a simulation to see the results.');
+  });
+
   it('strategy panel: Title label, New Strategy heading, no description on custom strategies', () => {
     const custom = { id: 'u1', name: 'Mine', config: { kind: 'block' as const, allowThrough: 3 } };
     const noop = () => {};
@@ -93,8 +141,17 @@ describe('views render', () => {
     expect(html).toContain('20.0%');
     expect(html).toContain('v0.107.1');
     expect(html).toContain('<svg');
-    expect(html).toContain('st=g');
-    expect(html).toContain('?v=1&amp;c=I&amp;e=Nb&amp;a=5&amp;d=St5De4Ba1&amp;s=2751716061&amp;st=g');
+    // The combat picker defaults to the first listed (lowest HP lost) strategy: Scared Block.
+    expect(html).toContain('?v=1&amp;c=I&amp;e=Nb&amp;a=5&amp;d=St5De4Ba1&amp;s=2751716061&amp;st=b0');
+  });
+
+  it('lists strategies by avg HP lost, lowest first, in table, legend and chart, keeping colors', () => {
+    const html = renderToStaticMarkup(<ResultsView data={gameData} result={result} />);
+    expect(html.indexOf('Scared Block')).toBeLessThan(html.indexOf('Greedy Damage'));
+    // Chart series (purple = Scared Block, blue = Greedy Damage) and legend follow the same order.
+    expect(html.indexOf('stroke="#8a5cd6"')).toBeLessThan(html.indexOf('stroke="#2f6fdf"'));
+    const legend = html.slice(html.indexOf('class="legend"'));
+    expect(legend.indexOf('Scared Block')).toBeLessThan(legend.indexOf('Greedy Damage'));
   });
 
   it('draws one line and one 15% fill per strategy in run colors', () => {

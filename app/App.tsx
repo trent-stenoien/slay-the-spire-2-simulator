@@ -3,8 +3,7 @@ import { gameData } from '../data';
 import type { RunConfig, RunResult, RunStrategy } from '../engine/types';
 import { CombatLog } from './components/CombatLog';
 import { DeckBuilder } from './components/DeckBuilder';
-import { ResultsView } from './components/ResultsView';
-import { RunPanel, type RunStatus } from './components/RunPanel';
+import { ResultsPanel, type RunStatus } from './components/ResultsPanel';
 import { SetupPanel } from './components/SetupPanel';
 import { StrategyPanel } from './components/StrategyPanel';
 import { deckSize, startingDeckFor } from './lib/deck';
@@ -32,9 +31,10 @@ export function App() {
         <h1>
           <a href={setupHref(data, setup)}>STS2 Combat Simulator</a>
         </h1>
-        <p className="muted small">
-          Monte Carlo comparison of Slay the Spire 2 play strategies. Game data {data.manifest.gameVersion}.
-        </p>
+        <div className="app-sub muted small">
+          <p>Monte Carlo comparison of Slay the Spire 2 play strategies.</p>
+          <em className="app-version">{data.manifest.gameVersion}</em>
+        </div>
       </header>
       {urlErrors.length > 0 && (
         <div className="banner warn" role="alert">
@@ -105,6 +105,7 @@ function Simulator({ setup, setSetup }: { setup: SetupState; setSetup: (s: Setup
 
   return (
     <>
+      <ResultsPanel data={data} result={result} status={status} blocker={blocker} onRun={run} />
       <div className="grid">
         <div className="col">
           <SetupPanel
@@ -136,10 +137,8 @@ function Simulator({ setup, setSetup }: { setup: SetupState; setSetup: (s: Setup
             onDelete={strategies.remove}
             onClearAll={strategies.clearAll}
           />
-          <RunPanel status={status} blocker={blocker} onRun={run} />
         </div>
       </div>
-      {result && <ResultsView data={data} result={result} />}
     </>
   );
 }

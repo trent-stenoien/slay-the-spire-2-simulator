@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { RunResult, StrategySummary } from '../../engine/types';
-import { fmtNumber, fmtRate, parseSeedInput, randomSeed, resultRows } from './results';
+import { fmtNumber, fmtRate, parseSeedInput, randomSeed, resultRows, sortResultRows, type ResultRow } from './results';
 
 function fakeSummary(strategyId: string, over: Partial<StrategySummary> = {}): StrategySummary {
   return {
@@ -60,5 +60,20 @@ describe('results helpers', () => {
     expect(parseSeedInput(' 42 ')).toBe(42);
     expect(parseSeedInput('4294967296')).toBeUndefined();
     expect(parseSeedInput('-3')).toBeUndefined();
+  });
+
+  it('sorts rows by avg HP lost, then avg turns (null last), then selection order; keeps colors', () => {
+    const row = (id: string, strategyIndex: number, avgHpLost: number, avgTurnsToKill: number | null): ResultRow => ({
+      strategyId: id,
+      name: id,
+      color: (['blue', 'red', 'purple', 'green', 'yellow'] as const)[strategyIndex]!,
+      strategyIndex,
+      summary: fakeSummary(id, { avgHpLost, avgTurnsToKill }),
+    });
+    const rows = [row('a', 0, 5, 4), row('b', 1, 2, null), row('c', 2, 2, 7), row('d', 3, 5, 4), row('e', 4, 2, 7)];
+    const sorted = sortResultRows(rows);
+    expect(sorted.map((r) => r.strategyId)).toEqual(['c', 'e', 'b', 'a', 'd']);
+    expect(sorted.map((r) => r.color)).toEqual(['purple', 'yellow', 'red', 'blue', 'green']);
+    expect(rows.map((r) => r.strategyId)).toEqual(['a', 'b', 'c', 'd', 'e']);
   });
 });

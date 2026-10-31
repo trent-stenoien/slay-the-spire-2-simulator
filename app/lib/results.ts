@@ -23,6 +23,26 @@ export function resultRows(result: RunResult): ResultRow[] {
   return rows;
 }
 
+/**
+ * Rows ordered by average HP lost, lowest first. Ties break by average turns to kill
+ * (lowest first; null = never killed, sorts last), then by run (selection) order.
+ * Returns a new array; colors travel with each row, so they are unchanged.
+ */
+export function sortResultRows(rows: readonly ResultRow[]): ResultRow[] {
+  const num = (n: number | null) => (n === null || !Number.isFinite(n) ? Infinity : n);
+  return [...rows].sort(
+    (a, b) =>
+      num(a.summary.avgHpLost) - num(b.summary.avgHpLost) ||
+      num(a.summary.avgTurnsToKill) - num(b.summary.avgTurnsToKill) ||
+      a.strategyIndex - b.strategyIndex,
+  );
+}
+
+/** resultRows in display order (see sortResultRows). */
+export function sortedResultRows(result: RunResult): ResultRow[] {
+  return sortResultRows(resultRows(result));
+}
+
 export function fmtNumber(n: number | null, digits = 1): string {
   return n === null || !Number.isFinite(n) ? '—' : n.toFixed(digits);
 }

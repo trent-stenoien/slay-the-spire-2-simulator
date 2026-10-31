@@ -30,6 +30,17 @@ describe('Panel', () => {
     expect(html).not.toMatch(/id="x-body"[^>]*hidden/);
   });
 
+  it('defaultCollapsed starts collapsed without storage; actions sit beside the toggle, not inside it', () => {
+    const html = renderToStaticMarkup(
+      <Panel id="y" title="Thing" defaultCollapsed actions={<button type="button">Go</button>}>
+        <p>body</p>
+      </Panel>,
+    );
+    expect(html).toContain('aria-expanded="false"');
+    expect(html).toMatch(/id="y-body"[^>]*hidden/);
+    expect(html).toMatch(/<\/h2><div class="panel-bar-actions"><button type="button">Go<\/button><\/div>/);
+  });
+
   it('puts Deck and Strategies action links in the body, not the title bar', () => {
     const deck = renderToStaticMarkup(
       <DeckBuilder data={gameData} characterId="ironclad" ascension={0} deck={gameData.characters.ironclad!.startingDeck} onChange={() => {}} onReset={() => {}} />,

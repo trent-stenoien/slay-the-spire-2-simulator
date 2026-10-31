@@ -122,8 +122,22 @@ h4 {
   padding: 16px;
 }
 
-.app-head p {
+.app-sub {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  column-gap: 16px;
+  row-gap: 2px;
   margin: 0 0 12px;
+}
+.app-sub p {
+  flex: 1 1 auto;
+  margin: 0;
+}
+.app-version {
+  flex: none;
+  white-space: nowrap;
 }
 
 footer {
@@ -163,6 +177,9 @@ footer {
   min-width: 0;
 }
 main > .panel {
+  margin-top: 16px;
+}
+main > .panel + .grid {
   margin-top: 16px;
 }
 .panel-head {
@@ -795,6 +812,46 @@ code {
 .panel-body {
   margin-top: 12px;
 }
+.panel-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.panel-bar > .panel-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+}
+.panel-bar .panel-toggle {
+  width: auto;
+  flex: 1 1 auto;
+}
+.panel-bar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px 10px;
+  margin-left: auto;
+  min-width: 0;
+}
+.run-state {
+  min-width: 0;
+}
+.warn-text {
+  color: var(--warn-text);
+}
+.run-error {
+  cursor: help;
+  text-decoration: underline dotted;
+}
+.run-seed {
+  margin-bottom: 4px;
+}
+.results-empty {
+  margin: 8px 0 0;
+}
 .panel-body[hidden] {
   display: none;
 }
@@ -802,6 +859,7 @@ code {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  justify-content: flex-end;
   margin-bottom: 8px;
 }
 .panel-actions:empty {

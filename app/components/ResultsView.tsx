@@ -2,20 +2,20 @@ import { useState } from 'react';
 import { deriveSeed } from '../../engine/rng';
 import type { GameData, RunResult } from '../../engine/types';
 import { COLOR_HEX } from '../lib/colors';
-import { fmtNumber, fmtRate, resultRows } from '../lib/results';
+import { fmtNumber, fmtRate, sortedResultRows } from '../lib/results';
 import { deckSize } from '../lib/deck';
 import { DistributionChart } from './DistributionChart';
-import { Panel } from './Panel';
 import { logHref } from '../lib/links';
 
+/** The results body (stats table, chart, combat picker), strategies sorted by avg HP lost. */
 export function ResultsView({ data, result }: { data: GameData; result: RunResult }) {
-  const rows = resultRows(result);
+  const rows = sortedResultRows(result);
   const cfg = result.config;
   const enemy = data.enemies[cfg.enemyId]?.name ?? cfg.enemyId;
   const combats = rows[0]?.summary.combats ?? 0;
 
   return (
-    <Panel id="res" title="Results" expandOn={result}>
+    <div className="results">
       <p className="muted small">
         {combats} combats per strategy vs {enemy}, A{cfg.ascension}, {deckSize(cfg.deck)}-card deck, run seed {cfg.runSeed}. Game version{' '}
         {result.gameVersion}.
@@ -49,12 +49,12 @@ export function ResultsView({ data, result }: { data: GameData; result: RunResul
       </div>
       {rows.length > 0 && <DistributionChart rows={rows} />}
       {rows.length > 0 && <ViewCombat data={data} result={result} combats={combats} />}
-    </Panel>
+    </div>
   );
 }
 
 function ViewCombat({ data, result, combats }: { data: GameData; result: RunResult; combats: number }) {
-  const rows = resultRows(result);
+  const rows = sortedResultRows(result);
   const [idx, setIdx] = useState(0);
   const [text, setText] = useState('0');
   const [strategyId, setStrategyId] = useState(rows[0]?.strategyId ?? '');
