@@ -10,6 +10,10 @@ The main session is the orchestrator: it plans, delegates, reviews and merges.
 All programming (code, tests, data files) is done by sub-agents on their own branches,
 never directly by the orchestrator.
 
+Only the orchestrator approves and merges changes into `main`. Sub-agents never commit
+to, merge into or push `main`: they commit on their own branch and hand back a merge
+request (branch name, what changed, test/typecheck/build results).
+
 ## Layout
 
 - `engine/` — pure TypeScript. No React, no DOM, no imports from `app/`. Must run
@@ -42,5 +46,5 @@ If a task needs a type change, stop and report what you need and why.
 
 - Tests live next to code as `*.test.ts`. Every rule gets a test.
 - `npm test`, `npm run typecheck`, and `npm run build` must pass before handing back.
-- Work on your own branch; the orchestrator merges.
+- Work on your own branch and request a merge; never touch `main`.
 - Design doc: https://claude.ai/artifact/D79XTt7hTXmws6JnNBGt7h
