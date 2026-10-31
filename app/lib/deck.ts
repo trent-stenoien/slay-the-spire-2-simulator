@@ -60,6 +60,11 @@ export function changeCount(deck: Deck, cardId: string, upgraded: boolean, delta
   return deck.map((e, i) => (i === idx ? { ...e, count } : e));
 }
 
+/** Remove every copy of a card, both Standard and Upgraded. Returns the same deck when the card is absent. */
+export function removeCard(deck: Deck, cardId: string): Deck {
+  return deck.some((e) => e.cardId === cardId) ? deck.filter((e) => e.cardId !== cardId) : deck;
+}
+
 /**
  * Flip the upgraded flag of a whole copy group, merging into the other
  * group if it already exists (the merged entry keeps the other group's position).

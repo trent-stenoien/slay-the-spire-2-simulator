@@ -3,7 +3,7 @@ import { Panel } from './Panel';
 import type { CardDef, Deck, GameData } from '../../engine/types';
 import { cardText } from '../lib/cardText';
 import type { CostColorKey, PoolFilters } from '../lib/deck';
-import { DEFAULT_FILTERS, automaticCards, changeCount, combatDeckSize, copiesOf, costColorKey, groupedPool, unsimulatedStarters } from '../lib/deck';
+import { DEFAULT_FILTERS, automaticCards, changeCount, combatDeckSize, copiesOf, costColorKey, groupedPool, removeCard, unsimulatedStarters } from '../lib/deck';
 
 interface Props {
   data: GameData;
@@ -98,6 +98,19 @@ function CardRow({ card, colorKey, deck, autoLevel, onChange }: { card: CardDef;
           {base.cost}
         </span>
         <span className="card-name">{base.name}</span>
+        {!locked && n + nUp > 0 && (
+          <button
+            type="button"
+            className="icon-btn danger card-clear"
+            aria-label={`Remove all ${base.name} from deck`}
+            title={`Remove all ${base.name} from deck`}
+            onClick={() => onChange(removeCard(deck, card.id))}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+        )}
       </div>
       <span className="card-label">Standard</span>
       <span className="card-text">{base.lines.join('. ')}</span>

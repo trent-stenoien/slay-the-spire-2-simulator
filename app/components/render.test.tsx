@@ -190,6 +190,21 @@ describe('views render', () => {
     for (const [, row, cost] of rows) expect(row).toBe(cost);
   });
 
+  it('shows the remove-all X only for cards that have copies in the deck', () => {
+    const html = renderToStaticMarkup(
+      <DeckBuilder data={gameData} characterId="ironclad" ascension={5} deck={startingDeckFor(gameData, 'ironclad')} onChange={() => {}} onReset={() => {}} />,
+    );
+    expect(html).toContain('aria-label="Remove all Strike from deck"');
+    expect(html).toContain('title="Remove all Defend from deck"');
+    expect(html).not.toContain('Remove all Anger from deck');
+    expect(html).not.toContain('Remove all Ascender');
+    const upgradedOnly = renderToStaticMarkup(
+      <DeckBuilder data={gameData} characterId="ironclad" ascension={0} deck={[{ cardId: 'strike', upgraded: true, count: 1 }]} onChange={() => {}} onReset={() => {}} />,
+    );
+    expect(upgradedOnly).toContain('Remove all Strike from deck');
+    expect(upgradedOnly).not.toContain('Remove all Defend from deck');
+  });
+
   it("shows Ascender's Bane locked in the Curses group at A5, not at A4, and drops the old setup note", () => {
     const render = (ascension: number) =>
       renderToStaticMarkup(
