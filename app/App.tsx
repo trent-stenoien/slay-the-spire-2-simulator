@@ -49,11 +49,6 @@ export function App() {
           </button>
         </div>
       )}
-      <p className="note">
-        {setup.characterId === 'ironclad'
-          ? "Burning Blood's 6 HP heal is not simulated."
-          : `${data.characters[setup.characterId]?.startingRelic ?? 'The starting relic'} (starting relic) is not simulated.`}
-      </p>
       <main>{logTarget ? <CombatLog data={data} setup={setup} target={logTarget} /> : <Simulator setup={setup} setSetup={setSetup} />}</main>
       <footer className="muted small">
         Card and enemy data from slaythespire.wiki.gg (CC BY-SA 4.0). Not affiliated with Mega Crit.
@@ -105,7 +100,7 @@ function Simulator({ setup, setSetup }: { setup: SetupState; setSetup: (s: Setup
 
   return (
     <>
-      <ResultsPanel data={data} result={result} status={status} blocker={blocker} onRun={run} />
+      <ResultsPanel data={data} characterId={setup.characterId} result={result} status={status} blocker={blocker} onRun={run} />
       <div className="grid">
         <div className="col col-deck">
           <DeckBuilder

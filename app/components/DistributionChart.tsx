@@ -1,7 +1,21 @@
 import { useId, useState } from 'react';
 import { cumulativeCurve, hpLostRange, kdeCurve, rawCurve, type CurvePoint } from '../../engine/stats';
 import { COLOR_HEX } from '../lib/colors';
-import { areaPath, curvesMaxY, linePath, linearScale, niceMax, niceTicks, percentLabel, type CurveShape } from '../lib/chart';
+import {
+  areaPath,
+  BANDWIDTH_FACTOR,
+  bandwidthFactorLabel,
+  clampBandwidthFactor,
+  curvesMaxY,
+  kdeBandwidth,
+  linePath,
+  linearScale,
+  niceMax,
+  niceTicks,
+  percentLabel,
+  toggleHidden,
+  type CurveShape,
+} from '../lib/chart';
 import type { ResultRow } from '../lib/results';
 
 export type ChartMode = 'kde' | 'raw' | 'cumulative';
@@ -21,20 +35,33 @@ interface Computed {
   curves: CurvePoint[][];
 }
 
-function compute(rows: readonly ResultRow[], mode: ChartMode): Computed {
+function compute(rows: readonly ResultRow[], mode: ChartMode, bandwidthFactor: number): Computed {
+  // The x range covers every strategy, hidden or not, so toggling lines doesn't shift the axis.
   const range = hpLostRange(rows.map((r) => r.summary));
-  const curve = mode === 'kde' ? kdeCurve : mode === 'raw' ? rawCurve : cumulativeCurve;
-  return { range, curves: rows.map((r) => curve(r.summary.hpLostCounts, range)) };
+  const curve = (counts: number[]) =>
+    mode === 'kde'
+      ? kdeCurve(counts, range, { bandwidth: kdeBandwidth(counts, bandwidthFactor) })
+      : mode === 'raw'
+        ? rawCurve(counts, range)
+        : cumulativeCurve(counts, range);
+  return { range, curves: rows.map((r) => curve(r.summary.hpLostCounts)) };
 }
 
-/** Overlaid HP-lost distributions, one line + light fill per strategy. */
+/**
+ * Overlaid HP-lost distributions, one line + light fill per strategy. The legend sits
+ * above the chart; clicking an entry hides or shows that strategy's line (hidden entries
+ * stay in the legend, dimmed). The KDE view has a smoothing (bandwidth) slider.
+ */
 export function DistributionChart({ rows }: { rows: ResultRow[] }) {
   const [mode, setMode] = useState<ChartMode>('kde');
+  const [hidden, setHidden] = useState<ReadonlySet<string>>(() => new Set());
+  const [bandwidthFactor, setBandwidthFactor] = useState<number>(BANDWIDTH_FACTOR.default);
   const clipId = useId();
+  const sliderId = useId();
 
   let computed: Computed;
   try {
-    computed = compute(rows, mode);
+    computed = compute(rows, mode, bandwidthFactor);
   } catch (err) {
     return (
       <div className="chart-box">
@@ -44,7 +71,8 @@ export function DistributionChart({ rows }: { rows: ResultRow[] }) {
   }
 
   const { range, curves } = computed;
-  const yMax = mode === 'cumulative' ? 100 : niceMax(curvesMaxY(curves), 5, 1);
+  const visible = rows.map((r) => !hidden.has(r.strategyId));
+  const yMax = mode === 'cumulative' ? 100 : niceMax(curvesMaxY(curves.filter((_, i) => visible[i])), 5, 1);
   const sx = linearScale(range, [M.left, W - M.right]);
   const sy = linearScale([0, yMax], [H - M.bottom, M.top]);
   const xTicks = niceTicks(range[0], range[1], 8, true);
@@ -61,6 +89,48 @@ export function DistributionChart({ rows }: { rows: ResultRow[] }) {
           </button>
         ))}
       </div>
+      {mode === 'kde' && (
+        <div className="bandwidth">
+          <label htmlFor={sliderId}>Smoothing</label>
+          <input
+            id={sliderId}
+            type="range"
+            min={BANDWIDTH_FACTOR.min}
+            max={BANDWIDTH_FACTOR.max}
+            step={BANDWIDTH_FACTOR.step}
+            value={bandwidthFactor}
+            aria-valuetext={`${bandwidthFactorLabel(bandwidthFactor)} Silverman bandwidth`}
+            onChange={(e) => setBandwidthFactor(clampBandwidthFactor(Number(e.target.value)))}
+          />
+          <output htmlFor={sliderId} className="small">
+            {bandwidthFactorLabel(bandwidthFactor)}
+          </output>
+          <button
+            type="button"
+            className="btn-link small"
+            disabled={bandwidthFactor === BANDWIDTH_FACTOR.default}
+            onClick={() => setBandwidthFactor(BANDWIDTH_FACTOR.default)}
+          >
+            Reset
+          </button>
+        </div>
+      )}
+      <ul className="legend" aria-label="Strategies (click to show or hide)">
+        {rows.map((r, i) => (
+          <li key={r.strategyId}>
+            <button
+              type="button"
+              className={visible[i] ? 'legend-item' : 'legend-item off'}
+              aria-pressed={visible[i]}
+              title={visible[i] ? `Hide ${r.name}` : `Show ${r.name}`}
+              onClick={() => setHidden((h) => toggleHidden(h, r.strategyId))}
+            >
+              <span className="legend-swatch" style={{ background: COLOR_HEX[r.color] }} aria-hidden />
+              {r.name}
+            </button>
+          </li>
+        ))}
+      </ul>
       <svg className="chart" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`HP lost distribution, ${mode} view`}>
         <defs>
           <clipPath id={clipId}>
@@ -93,6 +163,7 @@ export function DistributionChart({ rows }: { rows: ResultRow[] }) {
         </text>
         <g clipPath={`url(#${clipId})`}>
           {curves.map((pts, i) => {
+            if (!visible[i]) return null;
             const color = COLOR_HEX[rows[i]!.color];
             return (
               <g key={rows[i]!.strategyId}>
@@ -103,14 +174,6 @@ export function DistributionChart({ rows }: { rows: ResultRow[] }) {
           })}
         </g>
       </svg>
-      <ul className="legend">
-        {rows.map((r) => (
-          <li key={r.strategyId}>
-            <span className="legend-swatch" style={{ background: COLOR_HEX[r.color] }} aria-hidden />
-            {r.name}
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }

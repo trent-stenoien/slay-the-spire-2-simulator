@@ -33,6 +33,7 @@ vi.mock('../../engine/stats', () => {
     rawCurve: curve,
     kdeCurve: curve,
     cumulativeCurve: curve,
+    silvermanBandwidth: () => 1,
   };
 });
 
@@ -50,15 +51,19 @@ const result: RunResult = {
     ],
   },
   summaries: [
-    { strategyId: 'g', combats: 10, avgHpLost: 8.4, avgTurnsToKill: 6.1, deathRate: 0.1, turnCapRate: 0, hpLostCounts: [0, 0, 2, 3, 5] },
-    { strategyId: 's', combats: 10, avgHpLost: 3.2, avgTurnsToKill: null, deathRate: 0, turnCapRate: 0.2, hpLostCounts: [4, 4, 2] },
+    { strategyId: 'g', combats: 10, avgHpLost: 8.4, avgTurnsToKill: 6.1, avgTurns: 6.4, deathRate: 0.1, turnCapRate: 0, hpLostCounts: [0, 0, 2, 3, 5] },
+    { strategyId: 's', combats: 10, avgHpLost: 3.2, avgTurnsToKill: null, avgTurns: 9.5, deathRate: 0, turnCapRate: 0.2, hpLostCounts: [4, 4, 2] },
   ],
 };
 
 describe('views render', () => {
-  it('renders the main page with the Burning Blood note and defaults', () => {
+  it('renders the main page with the Burning Blood note inside the Results panel body, not at the top', () => {
     const html = renderToStaticMarkup(<App />);
-    expect(html).toContain("Burning Blood&#x27;s 6 HP heal is not simulated.");
+    const note = html.indexOf("Burning Blood&#x27;s 6 HP heal is not simulated.");
+    expect(note).toBeGreaterThan(html.indexOf('id="res-body"'));
+    expect(note).toBeLessThan(html.indexOf('class="grid"'));
+    expect(html.match(/is not simulated\./g)).toHaveLength(1);
+    expect(html.slice(0, html.indexOf('<main'))).not.toContain('class="note"');
     expect(html).toContain('Greedy Damage');
     expect(html).toContain('Scared Block');
     expect(html).toContain('Deal 8 damage. Apply 2 Vulnerable');
@@ -88,7 +93,7 @@ describe('views render', () => {
 
   it('Results shows the seed input and empty-state text before any run, and blockers in the title bar', () => {
     const html = renderToStaticMarkup(
-      <ResultsPanel data={gameData} result={null} status={{ kind: 'idle' }} blocker="Select at least one strategy." onRun={() => {}} />,
+      <ResultsPanel data={gameData} characterId="ironclad" result={null} status={{ kind: 'idle' }} blocker="Select at least one strategy." onRun={() => {}} />,
     );
     expect(html).toContain('Run seed (blank = random)');
     expect(html).toContain('Run a simulation to see the results.');
@@ -100,11 +105,11 @@ describe('views render', () => {
 
   it('Results title bar shows progress and a compact error', () => {
     const running = renderToStaticMarkup(
-      <ResultsPanel data={gameData} result={null} status={{ kind: 'running', progress: { done: 42, total: 100 } }} blocker={null} onRun={() => {}} />,
+      <ResultsPanel data={gameData} characterId="ironclad" result={null} status={{ kind: 'running', progress: { done: 42, total: 100 } }} blocker={null} onRun={() => {}} />,
     );
     expect(running.slice(0, running.indexOf('id="res-body"'))).toContain('Running… 42%');
     const failed = renderToStaticMarkup(
-      <ResultsPanel data={gameData} result={result} status={{ kind: 'error', message: 'boom', notImplemented: false }} blocker={null} onRun={() => {}} />,
+      <ResultsPanel data={gameData} characterId="ironclad" result={result} status={{ kind: 'error', message: 'boom', notImplemented: false }} blocker={null} onRun={() => {}} />,
     );
     const bar = failed.slice(0, failed.indexOf('id="res-body"'));
     expect(bar).toContain('Run failed');
@@ -136,14 +141,48 @@ describe('views render', () => {
     expect(html.match(/strat-desc/g)?.length).toBe(DEFAULT_STRATEGIES.length);
   });
 
-  it('renders results with rates as percentages and the game version', () => {
+  it('Results body shows the starting-relic note for the setup character', () => {
+    const silent = gameData.characters.silent!;
+    const html = renderToStaticMarkup(
+      <ResultsPanel data={gameData} characterId="silent" result={null} status={{ kind: 'idle' }} blocker={null} onRun={() => {}} />,
+    );
+    const body = html.slice(html.indexOf('id="res-body"'));
+    expect(body).toContain(`${silent.startingRelic} (starting relic) is not simulated.`);
+    expect(html).not.toContain('Burning Blood');
+  });
+
+  it('renders results with death rate as a percentage, no turn-cap column, and the game version', () => {
     const html = renderToStaticMarkup(<ResultsView data={gameData} result={result} />);
     expect(html).toContain('10.0%');
-    expect(html).toContain('20.0%');
+    expect(html).not.toContain('Turn-cap rate');
+    expect(html).not.toContain('20.0%');
+    expect(html.match(/<th scope="col">/g)).toHaveLength(4);
     expect(html).toContain('v0.107.1');
     expect(html).toContain('<svg');
     // The combat picker defaults to the first listed (lowest HP lost) strategy: Scared Block.
     expect(html).toContain('?v=1&amp;c=I&amp;e=Nb&amp;a=5&amp;d=St5De4Ba1&amp;s=2751716061&amp;st=b0');
+  });
+
+  it('shows Avg combat turn length over every combat, with no dash for a strategy with no wins', () => {
+    const html = renderToStaticMarkup(<ResultsView data={gameData} result={result} />);
+    expect(html).toContain('<th scope="col">Avg combat turn length</th>');
+    expect(html).not.toContain('Avg turns to kill');
+    const table = html.slice(html.indexOf('<table'), html.indexOf('</table>'));
+    expect(table).not.toContain('—');
+    expect(table).toContain('<td>9.5</td>');
+    expect(table).toContain('<td>6.4</td>');
+  });
+
+  it('puts the legend above the chart, as toggle buttons, with the KDE smoothing slider', () => {
+    const html = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
+    expect(html.indexOf('class="legend"')).toBeGreaterThan(-1);
+    expect(html.indexOf('class="legend"')).toBeLessThan(html.indexOf('<svg'));
+    expect(html.match(/<button type="button" class="legend-item" aria-pressed="true"/g)).toHaveLength(2);
+    expect(html).toContain('type="range"');
+    expect(html).toContain('min="0.25"');
+    expect(html).toContain('max="3"');
+    expect(html).toContain('value="1"');
+    expect(html).toContain('×1.00');
   });
 
   it('lists strategies by avg HP lost, lowest first, in table, legend and chart, keeping colors', () => {

@@ -415,6 +415,8 @@ export interface StrategySummary {
   avgHpLost: number;
   /** Over wins only; null if there were no wins. */
   avgTurnsToKill: number | null;
+  /** Mean combat length in turns over ALL combats (wins, losses, turn-cap fights at full length); 0 for none. */
+  avgTurns: number;
   deathRate: number;
   turnCapRate: number;
   /** hpLostCounts[n] = number of combats that lost exactly n HP. */

@@ -26,9 +26,8 @@ export function ResultsView({ data, result }: { data: GameData; result: RunResul
             <tr>
               <th scope="col">Strategy</th>
               <th scope="col">Avg HP lost</th>
-              <th scope="col">Avg turns to kill</th>
+              <th scope="col">Avg combat turn length</th>
               <th scope="col">Death rate</th>
-              <th scope="col">Turn-cap rate</th>
             </tr>
           </thead>
           <tbody>
@@ -39,9 +38,8 @@ export function ResultsView({ data, result }: { data: GameData; result: RunResul
                   {r.name}
                 </th>
                 <td>{fmtNumber(r.summary.avgHpLost)}</td>
-                <td>{fmtNumber(r.summary.avgTurnsToKill)}</td>
+                <td>{fmtNumber(r.summary.avgTurns)}</td>
                 <td>{fmtRate(r.summary.deathRate)}</td>
-                <td>{fmtRate(r.summary.turnCapRate)}</td>
               </tr>
             ))}
           </tbody>

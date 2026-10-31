@@ -43,6 +43,8 @@ export function runCombatRange(
  *
  * - avgHpLost: mean over ALL combats (wins, losses and turn-cap draws).
  * - avgTurnsToKill: mean turns over wins only; null if there were no wins.
+ * - avgTurns: mean turns over ALL combats (wins, losses, and turn-cap fights at
+ *   their full length); 0 for an empty list.
  * - deathRate, turnCapRate: FRACTIONS in [0, 1] (not percentages).
  * - hpLostCounts[n]: combats that lost exactly n HP; length = max hpLost + 1
  *   (at least 1, so an empty run gives [0]).
@@ -56,8 +58,10 @@ export function summarize(strategyId: string, results: readonly CombatResult[]):
   let losses = 0;
   let caps = 0;
   let maxHp = 0;
+  let turnSum = 0;
   for (const r of results) {
     hpSum += r.hpLost;
+    turnSum += r.turns;
     if (r.hpLost > maxHp) maxHp = r.hpLost;
     if (r.outcome === 'win') {
       wins++;
@@ -75,6 +79,7 @@ export function summarize(strategyId: string, results: readonly CombatResult[]):
     combats: n,
     avgHpLost: n > 0 ? hpSum / n : 0,
     avgTurnsToKill: wins > 0 ? winTurns / wins : null,
+    avgTurns: n > 0 ? turnSum / n : 0,
     deathRate: n > 0 ? losses / n : 0,
     turnCapRate: n > 0 ? caps / n : 0,
     hpLostCounts,

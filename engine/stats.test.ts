@@ -9,6 +9,7 @@ function summary(hpLostCounts: number[]): StrategySummary {
     combats: hpLostCounts.reduce((a, b) => a + b, 0),
     avgHpLost: 0,
     avgTurnsToKill: null,
+    avgTurns: 0,
     deathRate: 0,
     turnCapRate: 0,
     hpLostCounts,
