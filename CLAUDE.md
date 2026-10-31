@@ -14,6 +14,19 @@ Only the orchestrator approves and merges changes into `main`. Sub-agents never 
 to, merge into or push `main`: they commit on their own branch and hand back a merge
 request (branch name, what changed, test/typecheck/build results).
 
+## Board and phases
+
+All work is tracked on the Kanban board https://github.com/users/trent-stenoien/projects/4.
+Each card is an issue in this repo (auto-added to the board in Backlog), labelled with an area
+(`engine`, `data`, `ui`, `strategy`) and a version (`version: v1`, or `version: future` when none
+was set). Columns: Backlog → Questions or Ready → In progress → In review → Done.
+
+- Planning phase: the user and orchestrator add cards. No new sub-agents start.
+- Building phase: the orchestrator assigns Ready cards to sub-agents.
+- Sub-agents work only on their assigned issue. They push their branch and open a pull request
+  whose body says `Closes #<issue>`, so it links to the card. They never merge.
+- The orchestrator moves cards on the board, reviews, merges the PR and moves the card to Done.
+
 ## Layout
 
 - `engine/` — pure TypeScript. No React, no DOM, no imports from `app/`. Must run
