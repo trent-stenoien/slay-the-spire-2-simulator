@@ -4,6 +4,12 @@ Client-side React + TypeScript app (Vite, Vitest) that auto-plays Slay the Spire
 combats and runs Monte Carlo comparisons of play strategies. Deployed to GitHub
 Pages by `.github/workflows/deploy.yml` on push to `main`.
 
+## Working model
+
+The main session is the orchestrator: it plans, delegates, reviews and merges.
+All programming (code, tests, data files) is done by sub-agents on their own branches,
+never directly by the orchestrator.
+
 ## Layout
 
 - `engine/` — pure TypeScript. No React, no DOM, no imports from `app/`. Must run
