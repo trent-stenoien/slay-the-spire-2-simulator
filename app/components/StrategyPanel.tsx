@@ -117,7 +117,7 @@ function AllowInput({ value, onCommit }: { value: number; onCommit: (n: number) 
   const parsed = parseAllowThrough(text);
   return (
     <label className="field field-narrow">
-      <span>Allow through X damage per turn</span>
+      <span>Allow at most X damage per turn</span>
       <input
         type="number"
         inputMode="numeric"
@@ -157,7 +157,7 @@ function NewStrategyForm({ onAdd }: { onAdd: (name: string, allowThrough: number
           <input value={name} placeholder={`Block, allow ${parsed ?? 'X'}`} maxLength={40} onChange={(e) => setName(e.target.value)} />
         </label>
         <label className="field field-narrow">
-          <span>Allow through X damage per turn</span>
+          <span>Allow at most X damage per turn</span>
           <input type="number" inputMode="numeric" min={0} step={1} value={allow} aria-invalid={parsed === null} onChange={(e) => setAllow(e.target.value)} />
         </label>
         <button type="submit" className="btn" disabled={parsed === null}>

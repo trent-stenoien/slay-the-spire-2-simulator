@@ -128,5 +128,7 @@ export function deleteUserStrategy(user: readonly SavedStrategy[], id: string): 
 export function describeConfig(config: StrategyConfig): string {
   return config.kind === 'greedyDamage'
     ? 'Attack first, block with leftover energy'
-    : `Block until at most ${config.allowThrough} damage gets through, then attack`;
+    : config.allowThrough === 0
+      ? 'Try to block all incoming damage, then attack'
+      : `Block until at most ${config.allowThrough} damage gets through each turn, then attack`;
 }
