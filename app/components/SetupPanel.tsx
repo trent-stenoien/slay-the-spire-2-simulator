@@ -1,4 +1,5 @@
 import type { EnemyDef, GameData, Zone } from '../../engine/types';
+import { isCharacterSimulated } from '../lib/deck';
 import { MAX_ASCENSION, type SetupState } from '../lib/url';
 
 interface Props {
@@ -17,6 +18,9 @@ export const ZONES: { act: number; zone: Zone; label: string }[] = [
   { act: 3, zone: 'glory', label: 'Glory' },
 ];
 const ACTS = [1, 2, 3];
+
+/** Appended to characters whose starting deck is not fully simulated. */
+export const WIP_SUFFIX = ' (work in progress)';
 
 /** Enemies in one biome, sorted by difficulty tier then name. */
 export function enemiesIn(data: GameData, zone: Zone): EnemyDef[] {
@@ -57,6 +61,7 @@ export function SetupPanel({ data, setup, onCharacter, onEnemy, onAscension }: P
             {characters.map((c) => (
               <option key={c.id} value={c.id}>
                 {c.name}
+                {isCharacterSimulated(data, c) ? '' : WIP_SUFFIX}
               </option>
             ))}
           </select>

@@ -13,6 +13,7 @@ import { defaultSetup } from '../lib/url';
 import { CombatLog } from './CombatLog';
 import { DistributionChart } from './DistributionChart';
 import { ResultsView } from './ResultsView';
+import { SetupPanel } from './SetupPanel';
 
 vi.mock('../../engine/stats', () => {
   const curve = (counts: readonly number[], range: [number, number]) => {
@@ -83,5 +84,14 @@ describe('views render', () => {
     expect(html).toContain('Turn');
     expect(html).toContain('Enemy intent:</strong> Butt: attack 12');
     expect(html).toMatch(/Won|Died|turn cap/);
+  });
+
+  it('marks characters with unsimulated starters as work in progress', () => {
+    const html = renderToStaticMarkup(
+      <SetupPanel data={gameData} setup={defaultSetup(gameData)} onCharacter={() => {}} onEnemy={() => {}} onAscension={() => {}} />,
+    );
+    const option = (id: string) => html.match(new RegExp(`<option value="${id}"[^>]*>([^<]*)</option>`))?.[1];
+    expect(option('ironclad')).toBe(gameData.characters.ironclad!.name);
+    expect(option('silent')).toBe(`${gameData.characters.silent!.name} (work in progress)`);
   });
 });
