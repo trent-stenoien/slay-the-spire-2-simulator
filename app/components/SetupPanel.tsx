@@ -1,5 +1,6 @@
 import type { EnemyDef, GameData, Zone } from '../../engine/types';
 import { isCharacterSimulated } from '../lib/deck';
+import { Panel } from './Panel';
 import { MAX_ASCENSION, type SetupState } from '../lib/url';
 
 interface Props {
@@ -52,8 +53,7 @@ export function SetupPanel({ data, setup, onCharacter, onEnemy, onAscension }: P
   const bane = baneLevel !== undefined && setup.ascension >= baneLevel;
 
   return (
-    <section className="panel" aria-labelledby="setup-h">
-      <h2 id="setup-h">Setup</h2>
+    <Panel id="setup" title="Setup">
       <div className="field-row">
         <label className="field">
           <span>Character</span>
@@ -115,6 +115,6 @@ export function SetupPanel({ data, setup, onCharacter, onEnemy, onAscension }: P
           Ascension {baneLevel}+: Ascender's Bane is added to the deck automatically (it is not shown in the deck builder).
         </p>
       )}
-    </section>
+    </Panel>
   );
 }

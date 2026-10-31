@@ -7,6 +7,7 @@ import { describeConfig } from '../lib/strategyLibrary';
 import { buildReplay, describeEvent, intendedMoveId, type SideSnapshot } from '../lib/logReplay';
 import { setupHref } from '../lib/links';
 import type { LogTarget, SetupState } from '../lib/url';
+import { Panel } from './Panel';
 import { deckSize } from '../lib/deck';
 
 interface Props {
@@ -58,9 +59,8 @@ export function CombatLog({ data, setup, target }: Props) {
   const back = setupHref(data, setup);
 
   return (
-    <section className="panel" aria-labelledby="log-h">
-      <div className="panel-head">
-        <h2 id="log-h">Combat log</h2>
+    <Panel id="log" title="Combat log">
+      <div className="panel-actions">
         <a className="btn-link" href={back}>
           Back to setup
         </a>
@@ -90,7 +90,7 @@ export function CombatLog({ data, setup, target }: Props) {
           )}
         </>
       )}
-    </section>
+    </Panel>
   );
 }
 

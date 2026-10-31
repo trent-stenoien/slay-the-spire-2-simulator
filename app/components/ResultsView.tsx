@@ -5,6 +5,7 @@ import { COLOR_HEX } from '../lib/colors';
 import { fmtNumber, fmtRate, resultRows } from '../lib/results';
 import { deckSize } from '../lib/deck';
 import { DistributionChart } from './DistributionChart';
+import { Panel } from './Panel';
 import { logHref } from '../lib/links';
 
 export function ResultsView({ data, result }: { data: GameData; result: RunResult }) {
@@ -14,8 +15,7 @@ export function ResultsView({ data, result }: { data: GameData; result: RunResul
   const combats = rows[0]?.summary.combats ?? 0;
 
   return (
-    <section className="panel" aria-labelledby="res-h">
-      <h2 id="res-h">Results</h2>
+    <Panel id="res" title="Results" expandOn={result}>
       <p className="muted small">
         {combats} combats per strategy vs {enemy}, A{cfg.ascension}, {deckSize(cfg.deck)}-card deck, run seed {cfg.runSeed}. Game version{' '}
         {result.gameVersion}.
@@ -49,7 +49,7 @@ export function ResultsView({ data, result }: { data: GameData; result: RunResul
       </div>
       {rows.length > 0 && <DistributionChart rows={rows} />}
       {rows.length > 0 && <ViewCombat data={data} result={result} combats={combats} />}
-    </section>
+    </Panel>
   );
 }
 

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { SimulationProgress } from '../sim/runSimulation';
+import { Panel } from './Panel';
 import { parseSeedInput } from '../lib/results';
 
 export type RunStatus =
@@ -23,8 +24,7 @@ export function RunPanel({ status, blocker, onRun }: Props) {
   const pct = status.kind === 'running' && status.progress && status.progress.total > 0 ? (status.progress.done / status.progress.total) * 100 : 0;
 
   return (
-    <section className="panel" aria-labelledby="run-h">
-      <h2 id="run-h">Run</h2>
+    <Panel id="run" title="Run">
       <form
         className="field-row"
         onSubmit={(e) => {
@@ -54,6 +54,6 @@ export function RunPanel({ status, blocker, onRun }: Props) {
         ) : (
           <p className="warn">Simulation failed: {status.message}</p>
         ))}
-    </section>
+    </Panel>
   );
 }

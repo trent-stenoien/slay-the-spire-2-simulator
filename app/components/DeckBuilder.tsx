@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Panel } from './Panel';
 import type { CardDef, Deck, GameData } from '../../engine/types';
 import { cardText } from '../lib/cardText';
 import type { CostColorKey, PoolFilters } from '../lib/deck';
@@ -28,11 +29,8 @@ export function DeckBuilder({ data, characterId, deck, onChange, onReset }: Prop
   const leftOut = unsimulatedStarters(data, characterId);
 
   return (
-    <section className="panel" aria-labelledby="deck-h">
-      <div className="panel-head">
-        <h2 id="deck-h">
-          Deck <span className="muted">({size} cards)</span>
-        </h2>
+    <Panel id="deck" title="Deck" aside={`(${size} cards)`}>
+      <div className="panel-actions">
         <button type="button" className="btn-link" onClick={onReset}>
           Reset to starter deck
         </button>
@@ -80,7 +78,7 @@ export function DeckBuilder({ data, characterId, deck, onChange, onReset }: Prop
           </details>
         );
       })}
-    </section>
+    </Panel>
   );
 }
 

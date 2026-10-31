@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { MAX_STRATEGIES_PER_RUN, type SavedStrategy, type StrategyColor } from '../../engine/types';
+import { Panel } from './Panel';
 import { COLORS, COLOR_HEX, isColorTaken, type Selection } from '../lib/colors';
 import { blockStrategyProblem, describeConfig, isBuiltIn, parseAllowThrough } from '../lib/strategyLibrary';
 
@@ -21,12 +22,8 @@ export function StrategyPanel(props: Props) {
   const { library, selection, storageOk } = props;
   const full = selection.length >= MAX_STRATEGIES_PER_RUN;
   return (
-    <section className="panel" aria-labelledby="strat-h">
-      <div className="panel-head">
-        <h2 id="strat-h">Strategies</h2>
-        <span className="muted">
-          {selection.length}/{MAX_STRATEGIES_PER_RUN} selected
-        </span>
+    <Panel id="strat" title="Strategies" aside={`${selection.length}/${MAX_STRATEGIES_PER_RUN} selected`}>
+      <div className="panel-actions">
         {library.some((s) => !isBuiltIn(s.id)) && (
           <button
             type="button"
@@ -46,7 +43,7 @@ export function StrategyPanel(props: Props) {
         ))}
       </ul>
       <NewStrategyForm library={library} onAdd={props.onAdd} />
-    </section>
+    </Panel>
   );
 }
 
