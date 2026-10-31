@@ -55,3 +55,58 @@ export function toggleUpgrade(deck: Deck, cardId: string, upgraded: boolean): De
     .map((e, i) => (i === otherIdx ? { ...e, count: e.count + from.count } : e))
     .filter((_, i) => i !== idx);
 }
+
+/**
+ * The character's starting deck, minus cards the engine can't simulate yet
+ * (so a character like the Silent can still be picked and run).
+ */
+export function startingDeckFor(data: GameData, characterId: string): Deck {
+  const ch = data.characters[characterId];
+  return (ch?.startingDeck ?? []).filter((e) => data.cards[e.cardId]?.simulated === true).map((e) => ({ ...e }));
+}
+
+/** Names of starting-deck cards left out because they aren't simulated yet. */
+export function unsimulatedStarters(data: GameData, characterId: string): string[] {
+  const ch = data.characters[characterId];
+  return (ch?.startingDeck ?? []).filter((e) => data.cards[e.cardId]?.simulated !== true).map((e) => data.cards[e.cardId]?.name ?? e.cardId);
+}
+
+export interface CardGroup {
+  key: string;
+  label: string;
+  cards: CardDef[];
+}
+
+const CHARACTER_FOLDER: Record<string, string> = { I: 'Ironclad', S: 'Silent', D: 'Defect', N: 'Necrobinder', R: 'Regent' };
+
+/** The data folder a card lives in (data/cards/<folder>/), as a label. */
+export function cardFolder(card: CardDef): string {
+  if (card.type === 'curse') return 'Curses';
+  if (card.type === 'status') return 'Status';
+  if (card.type === 'quest') return 'Quests';
+  if (card.character === 'shared') return 'Shared';
+  if (card.character === 'colorless') return 'Colorless';
+  return CHARACTER_FOLDER[card.character] ?? card.character;
+}
+
+const FOLDER_ORDER = ['Shared', ...Object.values(CHARACTER_FOLDER), 'Colorless', 'Status', 'Curses', 'Quests'];
+
+/** Case-insensitive match on the card name or its base/upgraded text. */
+export function matchesSearch(card: CardDef, query: string): boolean {
+  const q = query.trim().toLowerCase();
+  if (!q) return true;
+  return [card.name, card.description, card.upgradedDescription ?? ''].some((s) => s.toLowerCase().includes(q));
+}
+
+/** Pool cards matching the search, grouped by data folder in a fixed order. Empty groups are dropped. */
+export function groupedPool(data: GameData, characterId: string, query: string): CardGroup[] {
+  const groups = new Map<string, CardDef[]>();
+  for (const card of deckPool(data, characterId)) {
+    if (!matchesSearch(card, query)) continue;
+    const label = cardFolder(card);
+    groups.set(label, [...(groups.get(label) ?? []), card]);
+  }
+  return [...groups.entries()]
+    .sort(([a], [b]) => FOLDER_ORDER.indexOf(a) - FOLDER_ORDER.indexOf(b))
+    .map(([label, cards]) => ({ key: label.toLowerCase(), label, cards }));
+}

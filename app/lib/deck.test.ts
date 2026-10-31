@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { gameData } from '../../data';
-import { changeCount, copiesOf, deckPool, deckSize, isCharacterSimulated, toggleUpgrade } from './deck';
+import { cardFolder, changeCount, copiesOf, deckPool, deckSize, groupedPool, isCharacterSimulated, matchesSearch, startingDeckFor, toggleUpgrade, unsimulatedStarters } from './deck';
 import type { Deck } from '../../engine/types';
 
 const deck: Deck = [
@@ -52,5 +52,26 @@ describe('isCharacterSimulated', () => {
   it('is true for Ironclad and false for a starter deck with unsupported cards', () => {
     expect(isCharacterSimulated(gameData, gameData.characters.ironclad!)).toBe(true);
     expect(isCharacterSimulated(gameData, gameData.characters.defect!)).toBe(false);
+  });
+});
+
+describe('deck builder grouping and search', () => {
+  it('groups by data folder in a fixed order', () => {
+    const labels = groupedPool(gameData, 'ironclad', '').map((g) => g.label);
+    expect(labels.slice(0, 3)).toEqual(['Shared', 'Ironclad', 'Colorless']);
+    expect(cardFolder(gameData.cards.ascenders_bane!)).toBe('Curses');
+  });
+
+  it('filters by name or text, case-insensitively', () => {
+    const ids = groupedPool(gameData, 'ironclad', 'BASH').flatMap((g) => g.cards.map((c) => c.id));
+    expect(ids).toContain('bash');
+    expect(ids).not.toContain('strike');
+    expect(matchesSearch(gameData.cards.bash!, 'vulnerable')).toBe(true);
+  });
+
+  it('leaves unsimulated starters out of the starting deck', () => {
+    expect(startingDeckFor(gameData, 'ironclad')).toEqual(gameData.characters.ironclad!.startingDeck);
+    expect(startingDeckFor(gameData, 'silent').map((e) => e.cardId)).toEqual(['strike', 'defend', 'neutralize']);
+    expect(unsimulatedStarters(gameData, 'silent')).toEqual(['Survivor']);
   });
 });

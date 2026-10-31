@@ -588,3 +588,32 @@ code {
   padding: 0 4px;
   border-radius: 4px;
 }
+
+/* Deck builder: search, folder groups, normal + upgraded steppers */
+.deck-search {
+  width: 100%;
+  margin: 8px 0 4px;
+}
+.card-group {
+  margin-top: 10px;
+}
+.card-group > summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 4px 0;
+}
+.card-text-up {
+  font-style: italic;
+}
+.steppers {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex: none;
+}
+.stepper-tag {
+  width: 1ch;
+  font-weight: 700;
+  color: var(--muted);
+}

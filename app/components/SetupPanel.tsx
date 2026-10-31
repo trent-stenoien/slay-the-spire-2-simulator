@@ -1,5 +1,4 @@
-import type { GameData } from '../../engine/types';
-import { isCharacterSimulated } from '../lib/deck';
+import type { EnemyDef, GameData, Zone } from '../../engine/types';
 import { MAX_ASCENSION, type SetupState } from '../lib/url';
 
 interface Props {
@@ -10,10 +9,41 @@ interface Props {
   onAscension: (ascension: number) => void;
 }
 
-/** Character, enemy and Ascension pickers. */
+/** Biomes by Act, in game order. Act 1 has two alternatives. */
+export const ZONES: { act: number; zone: Zone; label: string }[] = [
+  { act: 1, zone: 'overgrowth', label: 'Overgrowth' },
+  { act: 1, zone: 'underdocks', label: 'Underdocks' },
+  { act: 2, zone: 'hive', label: 'Hive' },
+  { act: 3, zone: 'glory', label: 'Glory' },
+];
+const ACTS = [1, 2, 3];
+
+/** Enemies in one biome, sorted by difficulty tier then name. */
+export function enemiesIn(data: GameData, zone: Zone): EnemyDef[] {
+  const tier = ['easy', 'normal', 'elite', 'boss', 'minion', 'event'];
+  return Object.values(data.enemies)
+    .filter((e) => e.zone === zone)
+    .sort((a, b) => tier.indexOf(a.difficulty) - tier.indexOf(b.difficulty) || a.name.localeCompare(b.name));
+}
+
+/** Character, Act, biome, enemy and Ascension pickers. */
 export function SetupPanel({ data, setup, onCharacter, onEnemy, onAscension }: Props) {
-  const characters = Object.values(data.characters);
-  const enemies = Object.values(data.enemies).sort((a, b) => a.act - b.act || a.name.localeCompare(b.name));
+  const order = ['I', 'S', 'R', 'N', 'D']; // in-game order
+  const characters = Object.values(data.characters).sort((a, b) => order.indexOf(a.code) - order.indexOf(b.code));
+  const current = data.enemies[setup.enemyId];
+  const zone = current?.zone ?? 'overgrowth';
+  const act = ZONES.find((z) => z.zone === zone)?.act ?? 1;
+  const enemies = enemiesIn(data, zone);
+  const hasEnemies = (z: Zone) => enemiesIn(data, z).length > 0;
+  /** Switching biome picks its first enemy. */
+  const pickZone = (z: Zone) => {
+    const first = enemiesIn(data, z)[0];
+    if (first) onEnemy(first.id);
+  };
+  const pickAct = (a: number) => {
+    const z = ZONES.find((x) => x.act === a && hasEnemies(x.zone));
+    if (z) pickZone(z.zone);
+  };
   const baneLevel = data.manifest.ascensionCards.find((c) => c.cardId === 'ascenders_bane')?.level;
   const bane = baneLevel !== undefined && setup.ascension >= baneLevel;
 
@@ -25,19 +55,8 @@ export function SetupPanel({ data, setup, onCharacter, onEnemy, onAscension }: P
           <span>Character</span>
           <select value={setup.characterId} onChange={(e) => onCharacter(e.target.value)}>
             {characters.map((c) => (
-              <option key={c.id} value={c.id} disabled={!isCharacterSimulated(data, c)}>
+              <option key={c.id} value={c.id}>
                 {c.name}
-                {isCharacterSimulated(data, c) ? '' : ' (not simulated yet)'}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="field">
-          <span>Enemy</span>
-          <select value={setup.enemyId} onChange={(e) => onEnemy(e.target.value)}>
-            {enemies.map((e) => (
-              <option key={e.id} value={e.id}>
-                {e.name} (Act {e.act}, {e.difficulty})
               </option>
             ))}
           </select>
@@ -48,6 +67,39 @@ export function SetupPanel({ data, setup, onCharacter, onEnemy, onAscension }: P
             {Array.from({ length: MAX_ASCENSION + 1 }, (_, i) => (
               <option key={i} value={i}>
                 A{i}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+      <div className="field-row">
+        <label className="field field-narrow">
+          <span>Act</span>
+          <select value={act} onChange={(e) => pickAct(Number(e.target.value))}>
+            {ACTS.map((a) => (
+              <option key={a} value={a} disabled={!ZONES.some((z) => z.act === a && hasEnemies(z.zone))}>
+                Act {a}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="field field-narrow">
+          <span>Biome</span>
+          <select value={zone} onChange={(e) => pickZone(e.target.value as Zone)}>
+            {ZONES.filter((z) => z.act === act).map((z) => (
+              <option key={z.zone} value={z.zone} disabled={!hasEnemies(z.zone)}>
+                {z.label}
+                {hasEnemies(z.zone) ? '' : ' (no enemies yet)'}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="field">
+          <span>Enemy</span>
+          <select value={setup.enemyId} onChange={(e) => onEnemy(e.target.value)}>
+            {enemies.map((e) => (
+              <option key={e.id} value={e.id}>
+                {e.name} ({e.difficulty})
               </option>
             ))}
           </select>

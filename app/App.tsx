@@ -7,7 +7,7 @@ import { ResultsView } from './components/ResultsView';
 import { RunPanel, type RunStatus } from './components/RunPanel';
 import { SetupPanel } from './components/SetupPanel';
 import { StrategyPanel } from './components/StrategyPanel';
-import { deckSize } from './lib/deck';
+import { deckSize, startingDeckFor } from './lib/deck';
 import { setupHref } from './lib/links';
 import { randomSeed } from './lib/results';
 import { buildQuery, parseQuery, type SetupState } from './lib/url';
@@ -49,7 +49,11 @@ export function App() {
           </button>
         </div>
       )}
-      <p className="note">Burning Blood's 6 HP heal is not simulated.</p>
+      <p className="note">
+        {setup.characterId === 'ironclad'
+          ? "Burning Blood's 6 HP heal is not simulated."
+          : `${data.characters[setup.characterId]?.startingRelic ?? 'The starting relic'} (starting relic) is not simulated.`}
+      </p>
       <main>{logTarget ? <CombatLog data={data} setup={setup} target={logTarget} /> : <Simulator setup={setup} setSetup={setSetup} />}</main>
       <footer className="muted small">
         Card and enemy data from slaythespire.wiki.gg (CC BY-SA 4.0). Not affiliated with Mega Crit.
@@ -72,7 +76,6 @@ function Simulator({ setup, setSetup }: { setup: SetupState; setSetup: (s: Setup
     }
   }, [setup]);
 
-  const character = data.characters[setup.characterId];
   const blocker =
     deckSize(setup.deck) === 0 ? 'Add at least one card to the deck.' : strategies.selection.length === 0 ? 'Select at least one strategy.' : null;
 
@@ -107,7 +110,7 @@ function Simulator({ setup, setSetup }: { setup: SetupState; setSetup: (s: Setup
           <SetupPanel
             data={data}
             setup={setup}
-            onCharacter={(id) => setSetup({ ...setup, characterId: id, deck: (data.characters[id]?.startingDeck ?? []).map((e) => ({ ...e })) })}
+            onCharacter={(id) => setSetup({ ...setup, characterId: id, deck: startingDeckFor(data, id) })}
             onEnemy={(id) => setSetup({ ...setup, enemyId: id })}
             onAscension={(a) => setSetup({ ...setup, ascension: a })}
           />
@@ -116,7 +119,7 @@ function Simulator({ setup, setSetup }: { setup: SetupState; setSetup: (s: Setup
             characterId={setup.characterId}
             deck={setup.deck}
             onChange={(deck) => setSetup({ ...setup, deck })}
-            onReset={() => setSetup({ ...setup, deck: (character?.startingDeck ?? []).map((e) => ({ ...e })) })}
+            onReset={() => setSetup({ ...setup, deck: startingDeckFor(data, setup.characterId) })}
           />
         </div>
         <div className="col">
