@@ -298,6 +298,23 @@ describe('validateGameData on broken fixtures', () => {
     expect(cardByCode('Vl')?.id).toBe('volley');
   });
 
+  it('Poisoned Stab has the wiki values: 6 damage then 3 Poison (8 / 4 upgraded)', () => {
+    expect(gameData.cards.poisoned_stab).toMatchObject({ code: 'Pd', cost: 1, type: 'attack', character: 'S', simulated: true, keywords: [],
+      effects: [{ type: 'attack', damage: 6, hits: 1 }, { type: 'applyPoison', amount: 3 }],
+      upgraded: { effects: [{ type: 'attack', damage: 8, hits: 1 }, { type: 'applyPoison', amount: 4 }] } });
+  });
+
+  it('reports a non-boolean "hidden" and accepts true, false or absent', () => {
+    const d = fixture();
+    d.cards.strike.hidden = 'yes';
+    expect(errorsOf(d)).toContainEqual(expect.stringMatching(/cards\/strike.*hidden/));
+    for (const ok of [true, false, undefined]) {
+      const f = fixture();
+      f.cards.strike.hidden = ok;
+      expect(errorsOf(f)).toEqual([]);
+    }
+  });
+
   it('beta-only cards are removed and their codes reserved (#59)', () => {
     for (const { code, id } of reservedCodes.cards) {
       expect(gameData.cards[id]).toBeUndefined();

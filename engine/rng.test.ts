@@ -59,6 +59,19 @@ describe('createRng', () => {
   });
 });
 
+describe('engine randomness', () => {
+  it('no engine source file calls Math.random (all randomness goes through the seeded Rng)', () => {
+    const sources = import.meta.glob<string>(['./*.ts', '!./*.test.ts'], { query: '?raw', import: 'default', eager: true });
+    const files = Object.keys(sources);
+    expect(files).toEqual(expect.arrayContaining(['./combat.ts', './rng.ts', './strategies.ts', './montecarlo.ts']));
+    for (const file of files) {
+      // Comments may mention Math.random (rng.ts warns against it); code may not.
+      const code = sources[file]!.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
+      expect(code, file).not.toMatch(/Math\s*\.\s*random/);
+    }
+  });
+});
+
 describe('deriveSeed', () => {
   it('is stable', () => {
     expect(deriveSeed(42, 0)).toBe(deriveSeed(42, 0));

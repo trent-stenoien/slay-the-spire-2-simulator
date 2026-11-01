@@ -34,6 +34,11 @@ function card(id: keyof typeof cards | keyof typeof extra, upgraded = false): Ca
  * Only block and energy are tracked; returns the cardIds played in order.
  */
 function playTurn(config: StrategyConfig, hand: CardInstance[], incoming: number, energy = 3): string[] {
+  return playTurnCards(config, hand, incoming, energy).map((c) => c.cardId);
+}
+
+/** Like playTurn, but returns the card instances played (to check which copy went first). */
+function playTurnCards(config: StrategyConfig, hand: CardInstance[], incoming: number, energy = 3): CardInstance[] {
   const strategy = createStrategy(config);
   const state = {
     turn: 1,
@@ -47,7 +52,7 @@ function playTurn(config: StrategyConfig, hand: CardInstance[], incoming: number
       debuffs: { vulnerable: 0, weak: 0, frail: 0 }, poison: 0, patternIndex: 0,
     },
   } satisfies CombatState;
-  const played: string[] = [];
+  const played: CardInstance[] = [];
   for (let i = 0; i < 50; i++) {
     const view: StrategyView = {
       state,
@@ -68,7 +73,7 @@ function playTurn(config: StrategyConfig, hand: CardInstance[], incoming: number
       if (e.type === 'gainBlock') state.player.block += e.amount;
       if (e.type === 'gainEnergy') state.player.energy += e.amount;
     }
-    played.push(c.cardId);
+    played.push(c);
   }
   throw new Error('strategy never ended its turn');
 }
@@ -170,7 +175,10 @@ describe('Tremble first (#1)', () => {
   it('upgraded Tremble counts too; two Trembles go lowest uid first', () => {
     const t1 = card('tremble', true);
     const t2 = card('tremble');
-    expect(playTurn(G, [card(S), t2, t1], 0, 2)).toEqual(['tremble', 'tremble']);
+    expect(t1.uid).toBeLessThan(t2.uid);
+    // Hand order puts the higher uid first, so only the uid tie-break explains t1 going first.
+    expect(playTurnCards(G, [card(S), t2, t1], 0, 2).map((c) => c.uid)).toEqual([t1.uid, t2.uid]);
+    expect(playTurnCards(G, [card(S), card('tremble', true)], 0, 1).map((c) => c.cardId)).toEqual(['tremble']);
   });
 
   it('Tremble is played only while affordable; it does not block other plays', () => {

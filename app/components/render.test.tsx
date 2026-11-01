@@ -1,10 +1,9 @@
 /**
- * Smoke tests: render each view to static HTML (no DOM library needed).
- * engine/stats is still a stub on this branch, so it is mocked with simple
- * curves to exercise the chart's real rendering path.
+ * Smoke tests: render each view to static HTML (no DOM library needed),
+ * using the real engine/stats curves.
  */
 import { renderToStaticMarkup } from 'react-dom/server';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { gameData } from '../../data';
 import type { RunResult } from '../../engine/types';
 import indexHtml from '../../index.html?raw';
@@ -21,22 +20,6 @@ import { ResultsView, ViewCombat } from './ResultsView';
 import { SetupPanel } from './SetupPanel';
 import { StrategyPanel } from './StrategyPanel';
 import { DEFAULT_STRATEGIES } from '../lib/strategyLibrary';
-
-vi.mock('../../engine/stats', () => {
-  const curve = (counts: readonly number[], range: [number, number]) => {
-    const total = counts.reduce((a, b) => a + b, 0) || 1;
-    const pts = [];
-    for (let x = range[0]; x <= range[1]; x++) pts.push({ x, y: ((counts[x] ?? 0) / total) * 100 });
-    return pts;
-  };
-  return {
-    hpLostRange: () => [0, 12],
-    rawCurve: curve,
-    kdeCurve: curve,
-    cumulativeCurve: curve,
-    silvermanBandwidth: () => 1,
-  };
-});
 
 const result: RunResult = {
   gameVersion: 'v0.107.1',
@@ -385,6 +368,31 @@ describe('views render', () => {
     expect(html).toContain('#2f6fdf');
     expect(html).toContain('#d6453d');
     expect(html.match(/(Won|Died|Hit the turn cap) on turn \d+, lost \d+ HP/g)).toHaveLength(3);
+  });
+
+  it('rescales the Y axis to the visible strategies only', () => {
+    // 'tall': 100 combats all at 20 HP (a high peak). 'flat': 1 combat at each of 0-40 HP (a low curve).
+    const summary = (strategyId: string, hpLostCounts: number[]) => ({
+      strategyId, combats: hpLostCounts.reduce((a, b) => a + b, 0), avgHpLost: 0, avgTurnsToKill: null,
+      avgTurns: 1, deathRate: 0, turnCapRate: 0, hpLostCounts, firstCombatByHpLost: {},
+    });
+    const rows = resultRows({
+      ...result,
+      config: { ...result.config, strategies: [
+        { strategy: { id: 'tall', name: 'Tall', config: { kind: 'greedyDamage' } }, color: 'blue' },
+        { strategy: { id: 'flat', name: 'Flat', config: { kind: 'block', allowThrough: 0 } }, color: 'red' },
+      ] },
+      summaries: [summary('tall', [...Array(20).fill(0), 100]), summary('flat', Array(41).fill(1))],
+    });
+    const yMax = (hidden: Set<string>) => {
+      const html = renderToStaticMarkup(<DistributionChart rows={rows} hidden={hidden} />);
+      const labels = [...html.matchAll(/<text class="tick"[^>]*text-anchor="end"[^>]*>([\d.]+)%<\/text>/g)].map((m) => Number(m[1]));
+      expect(labels.length).toBeGreaterThan(1);
+      return Math.max(...labels);
+    };
+    const both = yMax(new Set());
+    expect(yMax(new Set(['tall']))).toBeLessThan(both);
+    expect(yMax(new Set(['flat']))).toBe(both);
   });
 
   it('links percentile labels to the first combat with that HP lost', () => {

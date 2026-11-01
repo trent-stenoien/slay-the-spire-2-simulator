@@ -163,6 +163,16 @@ describe('combat number (n) in log links', () => {
     expect(q).not.toContain('&n=');
     expect(parseQuery(data, q).log?.combatIndex).toBeUndefined();
   });
+  it.each([0, 9999])('round-trips the boundary combat index %i', (combatIndex) => {
+    const q = buildQuery(data, defaultSetup(data), { seed: 7, strategies, combatIndex });
+    expect(q.endsWith(`&n=${combatIndex}`)).toBe(true);
+    expect(parseQuery(data, q)).toMatchObject({ errors: [], log: { combatIndex } });
+  });
+  it.each(['-1', 'abc', '1.5', '05', ''])('ignores n="%s" without an error, keeping the rest of the link', (n) => {
+    const r = parseQuery(data, buildQuery(data, defaultSetup(data), { seed: 7, strategies }) + `&n=${n}`);
+    expect(r.errors).toEqual([]);
+    expect(r.log).toEqual({ seed: 7, strategies });
+  });
   it('ignores an invalid n without an error', () => {
     const q = buildQuery(data, defaultSetup(data), { seed: 7, strategies }) + '&n=10000';
     const r = parseQuery(data, q);

@@ -341,27 +341,65 @@ describe('damage rules in combat', () => {
     expect(events(r.log, 'damage').slice(0, 2).map((d) => d.amount)).toEqual([9, 12]);
   });
 
-  it('player debuffs still tick at the end of the player turn', () => {
+  it('Weak on the player cuts its attacks by 25% for that whole player turn, then ticks off at its end', () => {
+    // Enemy turn 1 applies Weak 1 to the player. Player turn 2: two Strikes deal floor(6 × 0.75) = 4.
+    // The tick at the end of player turn 2 removes it, so the turn-3 Strike deals 6.
     const e = makeEnemy('hexer2', 999, {
       hex: { name: 'Hex', effects: [{ type: 'applyWeak', amount: 1 }] },
       wait: { name: 'Wait', effects: [] },
     });
     const data = withEnemy(makeGameData(), e);
-    const r = simulateCombat(data, cfg({ enemyId: 'hexer2', deck: deckOf(['defend', 5]) }), passive, { log: true });
+    const strat = scripted((turn) => (turn === 2 ? ['strike', 'strike'] : turn === 3 ? ['strike'] : []));
+    const r = simulateCombat(data, cfg({ enemyId: 'hexer2', deck: deckOf(['strike', 15]) }), strat, { log: true });
     const log = r.log!;
+    expect(events(log, 'damage').map((d) => d.amount)).toEqual([4, 4, 6]);
+    // The tick comes after the player's last play of turn 2 and right before that player turn ends.
+    const ticks = events(log, 'debuffTick').filter((t) => t.side === 'player');
+    expect(ticks[0]).toEqual({ t: 'debuffTick', side: 'player', kind: 'weak', total: 0 });
     const tickIdx = log.findIndex((ev) => ev.t === 'debuffTick' && ev.side === 'player');
     const t2End = log.findIndex((ev) => ev.t === 'turnEnd' && ev.turn === 2 && ev.side === 'player');
-    const t2EnemyStart = log.findIndex((ev) => ev.t === 'turnStart' && ev.turn === 2 && ev.side === 'enemy');
-    expect(tickIdx).toBeLessThan(t2End);
-    expect(t2End).toBeLessThan(t2EnemyStart);
+    const lastT2Play = log.slice(0, t2End).map((ev) => ev.t).lastIndexOf('play');
+    expect(tickIdx).toBe(t2End - 1);
+    expect(tickIdx).toBeGreaterThan(lastT2Play);
   });
 
-  it('debuff timing is deterministic', () => {
-    const data = makeGameData();
-    const a = runCombat(data, cfg({ seed: 4242 }), { log: true });
-    const b = runCombat(data, cfg({ seed: 4242 }), { log: true });
-    expect(a).toEqual(b);
-    expect(events(a.log, 'debuffTick').every((t) => t.side === 'enemy')).toBe(true);
+  it('one full round logs its phases in the documented order', () => {
+    // Player turn: block reset → draw → plays → Ethereal exhausts / rest discarded → PLAYER debuffs tick.
+    // Enemy turn: block reset → Poison → move → ENEMY debuffs tick.
+    const e = makeEnemy('hexer3', 999, { hex: { name: 'Hex', effects: [{ type: 'applyWeak', amount: 1 }] } });
+    const data = withEnemy(makeGameData(), e);
+    data.cards.mist = { ...cards.defend!, id: 'mist', code: 'Mi', keywords: ['ethereal'], upgraded: null };
+    data.cards.venom = {
+      ...cards.defend!, id: 'venom', code: 'Vn', cost: 0,
+      effects: [{ type: 'applyPoison', amount: 3 }, { type: 'applyVulnerable', amount: 1 }], upgraded: null,
+    };
+    const strat = scripted((turn) => (turn === 1 ? ['venom'] : []));
+    const r = simulateCombat(data, cfg({ enemyId: 'hexer3', deck: deckOf(['mist', 1], ['venom', 1], ['strike', 3]) }), strat, { log: true });
+    const log = r.log!;
+    const at = (t: GameEvent['t'], turn: number, side: 'player' | 'enemy') =>
+      log.findIndex((ev) => ev.t === t && 'turn' in ev && ev.turn === turn && 'side' in ev && ev.side === side);
+    const types = (from: number, to: number) => log.slice(from, to).map((ev) => ev.t);
+
+    const p1 = at('turnStart', 1, 'player');
+    const p1End = at('turnEnd', 1, 'player');
+    expect(types(p1, p1 + 7)).toEqual(['turnStart', 'blockReset', 'draw', 'draw', 'draw', 'draw', 'draw']);
+    expect(types(p1 + 7, p1 + 10)).toEqual(['play', 'poison', 'debuff']);
+    // End of player turn 1: the Ethereal card exhausts, the 3 Strikes are discarded (no player debuffs yet).
+    expect([...types(p1 + 10, p1End)].sort()).toEqual(['discard', 'discard', 'discard', 'exhaust']);
+    expect(events(log, 'exhaust')[0]).toMatchObject({ cardId: 'mist', reason: 'ethereal' });
+
+    const e1 = at('turnStart', 1, 'enemy');
+    const e1End = at('turnEnd', 1, 'enemy');
+    expect(e1).toBe(p1End + 1);
+    expect(types(e1, e1End + 1)).toEqual(['turnStart', 'blockReset', 'poisonDamage', 'enemyMove', 'debuff', 'debuffTick', 'turnEnd']);
+    expect(log[e1End - 1]).toEqual({ t: 'debuffTick', side: 'enemy', kind: 'vulnerable', total: 0 });
+
+    // Player turn 2: the empty draw pile reshuffles the discard; end of turn ticks the player's Weak last.
+    const p2 = at('turnStart', 2, 'player');
+    const p2End = at('turnEnd', 2, 'player');
+    expect(p2).toBe(e1End + 1);
+    expect(types(p2, p2 + 3)).toEqual(['turnStart', 'blockReset', 'shuffle']);
+    expect(log[p2End - 1]).toEqual({ t: 'debuffTick', side: 'player', kind: 'weak', total: 0 });
   });
 });
 
@@ -560,17 +598,23 @@ describe('Retain', () => {
 
   it('retained cards count toward the hand limit for the next draw', () => {
     const data = withRetain();
-    const r = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['keep', 8]) }), passive, { log: true });
-    // Turn 1: 5 in hand. Turn 2: draws 3 (pile empty after 8). Turn 3: 8 retained, piles empty.
-    const limitDiscards = events(r.log, 'discard').filter((d) => d.reason === 'handLimit');
-    expect(limitDiscards).toHaveLength(0);
-    const data2 = withRetain();
-    const r2 = simulateCombat(data2, cfg({ enemyId: 'dummy', deck: deckOf(['keep', 8], ['strike', 10]) }), passive, { log: true });
-    // Turn 2: 5 kept + 5 drawn = 10 (strikes discarded at end of turn 1 only if drawn). Over time the
-    // hand fills with keeps; any draw at 10 cards goes to discard.
-    const hl = events(r2.log, 'discard').filter((d) => d.reason === 'handLimit');
-    expect(hl.length).toBeGreaterThan(0);
-    for (const d of hl) expect(d.cardId).toBe('strike');
+    const hands: number[] = [];
+    const strat: Strategy = {
+      decide(v) {
+        if (hands.length < v.state.turn) hands.push(v.state.player.hand.length);
+        return { kind: 'endTurn' };
+      },
+    };
+    // 12 Retain cards: turn 1 holds 5, turn 2 draws 5 more (10). On turn 3 the hand is full, so all
+    // 5 draws (the last 2 cards, reshuffled back and drawn again) go straight to the discard pile.
+    const r = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['keep', 12]) }), strat, { log: true });
+    expect(hands.slice(0, 3)).toEqual([5, 10, 10]);
+    const log = r.log!;
+    const t3 = log.findIndex((e) => e.t === 'turnStart' && e.turn === 3 && e.side === 'player');
+    const t3End = log.findIndex((e) => e.t === 'turnEnd' && e.turn === 3 && e.side === 'player');
+    const t3Limit = log.slice(t3, t3End).filter((e) => e.t === 'discard' && e.reason === 'handLimit');
+    expect(t3Limit).toHaveLength(5);
+    expect(events(log.slice(0, t3), 'discard')).toHaveLength(0);
   });
 
   it('Retain is deterministic', () => {
