@@ -271,16 +271,6 @@ export function percentileMarkerSets<R extends ChartRow>(
 }
 
 /**
- * Labelled percentile markers ("P50 = 7") for a single visible strategy's raw HP lost.
- * Empty unless exactly one strategy is visible and it has combats.
- */
-export function percentileMarkers(rows: readonly ChartRow[], hidden: ReadonlySet<string>): PercentileMarker[] {
-  const shown = rows.filter((r) => !hidden.has(r.strategyId));
-  if (shown.length !== 1) return [];
-  return strategyPercentileMarkers(shown[0]!.summary.hpLostCounts);
-}
-
-/**
  * Closed path of the region ABOVE a curve: the line, then up to `topY` and back. Used as a
  * clip path so the P25-P75 band fills only the space between the curve and the top of the plot.
  */

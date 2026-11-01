@@ -12,7 +12,7 @@ import {
   curveRange,
   curvesMaxYInRange,
   hpLostPercentile,
-  percentileMarkers,
+  strategyPercentileMarkers,
   percentileMarkerSets,
   MAX_MARKED_STRATEGIES,
   aboveCurvePath,
@@ -251,35 +251,27 @@ describe('clipping helpers', () => {
   });
 });
 
-describe('percentileMarkers', () => {
+describe('strategyPercentileMarkers', () => {
   const a = row('a', Array(10).fill(1)); // 0..9 once each
-  const b = row('b', [0, 0, 0, 2, 1]);
 
-  it('marks P5, P25, P50, P75, P95 when exactly one strategy is visible', () => {
-    expect(percentileMarkers([a, b], new Set(['b']))).toEqual([
+  it('labels P5, P25, P50, P75, P95', () => {
+    expect(strategyPercentileMarkers(a.summary.hpLostCounts)).toEqual([
       { p: 5, value: 0, label: 'P5 = 0' },
       { p: 25, value: 2, label: 'P25 = 2' },
       { p: 50, value: 4, label: 'P50 = 4' },
       { p: 75, value: 7, label: 'P75 = 7' },
       { p: 95, value: 9, label: 'P95 = 9' },
     ]);
-    expect(percentileMarkers([a], new Set()).map((m) => m.label)).toEqual(['P5 = 0', 'P25 = 2', 'P50 = 4', 'P75 = 7', 'P95 = 9']);
   });
 
-  it('shows nothing with zero or two or more visible strategies', () => {
-    expect(percentileMarkers([a, b], new Set())).toEqual([]);
-    expect(percentileMarkers([a, b], new Set(['a', 'b']))).toEqual([]);
-    expect(percentileMarkers([], new Set())).toEqual([]);
-  });
-
-  it('shows nothing when the visible strategy has no combats', () => {
-    expect(percentileMarkers([row('e', [])], new Set())).toEqual([]);
+  it('is empty for a strategy with no combats', () => {
+    expect(strategyPercentileMarkers([])).toEqual([]);
   });
 
   it('every marker lies inside the X range', () => {
     const o = row('o', hist({ 0: 1, 20: 98, 90: 1 }));
     const [lo, hi] = visibleHpLostRange([o], new Set());
-    for (const m of percentileMarkers([o], new Set())) {
+    for (const m of strategyPercentileMarkers(o.summary.hpLostCounts)) {
       expect(m.value).toBeGreaterThanOrEqual(lo);
       expect(m.value).toBeLessThanOrEqual(hi);
     }
