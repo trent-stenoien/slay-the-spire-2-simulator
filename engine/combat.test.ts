@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { attackDamage, blockGain, computeIntent, makeCardInstance, runCombat, simulateCombat } from './combat';
-import { cards, makeEnemy, makeGameData } from './testFixtures';
+import { CONTRACT_EFFECT_SAMPLES, cards, makeEnemy, makeGameData } from './testFixtures';
 import type {
   CardDef,
   CombatConfig,
@@ -739,5 +739,34 @@ describe('end conditions', () => {
       const { log: _log, ...withLog } = runCombat(data, config, { log: true });
       expect(runCombat(data, config)).toEqual(withLog);
     }
+  });
+});
+
+describe('#105 contract effects are not simulated yet', () => {
+  it('covers every contract effect type exactly once', () => {
+    const types = CONTRACT_EFFECT_SAMPLES.map((e) => e.type);
+    expect(new Set(types).size).toBe(types.length);
+    expect(types).toHaveLength(26);
+  });
+
+  it.each(CONTRACT_EFFECT_SAMPLES.map((e) => [e.type, e] as const))('playing a card with "%s" throws "not simulated yet"', (type, effect) => {
+    const data = makeGameData();
+    const probe: CardDef = { ...cards.strike!, id: 'probe', code: 'Pr', name: 'Probe', cost: 0, effects: [effect], upgraded: null };
+    data.cards.probe = probe;
+    const strat = scripted((turn) => (turn === 1 ? ['probe'] : []));
+    expect(() => simulateCombat(data, cfg({ deck: deckOf(['probe', 5]) }), strat)).toThrow(new RegExp(`Effect "${type}" is not simulated yet`));
+  });
+
+  it('a contract effect on an enemy move also throws', () => {
+    const e = makeEnemy('healer', 50, { mend: { name: 'Mend', effects: [{ type: 'heal', amount: 5 }] } });
+    const data = withEnemy(makeGameData(), e);
+    expect(() => simulateCombat(data, cfg({ enemyId: 'healer', deck: [] }), passive)).toThrow(/"heal" is not simulated yet/);
+  });
+
+  it('new optional state and card fields are absent, so existing combats are unchanged', () => {
+    const r = runCombat(makeGameData(), cfg(), { log: true });
+    expect(r.log!.some((ev) => ['loseHp', 'heal', 'maxHp', 'powerApplied', 'powerRemoved', 'moved', 'generated', 'upgraded', 'transformed', 'costChanged', 'replay', 'enemySkip'].includes(ev.t))).toBe(false);
+    const inst = makeCardInstance(cards.strike!, false, 0);
+    expect(Object.keys(inst).sort()).toEqual(['cardId', 'cost', 'effects', 'keywords', 'name', 'type', 'uid', 'upgraded']);
   });
 });

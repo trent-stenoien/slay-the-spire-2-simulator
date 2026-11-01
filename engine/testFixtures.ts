@@ -2,7 +2,7 @@
  * Inline GameData for engine tests. Engine tests must not import from data/.
  * Values mirror the v1 design (Ironclad starter cards, Nibbit).
  */
-import type { CardDef, CharacterDef, EnemyDef, GameData, Manifest } from './types';
+import type { CardDef, CharacterDef, Effect, EnemyDef, GameData, Manifest } from './types';
 
 const V = 'v0.107.1';
 const META = {
@@ -211,3 +211,37 @@ export function makeEnemy(
     lastUpdateVersion: V,
   };
 }
+
+/**
+ * #105: one valid example of every contract effect that is declared but not
+ * simulated yet, modelled on a real card. Shared by engine, validator and
+ * card-text tests; remove an entry when its mechanic card makes it simulated.
+ */
+export const CONTRACT_EFFECT_SAMPLES: Effect[] = [
+  { type: 'loseHp', amount: 2 }, // Hemokinesis
+  { type: 'draw', amount: 2 }, // Soul
+  { type: 'drawUntil', stopOn: { notTypes: ['attack'] } }, // Pillage
+  { type: 'exhaustCards', count: 3, mode: 'choose', upTo: true }, // Purity
+  { type: 'applyPower', power: 'demonForm', amount: 3 }, // Demon Form
+  { type: 'applyEnemyPower', power: 'strengthLossThisTurn', amount: 9 }, // Dark Shackles
+  { type: 'schedule', delay: 1, effects: [{ type: 'gainEnergy', amount: 2 }] }, // Outmaneuver
+  { type: 'dealDamage', amount: 40, allEnemies: true }, // The Bomb (inside a schedule)
+  { type: 'enemyLoseHp', amount: 6 }, // Choking
+  { type: 'setCost', piles: ['hand'], cost: 1, duration: 'turn', onlyIfHigher: true }, // Enlightenment
+  { type: 'conditional', if: { kind: 'handHasNone', filter: { types: ['attack'] } }, then: [{ type: 'draw', amount: 2 }] }, // Impatience
+  { type: 'repeat', per: 'enemyVulnerable', effects: [{ type: 'gainStrength', amount: 1 }] }, // Dominate
+  { type: 'attackFrom', damage: 5, hits: 1, extraHitsPer: { per: 'hpLossesThisCombat', amount: 1 } }, // Tear Asunder
+  { type: 'gainBlockFrom', amount: 15, bonusPer: { per: 'playerStrength', amount: 5 } }, // Expect a Fight
+  { type: 'growDamage', amount: 5, scope: 'self' }, // Rampage
+  { type: 'moveCards', from: 'discard', to: 'drawTop', count: 1, mode: 'choose' }, // Headbutt
+  { type: 'moveSelf', to: 'hand', when: 'nextTurnStart' }, // Bolas
+  { type: 'upgradeCards', piles: ['hand', 'draw', 'discard', 'exhaust'], mode: 'all' }, // Apotheosis
+  { type: 'playCards', from: 'draw', mode: 'top', count: 1, exhaust: true }, // Havoc
+  { type: 'addReplay', amount: 2, from: 'draw', mode: 'random', filter: { noReplay: true } }, // Hidden Gem
+  { type: 'addCards', source: { kind: 'random', pool: { character: 'own', types: ['attack'] } }, count: 1, to: 'hand', freeThisTurn: true }, // Infernal Blade
+  { type: 'transformCards', from: 'hand', mode: 'all', filter: { types: ['attack'] }, into: { kind: 'card', cardId: 'giant_rock' } }, // Primal Force
+  { type: 'heal', amount: 10 }, // Not Yet
+  { type: 'gainMaxHp', amount: 3 }, // Feed
+  { type: 'loseMaxHp', amount: 2 }, // Brightest Flame
+  { type: 'script', id: 'fiendFire', values: [7] }, // Fiend Fire
+];
