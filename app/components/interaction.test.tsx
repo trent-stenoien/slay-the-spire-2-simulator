@@ -315,6 +315,12 @@ describe('view-a-combat picker', () => {
     await userEvent.clear(field);
     await userEvent.type(field, '5');
     expect(button().getAttribute('href')).toMatch(/&n=4$/);
+    // Unchecking both leaves a disabled button with no link.
+    await userEvent.click(screen.getByRole('checkbox', { name: /Greedy Damage/ }));
+    await userEvent.click(screen.getByRole('checkbox', { name: /Scared Block/ }));
+    expect(button().getAttribute('aria-disabled')).toBe('true');
+    expect(button().getAttribute('href')).toBeNull();
+    expect(screen.getByText('Check at least one strategy to view its combat.')).toBeTruthy();
   });
 });
 

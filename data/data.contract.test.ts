@@ -24,6 +24,24 @@ describe('#105 contract shapes', () => {
     },
   );
 
+  // Every field of every contract sample is checked: a value that is wrong for any field type
+  // (NaN is not an int, string, enum, bool, list or object) must be reported at that field.
+  it.each(
+    CONTRACT_EFFECT_SAMPLES.flatMap((e) =>
+      Object.keys(e)
+        .filter((k) => k !== 'type')
+        .map((k) => [e.type, k, e] as const),
+    ),
+  )('reports a broken "%s".%s on an unsimulated card', (_type, field, effect) => {
+    const d = fixture();
+    d.cards.strike.simulated = false;
+    d.cards.strike.effects = [{ ...structuredClone(effect), [field]: Number.NaN }];
+    const errs = errorsOf(d);
+    expect(errs.length).toBeGreaterThan(0);
+    expect(errs.every((e) => e.includes('cards/strike'))).toBe(true);
+    expect(errs).toContainEqual(expect.stringMatching(new RegExp(`effects\\[0\\]\\.${field}\\b`)));
+  });
+
   it('rejects contract effects on enemy moves', () => {
     const d = fixture();
     d.enemies.nibbit.moves.hiss.effects.push({ type: 'heal', amount: 5 });
