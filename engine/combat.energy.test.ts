@@ -3,7 +3,8 @@ import { describe, expect, it } from 'vitest';
 import { makeCardInstance, runCombat, simulateCombat } from './combat';
 import { attackHits, isPlayable } from './rules';
 import { cards, makeEnemy, makeGameData } from './testFixtures';
-import type { CardDef, CombatConfig, Deck, GameData, GameEvent, Strategy, StrategyView } from './types';
+import { deckOf, events, scripted } from './combatTestHelpers';
+import type { CardDef, CombatConfig, GameData, Strategy } from './types';
 
 function cfg(overrides: Partial<CombatConfig> = {}): CombatConfig {
   return {
@@ -16,32 +17,6 @@ function cfg(overrides: Partial<CombatConfig> = {}): CombatConfig {
     ...overrides,
   };
 }
-
-const deckOf = (...entries: [string, number, boolean?][]): Deck =>
-  entries.map(([cardId, count, upgraded]) => ({ cardId, upgraded: upgraded ?? false, count }));
-
-/** Plays the listed cardIds in order each turn (a missing card throws). */
-function scripted(plan: (turn: number) => string[]): Strategy {
-  let turn = -1;
-  let queue: string[] = [];
-  return {
-    decide(view: StrategyView) {
-      if (view.state.turn !== turn) {
-        turn = view.state.turn;
-        queue = [...plan(turn)];
-      }
-      const want = queue.shift();
-      if (want === undefined) return { kind: 'endTurn' };
-      const c = view.playable.find((p) => p.cardId === want);
-      if (!c) throw new Error(`scripted: ${want} not playable on turn ${turn}`);
-      return { kind: 'play', uid: c.uid };
-    },
-  };
-}
-
-type Ev<T extends GameEvent['t']> = Extract<GameEvent, { t: T }>;
-const events = <T extends GameEvent['t']>(log: GameEvent[] | undefined, t: T): Ev<T>[] =>
-  (log ?? []).filter((e): e is Ev<T> => e.t === t);
 
 const fuel: CardDef = {
   ...cards.defend!,
