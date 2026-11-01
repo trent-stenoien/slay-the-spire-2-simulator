@@ -120,12 +120,25 @@ const NUMERIC_KEY = /^(0|[1-9][0-9]*)$/;
 
 type Obj = Record<string, unknown>;
 
+function isOneOf(v: unknown, allowed: readonly string[]): v is string {
+  return typeof v === 'string' && allowed.includes(v);
+}
+
 function isObj(v: unknown): v is Obj {
   return typeof v === 'object' && v !== null && !Array.isArray(v);
 }
 
 function isNonNegInt(v: unknown): v is number {
   return typeof v === 'number' && Number.isInteger(v) && v >= 0;
+}
+
+/** True when the optional field is present (not missing or undefined). */
+function has(o: Obj, field: string): boolean {
+  return field in o && o[field] !== undefined;
+}
+
+function oneOfText(allowed: readonly string[]): string {
+  return `must be one of ${allowed.map((a) => `"${a}"`).join(', ')}`;
 }
 
 /** Collects errors with a fixed "<entity>: " prefix. */
@@ -177,8 +190,8 @@ class Reporter {
     path = field,
   ): T | undefined {
     const v = o[field];
-    if (typeof v !== 'string' || !(allowed as readonly string[]).includes(v)) {
-      this.add(path, `must be one of ${allowed.map((a) => `"${a}"`).join(', ')}`);
+    if (!isOneOf(v, allowed)) {
+      this.add(path, oneOfText(allowed));
       return undefined;
     }
     return v as T;
@@ -208,18 +221,12 @@ function checkEffects(r: Reporter, list: unknown, path: string): void {
     if (e.type === 'attack') {
       r.int(e, 'damage', 0, `${p}.damage`);
       r.int(e, 'hits', 1, `${p}.hits`);
-      if ('allEnemies' in e && e.allEnemies !== undefined) r.bool(e, 'allEnemies', `${p}.allEnemies`);
-      if ('xTimes' in e && e.xTimes !== undefined) r.bool(e, 'xTimes', `${p}.xTimes`);
-      if ('xBonus' in e && e.xBonus !== undefined) {
-        r.int(e, 'xBonus', 0, `${p}.xBonus`);
-        if (e.xTimes !== true) r.add(`${p}.xBonus`, 'is only allowed with "xTimes": true');
-      }
-    } else if (
-      typeof e.type === 'string' &&
-      (AMOUNT_EFFECTS as readonly string[]).includes(e.type)
-    ) {
+      optBool(r, e, 'allEnemies', p);
+      optBool(r, e, 'xTimes', p);
+      checkXBonus(r, e, p);
+    } else if (isOneOf(e.type, AMOUNT_EFFECTS)) {
       r.int(e, 'amount', 0, `${p}.amount`);
-    } else if (typeof e.type === 'string' && (CONTRACT_EFFECTS as readonly string[]).includes(e.type)) {
+    } else if (isOneOf(e.type, CONTRACT_EFFECTS)) {
       checkContractEffect(r, e, p);
     } else {
       r.oneOf(e, 'type', ['attack', ...AMOUNT_EFFECTS, ...CONTRACT_EFFECTS], `${p}.type`);
@@ -230,10 +237,6 @@ function checkEffects(r: Reporter, list: unknown, path: string): void {
 // ---------------------------------------------------------------------------
 // #105 contract shapes
 // ---------------------------------------------------------------------------
-
-function has(o: Obj, field: string): boolean {
-  return field in o && o[field] !== undefined;
-}
 
 function optInt(r: Reporter, o: Obj, field: string, min: number, p: string): void {
   if (has(o, field)) r.int(o, field, min, `${p}.${field}`);
@@ -248,8 +251,8 @@ function enumList(r: Reporter, o: Obj, field: string, allowed: readonly string[]
   if (!list) return;
   if (nonEmpty && list.length === 0) r.add(`${p}.${field}`, 'must not be empty');
   list.forEach((v, i) => {
-    if (typeof v !== 'string' || !allowed.includes(v)) {
-      r.add(`${p}.${field}[${i}]`, `must be one of ${allowed.map((a) => `"${a}"`).join(', ')}`);
+    if (!isOneOf(v, allowed)) {
+      r.add(`${p}.${field}[${i}]`, oneOfText(allowed));
     }
   });
 }
@@ -321,6 +324,13 @@ function checkSource(r: Reporter, v: unknown, p: string): void {
     if (has(pool, 'rarity')) enumList(r, pool, 'rarity', CARD_RARITIES, pp);
     optInt(r, pool, 'cost', 0, pp);
   }
+}
+
+/** Optional `xBonus`, only alongside `"xTimes": true`. */
+function checkXBonus(r: Reporter, e: Obj, p: string): void {
+  if (!has(e, 'xBonus')) return;
+  r.int(e, 'xBonus', 0, `${p}.xBonus`);
+  if (e.xTimes !== true) r.add(`${p}.xBonus`, 'is only allowed with "xTimes": true');
 }
 
 /** `count` is required unless mode is "all". */
@@ -421,10 +431,7 @@ function checkContractEffect(r: Reporter, e: Obj, p: string): void {
       r.oneOf(e, 'mode', ['top', 'random'], `${p}.mode`);
       r.int(e, 'count', 0, `${p}.count`);
       optBool(r, e, 'xTimes', p);
-      if (has(e, 'xBonus')) {
-        r.int(e, 'xBonus', 0, `${p}.xBonus`);
-        if (e.xTimes !== true) r.add(`${p}.xBonus`, 'is only allowed with "xTimes": true');
-      }
+      checkXBonus(r, e, p);
       optFilter(r, e, 'filter', p);
       optBool(r, e, 'exhaust', p);
       break;
@@ -479,20 +486,25 @@ function checkTriggers(r: Reporter, v: unknown, p: string): void {
 }
 
 /**
- * Card-only mechanics: v1 simulates Poison on enemies only, enemies have no
- * energy, and "X times" needs an X-cost card.
+ * Effects an enemy move may not use: v1 simulates Poison on enemies only, enemies have no
+ * energy, #105 contract effects are card-only, and "X times" needs an X-cost card.
  */
-function checkNoEnemyPoison(r: Reporter, list: unknown, path: string): void {
+function checkEnemyOnlyEffects(r: Reporter, list: unknown, path: string): void {
   if (!Array.isArray(list)) return;
   list.forEach((e, i) => {
     if (!isObj(e)) return;
     if (e.type === 'applyPoison') r.add(`${path}[${i}].type`, 'is "applyPoison", but Poison on the player is not simulated');
     if (e.type === 'gainEnergy') r.add(`${path}[${i}].type`, 'is "gainEnergy", but enemies have no energy');
-    if (typeof e.type === 'string' && (CONTRACT_EFFECTS as readonly string[]).includes(e.type)) {
+    if (isOneOf(e.type, CONTRACT_EFFECTS)) {
       r.add(`${path}[${i}].type`, `is "${e.type}", which is not simulated on enemy moves`);
     }
     if (e.xTimes === true) r.add(`${path}[${i}].xTimes`, 'is only allowed on X-cost cards');
   });
+}
+
+function checkMoveEffects(r: Reporter, list: unknown, path: string): void {
+  checkEffects(r, list, path);
+  checkEnemyOnlyEffects(r, list, path);
 }
 
 /** `xTimes` effects only on X-cost cards. */
@@ -514,8 +526,8 @@ function checkKeywords(r: Reporter, list: unknown, path: string): void {
     return;
   }
   list.forEach((k, i) => {
-    if (typeof k !== 'string' || !(CARD_KEYWORDS as readonly string[]).includes(k)) {
-      r.add(`${path}[${i}]`, `must be one of ${CARD_KEYWORDS.map((a) => `"${a}"`).join(', ')}`);
+    if (!isOneOf(k, CARD_KEYWORDS)) {
+      r.add(`${path}[${i}]`, oneOfText(CARD_KEYWORDS));
     }
   });
 }
@@ -571,11 +583,44 @@ function checkManifest(errors: string[], raw: unknown, cardIds: Set<string>): vo
   });
 }
 
-function checkCard(r: Reporter, c: Obj): void {
-  r.str(c, 'code');
-  if (typeof c.code === 'string' && !TWO_CHAR_CODE.test(c.code)) {
-    r.add('code', `"${c.code}" must be exactly 2 characters [A-Za-z0-9]`);
+function checkTwoCharCode(r: Reporter, o: Obj): void {
+  r.str(o, 'code');
+  if (typeof o.code === 'string' && !TWO_CHAR_CODE.test(o.code)) {
+    r.add('code', `"${o.code}" must be exactly 2 characters [A-Za-z0-9]`);
   }
+}
+
+/** A card marked `simulated` may only use keywords, effects and fields the engine handles. */
+function checkSimulatable(r: Reporter, c: Obj): void {
+  const unsupported = (name: string) => r.add('simulated', `is true but the card uses "${name}", which the engine does not simulate`);
+  const lists: unknown[] = [c.keywords, c.effects];
+  if (isObj(c.upgraded)) lists.push(c.upgraded.keywords, c.upgraded.effects);
+  for (const list of lists) {
+    if (!Array.isArray(list)) continue;
+    for (const item of list) {
+      const name = typeof item === 'string' ? item : isObj(item) ? item.type : undefined;
+      if (typeof name !== 'string') continue;
+      const bad = typeof item === 'string' ? !SIMULATED_KEYWORDS.has(name) : UNSIMULATED_EFFECTS.has(name);
+      if (bad) unsupported(name);
+    }
+  }
+  for (const field of UNSIMULATED_CARD_FIELDS) {
+    if (has(c, field) || (isObj(c.upgraded) && has(c.upgraded, field))) {
+      unsupported(field);
+    }
+  }
+  if (c.starCost !== null) r.add('simulated', 'is true but the card has a Star cost');
+  if (c.xStarCost === true) r.add('simulated', 'is true but X-Star cards are not simulated');
+  if (c.xCost === true) {
+    const upEffects = isObj(c.upgraded) && Array.isArray(c.upgraded.effects) ? c.upgraded.effects : c.effects;
+    if (!usesX(c.effects) || (c.upgraded !== null && !usesX(upEffects))) {
+      r.add('simulated', 'is true but the X-cost card has no effect that scales with X ("xTimes")');
+    }
+  }
+}
+
+function checkCard(r: Reporter, c: Obj): void {
+  checkTwoCharCode(r, c);
   r.str(c, 'name');
   r.oneOf(c, 'type', CARD_TYPES);
   r.oneOf(c, 'character', [...CHARACTER_CODES, 'colorless', 'shared']);
@@ -583,7 +628,7 @@ function checkCard(r: Reporter, c: Obj): void {
   if (c.cost !== null) r.int(c, 'cost', 0);
   r.bool(c, 'xCost');
   if (c.starCost !== null) r.int(c, 'starCost', 0);
-  if ('xStarCost' in c && c.xStarCost !== undefined) r.bool(c, 'xStarCost');
+  if (has(c, 'xStarCost')) r.bool(c, 'xStarCost');
   r.str(c, 'description');
   if (c.upgradedDescription !== null) r.str(c, 'upgradedDescription');
   if ((c.upgraded === null) !== (c.upgradedDescription === null)) {
@@ -591,36 +636,11 @@ function checkCard(r: Reporter, c: Obj): void {
   }
   r.bool(c, 'simulated');
   r.bool(c, 'multiplayerOnly');
-  if ('hidden' in c && c.hidden !== undefined) r.bool(c, 'hidden');
+  if (has(c, 'hidden')) r.bool(c, 'hidden');
   if (has(c, 'triggers')) checkTriggers(r, c.triggers, 'triggers');
   if (has(c, 'playableIf')) checkCondition(r, c.playableIf, 'playableIf');
   if (has(c, 'costLessPer')) checkPer(r, c.costLessPer, 'costLessPer');
-  if (c.simulated === true) {
-    const lists: unknown[] = [c.keywords, c.effects];
-    if (isObj(c.upgraded)) lists.push(c.upgraded.keywords, c.upgraded.effects);
-    for (const list of lists) {
-      if (!Array.isArray(list)) continue;
-      for (const item of list) {
-        const name = typeof item === 'string' ? item : isObj(item) ? item.type : undefined;
-        if (typeof name !== 'string') continue;
-        const bad = typeof item === 'string' ? !SIMULATED_KEYWORDS.has(name) : UNSIMULATED_EFFECTS.has(name);
-        if (bad) r.add('simulated', `is true but the card uses "${name}", which the engine does not simulate`);
-      }
-    }
-    for (const field of UNSIMULATED_CARD_FIELDS) {
-      if (has(c, field) || (isObj(c.upgraded) && has(c.upgraded, field))) {
-        r.add('simulated', `is true but the card uses "${field}", which the engine does not simulate`);
-      }
-    }
-    if (c.starCost !== null) r.add('simulated', 'is true but the card has a Star cost');
-    if (c.xStarCost === true) r.add('simulated', 'is true but X-Star cards are not simulated');
-    if (c.xCost === true) {
-      const upEffects = isObj(c.upgraded) && Array.isArray(c.upgraded.effects) ? c.upgraded.effects : c.effects;
-      if (!usesX(c.effects) || (c.upgraded !== null && !usesX(upEffects))) {
-        r.add('simulated', 'is true but the X-cost card has no effect that scales with X ("xTimes")');
-      }
-    }
-  }
+  if (c.simulated === true) checkSimulatable(r, c);
   checkKeywords(r, c.keywords, 'keywords');
   const unplayable = Array.isArray(c.keywords) && c.keywords.includes('unplayable');
   if (unplayable !== (c.cost === null)) {
@@ -634,10 +654,10 @@ function checkCard(r: Reporter, c: Obj): void {
       r.add('upgraded', 'must be an object or null');
     } else {
       const u = c.upgraded;
-      if ('cost' in u && u.cost !== undefined) r.int(u, 'cost', 0, 'upgraded.cost');
-      if ('starCost' in u && u.starCost !== undefined) r.int(u, 'starCost', 0, 'upgraded.starCost');
-      if ('effects' in u && u.effects !== undefined) checkEffects(r, u.effects, 'upgraded.effects');
-      if ('keywords' in u && u.keywords !== undefined) checkKeywords(r, u.keywords, 'upgraded.keywords');
+      if (has(u, 'cost')) r.int(u, 'cost', 0, 'upgraded.cost');
+      if (has(u, 'starCost')) r.int(u, 'starCost', 0, 'upgraded.starCost');
+      if (has(u, 'effects')) checkEffects(r, u.effects, 'upgraded.effects');
+      if (has(u, 'keywords')) checkKeywords(r, u.keywords, 'upgraded.keywords');
       if (has(u, 'triggers')) checkTriggers(r, u.triggers, 'upgraded.triggers');
     }
   }
@@ -645,10 +665,7 @@ function checkCard(r: Reporter, c: Obj): void {
 }
 
 function checkEnemy(r: Reporter, e: Obj): void {
-  r.str(e, 'code');
-  if (typeof e.code === 'string' && !TWO_CHAR_CODE.test(e.code)) {
-    r.add('code', `"${e.code}" must be exactly 2 characters [A-Za-z0-9]`);
-  }
+  checkTwoCharCode(r, e);
   r.str(e, 'name');
   r.int(e, 'act', 1);
   r.oneOf(e, 'zone', ZONES);
@@ -667,8 +684,7 @@ function checkEnemy(r: Reporter, e: Obj): void {
         continue;
       }
       r.str(m, 'name', `${p}.name`);
-      checkEffects(r, m.effects, `${p}.effects`);
-      checkNoEnemyPoison(r, m.effects, `${p}.effects`);
+      checkMoveEffects(r, m.effects, `${p}.effects`);
     }
   }
   checkPattern(r, e.pattern, 'pattern', moveIds);
@@ -692,8 +708,7 @@ function checkEnemy(r: Reporter, e: Obj): void {
             if (!moveIds.has(id)) r.add(mp, `overrides unknown move id "${id}"`);
             if (!isObj(m)) r.add(mp, 'must be an object');
             else {
-              checkEffects(r, m.effects, `${mp}.effects`);
-              checkNoEnemyPoison(r, m.effects, `${mp}.effects`);
+              checkMoveEffects(r, m.effects, `${mp}.effects`);
             }
           }
         }
@@ -729,7 +744,7 @@ function checkCharacter(r: Reporter, c: Obj, cardIds: Set<string>): void {
 
 /**
  * Validates a collection keyed by id: each entry is an object whose `id`
- * matches its key, then runs the per-entity check. Returns the seen ids.
+ * matches its key, then runs the per-entity check.
  */
 function checkCollection(
   errors: string[],
