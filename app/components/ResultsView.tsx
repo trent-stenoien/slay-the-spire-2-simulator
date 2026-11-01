@@ -4,6 +4,7 @@ import type { GameData, RunResult } from '../../engine/types';
 import { COLOR_HEX } from '../lib/colors';
 import { describeRun, fmtHpLostRange, fmtNumber, fmtRate, sortedResultRows, type ResultRow } from '../lib/results';
 import { DistributionChart } from './DistributionChart';
+import { toggleHidden } from '../lib/chart';
 import { logHref } from '../lib/links';
 import { checkedVisibleIds, combatRangeLabel, fromDisplayCombat, percentileLinkTarget, pickerButton, toDisplayCombat } from '../lib/combatPicker';
 
@@ -17,33 +18,7 @@ export function ResultsView({ data, result }: { data: GameData; result: RunResul
   return (
     <div className="results">
       <p className="muted small">{describeRun(data, cfg)}</p>
-      <div className="table-wrap">
-        <table className="stats">
-          <thead>
-            <tr>
-              <th scope="col">Strategy</th>
-              <th scope="col">Avg HP lost</th>
-              <th scope="col">HP lost, P25-P75</th>
-              <th scope="col">Avg combat turn length</th>
-              <th scope="col">Death rate</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r) => (
-              <tr key={r.strategyId}>
-                <th scope="row">
-                  <span className="legend-swatch" style={{ background: COLOR_HEX[r.color] }} aria-hidden />
-                  {r.name}
-                </th>
-                <td>{fmtNumber(r.summary.avgHpLost)}</td>
-                <td>{fmtHpLostRange(r.summary.hpLostCounts)}</td>
-                <td>{fmtNumber(r.summary.avgTurns)}</td>
-                <td>{fmtRate(r.summary.deathRate)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <StatsTable rows={rows} />
       {rows.length > 0 && (
         <DistributionChart
           rows={rows}
@@ -57,6 +32,38 @@ export function ResultsView({ data, result }: { data: GameData; result: RunResul
         />
       )}
       {rows.length > 0 && <ViewCombat data={data} result={result} combats={combats} hidden={hidden} />}
+    </div>
+  );
+}
+
+function StatsTable({ rows }: { rows: readonly ResultRow[] }) {
+  return (
+    <div className="table-wrap">
+      <table className="stats">
+        <thead>
+          <tr>
+            <th scope="col">Strategy</th>
+            <th scope="col">Avg HP lost</th>
+            <th scope="col">HP lost, P25-P75</th>
+            <th scope="col">Avg combat turn length</th>
+            <th scope="col">Death rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr key={r.strategyId}>
+              <th scope="row">
+                <span className="legend-swatch" style={{ background: COLOR_HEX[r.color] }} aria-hidden />
+                {r.name}
+              </th>
+              <td>{fmtNumber(r.summary.avgHpLost)}</td>
+              <td>{fmtHpLostRange(r.summary.hpLostCounts)}</td>
+              <td>{fmtNumber(r.summary.avgTurns)}</td>
+              <td>{fmtRate(r.summary.deathRate)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
@@ -94,13 +101,7 @@ export function ViewCombat({
   const button = pickerButton(ids.length);
   const seed = deriveSeed(result.config.runSeed, idx);
   const href = button.disabled ? undefined : combatHref(data, result, rows, ids, idx);
-  const toggle = (id: string) =>
-    setChecked((c) => {
-      const next = new Set(c);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
+  const toggle = (id: string) => setChecked((c) => toggleHidden(c, id)); // same set flip as the chart legend
 
   return (
     <div className="view-combat">

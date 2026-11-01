@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react';
 import { strategyCode } from '../../engine/strategies';
 import type { GameData, GameEvent, StrategyColor, StrategyConfig } from '../../engine/types';
 import { browserStorage, defaultName, describeConfig, fullLibrary, loadUserStrategies } from '../lib/strategyLibrary';
-import { ascensionLabel, buildReplay, describeEvent, enemyIntentLabel, type SideSnapshot } from '../lib/logReplay';
+import { ascensionLabel, describeEvent, enemyIntentLabel, type Round, type SideSnapshot } from '../lib/logReplay';
 import { setupHref } from '../lib/links';
 import type { LogTarget, SetupState } from '../lib/url';
 import { Panel } from './Panel';
@@ -17,18 +17,27 @@ interface Props {
   target: LogTarget;
 }
 
-/** Left/Right arrow keys step the turn (ignored while typing in a field). */
-function useTurnKeys(count: number, setTurnIdx: (f: (i: number) => number) => void) {
+/**
+ * The shown turn (0-based, clamped to `count`), with step/jump setters. Left/Right arrow keys
+ * step it too (ignored while typing in a field).
+ */
+function useTurn(count: number) {
+  const [turnIdx, setTurnIdx] = useState(0);
+  const step = useCallback((d: number) => setTurnIdx((i) => clampTurn(i + d, count)), [count]);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement) return;
-      if (e.key === 'ArrowRight') setTurnIdx((i) => clampTurn(i + 1, count));
-      if (e.key === 'ArrowLeft') setTurnIdx((i) => clampTurn(i - 1, count));
+      if (e.key === 'ArrowRight') step(1);
+      if (e.key === 'ArrowLeft') step(-1);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [count, setTurnIdx]);
+  }, [step]);
+  return { idx: clampTurn(turnIdx, count), step, jump: setTurnIdx };
 }
+
+/** Card name for an id (the id itself if unknown). */
+const cardNamer = (data: GameData) => (id: string) => data.cards[id]?.name ?? id;
 
 /** The log page for a link: the single combat log, or the compare view for 2+ strategies. */
 export function CombatLog({ data, setup, target }: Props) {
@@ -60,11 +69,9 @@ function LogHeader({ data, setup, target, children }: Props & { children: ReactN
 function SingleLog({ data, setup, target }: Props) {
   const strategy = target.strategies[0]!;
   const outcome = useMemo(() => replayCombat(data, setup, strategy, target.seed), [data, setup, strategy, target.seed]);
-  const [turnIdx, setTurnIdx] = useState(0);
   const roundCount = outcome.ok ? outcome.replay.rounds.length : 0;
-  useTurnKeys(roundCount, setTurnIdx);
-  const name = (id: string) => data.cards[id]?.name ?? id;
-  const idx = clampTurn(turnIdx, roundCount);
+  const { idx, step, jump } = useTurn(roundCount);
+  const name = cardNamer(data);
 
   return (
     <Panel id="log" title="Combat Log">
@@ -80,7 +87,7 @@ function SingleLog({ data, setup, target }: Props) {
           </p>
           {roundCount > 0 && (
             <div className="round">
-              <TurnNav idx={idx} count={roundCount} onStep={(d) => setTurnIdx((i) => clampTurn(i + d, roundCount))} onJump={setTurnIdx} />
+              <TurnNav idx={idx} count={roundCount} onStep={step} onJump={jump} />
               <RoundBody round={outcome.replay.rounds[idx]!} intent={outcome.intents[idx] ?? null} characterId={setup.characterId} name={name} />
             </div>
           )}
@@ -117,38 +124,42 @@ function CompareLog({ data, setup, target }: Props) {
     [data, setup, target],
   );
   const count = sharedTurnCount(columns.map((c) => (c.combat.ok ? c.combat.replay.rounds.length : 0)));
-  const [turnIdx, setTurnIdx] = useState(0);
-  useTurnKeys(count, setTurnIdx);
-  const idx = clampTurn(turnIdx, count);
-  const name = (id: string) => data.cards[id]?.name ?? id;
+  const { idx, step, jump } = useTurn(count);
+  const name = cardNamer(data);
 
   return (
     <Panel id="log" title="Combat Log">
       <LogHeader data={data} setup={setup} target={target}>
         Comparing {columns.length} strategies.{' '}
       </LogHeader>
-      {count > 0 && <TurnNav idx={idx} count={count} onStep={(d) => setTurnIdx((i) => clampTurn(i + d, count))} onJump={setTurnIdx} />}
+      {count > 0 && <TurnNav idx={idx} count={count} onStep={step} onJump={jump} />}
       <div className="compare-cols" style={{ '--cols': columns.length } as CSSProperties}>
         {columns.map((col) => (
-          <section key={strategyCode(col.config)} className="compare-col" style={{ '--strategy-color': COLOR_HEX[col.color] } as CSSProperties} aria-label={col.name}>
-            <header className="compare-head">
-              <h3>
-                <span className="legend-swatch" style={{ background: COLOR_HEX[col.color] }} aria-hidden />
-                {col.name}
-              </h3>
-              {col.combat.ok ? (
-                <p className={`outcome small outcome-${col.combat.result.outcome}`}>
-                  {outcomeLabel(col.combat.result.outcome)} on turn {col.combat.result.turns}, lost {col.combat.result.hpLost} HP
-                </p>
-              ) : (
-                <p className="warn small">Could not replay: {col.combat.error}</p>
-              )}
-            </header>
-            {col.combat.ok && <CompareCell combat={col.combat} idx={idx} characterId={setup.characterId} name={name} />}
-          </section>
+          <CompareColumn key={strategyCode(col.config)} col={col} idx={idx} characterId={setup.characterId} name={name} />
         ))}
       </div>
     </Panel>
+  );
+}
+
+function CompareColumn({ col, idx, characterId, name }: { col: Column; idx: number; characterId: string; name: (id: string) => string }) {
+  return (
+    <section className="compare-col" style={{ '--strategy-color': COLOR_HEX[col.color] } as CSSProperties} aria-label={col.name}>
+      <header className="compare-head">
+        <h3>
+          <span className="legend-swatch" style={{ background: COLOR_HEX[col.color] }} aria-hidden />
+          {col.name}
+        </h3>
+        {col.combat.ok ? (
+          <p className={`outcome small outcome-${col.combat.result.outcome}`}>
+            {outcomeLabel(col.combat.result.outcome)} on turn {col.combat.result.turns}, lost {col.combat.result.hpLost} HP
+          </p>
+        ) : (
+          <p className="warn small">Could not replay: {col.combat.error}</p>
+        )}
+      </header>
+      {col.combat.ok && <CompareCell combat={col.combat} idx={idx} characterId={characterId} name={name} />}
+    </section>
   );
 }
 
@@ -207,7 +218,7 @@ function RoundBody({
 }: {
   intent: TurnIntent;
   characterId: string;
-  round: ReturnType<typeof buildReplay>['rounds'][number];
+  round: Round;
   name: (id: string) => string;
 }) {
   const lines = (evs: GameEvent[]) => evs.map((e) => describeEvent(e, name)).filter((s): s is string => s !== null);
@@ -225,31 +236,28 @@ function RoundBody({
         <p className="small">
           <strong>Drew:</strong> {round.drawn.length ? round.drawn.map(name).join(', ') : 'nothing'}
         </p>
-        {playerLines.length ? (
-          <ol className="events">
-            {playerLines.map((l, i) => (
-              <li key={i}>{l}</li>
-            ))}
-          </ol>
-        ) : (
-          <p className="muted small">No cards played.</p>
-        )}
+        <EventList lines={playerLines} empty="No cards played." />
       </div>
       <div className="phase phase-enemy">
         <h4>Enemy Turn{round.enemyMove ? `: ${round.enemyMove}` : ''}</h4>
         {round.enemyMove === null ? (
           <p className="muted small">The combat ended before the enemy acted.</p>
-        ) : enemyLines.length ? (
-          <ol className="events">
-            {enemyLines.map((l, i) => (
-              <li key={i}>{l}</li>
-            ))}
-          </ol>
         ) : (
-          <p className="muted small">Nothing happened.</p>
+          <EventList lines={enemyLines} empty="Nothing happened." />
         )}
       </div>
     </div>
+  );
+}
+
+function EventList({ lines, empty }: { lines: string[]; empty: string }) {
+  if (lines.length === 0) return <p className="muted small">{empty}</p>;
+  return (
+    <ol className="events">
+      {lines.map((l, i) => (
+        <li key={i}>{l}</li>
+      ))}
+    </ol>
   );
 }
 
