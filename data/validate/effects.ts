@@ -130,134 +130,143 @@ function checkCountMode(r: Reporter, e: Obj, p: string): void {
   else if (mode !== undefined && mode !== 'all') r.add(`${p}.count`, 'is required unless "mode" is "all"');
 }
 
-function checkContractEffect(r: Reporter, e: Obj, p: string): void {
-  switch (e.type) {
-    case 'loseHp':
-    case 'draw':
-    case 'dealDamage':
-    case 'enemyLoseHp':
-    case 'heal':
-    case 'gainMaxHp':
-    case 'loseMaxHp':
-      r.int(e, 'amount', 0, `${p}.amount`);
-      if (e.type === 'dealDamage') optBool(r, e, 'allEnemies', p);
-      break;
-    case 'drawUntil':
-      optBool(r, e, 'handFull', p);
-      optFilter(r, e, 'stopOn', p);
-      if (e.handFull !== true && !has(e, 'stopOn')) r.add(p, 'needs "handFull": true or "stopOn"');
-      break;
-    case 'exhaustCards':
-      if (has(e, 'from')) r.oneOf(e, 'from', PILES, `${p}.from`);
-      checkCountMode(r, e, p);
-      optBool(r, e, 'upTo', p);
-      optFilter(r, e, 'filter', p);
-      break;
-    case 'applyPower':
-      r.oneOf(e, 'power', POWER_IDS, `${p}.power`);
-      r.int(e, 'amount', 0, `${p}.amount`);
-      break;
-    case 'applyEnemyPower':
-      r.oneOf(e, 'power', ENEMY_POWER_IDS, `${p}.power`);
-      r.int(e, 'amount', 0, `${p}.amount`);
-      break;
-    case 'schedule':
-      r.int(e, 'delay', 1, `${p}.delay`);
-      if (has(e, 'at')) r.oneOf(e, 'at', ['turnStart', 'turnEnd'], `${p}.at`);
-      checkEffects(r, e.effects, `${p}.effects`);
-      break;
-    case 'setCost':
-      enumList(r, e, 'piles', PILES, p, true);
-      r.int(e, 'cost', 0, `${p}.cost`);
-      r.oneOf(e, 'duration', ['turn', 'combat'], `${p}.duration`);
-      optBool(r, e, 'onlyIfHigher', p);
-      optFilter(r, e, 'filter', p);
-      break;
-    case 'conditional':
-      checkCondition(r, e.if, `${p}.if`);
-      checkEffects(r, e.then, `${p}.then`);
-      if (has(e, 'else')) checkEffects(r, e.else, `${p}.else`);
-      break;
-    case 'repeat':
-      r.oneOf(e, 'per', COUNTERS, `${p}.per`);
-      optInt(r, e, 'times', 1, p);
-      checkEffects(r, e.effects, `${p}.effects`);
-      break;
-    case 'attackFrom':
-      r.int(e, 'damage', 0, `${p}.damage`);
-      r.int(e, 'hits', 0, `${p}.hits`);
-      optBool(r, e, 'allEnemies', p);
-      if (has(e, 'bonusPer')) checkPer(r, e.bonusPer, `${p}.bonusPer`);
-      if (has(e, 'extraHitsPer')) checkPer(r, e.extraHitsPer, `${p}.extraHitsPer`);
-      if (!has(e, 'bonusPer') && !has(e, 'extraHitsPer'))
-        r.add(p, 'needs "bonusPer" or "extraHitsPer" (use "attack" otherwise)');
-      break;
-    case 'gainBlockFrom':
-      r.int(e, 'amount', 0, `${p}.amount`);
-      checkPer(r, e.bonusPer, `${p}.bonusPer`);
-      break;
-    case 'growDamage':
-      r.int(e, 'amount', 0, `${p}.amount`);
-      r.oneOf(e, 'scope', ['self', 'sameCard'], `${p}.scope`);
-      break;
-    case 'moveCards':
-      r.oneOf(e, 'from', PILES, `${p}.from`);
-      r.oneOf(e, 'to', DESTINATIONS, `${p}.to`);
-      checkCountMode(r, e, p);
-      optBool(r, e, 'upTo', p);
-      optFilter(r, e, 'filter', p);
-      optInt(r, e, 'options', 1, p);
-      optBool(r, e, 'upgrade', p);
-      break;
-    case 'moveSelf':
-      r.oneOf(e, 'to', DESTINATIONS, `${p}.to`);
-      r.oneOf(e, 'when', ['now', 'nextTurnStart'], `${p}.when`);
-      break;
-    case 'upgradeCards':
-      enumList(r, e, 'piles', PILES, p, true);
-      checkCountMode(r, e, p);
-      break;
-    case 'playCards':
-      r.oneOf(e, 'from', PILES, `${p}.from`);
-      r.oneOf(e, 'mode', ['top', 'random'], `${p}.mode`);
-      r.int(e, 'count', 0, `${p}.count`);
-      optBool(r, e, 'xTimes', p);
-      checkXBonus(r, e, p);
-      optFilter(r, e, 'filter', p);
-      optBool(r, e, 'exhaust', p);
-      break;
-    case 'addReplay':
-      r.int(e, 'amount', 1, `${p}.amount`);
-      r.oneOf(e, 'from', PILES, `${p}.from`);
-      r.oneOf(e, 'mode', SELECT_MODES, `${p}.mode`);
-      optFilter(r, e, 'filter', p);
-      break;
-    case 'addCards':
-      checkSource(r, e.source, `${p}.source`);
-      r.int(e, 'count', 1, `${p}.count`);
-      r.oneOf(e, 'to', DESTINATIONS, `${p}.to`);
-      optInt(r, e, 'options', 1, p);
-      optBool(r, e, 'upgraded', p);
-      optBool(r, e, 'freeThisTurn', p);
-      optInt(r, e, 'costThisCombat', 0, p);
-      break;
-    case 'transformCards':
-      r.oneOf(e, 'from', PILES, `${p}.from`);
-      checkCountMode(r, e, p);
-      optFilter(r, e, 'filter', p);
-      checkSource(r, e.into, `${p}.into`);
-      break;
-    case 'script': {
-      r.str(e, 'id', `${p}.id`);
-      if (has(e, 'values')) {
-        const vals = r.arr(e, 'values', `${p}.values`);
-        vals?.forEach((v, i) => {
-          if (typeof v !== 'number' || !Number.isFinite(v)) r.add(`${p}.values[${i}]`, 'must be a number');
-        });
-      }
-      break;
+type ContractEffect = (typeof CONTRACT_EFFECTS)[number];
+type EffectCheck = (r: Reporter, e: Obj, p: string) => void;
+
+const amountOnly: EffectCheck = (r, e, p) => {
+  r.int(e, 'amount', 0, `${p}.amount`);
+};
+
+/** Field checks for each #105 contract effect. Keyed by every contract effect, so a new one must add its check. */
+const CONTRACT_CHECKS: Record<ContractEffect, EffectCheck> = {
+  loseHp: amountOnly,
+  draw: amountOnly,
+  dealDamage: (r, e, p) => {
+    amountOnly(r, e, p);
+    optBool(r, e, 'allEnemies', p);
+  },
+  enemyLoseHp: amountOnly,
+  heal: amountOnly,
+  gainMaxHp: amountOnly,
+  loseMaxHp: amountOnly,
+  drawUntil: (r, e, p) => {
+    optBool(r, e, 'handFull', p);
+    optFilter(r, e, 'stopOn', p);
+    if (e.handFull !== true && !has(e, 'stopOn')) r.add(p, 'needs "handFull": true or "stopOn"');
+  },
+  exhaustCards: (r, e, p) => {
+    if (has(e, 'from')) r.oneOf(e, 'from', PILES, `${p}.from`);
+    checkCountMode(r, e, p);
+    optBool(r, e, 'upTo', p);
+    optFilter(r, e, 'filter', p);
+  },
+  applyPower: (r, e, p) => {
+    r.oneOf(e, 'power', POWER_IDS, `${p}.power`);
+    r.int(e, 'amount', 0, `${p}.amount`);
+  },
+  applyEnemyPower: (r, e, p) => {
+    r.oneOf(e, 'power', ENEMY_POWER_IDS, `${p}.power`);
+    r.int(e, 'amount', 0, `${p}.amount`);
+  },
+  schedule: (r, e, p) => {
+    r.int(e, 'delay', 1, `${p}.delay`);
+    if (has(e, 'at')) r.oneOf(e, 'at', ['turnStart', 'turnEnd'], `${p}.at`);
+    checkEffects(r, e.effects, `${p}.effects`);
+  },
+  setCost: (r, e, p) => {
+    enumList(r, e, 'piles', PILES, p, true);
+    r.int(e, 'cost', 0, `${p}.cost`);
+    r.oneOf(e, 'duration', ['turn', 'combat'], `${p}.duration`);
+    optBool(r, e, 'onlyIfHigher', p);
+    optFilter(r, e, 'filter', p);
+  },
+  conditional: (r, e, p) => {
+    checkCondition(r, e.if, `${p}.if`);
+    checkEffects(r, e.then, `${p}.then`);
+    if (has(e, 'else')) checkEffects(r, e.else, `${p}.else`);
+  },
+  repeat: (r, e, p) => {
+    r.oneOf(e, 'per', COUNTERS, `${p}.per`);
+    optInt(r, e, 'times', 1, p);
+    checkEffects(r, e.effects, `${p}.effects`);
+  },
+  attackFrom: (r, e, p) => {
+    r.int(e, 'damage', 0, `${p}.damage`);
+    r.int(e, 'hits', 0, `${p}.hits`);
+    optBool(r, e, 'allEnemies', p);
+    if (has(e, 'bonusPer')) checkPer(r, e.bonusPer, `${p}.bonusPer`);
+    if (has(e, 'extraHitsPer')) checkPer(r, e.extraHitsPer, `${p}.extraHitsPer`);
+    if (!has(e, 'bonusPer') && !has(e, 'extraHitsPer'))
+      r.add(p, 'needs "bonusPer" or "extraHitsPer" (use "attack" otherwise)');
+  },
+  gainBlockFrom: (r, e, p) => {
+    r.int(e, 'amount', 0, `${p}.amount`);
+    checkPer(r, e.bonusPer, `${p}.bonusPer`);
+  },
+  growDamage: (r, e, p) => {
+    r.int(e, 'amount', 0, `${p}.amount`);
+    r.oneOf(e, 'scope', ['self', 'sameCard'], `${p}.scope`);
+  },
+  moveCards: (r, e, p) => {
+    r.oneOf(e, 'from', PILES, `${p}.from`);
+    r.oneOf(e, 'to', DESTINATIONS, `${p}.to`);
+    checkCountMode(r, e, p);
+    optBool(r, e, 'upTo', p);
+    optFilter(r, e, 'filter', p);
+    optInt(r, e, 'options', 1, p);
+    optBool(r, e, 'upgrade', p);
+  },
+  moveSelf: (r, e, p) => {
+    r.oneOf(e, 'to', DESTINATIONS, `${p}.to`);
+    r.oneOf(e, 'when', ['now', 'nextTurnStart'], `${p}.when`);
+  },
+  upgradeCards: (r, e, p) => {
+    enumList(r, e, 'piles', PILES, p, true);
+    checkCountMode(r, e, p);
+  },
+  playCards: (r, e, p) => {
+    r.oneOf(e, 'from', PILES, `${p}.from`);
+    r.oneOf(e, 'mode', ['top', 'random'], `${p}.mode`);
+    r.int(e, 'count', 0, `${p}.count`);
+    optBool(r, e, 'xTimes', p);
+    checkXBonus(r, e, p);
+    optFilter(r, e, 'filter', p);
+    optBool(r, e, 'exhaust', p);
+  },
+  addReplay: (r, e, p) => {
+    r.int(e, 'amount', 1, `${p}.amount`);
+    r.oneOf(e, 'from', PILES, `${p}.from`);
+    r.oneOf(e, 'mode', SELECT_MODES, `${p}.mode`);
+    optFilter(r, e, 'filter', p);
+  },
+  addCards: (r, e, p) => {
+    checkSource(r, e.source, `${p}.source`);
+    r.int(e, 'count', 1, `${p}.count`);
+    r.oneOf(e, 'to', DESTINATIONS, `${p}.to`);
+    optInt(r, e, 'options', 1, p);
+    optBool(r, e, 'upgraded', p);
+    optBool(r, e, 'freeThisTurn', p);
+    optInt(r, e, 'costThisCombat', 0, p);
+  },
+  transformCards: (r, e, p) => {
+    r.oneOf(e, 'from', PILES, `${p}.from`);
+    checkCountMode(r, e, p);
+    optFilter(r, e, 'filter', p);
+    checkSource(r, e.into, `${p}.into`);
+  },
+  script: (r, e, p) => {
+    r.str(e, 'id', `${p}.id`);
+    if (has(e, 'values')) {
+      const vals = r.arr(e, 'values', `${p}.values`);
+      vals?.forEach((v, i) => {
+        if (typeof v !== 'number' || !Number.isFinite(v)) r.add(`${p}.values[${i}]`, 'must be a number');
+      });
     }
-  }
+  },
+};
+
+function checkContractEffect(r: Reporter, e: Obj, p: string): void {
+  CONTRACT_CHECKS[e.type as ContractEffect](r, e, p);
 }
 
 export function checkTriggers(r: Reporter, v: unknown, p: string): void {
