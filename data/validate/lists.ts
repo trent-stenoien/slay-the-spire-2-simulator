@@ -1,0 +1,121 @@
+/** Allowed values for game-data fields, kept in step with the engine contract. */
+import type { Counter, EffectType, EnemyPowerId, PowerId } from '../../engine/types';
+
+export const CARD_TYPES = ['attack', 'skill', 'power', 'status', 'curse', 'quest'] as const;
+
+export const CARD_RARITIES = ['basic', 'common', 'uncommon', 'rare', 'ancient', 'event', 'token', 'status', 'curse', 'quest'] as const;
+
+export const CARD_KEYWORDS = ['unplayable', 'ethereal', 'eternal', 'exhaust', 'retain', 'innate', 'sly'] as const;
+
+/** Keywords and effects the engine implements; a `simulated` card may use only these. */
+export const SIMULATED_KEYWORDS = new Set(['unplayable', 'ethereal', 'eternal', 'exhaust', 'innate', 'retain']);
+
+/**
+ * #105 contract effects: valid data, but not simulated yet. Each mechanic card
+ * (#106–#116) removes its effects from this list when the engine supports them.
+ */
+export const CONTRACT_EFFECTS = [
+  'loseHp',
+  'draw',
+  'drawUntil',
+  'exhaustCards',
+  'applyPower',
+  'applyEnemyPower',
+  'schedule',
+  'dealDamage',
+  'enemyLoseHp',
+  'setCost',
+  'conditional',
+  'repeat',
+  'attackFrom',
+  'gainBlockFrom',
+  'growDamage',
+  'moveCards',
+  'moveSelf',
+  'upgradeCards',
+  'playCards',
+  'addReplay',
+  'addCards',
+  'transformCards',
+  'heal',
+  'gainMaxHp',
+  'loseMaxHp',
+  'script',
+] as const;
+
+export const UNSIMULATED_EFFECTS = new Set<string>(['gainStars', ...CONTRACT_EFFECTS]);
+
+/** CardDef fields from #105 that the engine does not simulate yet. */
+export const UNSIMULATED_CARD_FIELDS = ['triggers', 'playableIf', 'costLessPer'] as const;
+
+export const PILES = ['hand', 'draw', 'discard', 'exhaust'] as const;
+
+export const DESTINATIONS = ['hand', 'drawTop', 'drawBottom', 'drawRandom', 'discard', 'exhaust'] as const;
+
+export const SELECT_MODES = ['choose', 'random', 'all', 'top'] as const;
+
+export const COUNTERS = [
+  'playerBlock',
+  'playerStrength',
+  'enemyVulnerable',
+  'enemyUniqueDebuffs',
+  'handSize',
+  'drawPileSize',
+  'discardPileSize',
+  'exhaustPileSize',
+  'hpLossesThisCombat',
+  'cardsPlayedThisTurn',
+  'cardsPlayedThisCombat',
+  'attacksPlayedThisTurn',
+  'cardsExhaustedThisTurn',
+  'cardsExhaustedThisCombat',
+  'lastEffectCount',
+  'lastAttackDamage',
+] as const;
+
+export const POWER_IDS = [
+  'demonForm', 'energyPerTurn', 'rollingBoulder', 'crimsonMantle', 'plating', 'barricade', 'cruelty',
+  'dexterity', 'fasten', 'thorns', 'vigorPerTurn', 'vigor', 'powersCostLess', 'upgradeAtCombatEnd',
+  'corruption', 'strengthThisTurn', 'rage', 'flameBarrier', 'colossus', 'noBlockFromCards', 'retainHand',
+  'freeAttack', 'doubleAttack', 'nextCardToDrawTop', 'choking', 'noDraw', 'darkEmbrace', 'feelNoPain',
+  'rupture', 'inferno', 'juggernaut', 'unmovable', 'vicious', 'panache', 'automation', 'juggling',
+  'aggression', 'hellraiser', 'stampede', 'mayhem', 'nostalgia', 'stratagem', 'intangible', 'gambit',
+  'calamity', 'helloWorld', 'entropy',
+] as const;
+
+export const ENEMY_POWER_IDS = ['strengthLossThisTurn', 'stun'] as const;
+
+export const TRIGGER_WHENS = ['exhausted', 'drawn', 'turnEndInHand', 'turnEndInExhaust'] as const;
+
+export const POOL_CHARACTERS = ['own', 'colorless', 'otherCharacters'] as const;
+
+/** Compile-time check that the lists above match the contract unions exactly (fails typecheck otherwise). */
+type Same<A, B> = [A] extends [B] ? ([B] extends [A] ? true : never) : never;
+
+export const CONTRACT_LISTS_MATCH_TYPES: Same<PowerId, (typeof POWER_IDS)[number]> &
+  Same<EnemyPowerId, (typeof ENEMY_POWER_IDS)[number]> &
+  Same<Counter, (typeof COUNTERS)[number]> &
+  Same<EffectType, 'attack' | (typeof AMOUNT_EFFECTS)[number] | (typeof CONTRACT_EFFECTS)[number]> = true;
+
+export const CHARACTER_CODES = ['I', 'S', 'D', 'N', 'R'] as const;
+
+export const ZONES = ['overgrowth', 'underdocks', 'hive', 'glory'] as const;
+
+export const DIFFICULTIES = ['easy', 'normal', 'elite', 'boss', 'minion', 'event'] as const;
+
+export const PATTERN_STARTS = ['first', 'random'] as const;
+
+export const AMOUNT_EFFECTS = [
+  'gainBlock',
+  'gainStrength',
+  'applyVulnerable',
+  'applyWeak',
+  'applyFrail',
+  'applyPoison',
+  'gainEnergy',
+  'gainStars',
+] as const;
+
+export const TWO_CHAR_CODE = /^[A-Za-z0-9]{2}$/;
+
+export const NUMERIC_KEY = /^(0|[1-9][0-9]*)$/;

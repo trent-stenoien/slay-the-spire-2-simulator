@@ -13,7 +13,7 @@
  * listed here is declared but NOT simulated yet: the validator rejects it on
  * `simulated: true` cards and the engine throws "not simulated yet" if it is
  * reached. The branch for each card implements its part in engine/, data/
- * validate.ts (move the effect out of the unsimulated set) and app/.
+ * validate/lists.ts (move the effect out of the unsimulated set) and app/.
  *
  * Shared vocabulary: PileName, CardDestination, CardFilter, SelectMode,
  * Counter, PerCounter, Condition, CardSource, CardPool.

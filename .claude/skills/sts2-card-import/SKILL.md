@@ -11,7 +11,7 @@ correct metadata. **Your job is only these fields:** `effects`, `upgraded.effect
 `keywords`, `upgraded.keywords` (only if they change on upgrade), and `simulated`.
 Never change `id`, `code`, `name`, `type`, `rarity`, `character`, `cost`, `xCost`,
 `starCost`, `upgraded.cost`, `description`, `upgradedDescription`, `multiplayerOnly`
-or `lastUpdateVersion`. Never touch `engine/` or `data/validate.ts`.
+or `lastUpdateVersion`. Never touch `engine/` or `data/validate.ts` / `data/validate/`.
 
 The contract is `engine/types.ts` (`CardDef`, `Effect`). Read it once before starting.
 

@@ -1,0 +1,103 @@
+/** Card validation. */
+import { CARD_TYPES, CARD_RARITIES, CARD_KEYWORDS, SIMULATED_KEYWORDS, UNSIMULATED_EFFECTS, UNSIMULATED_CARD_FIELDS, CHARACTER_CODES } from './lists';
+import { type Obj, isOneOf, isObj, has, oneOfText, Reporter, checkTwoCharCode } from './shared';
+import { checkEffects, checkPer, checkCondition, checkTriggers } from './effects';
+
+function checkKeywords(r: Reporter, list: unknown, path: string): void {
+  if (!Array.isArray(list)) {
+    r.add(path, 'must be an array');
+    return;
+  }
+  list.forEach((k, i) => {
+    if (!isOneOf(k, CARD_KEYWORDS)) {
+      r.add(`${path}[${i}]`, oneOfText(CARD_KEYWORDS));
+    }
+  });
+}
+
+/** `xTimes` effects only on X-cost cards. */
+function checkXTimes(r: Reporter, c: Obj, list: unknown, path: string): void {
+  if (!Array.isArray(list) || c.xCost === true) return;
+  list.forEach((e, i) => {
+    if (isObj(e) && e.xTimes === true) r.add(`${path}[${i}].xTimes`, 'is only allowed on X-cost cards ("xCost": true)');
+  });
+}
+
+/** True when some effect in the list scales with X. */
+function usesX(list: unknown): boolean {
+  return Array.isArray(list) && list.some((e) => isObj(e) && e.xTimes === true);
+}
+
+/** A card marked `simulated` may only use keywords, effects and fields the engine handles. */
+function checkSimulatable(r: Reporter, c: Obj): void {
+  const unsupported = (name: string) => r.add('simulated', `is true but the card uses "${name}", which the engine does not simulate`);
+  const lists: unknown[] = [c.keywords, c.effects];
+  if (isObj(c.upgraded)) lists.push(c.upgraded.keywords, c.upgraded.effects);
+  for (const list of lists) {
+    if (!Array.isArray(list)) continue;
+    for (const item of list) {
+      const name = typeof item === 'string' ? item : isObj(item) ? item.type : undefined;
+      if (typeof name !== 'string') continue;
+      const bad = typeof item === 'string' ? !SIMULATED_KEYWORDS.has(name) : UNSIMULATED_EFFECTS.has(name);
+      if (bad) unsupported(name);
+    }
+  }
+  for (const field of UNSIMULATED_CARD_FIELDS) {
+    if (has(c, field) || (isObj(c.upgraded) && has(c.upgraded, field))) {
+      unsupported(field);
+    }
+  }
+  if (c.starCost !== null) r.add('simulated', 'is true but the card has a Star cost');
+  if (c.xStarCost === true) r.add('simulated', 'is true but X-Star cards are not simulated');
+  if (c.xCost === true) {
+    const upEffects = isObj(c.upgraded) && Array.isArray(c.upgraded.effects) ? c.upgraded.effects : c.effects;
+    if (!usesX(c.effects) || (c.upgraded !== null && !usesX(upEffects))) {
+      r.add('simulated', 'is true but the X-cost card has no effect that scales with X ("xTimes")');
+    }
+  }
+}
+
+export function checkCard(r: Reporter, c: Obj): void {
+  checkTwoCharCode(r, c);
+  r.str(c, 'name');
+  r.oneOf(c, 'type', CARD_TYPES);
+  r.oneOf(c, 'character', [...CHARACTER_CODES, 'colorless', 'shared']);
+  r.oneOf(c, 'rarity', CARD_RARITIES);
+  if (c.cost !== null) r.int(c, 'cost', 0);
+  r.bool(c, 'xCost');
+  if (c.starCost !== null) r.int(c, 'starCost', 0);
+  if (has(c, 'xStarCost')) r.bool(c, 'xStarCost');
+  r.str(c, 'description');
+  if (c.upgradedDescription !== null) r.str(c, 'upgradedDescription');
+  if ((c.upgraded === null) !== (c.upgradedDescription === null)) {
+    r.add('upgradedDescription', 'must be null exactly when "upgraded" is null');
+  }
+  r.bool(c, 'simulated');
+  r.bool(c, 'multiplayerOnly');
+  if (has(c, 'hidden')) r.bool(c, 'hidden');
+  if (has(c, 'triggers')) checkTriggers(r, c.triggers, 'triggers');
+  if (has(c, 'playableIf')) checkCondition(r, c.playableIf, 'playableIf');
+  if (has(c, 'costLessPer')) checkPer(r, c.costLessPer, 'costLessPer');
+  if (c.simulated === true) checkSimulatable(r, c);
+  checkKeywords(r, c.keywords, 'keywords');
+  const unplayable = Array.isArray(c.keywords) && c.keywords.includes('unplayable');
+  if (unplayable !== (c.cost === null)) {
+    r.add('cost', 'must be null exactly when keywords include "unplayable"');
+  }
+  checkEffects(r, c.effects, 'effects');
+  checkXTimes(r, c, c.effects, 'effects');
+  if (isObj(c.upgraded)) checkXTimes(r, c, c.upgraded.effects, 'upgraded.effects');
+  if (c.upgraded !== null) {
+    if (!isObj(c.upgraded)) {
+      r.add('upgraded', 'must be an object or null');
+    } else {
+      const u = c.upgraded;
+      if (has(u, 'cost')) r.int(u, 'cost', 0, 'upgraded.cost');
+      if (has(u, 'starCost')) r.int(u, 'starCost', 0, 'upgraded.starCost');
+      if (has(u, 'effects')) checkEffects(r, u.effects, 'upgraded.effects');
+      if (has(u, 'keywords')) checkKeywords(r, u.keywords, 'upgraded.keywords');
+      if (has(u, 'triggers')) checkTriggers(r, u.triggers, 'upgraded.triggers');
+    }
+  }
+  r.str(c, 'lastUpdateVersion');
+}
