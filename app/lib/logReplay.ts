@@ -146,7 +146,7 @@ export function buildReplay(log: readonly GameEvent[]): Replay {
 
 /** One line of text per event, for the log view. `name` maps a cardId to a display name. */
 export function describeEvent(ev: GameEvent, name: (cardId: string) => string): string | null {
-  const who = (s: 'player' | 'enemy') => (s === 'player' ? 'You' : 'Enemy');
+  const gains = (s: 'player' | 'enemy') => (s === 'player' ? 'You gain' : 'Enemy gains');
   switch (ev.t) {
     case 'play':
       return ev.x !== undefined
@@ -162,9 +162,9 @@ export function describeEvent(ev: GameEvent, name: (cardId: string) => string): 
       return parts.join(', ');
     }
     case 'block':
-      return `${who(ev.side)} gain${ev.side === 'enemy' ? 's' : ''} ${ev.amount} Block (total ${ev.total})`;
+      return `${gains(ev.side)} ${ev.amount} Block (total ${ev.total})`;
     case 'strength':
-      return `${who(ev.side)} gain${ev.side === 'enemy' ? 's' : ''} ${ev.amount} Strength (total ${ev.total})`;
+      return `${gains(ev.side)} ${ev.amount} Strength (total ${ev.total})`;
     case 'debuff':
       return `${ev.side === 'player' ? 'You get' : 'Enemy gets'} ${ev.amount} ${cap(ev.kind)} (total ${ev.total})`;
     case 'poison':

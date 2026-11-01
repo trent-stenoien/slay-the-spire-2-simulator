@@ -148,8 +148,8 @@ export function buildQuery(data: GameData, setup: SetupState, log?: LogTarget | 
     }
     parts.push(`s=${log.seed >>> 0}`, `st=${log.strategies.map(strategyCode).join(',')}`);
     if (log.colors && log.colors.length === log.strategies.length) parts.push(`k=${log.colors.map((c) => COLOR_LETTER[c]).join(',')}`);
+    if (log.combatIndex !== undefined) parts.push(`n=${log.combatIndex}`);
   }
-  if (log && log.combatIndex !== undefined) parts.push(`n=${log.combatIndex}`);
   return parts.join('&');
 }
 
@@ -234,35 +234,36 @@ export function parseQuery(data: GameData, search: string): ParsedUrl {
     else errors.push(r.error);
   }
 
-  let log: LogTarget | null = null;
+  return { setup, log: parseLogTarget(p, errors), errors };
+}
+
+/** The combat-log part of a query (`s`, `st`, optional `k` and `n`), or null when absent or invalid. */
+function parseLogTarget(p: Map<string, string>, errors: string[]): LogTarget | null {
   const s = p.get('s');
   const st = p.get('st');
-  if (s !== undefined || st !== undefined) {
-    let seed: number | null = null;
-    let strategies: StrategyConfig[] | null = null;
-    if (s === undefined) errors.push('Combat link is missing the seed (s)');
-    else {
-      seed = parseIntStrict(s, MAX_SEED);
-      if (seed === null) errors.push(`Seed must be a whole number 0–${MAX_SEED}, got "${s}"`);
-    }
-    if (st === undefined) errors.push('Combat link is missing the strategy (st)');
-    else {
-      const r = parseStrategyList(st);
-      if (r.ok) strategies = r.strategies;
-      else errors.push(r.error);
-    }
-    if (seed !== null && strategies) {
-      log = { seed, strategies };
-      const colors = parseColorList(p.get('k'), strategies.length);
-      if (colors) log.colors = colors;
-      const n = p.get('n');
-      // Optional and display-only: a bad value is ignored, never an error.
-      const combatIndex = n === undefined ? null : parseIntStrict(n, MAX_COMBAT_INDEX);
-      if (combatIndex !== null) log.combatIndex = combatIndex;
-    }
+  if (s === undefined && st === undefined) return null;
+  let seed: number | null = null;
+  let strategies: StrategyConfig[] | null = null;
+  if (s === undefined) errors.push('Combat link is missing the seed (s)');
+  else {
+    seed = parseIntStrict(s, MAX_SEED);
+    if (seed === null) errors.push(`Seed must be a whole number 0–${MAX_SEED}, got "${s}"`);
   }
-
-  return { setup, log, errors };
+  if (st === undefined) errors.push('Combat link is missing the strategy (st)');
+  else {
+    const r = parseStrategyList(st);
+    if (r.ok) strategies = r.strategies;
+    else errors.push(r.error);
+  }
+  if (seed === null || !strategies) return null;
+  const log: LogTarget = { seed, strategies };
+  const colors = parseColorList(p.get('k'), strategies.length);
+  if (colors) log.colors = colors;
+  const n = p.get('n');
+  // Optional and display-only: a bad value is ignored, never an error.
+  const combatIndex = n === undefined ? null : parseIntStrict(n, MAX_COMBAT_INDEX);
+  if (combatIndex !== null) log.combatIndex = combatIndex;
+  return log;
 }
 
 /** Parse `st`: one strategy code, or up to MAX_STRATEGIES_PER_RUN distinct codes joined by ",". */
