@@ -267,6 +267,9 @@ export function simulateCombat(
           break;
         case 'gainStars':
           throw new Error('Stars are not simulated yet');
+        default:
+          // #105: declared in the contract, implemented by later mechanic cards.
+          throw new Error(`Effect "${e.type}" is not simulated yet`);
       }
     }
     return false;

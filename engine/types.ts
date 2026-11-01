@@ -7,6 +7,54 @@
  * v1 is single-target: every card targets the one enemy, every enemy move
  * targets the player. Effects therefore carry no explicit target; the source
  * decides it (a card's effects hit the enemy, an enemy move's hit the player).
+ *
+ * ---------------------------------------------------------------------------
+ * Contract map (#105): which addition serves which board card. Everything
+ * listed here is declared but NOT simulated yet: the validator rejects it on
+ * `simulated: true` cards and the engine throws "not simulated yet" if it is
+ * reached. The branch for each card implements its part in engine/, data/
+ * validate.ts (move the effect out of the unsimulated set) and app/.
+ *
+ * Shared vocabulary: PileName, CardDestination, CardFilter, SelectMode,
+ * Counter, PerCounter, Condition, CardSource, CardPool.
+ *
+ * #106 Lose HP      — Effect `loseHp`; GameEvent `loseHp`; CombatCounters
+ *                     hpLostThisTurn / hpLostThisCombat / hpLossesThisCombat;
+ *                     Condition `lostHpThisTurn`; Counter `hpLossesThisCombat`.
+ * #107 Draw         — Effect `draw`, `drawUntil`; PowerId `noDraw`;
+ *                     CombatCounters cardsDrawn*; (GameEvent `draw` already exists).
+ * #108 Exhaust      — Effect `exhaustCards`; CardTrigger `exhausted`
+ *                     (Drum of Battle), `turnEndInExhaust` (Howl from Beyond);
+ *                     GameEvent `exhaust` reasons 'effect' | 'power';
+ *                     CombatCounters cardsExhausted*; Counter `lastEffectCount`;
+ *                     Effect `script` (Fiend Fire, Thrash).
+ * #109 Powers       — Effect `applyPower`; PlayerState.powers; PowerId (simple
+ *                     powers block); GameEvent `powerApplied`, `powerRemoved`.
+ * #110 Temporary    — PowerId (temporary block); Effect `applyEnemyPower`,
+ *                     EnemyState.powers, EnemyPowerId `strengthLossThisTurn`;
+ *                     Effect `schedule` + PlayerState.scheduled; Effect
+ *                     `setCost` + CardInstance.costThisTurn / costThisCombat;
+ *                     Effect `dealDamage` (The Bomb), `enemyLoseHp` (Choking);
+ *                     CardDef.costLessPer (Stomp).
+ * #111 Conditional  — Effect `conditional`, `repeat`, `attackFrom`,
+ *                     `gainBlockFrom`, `growDamage`; CardInstance.damageBonus;
+ *                     CardDef.playableIf (Clash); Effect `script` (Perfected Strike).
+ * #112 Move/choose  — Effect `moveCards`, `moveSelf`, `upgradeCards`;
+ *                     Strategy.choose + ChoiceRequest / ChoiceResponse;
+ *                     GameEvent `moved`, `upgraded`.
+ * #113 Triggers     — PowerId (trigger powers block); CombatCounters (cards and
+ *                     attacks played); GameEvent `play.by`.
+ * #114 Play cards   — Effect `playCards`, `addReplay`, `addCards` with source
+ *                     `self` / `copyOf`; CardInstance.replay; GameEvent `replay`.
+ * #115 Statuses/HP  — Effect `heal`, `gainMaxHp`, `loseMaxHp`; GameEvent `heal`,
+ *                     `maxHp`, `enemySkip`; PowerId `intangible`, `gambit`;
+ *                     EnemyPowerId `stun`; Condition `fatal` (Feed);
+ *                     CardTrigger `drawn` / `turnEndInHand` (curses, statuses).
+ * #116 Random gen   — Effect `addCards` with source `random` (CardPool),
+ *                     `transformCards`; CardInstance.freeThisTurn / generated;
+ *                     GameEvent `generated`, `transformed`; PowerId calamity,
+ *                     helloWorld, entropy.
+ * ---------------------------------------------------------------------------
  */
 
 // ---------------------------------------------------------------------------
@@ -59,11 +107,393 @@ export type Effect =
    */
   | { type: 'gainEnergy'; amount: number }
   /** Regent's Stars resource. Recorded only; not simulated yet. */
-  | { type: 'gainStars'; amount: number };
+  | { type: 'gainStars'; amount: number }
+  // ----- #105 additions below: declared, not simulated yet. -----
+  /** #106: the player loses `amount` HP (ignores Block). Whether it counts toward hpLost or can kill is open (#106). */
+  | { type: 'loseHp'; amount: number }
+  /** #107: draw `amount` cards (same hand-limit rule as the turn-start draw). */
+  | { type: 'draw'; amount: number }
+  /**
+   * #107: draw one card at a time until a stop rule holds. `handFull` (Scrawl):
+   * stop when the hand reaches HAND_LIMIT. `stopOn` (Pillage): stop after drawing
+   * a card that matches the filter. Also stops when nothing is left to draw.
+   */
+  | { type: 'drawUntil'; handFull?: boolean; stopOn?: CardFilter }
+  /**
+   * #108: exhaust cards from `from` (default 'hand'). `count` cards (omit with
+   * mode 'all'), picked by `mode`; `upTo` lets the chooser pick fewer (Purity).
+   * Only cards matching `filter` qualify; the card being played never does.
+   */
+  | { type: 'exhaustCards'; from?: PileName; count?: number; mode: SelectMode; upTo?: boolean; filter?: CardFilter }
+  /** #109/#113: give the player `amount` of a power (stacks add). Meaning per PowerId below. */
+  | { type: 'applyPower'; power: PowerId; amount: number }
+  /** #110/#115: give the enemy `amount` of an enemy power (temporary Strength loss, Stun). */
+  | { type: 'applyEnemyPower'; power: EnemyPowerId; amount: number }
+  /**
+   * #110: run `effects` later. `delay` = player turns from now (1 = next turn);
+   * `at` = 'turnStart' (default, after draw) or 'turnEnd' (The Bomb). Values are
+   * read when the effects run, not when scheduled.
+   */
+  | { type: 'schedule'; delay: number; at?: 'turnStart' | 'turnEnd'; effects: Effect[] }
+  /**
+   * #110: fixed damage to the enemy that Strength, Weak and Vigor do not change
+   * (The Bomb, Rolling Boulder, Caltrops-style). Block absorbs it. Vulnerable: open.
+   */
+  | { type: 'dealDamage'; amount: number; allEnemies?: boolean }
+  /** #110: the enemy loses `amount` HP directly (ignores Block and modifiers), like Poison damage. */
+  | { type: 'enemyLoseHp'; amount: number }
+  /**
+   * #110: set the cost of cards in `piles` to `cost` (Enlightenment) for this
+   * turn (CardInstance.costThisTurn) or the rest of combat (costThisCombat).
+   * `onlyIfHigher`: only cards whose current cost is above `cost` change.
+   */
+  | { type: 'setCost'; piles: PileName[]; cost: number; duration: 'turn' | 'combat'; onlyIfHigher?: boolean; filter?: CardFilter }
+  /** #111: resolve `then` if the condition holds when reached, otherwise `else`. */
+  | { type: 'conditional'; if: Condition; then: Effect[]; else?: Effect[] }
+  /**
+   * #111: resolve `effects` N times, N = counter value × `times` (default 1),
+   * read once before the first repeat (Dominate, Molten Fist, Second Wind).
+   */
+  | { type: 'repeat'; per: Counter; times?: number; effects: Effect[] }
+  /**
+   * #111: an attack whose numbers depend on the state. Per hit:
+   * `damage` + bonusPer.amount × counter (Bully, Rend, Ashen Strike, Gold Axe,
+   * Mind Blast, Body Slam). Hits: `hits` + extraHitsPer.amount × counter
+   * (Tear Asunder). Strength and modifiers apply as for `attack`.
+   */
+  | { type: 'attackFrom'; damage: number; hits: number; allEnemies?: boolean; bonusPer?: PerCounter; extraHitsPer?: PerCounter }
+  /** #111: gain `amount` + bonusPer.amount × counter Block, as one gain (Expect a Fight, Stack, Entrench, Fisticuffs). */
+  | { type: 'gainBlockFrom'; amount: number; bonusPer: PerCounter }
+  /**
+   * #111: after this card resolves, its attack damage grows by `amount` for the
+   * rest of combat (CardInstance.damageBonus). 'self' = this copy (Rampage);
+   * 'sameCard' = every copy with the same cardId in all piles (Maul).
+   */
+  | { type: 'growDamage'; amount: number; scope: 'self' | 'sameCard' }
+  /**
+   * #112: move cards from one pile to another. `count` cards (omit with mode
+   * 'all'), picked by `mode`; `upTo` allows fewer (Neow's Fury). `options`:
+   * show only N random qualifying cards and pick from those (Seeker Strike:
+   * 1 of 3). `upgrade`: upgrade each moved card (Aggression).
+   */
+  | {
+      type: 'moveCards';
+      from: PileName;
+      to: CardDestination;
+      count?: number;
+      mode: SelectMode;
+      upTo?: boolean;
+      filter?: CardFilter;
+      options?: number;
+      upgrade?: boolean;
+    }
+  /** #112: move the played card itself to `to`, now or at the start of next turn (Bolas, Thrumming Hatchet). */
+  | { type: 'moveSelf'; to: CardDestination; when: 'now' | 'nextTurnStart' }
+  /** #112: upgrade cards in `piles` (Armaments: hand, choose 1 or all; Apotheosis: every pile, all). */
+  | { type: 'upgradeCards'; piles: PileName[]; count?: number; mode: SelectMode }
+  /**
+   * #114: play cards from a pile without paying their cost. `count` cards, or
+   * X (+ xBonus) for X-cost cards with `xTimes` (Cascade). `exhaust`: exhaust
+   * each played card afterwards instead of discarding it (Havoc).
+   */
+  | {
+      type: 'playCards';
+      from: PileName;
+      mode: 'top' | 'random';
+      count: number;
+      xTimes?: boolean;
+      xBonus?: number;
+      filter?: CardFilter;
+      exhaust?: boolean;
+    }
+  /** #114: `amount` Replay on cards picked from `from` (Hidden Gem: a random draw-pile card without Replay). */
+  | { type: 'addReplay'; amount: number; from: PileName; mode: SelectMode; filter?: CardFilter }
+  /**
+   * #114/#116: create `count` new cards from `source` and put them in `to`.
+   * `options`: show N candidates and choose 1 (Discovery, Abundance).
+   * `upgraded`: created upgraded. `freeThisTurn` / `costThisCombat`: cost overrides
+   * on the new cards (Infernal Blade, Metamorphosis).
+   */
+  | {
+      type: 'addCards';
+      source: CardSource;
+      count: number;
+      to: CardDestination;
+      options?: number;
+      upgraded?: boolean;
+      freeThisTurn?: boolean;
+      costThisCombat?: number;
+    }
+  /** #116: replace cards (Primal Force: all Attacks in hand → Giant Rock; Entropy: 1 random card). */
+  | { type: 'transformCards'; from: PileName; count?: number; mode: SelectMode; filter?: CardFilter; into: CardSource }
+  /** #115: the player heals `amount` HP, up to Max HP. Effect on hpLost: open (#115). */
+  | { type: 'heal'; amount: number }
+  /** #115: Max HP rises by `amount` (Feed). Current HP rises too. Effect on hpLost: open (#115). */
+  | { type: 'gainMaxHp'; amount: number }
+  /** #115: Max HP drops by `amount` (Brightest Flame); HP is capped at the new Max HP. */
+  | { type: 'loseMaxHp'; amount: number }
+  /**
+   * One-off card logic the typed effects can't express (Fiend Fire, Thrash,
+   * Perfected Strike, Prolong). `id` names a handler in the engine; `values`
+   * carries the card's numbers (base or upgraded) so the handler has no magic numbers.
+   */
+  | { type: 'script'; id: string; values?: number[] };
 
 export type EffectType = Effect['type'];
 
 export type DebuffKind = 'vulnerable' | 'weak' | 'frail';
+
+// ---------------------------------------------------------------------------
+// Effect vocabulary (#105)
+// ---------------------------------------------------------------------------
+
+/** A card pile. 'draw' is the draw pile; its top is the end of the array. */
+export type PileName = 'hand' | 'draw' | 'discard' | 'exhaust';
+
+/** Where a moved or created card goes. 'drawRandom' = a random position in the draw pile. */
+export type CardDestination = 'hand' | 'drawTop' | 'drawBottom' | 'drawRandom' | 'discard' | 'exhaust';
+
+/** How cards are picked: by Strategy.choose, at random (seeded Rng), every match, or from the top of the pile. */
+export type SelectMode = 'choose' | 'random' | 'all' | 'top';
+
+/** Which cards qualify. Every present field must match; an empty filter matches all. */
+export interface CardFilter {
+  /** Card type is one of these. */
+  types?: CardType[];
+  /** Card type is none of these ("non-Attack"). */
+  notTypes?: CardType[];
+  /** Rarity is one of these (Anointed: rare). Needs CardInstance.rarity. */
+  rarity?: CardRarity[];
+  /** Card name contains this text ("Strike"). Exact rule (case, upgraded "+") open: #111, #113. */
+  nameIncludes?: string;
+  cardId?: string;
+  /** false = only cards not yet upgraded (Armaments). */
+  upgraded?: boolean;
+  /** true = only cards without Replay (Hidden Gem). */
+  noReplay?: boolean;
+}
+
+/** A number read from the combat state when an effect resolves. */
+export type Counter =
+  | 'playerBlock'
+  | 'playerStrength'
+  | 'enemyVulnerable'
+  /** Distinct debuffs on the enemy (Rend). Which ones count: open (#111). */
+  | 'enemyUniqueDebuffs'
+  | 'handSize'
+  | 'drawPileSize'
+  | 'discardPileSize'
+  | 'exhaustPileSize'
+  /** Number of separate HP-loss events this combat (Tear Asunder). What counts: open (#106). */
+  | 'hpLossesThisCombat'
+  | 'cardsPlayedThisTurn'
+  | 'cardsPlayedThisCombat'
+  | 'attacksPlayedThisTurn'
+  | 'cardsExhaustedThisTurn'
+  | 'cardsExhaustedThisCombat'
+  /** Cards moved, exhausted, created or upgraded by the previous effect of the same card (Second Wind, Stoke). */
+  | 'lastEffectCount'
+  /** Damage dealt by the previous attack effect of the same card (Fisticuffs). HP lost or pre-Block: open (#111). */
+  | 'lastAttackDamage';
+
+/** "`amount` for each `per`": adds amount × counter. */
+export interface PerCounter {
+  per: Counter;
+  amount: number;
+}
+
+/** A test used by `conditional` effects and CardDef.playableIf. */
+export type Condition =
+  /** The player lost HP earlier this turn (Spite). */
+  | { kind: 'lostHpThisTurn' }
+  /** The enemy has at least 1 of this debuff or Poison (Dismantle). */
+  | { kind: 'enemyHas'; status: DebuffKind | 'poison' }
+  /** min ≤ counter ≤ max (either bound optional): Pact's End, Evil Eye, Restlessness. */
+  | { kind: 'counter'; counter: Counter; min?: number; max?: number }
+  /** No card in hand (other than the card being played) matches (Impatience: no Attacks). */
+  | { kind: 'handHasNone'; filter: CardFilter }
+  /** Every card in hand other than this one matches (Clash). */
+  | { kind: 'handAll'; filter: CardFilter }
+  /** The previous attack effect of this card killed the enemy (Feed). */
+  | { kind: 'fatal' };
+
+/** Which cards a random-generation effect draws from. Pool membership rule: open (#116). */
+export interface CardPool {
+  /** 'own' = the player's character; 'otherCharacters' = Splash. */
+  character?: 'own' | 'colorless' | 'otherCharacters';
+  types?: CardType[];
+  rarity?: CardRarity[];
+  /** Only cards with this printed cost (Jackpot: 0). */
+  cost?: number;
+}
+
+/** Where `addCards` / `transformCards` get their cards. */
+export type CardSource =
+  /** A copy of the card being played (Anger). */
+  | { kind: 'self' }
+  /** A specific card (Primal Force → "giant_rock"). */
+  | { kind: 'card'; cardId: string }
+  /** Copies of a card picked from a pile (Dual Wield). */
+  | { kind: 'copyOf'; from: PileName; mode: SelectMode; filter?: CardFilter }
+  /** Random cards from a pool (seeded Rng). */
+  | { kind: 'random'; pool: CardPool };
+
+/**
+ * A card's own trigger, active while the card is somewhere specific:
+ * 'exhausted' (Drum of Battle: when this is exhausted), 'drawn' (Void),
+ * 'turnEndInHand' (Burn, Decay, Regret), 'turnEndInExhaust' (Howl from Beyond: play it).
+ */
+export interface CardTrigger {
+  when: 'exhausted' | 'drawn' | 'turnEndInHand' | 'turnEndInExhaust';
+  /** Effects to resolve. For Howl from Beyond, `[{ type: 'script', id: 'playSelf' }]` or similar. */
+  effects: Effect[];
+}
+
+// ---------------------------------------------------------------------------
+// Powers (#109, #110, #113, #115, #116)
+// ---------------------------------------------------------------------------
+
+/**
+ * Player powers, stored in PlayerState.powers as id → amount. A power with
+ * amount 0 or absent is off. Meanings (amount in brackets); rules marked open
+ * are not decided yet.
+ */
+export type PowerId =
+  // #109 simple powers
+  /** Start of turn: gain [amount] Strength (Demon Form). */
+  | 'demonForm'
+  /** Start of turn: gain [amount] energy (Pyre). */
+  | 'energyPerTurn'
+  /** Start of turn: deal [amount] damage to ALL enemies, then amount += 5 (Rolling Boulder). */
+  | 'rollingBoulder'
+  /** Start of turn: lose 1 HP, gain [amount] Block (Crimson Mantle). */
+  | 'crimsonMantle'
+  /** End of turn: gain [amount] Block; loses 1 when hit by unblocked attack damage: open (#109). */
+  | 'plating'
+  /** Block is not removed at the start of your turn (Barricade). */
+  | 'barricade'
+  /** Vulnerable enemies take an extra [amount]% damage (Cruelty). */
+  | 'cruelty'
+  /** +[amount] Block per Block gain from cards (Prowess, Expertise). */
+  | 'dexterity'
+  /** Defend cards give [amount] extra Block (Fasten). Which cards: open (#109). */
+  | 'fasten'
+  /** When attacked, deal [amount] damage back (Caltrops). */
+  | 'thorns'
+  /** Start of turn: gain [amount] Vigor (Prep Time). */
+  | 'vigorPerTurn'
+  /** Next Attack deals +[amount] damage, then Vigor is used up. Per hit or once: open (#109). */
+  | 'vigor'
+  /** Powers cost [amount] less (Master of Strategy: Curious). */
+  | 'powersCostLess'
+  /** End of combat: upgrade a random card (Improvement). No effect inside one combat. */
+  | 'upgradeAtCombatEnd'
+  /** Skills cost 0; playing a Skill exhausts it (Corruption). */
+  | 'corruption'
+  // #110 temporary and next-turn powers (cleared at the end of the player's turn unless noted)
+  /** Strength gained "this turn"; that much Strength is removed at end of turn (Setup Strike, Feeding Frenzy). */
+  | 'strengthThisTurn'
+  /** This turn: gain [amount] Block whenever you play an Attack (Rage). */
+  | 'rage'
+  /** Thorns until your next turn (Flame Barrier). Exact duration: open (#110). */
+  | 'flameBarrier'
+  /** Take 50% less damage from Vulnerable enemies (Colossus). Duration and rounding: open (#110). */
+  | 'colossus'
+  /** Cannot gain Block from cards for [amount] turns (Panic Button). */
+  | 'noBlockFromCards'
+  /** Retain the whole hand at the end of this turn (Equilibrium, Salvo). */
+  | 'retainHand'
+  /** The next [amount] Attacks this combat cost 0 (Unrelenting). */
+  | 'freeAttack'
+  /** This turn, the next [amount] Attacks are played an extra time (One-Two Punch). */
+  | 'doubleAttack'
+  /** This turn, the next card played goes on top of the draw pile (Rebound). */
+  | 'nextCardToDrawTop'
+  /** This turn, the enemy loses [amount] HP whenever you play a card (Master of Strategy: Choking). */
+  | 'choking'
+  // #107
+  /** You cannot draw more cards this turn (Battle Trance). Which draws it blocks: open (#107). */
+  | 'noDraw'
+  // #113 trigger powers
+  /** Whenever a card is exhausted, draw [amount] (Dark Embrace). */
+  | 'darkEmbrace'
+  /** Whenever a card is exhausted, gain [amount] Block (Feel No Pain). */
+  | 'feelNoPain'
+  /** Whenever you lose HP on your turn, gain [amount] Strength (Rupture). */
+  | 'rupture'
+  /** Start of turn: lose 1 HP. Whenever you lose HP on your turn, deal [amount] damage to ALL enemies (Inferno). */
+  | 'inferno'
+  /** Whenever you gain Block, deal [amount] damage to a random enemy (Juggernaut). */
+  | 'juggernaut'
+  /** The first Block gain from a card each turn is doubled (Unmovable). */
+  | 'unmovable'
+  /** Whenever you apply Vulnerable, draw [amount] (Vicious). */
+  | 'vicious'
+  /** Every 5th card played in a turn: deal [amount] damage to ALL enemies (Panache). */
+  | 'panache'
+  /** Every 10 cards drawn: gain [amount] energy (Automation). */
+  | 'automation'
+  /** Add [amount] copies of the 3rd Attack played each turn into your hand (Juggling). */
+  | 'juggling'
+  /** Start of turn: move a random Attack from discard to hand and upgrade it (Aggression). */
+  | 'aggression'
+  /** Drawing a card containing "Strike" plays it (Hellraiser). Name rule: open (#113). */
+  | 'hellraiser'
+  /** End of turn: play [amount] random Attack(s) from your hand (Stampede). */
+  | 'stampede'
+  /** Start of turn: play the top [amount] card(s) of your draw pile (Mayhem). */
+  | 'mayhem'
+  /** The first Attack or Skill played each turn goes on top of the draw pile (Nostalgia). */
+  | 'nostalgia'
+  /** Whenever you shuffle your draw pile, choose a card from it to put into your hand (Stratagem). */
+  | 'stratagem'
+  // #115
+  /** Damage taken is reduced to 1 per hit (Apparition). Which damage counts: open (#115). */
+  | 'intangible'
+  /** Taking unblocked attack damage loses the combat (The Gambit). Whether simulated: open (#115). */
+  | 'gambit'
+  // #116
+  /** Whenever you play an Attack, add a random Attack into your hand (Calamity). */
+  | 'calamity'
+  /** Start of turn: add a random Common card into your hand (Hello World). */
+  | 'helloWorld'
+  /** Start of turn: transform [amount] card(s) in your hand (Entropy). */
+  | 'entropy';
+
+/** Enemy powers, stored in EnemyState.powers. */
+export type EnemyPowerId =
+  /** The enemy has [amount] less Strength this turn (Mangle, Dark Shackles). When it comes back: open (#110). */
+  | 'strengthLossThisTurn'
+  /** The enemy skips its next move (Whistle). Whether its pattern advances: open (#115). */
+  | 'stun';
+
+/** Effects queued by a `schedule` effect. */
+export interface ScheduledEffect {
+  /** Player turn number on which the effects run. */
+  turn: number;
+  at: 'turnStart' | 'turnEnd';
+  effects: Effect[];
+  /** uid of the card that scheduled them, for the log. */
+  sourceUid?: number;
+}
+
+/** Per-combat tallies used by conditions, counters and trigger powers. "This turn" fields reset at the player's turn start. */
+export interface CombatCounters {
+  /** HP lost this turn (amount). */
+  hpLostThisTurn: number;
+  /** HP lost this combat (amount). */
+  hpLostThisCombat: number;
+  /** Number of HP-loss events this combat (Tear Asunder). */
+  hpLossesThisCombat: number;
+  cardsPlayedThisTurn: number;
+  cardsPlayedThisCombat: number;
+  attacksPlayedThisTurn: number;
+  skillsPlayedThisTurn: number;
+  cardsExhaustedThisTurn: number;
+  cardsExhaustedThisCombat: number;
+  cardsDrawnThisTurn: number;
+  cardsDrawnThisCombat: number;
+}
 
 // ---------------------------------------------------------------------------
 // Cards
@@ -95,6 +525,8 @@ export interface CardUpgrade {
   starCost?: number;
   effects?: Effect[];
   keywords?: CardKeyword[];
+  /** #105: replaces the base `triggers` list when present (Drum of Battle+). */
+  triggers?: CardTrigger[];
 }
 
 export interface CardDef {
@@ -134,6 +566,12 @@ export interface CardDef {
   multiplayerOnly: boolean;
   /** Placeholder entry that is kept as data but never offered in the deck builder. */
   hidden?: boolean;
+  /** #108/#115: the card's own triggers (Drum of Battle, Howl from Beyond, curses, statuses). Not simulated yet. */
+  triggers?: CardTrigger[];
+  /** #111: the card can be played only while this holds (Clash). Not simulated yet. */
+  playableIf?: Condition;
+  /** #110: costs `amount` less per counter value, minimum 0 (Stomp: per Attack played this turn). Not simulated yet. */
+  costLessPer?: PerCounter;
   /** Game version this entry was last checked against. */
   lastUpdateVersion: GameVersion;
 }
@@ -255,6 +693,25 @@ export interface CardInstance {
   xCost?: boolean;
   keywords: CardKeyword[];
   effects: Effect[];
+  // ----- #105 additions: all optional; absent means "no change". -----
+  /** #110: cost for the rest of this turn only; overrides `cost` and `costThisCombat`. Cleared at end of turn. */
+  costThisTurn?: number;
+  /** #110/#116: cost for the rest of combat (Enlightenment+, Metamorphosis); overrides `cost`. */
+  costThisCombat?: number;
+  /** #116: costs 0 for the rest of this turn (Infernal Blade, Discovery). Cleared at end of turn. */
+  freeThisTurn?: boolean;
+  /** #114: Replay stacks; each play uses 1 and plays the card again (Hidden Gem). Order: open (#114). */
+  replay?: number;
+  /** #111: extra damage per hit gained in combat (Rampage, Maul, Thrash). */
+  damageBonus?: number;
+  /** #116: true for cards created during combat rather than dealt from the deck. */
+  generated?: boolean;
+  /** #112: the card's rarity, for filters (Anointed). */
+  rarity?: CardRarity;
+  /** Copied from CardDef / CardUpgrade (see there). */
+  triggers?: CardTrigger[];
+  playableIf?: Condition;
+  costLessPer?: PerCounter;
 }
 
 export type Debuffs = Record<DebuffKind, number>;
@@ -270,6 +727,13 @@ export interface PlayerState {
   hand: CardInstance[];
   discardPile: CardInstance[];
   exhaustPile: CardInstance[];
+  // ----- #105 additions: all optional; absent means none / zero. -----
+  /** #109/#110/#113/#115/#116: active powers, id → amount. */
+  powers?: Partial<Record<PowerId, number>>;
+  /** #106/#107/#108/#113: per-turn and per-combat tallies. */
+  counters?: CombatCounters;
+  /** #110: effects waiting for a later turn (Outmaneuver, Relax, Toric Toughness, The Bomb, Bolas). */
+  scheduled?: ScheduledEffect[];
 }
 
 export interface EnemyState {
@@ -284,6 +748,8 @@ export interface EnemyState {
   poison: number;
   /** Index into the resolved pattern's `order`. */
   patternIndex: number;
+  /** #110/#115: enemy powers (temporary Strength loss, Stun), id → amount. Absent means none. */
+  powers?: Partial<Record<EnemyPowerId, number>>;
 }
 
 export interface CombatState {
@@ -322,9 +788,41 @@ export interface StrategyView {
 
 export type Decision = { kind: 'play'; uid: number } | { kind: 'endTurn' };
 
+/**
+ * #108/#112/#114/#116: a "choose a card" prompt the engine sends to Strategy.choose.
+ * `options` are the candidate cards (from a pile, or newly created for
+ * Discovery-style picks). The response must pick between `min` and `max` of them.
+ */
+export interface ChoiceRequest {
+  /** What the pick is for. */
+  purpose: 'exhaust' | 'move' | 'upgrade' | 'copy' | 'generate' | 'transform' | 'replay';
+  /** The card whose effect asks, or absent when a power asks (Stratagem). */
+  sourceUid?: number;
+  sourceCardId?: string;
+  /** The power that asks, when a power asks. */
+  sourcePower?: PowerId;
+  /** Pile the options come from; absent for newly created options. */
+  from?: PileName;
+  /** Where picked cards go, when they move. */
+  to?: CardDestination;
+  options: readonly DeepReadonly<CardInstance>[];
+  min: number;
+  max: number;
+}
+
+/** The uids picked, from `ChoiceRequest.options`, in order of preference. */
+export interface ChoiceResponse {
+  uids: number[];
+}
+
 /** Called repeatedly during the player's turn until it returns endTurn. */
 export interface Strategy {
   decide(view: StrategyView): Decision;
+  /**
+   * #105: answer a "choose a card" prompt. Optional; what the engine does when
+   * a strategy has no `choose` is open (#108, #112).
+   */
+  choose?(view: StrategyView, request: ChoiceRequest): ChoiceResponse;
 }
 
 /** Serializable strategy settings; URL code: "g" or "b<X>" (e.g. "b4"). */
@@ -358,8 +856,12 @@ export type GameEvent =
   | { t: 'shuffle'; reason: 'start' | 'reshuffle'; count: number }
   | { t: 'turnStart'; turn: number; side: Side }
   | { t: 'draw'; uid: number; cardId: string }
-  /** `x` is present for X-cost cards: the energy spent on it. */
-  | { t: 'play'; uid: number; cardId: string; energyLeft: number; x?: number }
+  /**
+   * `x` is present for X-cost cards: the energy spent on it.
+   * #113/#114: `by` is present when the card was played automatically rather than
+   * by the strategy: 'effect' (Havoc, Cascade), 'power' (Mayhem, Hellraiser), 'replay', 'trigger' (Howl from Beyond).
+   */
+  | { t: 'play'; uid: number; cardId: string; energyLeft: number; x?: number; by?: 'effect' | 'power' | 'replay' | 'trigger' }
   /** The player gained energy from a card. */
   | { t: 'energy'; amount: number; total: number }
   | { t: 'damage'; source: Side; target: Side; amount: number; blocked: number; hpLoss: number }
@@ -372,11 +874,37 @@ export type GameEvent =
   | { t: 'poison'; amount: number; total: number }
   /** Poison HP loss at the start of the enemy's turn; Poison is then amount − 1. */
   | { t: 'poisonDamage'; amount: number; hpAfter: number }
-  | { t: 'exhaust'; uid: number; cardId: string; reason: 'ethereal' | 'keyword' }
+  /** #108: 'effect' = exhausted by a card effect (Burning Pact, Havoc); 'power' = by a power (Corruption). */
+  | { t: 'exhaust'; uid: number; cardId: string; reason: 'ethereal' | 'keyword' | 'effect' | 'power' }
   | { t: 'discard'; uid: number; cardId: string; reason: 'endOfTurn' | 'handLimit' }
   | { t: 'enemyMove'; moveId: string; name: string }
   | { t: 'turnEnd'; turn: number; side: Side }
-  | { t: 'combatEnd'; outcome: Outcome; turns: number; hpLost: number };
+  | { t: 'combatEnd'; outcome: Outcome; turns: number; hpLost: number }
+  // ----- #105 additions: not emitted yet. -----
+  /** #106: `side` lost HP not from an attack (Hemokinesis, Crimson Mantle, curses). Poison keeps `poisonDamage`. */
+  | { t: 'loseHp'; side: Side; amount: number; hpAfter: number }
+  /** #115: the player healed. `amount` is the HP actually restored. */
+  | { t: 'heal'; amount: number; hpAfter: number }
+  /** #115: the player's Max HP changed by `amount` (negative for a loss). */
+  | { t: 'maxHp'; amount: number; maxHpAfter: number; hpAfter: number }
+  /** #109/#110: a power on `side` changed by `amount` (negative to reduce); `total` after. */
+  | { t: 'powerApplied'; side: Side; power: PowerId | EnemyPowerId; amount: number; total: number }
+  /** #109/#110: a power on `side` ended (expired or used up). */
+  | { t: 'powerRemoved'; side: Side; power: PowerId | EnemyPowerId }
+  /** #112: a card moved between piles. */
+  | { t: 'moved'; uid: number; cardId: string; from: PileName; to: CardDestination }
+  /** #114/#116: a new card was created (`uid` is new) and put in `to`. */
+  | { t: 'generated'; uid: number; cardId: string; to: CardDestination; source: CardSource['kind'] }
+  /** #112: a card was upgraded for the rest of combat. */
+  | { t: 'upgraded'; uid: number; cardId: string }
+  /** #116: a card became another card (same uid). */
+  | { t: 'transformed'; uid: number; fromCardId: string; toCardId: string }
+  /** #110: a card's cost changed. */
+  | { t: 'costChanged'; uid: number; cardId: string; cost: number; duration: 'turn' | 'combat' }
+  /** #114: a card was played again by Replay; `left` = Replay remaining. */
+  | { t: 'replay'; uid: number; cardId: string; left: number }
+  /** #115: the enemy skipped its move. */
+  | { t: 'enemySkip'; reason: 'stun' };
 
 // ---------------------------------------------------------------------------
 // Running combats

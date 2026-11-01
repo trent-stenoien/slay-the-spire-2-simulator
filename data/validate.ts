@@ -7,9 +7,13 @@
 import type {
   CardDef,
   CharacterDef,
+  Counter,
+  EffectType,
   EnemyDef,
+  EnemyPowerId,
   GameData,
   Manifest,
+  PowerId,
 } from '../engine/types';
 import reservedCodes from './reserved-codes.json';
 
@@ -22,7 +26,81 @@ const CARD_RARITIES = ['basic', 'common', 'uncommon', 'rare', 'ancient', 'event'
 const CARD_KEYWORDS = ['unplayable', 'ethereal', 'eternal', 'exhaust', 'retain', 'innate', 'sly'] as const;
 /** Keywords and effects the engine implements; a `simulated` card may use only these. */
 const SIMULATED_KEYWORDS = new Set(['unplayable', 'ethereal', 'eternal', 'exhaust', 'innate', 'retain']);
-const UNSIMULATED_EFFECTS = new Set(['gainStars']);
+/**
+ * #105 contract effects: valid data, but not simulated yet. Each mechanic card
+ * (#106–#116) removes its effects from this list when the engine supports them.
+ */
+const CONTRACT_EFFECTS = [
+  'loseHp',
+  'draw',
+  'drawUntil',
+  'exhaustCards',
+  'applyPower',
+  'applyEnemyPower',
+  'schedule',
+  'dealDamage',
+  'enemyLoseHp',
+  'setCost',
+  'conditional',
+  'repeat',
+  'attackFrom',
+  'gainBlockFrom',
+  'growDamage',
+  'moveCards',
+  'moveSelf',
+  'upgradeCards',
+  'playCards',
+  'addReplay',
+  'addCards',
+  'transformCards',
+  'heal',
+  'gainMaxHp',
+  'loseMaxHp',
+  'script',
+] as const;
+const UNSIMULATED_EFFECTS = new Set<string>(['gainStars', ...CONTRACT_EFFECTS]);
+/** CardDef fields from #105 that the engine does not simulate yet. */
+const UNSIMULATED_CARD_FIELDS = ['triggers', 'playableIf', 'costLessPer'] as const;
+const PILES = ['hand', 'draw', 'discard', 'exhaust'] as const;
+const DESTINATIONS = ['hand', 'drawTop', 'drawBottom', 'drawRandom', 'discard', 'exhaust'] as const;
+const SELECT_MODES = ['choose', 'random', 'all', 'top'] as const;
+const COUNTERS = [
+  'playerBlock',
+  'playerStrength',
+  'enemyVulnerable',
+  'enemyUniqueDebuffs',
+  'handSize',
+  'drawPileSize',
+  'discardPileSize',
+  'exhaustPileSize',
+  'hpLossesThisCombat',
+  'cardsPlayedThisTurn',
+  'cardsPlayedThisCombat',
+  'attacksPlayedThisTurn',
+  'cardsExhaustedThisTurn',
+  'cardsExhaustedThisCombat',
+  'lastEffectCount',
+  'lastAttackDamage',
+] as const;
+const POWER_IDS = [
+  'demonForm', 'energyPerTurn', 'rollingBoulder', 'crimsonMantle', 'plating', 'barricade', 'cruelty',
+  'dexterity', 'fasten', 'thorns', 'vigorPerTurn', 'vigor', 'powersCostLess', 'upgradeAtCombatEnd',
+  'corruption', 'strengthThisTurn', 'rage', 'flameBarrier', 'colossus', 'noBlockFromCards', 'retainHand',
+  'freeAttack', 'doubleAttack', 'nextCardToDrawTop', 'choking', 'noDraw', 'darkEmbrace', 'feelNoPain',
+  'rupture', 'inferno', 'juggernaut', 'unmovable', 'vicious', 'panache', 'automation', 'juggling',
+  'aggression', 'hellraiser', 'stampede', 'mayhem', 'nostalgia', 'stratagem', 'intangible', 'gambit',
+  'calamity', 'helloWorld', 'entropy',
+] as const;
+const ENEMY_POWER_IDS = ['strengthLossThisTurn', 'stun'] as const;
+const TRIGGER_WHENS = ['exhausted', 'drawn', 'turnEndInHand', 'turnEndInExhaust'] as const;
+const POOL_CHARACTERS = ['own', 'colorless', 'otherCharacters'] as const;
+
+/** Compile-time check that the lists above match the contract unions exactly (fails typecheck otherwise). */
+type Same<A, B> = [A] extends [B] ? ([B] extends [A] ? true : never) : never;
+export const CONTRACT_LISTS_MATCH_TYPES: Same<PowerId, (typeof POWER_IDS)[number]> &
+  Same<EnemyPowerId, (typeof ENEMY_POWER_IDS)[number]> &
+  Same<Counter, (typeof COUNTERS)[number]> &
+  Same<EffectType, 'attack' | (typeof AMOUNT_EFFECTS)[number] | (typeof CONTRACT_EFFECTS)[number]> = true;
 const CHARACTER_CODES = ['I', 'S', 'D', 'N', 'R'] as const;
 const ZONES = ['overgrowth', 'underdocks', 'hive', 'glory'] as const;
 const DIFFICULTIES = ['easy', 'normal', 'elite', 'boss', 'minion', 'event'] as const;
@@ -141,9 +219,262 @@ function checkEffects(r: Reporter, list: unknown, path: string): void {
       (AMOUNT_EFFECTS as readonly string[]).includes(e.type)
     ) {
       r.int(e, 'amount', 0, `${p}.amount`);
+    } else if (typeof e.type === 'string' && (CONTRACT_EFFECTS as readonly string[]).includes(e.type)) {
+      checkContractEffect(r, e, p);
     } else {
-      r.oneOf(e, 'type', ['attack', ...AMOUNT_EFFECTS], `${p}.type`);
+      r.oneOf(e, 'type', ['attack', ...AMOUNT_EFFECTS, ...CONTRACT_EFFECTS], `${p}.type`);
     }
+  });
+}
+
+// ---------------------------------------------------------------------------
+// #105 contract shapes
+// ---------------------------------------------------------------------------
+
+function has(o: Obj, field: string): boolean {
+  return field in o && o[field] !== undefined;
+}
+
+function optInt(r: Reporter, o: Obj, field: string, min: number, p: string): void {
+  if (has(o, field)) r.int(o, field, min, `${p}.${field}`);
+}
+
+function optBool(r: Reporter, o: Obj, field: string, p: string): void {
+  if (has(o, field)) r.bool(o, field, `${p}.${field}`);
+}
+
+function enumList(r: Reporter, o: Obj, field: string, allowed: readonly string[], p: string, nonEmpty = false): void {
+  const list = r.arr(o, field, `${p}.${field}`);
+  if (!list) return;
+  if (nonEmpty && list.length === 0) r.add(`${p}.${field}`, 'must not be empty');
+  list.forEach((v, i) => {
+    if (typeof v !== 'string' || !allowed.includes(v)) {
+      r.add(`${p}.${field}[${i}]`, `must be one of ${allowed.map((a) => `"${a}"`).join(', ')}`);
+    }
+  });
+}
+
+function checkFilter(r: Reporter, v: unknown, p: string): void {
+  if (!isObj(v)) {
+    r.add(p, 'must be an object');
+    return;
+  }
+  if (has(v, 'types')) enumList(r, v, 'types', CARD_TYPES, p);
+  if (has(v, 'notTypes')) enumList(r, v, 'notTypes', CARD_TYPES, p);
+  if (has(v, 'rarity')) enumList(r, v, 'rarity', CARD_RARITIES, p);
+  if (has(v, 'nameIncludes')) r.str(v, 'nameIncludes', `${p}.nameIncludes`);
+  if (has(v, 'cardId')) r.str(v, 'cardId', `${p}.cardId`);
+  optBool(r, v, 'upgraded', p);
+  optBool(r, v, 'noReplay', p);
+}
+
+function optFilter(r: Reporter, o: Obj, field: string, p: string): void {
+  if (has(o, field)) checkFilter(r, o[field], `${p}.${field}`);
+}
+
+function checkPer(r: Reporter, v: unknown, p: string): void {
+  if (!isObj(v)) {
+    r.add(p, 'must be an object with "per" and "amount"');
+    return;
+  }
+  r.oneOf(v, 'per', COUNTERS, `${p}.per`);
+  r.int(v, 'amount', 0, `${p}.amount`);
+}
+
+function checkCondition(r: Reporter, v: unknown, p: string): void {
+  if (!isObj(v)) {
+    r.add(p, 'must be an object');
+    return;
+  }
+  const kind = r.oneOf(v, 'kind', ['lostHpThisTurn', 'enemyHas', 'counter', 'handHasNone', 'handAll', 'fatal'], `${p}.kind`);
+  if (kind === 'enemyHas') r.oneOf(v, 'status', ['vulnerable', 'weak', 'frail', 'poison'], `${p}.status`);
+  if (kind === 'counter') {
+    r.oneOf(v, 'counter', COUNTERS, `${p}.counter`);
+    optInt(r, v, 'min', 0, p);
+    optInt(r, v, 'max', 0, p);
+    if (!has(v, 'min') && !has(v, 'max')) r.add(p, 'needs "min" or "max"');
+  }
+  if (kind === 'handHasNone' || kind === 'handAll') checkFilter(r, v.filter, `${p}.filter`);
+}
+
+function checkSource(r: Reporter, v: unknown, p: string): void {
+  if (!isObj(v)) {
+    r.add(p, 'must be an object');
+    return;
+  }
+  const kind = r.oneOf(v, 'kind', ['self', 'card', 'copyOf', 'random'], `${p}.kind`);
+  if (kind === 'card') r.str(v, 'cardId', `${p}.cardId`);
+  if (kind === 'copyOf') {
+    r.oneOf(v, 'from', PILES, `${p}.from`);
+    r.oneOf(v, 'mode', SELECT_MODES, `${p}.mode`);
+    optFilter(r, v, 'filter', p);
+  }
+  if (kind === 'random') {
+    const pool = v.pool;
+    const pp = `${p}.pool`;
+    if (!isObj(pool)) {
+      r.add(pp, 'must be an object');
+      return;
+    }
+    if (has(pool, 'character')) r.oneOf(pool, 'character', POOL_CHARACTERS, `${pp}.character`);
+    if (has(pool, 'types')) enumList(r, pool, 'types', CARD_TYPES, pp);
+    if (has(pool, 'rarity')) enumList(r, pool, 'rarity', CARD_RARITIES, pp);
+    optInt(r, pool, 'cost', 0, pp);
+  }
+}
+
+/** `count` is required unless mode is "all". */
+function checkCountMode(r: Reporter, e: Obj, p: string): void {
+  const mode = r.oneOf(e, 'mode', SELECT_MODES, `${p}.mode`);
+  if (has(e, 'count')) r.int(e, 'count', 1, `${p}.count`);
+  else if (mode !== undefined && mode !== 'all') r.add(`${p}.count`, 'is required unless "mode" is "all"');
+}
+
+function checkContractEffect(r: Reporter, e: Obj, p: string): void {
+  switch (e.type) {
+    case 'loseHp':
+    case 'draw':
+    case 'dealDamage':
+    case 'enemyLoseHp':
+    case 'heal':
+    case 'gainMaxHp':
+    case 'loseMaxHp':
+      r.int(e, 'amount', 0, `${p}.amount`);
+      if (e.type === 'dealDamage') optBool(r, e, 'allEnemies', p);
+      break;
+    case 'drawUntil':
+      optBool(r, e, 'handFull', p);
+      optFilter(r, e, 'stopOn', p);
+      if (e.handFull !== true && !has(e, 'stopOn')) r.add(p, 'needs "handFull": true or "stopOn"');
+      break;
+    case 'exhaustCards':
+      if (has(e, 'from')) r.oneOf(e, 'from', PILES, `${p}.from`);
+      checkCountMode(r, e, p);
+      optBool(r, e, 'upTo', p);
+      optFilter(r, e, 'filter', p);
+      break;
+    case 'applyPower':
+      r.oneOf(e, 'power', POWER_IDS, `${p}.power`);
+      r.int(e, 'amount', 0, `${p}.amount`);
+      break;
+    case 'applyEnemyPower':
+      r.oneOf(e, 'power', ENEMY_POWER_IDS, `${p}.power`);
+      r.int(e, 'amount', 0, `${p}.amount`);
+      break;
+    case 'schedule':
+      r.int(e, 'delay', 1, `${p}.delay`);
+      if (has(e, 'at')) r.oneOf(e, 'at', ['turnStart', 'turnEnd'], `${p}.at`);
+      checkEffects(r, e.effects, `${p}.effects`);
+      break;
+    case 'setCost':
+      enumList(r, e, 'piles', PILES, p, true);
+      r.int(e, 'cost', 0, `${p}.cost`);
+      r.oneOf(e, 'duration', ['turn', 'combat'], `${p}.duration`);
+      optBool(r, e, 'onlyIfHigher', p);
+      optFilter(r, e, 'filter', p);
+      break;
+    case 'conditional':
+      checkCondition(r, e.if, `${p}.if`);
+      checkEffects(r, e.then, `${p}.then`);
+      if (has(e, 'else')) checkEffects(r, e.else, `${p}.else`);
+      break;
+    case 'repeat':
+      r.oneOf(e, 'per', COUNTERS, `${p}.per`);
+      optInt(r, e, 'times', 1, p);
+      checkEffects(r, e.effects, `${p}.effects`);
+      break;
+    case 'attackFrom':
+      r.int(e, 'damage', 0, `${p}.damage`);
+      r.int(e, 'hits', 0, `${p}.hits`);
+      optBool(r, e, 'allEnemies', p);
+      if (has(e, 'bonusPer')) checkPer(r, e.bonusPer, `${p}.bonusPer`);
+      if (has(e, 'extraHitsPer')) checkPer(r, e.extraHitsPer, `${p}.extraHitsPer`);
+      if (!has(e, 'bonusPer') && !has(e, 'extraHitsPer')) r.add(p, 'needs "bonusPer" or "extraHitsPer" (use "attack" otherwise)');
+      break;
+    case 'gainBlockFrom':
+      r.int(e, 'amount', 0, `${p}.amount`);
+      checkPer(r, e.bonusPer, `${p}.bonusPer`);
+      break;
+    case 'growDamage':
+      r.int(e, 'amount', 0, `${p}.amount`);
+      r.oneOf(e, 'scope', ['self', 'sameCard'], `${p}.scope`);
+      break;
+    case 'moveCards':
+      r.oneOf(e, 'from', PILES, `${p}.from`);
+      r.oneOf(e, 'to', DESTINATIONS, `${p}.to`);
+      checkCountMode(r, e, p);
+      optBool(r, e, 'upTo', p);
+      optFilter(r, e, 'filter', p);
+      optInt(r, e, 'options', 1, p);
+      optBool(r, e, 'upgrade', p);
+      break;
+    case 'moveSelf':
+      r.oneOf(e, 'to', DESTINATIONS, `${p}.to`);
+      r.oneOf(e, 'when', ['now', 'nextTurnStart'], `${p}.when`);
+      break;
+    case 'upgradeCards':
+      enumList(r, e, 'piles', PILES, p, true);
+      checkCountMode(r, e, p);
+      break;
+    case 'playCards':
+      r.oneOf(e, 'from', PILES, `${p}.from`);
+      r.oneOf(e, 'mode', ['top', 'random'], `${p}.mode`);
+      r.int(e, 'count', 0, `${p}.count`);
+      optBool(r, e, 'xTimes', p);
+      if (has(e, 'xBonus')) {
+        r.int(e, 'xBonus', 0, `${p}.xBonus`);
+        if (e.xTimes !== true) r.add(`${p}.xBonus`, 'is only allowed with "xTimes": true');
+      }
+      optFilter(r, e, 'filter', p);
+      optBool(r, e, 'exhaust', p);
+      break;
+    case 'addReplay':
+      r.int(e, 'amount', 1, `${p}.amount`);
+      r.oneOf(e, 'from', PILES, `${p}.from`);
+      r.oneOf(e, 'mode', SELECT_MODES, `${p}.mode`);
+      optFilter(r, e, 'filter', p);
+      break;
+    case 'addCards':
+      checkSource(r, e.source, `${p}.source`);
+      r.int(e, 'count', 1, `${p}.count`);
+      r.oneOf(e, 'to', DESTINATIONS, `${p}.to`);
+      optInt(r, e, 'options', 1, p);
+      optBool(r, e, 'upgraded', p);
+      optBool(r, e, 'freeThisTurn', p);
+      optInt(r, e, 'costThisCombat', 0, p);
+      break;
+    case 'transformCards':
+      r.oneOf(e, 'from', PILES, `${p}.from`);
+      checkCountMode(r, e, p);
+      optFilter(r, e, 'filter', p);
+      checkSource(r, e.into, `${p}.into`);
+      break;
+    case 'script': {
+      r.str(e, 'id', `${p}.id`);
+      if (has(e, 'values')) {
+        const vals = r.arr(e, 'values', `${p}.values`);
+        vals?.forEach((v, i) => {
+          if (typeof v !== 'number' || !Number.isFinite(v)) r.add(`${p}.values[${i}]`, 'must be a number');
+        });
+      }
+      break;
+    }
+  }
+}
+
+function checkTriggers(r: Reporter, v: unknown, p: string): void {
+  if (!Array.isArray(v)) {
+    r.add(p, 'must be an array');
+    return;
+  }
+  v.forEach((t, i) => {
+    const tp = `${p}[${i}]`;
+    if (!isObj(t)) {
+      r.add(tp, 'must be an object');
+      return;
+    }
+    r.oneOf(t, 'when', TRIGGER_WHENS, `${tp}.when`);
+    checkEffects(r, t.effects, `${tp}.effects`);
   });
 }
 
@@ -157,6 +488,9 @@ function checkNoEnemyPoison(r: Reporter, list: unknown, path: string): void {
     if (!isObj(e)) return;
     if (e.type === 'applyPoison') r.add(`${path}[${i}].type`, 'is "applyPoison", but Poison on the player is not simulated');
     if (e.type === 'gainEnergy') r.add(`${path}[${i}].type`, 'is "gainEnergy", but enemies have no energy');
+    if (typeof e.type === 'string' && (CONTRACT_EFFECTS as readonly string[]).includes(e.type)) {
+      r.add(`${path}[${i}].type`, `is "${e.type}", which is not simulated on enemy moves`);
+    }
     if (e.xTimes === true) r.add(`${path}[${i}].xTimes`, 'is only allowed on X-cost cards');
   });
 }
@@ -258,6 +592,9 @@ function checkCard(r: Reporter, c: Obj): void {
   r.bool(c, 'simulated');
   r.bool(c, 'multiplayerOnly');
   if ('hidden' in c && c.hidden !== undefined) r.bool(c, 'hidden');
+  if (has(c, 'triggers')) checkTriggers(r, c.triggers, 'triggers');
+  if (has(c, 'playableIf')) checkCondition(r, c.playableIf, 'playableIf');
+  if (has(c, 'costLessPer')) checkPer(r, c.costLessPer, 'costLessPer');
   if (c.simulated === true) {
     const lists: unknown[] = [c.keywords, c.effects];
     if (isObj(c.upgraded)) lists.push(c.upgraded.keywords, c.upgraded.effects);
@@ -268,6 +605,11 @@ function checkCard(r: Reporter, c: Obj): void {
         if (typeof name !== 'string') continue;
         const bad = typeof item === 'string' ? !SIMULATED_KEYWORDS.has(name) : UNSIMULATED_EFFECTS.has(name);
         if (bad) r.add('simulated', `is true but the card uses "${name}", which the engine does not simulate`);
+      }
+    }
+    for (const field of UNSIMULATED_CARD_FIELDS) {
+      if (has(c, field) || (isObj(c.upgraded) && has(c.upgraded, field))) {
+        r.add('simulated', `is true but the card uses "${field}", which the engine does not simulate`);
       }
     }
     if (c.starCost !== null) r.add('simulated', 'is true but the card has a Star cost');
@@ -296,6 +638,7 @@ function checkCard(r: Reporter, c: Obj): void {
       if ('starCost' in u && u.starCost !== undefined) r.int(u, 'starCost', 0, 'upgraded.starCost');
       if ('effects' in u && u.effects !== undefined) checkEffects(r, u.effects, 'upgraded.effects');
       if ('keywords' in u && u.keywords !== undefined) checkKeywords(r, u.keywords, 'upgraded.keywords');
+      if (has(u, 'triggers')) checkTriggers(r, u.triggers, 'upgraded.triggers');
     }
   }
   r.str(c, 'lastUpdateVersion');

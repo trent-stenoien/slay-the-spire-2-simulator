@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { gameData } from '../../data';
 import { cardSummary, cardText, effectText } from './cardText';
+import { CONTRACT_EFFECT_SAMPLES } from '../../engine/testFixtures';
 
 const card = (id: string) => gameData.cards[id]!;
 
@@ -42,5 +43,24 @@ describe('card text', () => {
     const def = { ...card('strike'), upgraded: { cost: 0 } };
     expect(cardText(def, true).cost).toBe('0');
     expect(cardText(def, true).lines).toEqual(['Deal 6 damage']);
+  });
+});
+
+describe('#105 fallback text for contract effects', () => {
+  it.each(CONTRACT_EFFECT_SAMPLES.map((e) => [e.type, e] as const))('"%s" has plain non-empty text', (_type, e) => {
+    const text = effectText(e);
+    expect(typeof text).toBe('string');
+    expect(text.length).toBeGreaterThan(0);
+  });
+
+  it.each([
+    [{ type: 'loseHp', amount: 2 } as const, 'Lose 2 HP'],
+    [{ type: 'draw', amount: 1 } as const, 'Draw 1 card'],
+    [{ type: 'draw', amount: 3 } as const, 'Draw 3 cards'],
+    [{ type: 'heal', amount: 10 } as const, 'Heal 10 HP'],
+    [{ type: 'applyPower', power: 'demonForm', amount: 3 } as const, 'Gain 3 Demon Form'],
+    [{ type: 'exhaustCards', count: 3, mode: 'choose', upTo: true } as const, 'Exhaust up to 3 cards'],
+  ])('%o → %s', (e, text) => {
+    expect(effectText(e)).toBe(text);
   });
 });

@@ -47,6 +47,8 @@ sets the card's Status, adds the issue to the board if needed, and removes any o
 
 `engine/types.ts` is the shared contract. Do not change it on a feature branch.
 If a task needs a type change, stop and report what you need and why.
+The "Contract map" at the top of `engine/types.ts` says which declared-but-unsimulated type
+(#105) serves which mechanic card (#106–#116); implement those instead of adding new ones.
 
 ## Rules that are easy to get wrong
 
