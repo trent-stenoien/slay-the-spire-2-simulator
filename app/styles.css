@@ -83,7 +83,12 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font: 15px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font:
+    15px/1.5 system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
   overflow-x: hidden;
 }
 
@@ -283,6 +288,11 @@ button:disabled {
   color: var(--text);
   display: inline-block;
   white-space: nowrap;
+}
+/* A link styled as a button that can't be followed yet. */
+.btn-disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 .btn-primary {
   background: var(--accent);

@@ -64,7 +64,9 @@ describe('strategy library storage', () => {
       { id: DEFAULT_STRATEGIES[0]!.id, name: 'X', config: { kind: 'greedyDamage' } },
       null,
     ]);
-    expect(loadUserStrategies(memStorage(raw))).toEqual([{ id: 'a', name: 'A', config: { kind: 'block', allowThrough: 3 } }]);
+    expect(loadUserStrategies(memStorage(raw))).toEqual([
+      { id: 'a', name: 'A', config: { kind: 'block', allowThrough: 3 } },
+    ]);
   });
 
   it('saves and loads round-trip, never persisting defaults', () => {
@@ -123,7 +125,11 @@ describe('blockStrategyProblem', () => {
   });
 
   it('caps the library at 10 strategies, defaults included', () => {
-    const extra = Array.from({ length: 8 }, (_, i) => ({ id: `u${i + 3}`, name: `b${i + 3}`, config: { kind: 'block' as const, allowThrough: i + 3 } }));
+    const extra = Array.from({ length: 8 }, (_, i) => ({
+      id: `u${i + 3}`,
+      name: `b${i + 3}`,
+      config: { kind: 'block' as const, allowThrough: i + 3 },
+    }));
     const nine = fullLibrary(extra.slice(0, 7));
     expect(nine).toHaveLength(9);
     expect(blockStrategyProblem(nine, 20)).toBeNull();
@@ -158,7 +164,12 @@ describe('clearUserStrategies', () => {
   });
 
   it('tolerates storage that throws', () => {
-    const bad: StorageLike = { ...throwing, removeItem: () => { throw new Error('denied'); } };
+    const bad: StorageLike = {
+      ...throwing,
+      removeItem: () => {
+        throw new Error('denied');
+      },
+    };
     expect(clearUserStrategies(bad)).toBe(false);
     expect(fullLibrary([]).map((s) => s.name)).toEqual(['Greedy Damage', 'Scared Block']);
   });

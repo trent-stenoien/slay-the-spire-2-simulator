@@ -24,6 +24,15 @@ interface Props {
 
 const SEED_ERROR = 'Seed must be a whole number from 0 to 4294967295.';
 
+const ENGINE_UNAVAILABLE =
+  "The simulation engine isn't available in this build yet (the Monte Carlo runner is still being implemented). Setup, deck and strategy choices still work, and combat logs can be viewed from a link.";
+
+/** The full error message for a failed run, or null when the run didn't fail. */
+function runErrorText(status: RunStatus): string | null {
+  if (status.kind !== 'error') return null;
+  return status.notImplemented ? ENGINE_UNAVAILABLE : `Simulation failed: ${status.message}`;
+}
+
 /**
  * The Results panel: Run button, progress, blocker and error live in the title bar (usable
  * while collapsed); the run seed and the results live in the body. Starts collapsed on
@@ -35,7 +44,10 @@ export function ResultsPanel({ data, characterId, result, status, blocker, onRun
   const running = status.kind === 'running';
   const reason = blocker ?? (seed === undefined ? SEED_ERROR : null);
   const disabled = running || reason !== null;
-  const pct = status.kind === 'running' && status.progress && status.progress.total > 0 ? (status.progress.done / status.progress.total) * 100 : 0;
+  const pct =
+    status.kind === 'running' && status.progress && status.progress.total > 0
+      ? (status.progress.done / status.progress.total) * 100
+      : 0;
   const start = () => {
     if (disabled) return;
     const used = resolveRunSeed(seedText);
@@ -44,12 +56,7 @@ export function ResultsPanel({ data, characterId, result, status, blocker, onRun
     onRun(used);
   };
 
-  const errorText =
-    status.kind === 'error'
-      ? status.notImplemented
-        ? "The simulation engine isn't available in this build yet (the Monte Carlo runner is still being implemented). Setup, deck and strategy choices still work, and combat logs can be viewed from a link."
-        : `Simulation failed: ${status.message}`
-      : null;
+  const errorText = runErrorText(status);
 
   const actions = (
     <>
@@ -82,18 +89,34 @@ export function ResultsPanel({ data, characterId, result, status, blocker, onRun
       >
         <label className="field">
           <span>Run seed (blank = random)</span>
-          <input inputMode="numeric" placeholder="random" value={seedText} aria-invalid={seed === undefined} onChange={(e) => setSeedText(e.target.value)} />
+          <input
+            inputMode="numeric"
+            placeholder="random"
+            value={seedText}
+            aria-invalid={seed === undefined}
+            onChange={(e) => setSeedText(e.target.value)}
+          />
         </label>
       </form>
       {seed === undefined && <p className="warn small">{SEED_ERROR}</p>}
       {status.kind === 'running' && (
-        <div className="progress" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(pct)}>
+        <div
+          className="progress"
+          role="progressbar"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.round(pct)}
+        >
           <div style={{ width: `${pct}%` }} />
           <span>{status.progress ? `${status.progress.done} / ${status.progress.total} combats` : 'Starting…'}</span>
         </div>
       )}
       {errorText && <p className="warn">{errorText}</p>}
-      {result ? <ResultsView data={data} result={result} /> : <p className="muted results-empty">Run a simulation to see the results.</p>}
+      {result ? (
+        <ResultsView data={data} result={result} />
+      ) : (
+        <p className="muted results-empty">Run a simulation to see the results.</p>
+      )}
     </Panel>
   );
 }

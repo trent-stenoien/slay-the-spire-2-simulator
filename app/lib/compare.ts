@@ -11,15 +11,26 @@ import type { SetupState } from './url';
 export type TurnIntent = { intent: EnemyIntent; effects: Effect[] } | null;
 
 export type ReplayedCombat =
-  | { ok: true; replay: Replay; intents: TurnIntent[]; result: CombatResult }
-  | { ok: false; error: string };
+  { ok: true; replay: Replay; intents: TurnIntent[]; result: CombatResult } | { ok: false; error: string };
 
 /** Re-run one combat with its log, grouped into rounds, with the intent the player saw each turn. */
-export function replayCombat(data: GameData, setup: SetupState, strategy: StrategyConfig, seed: number): ReplayedCombat {
+export function replayCombat(
+  data: GameData,
+  setup: SetupState,
+  strategy: StrategyConfig,
+  seed: number,
+): ReplayedCombat {
   try {
     const result = runCombat(
       data,
-      { characterId: setup.characterId, deck: setup.deck, enemyId: setup.enemyId, ascension: setup.ascension, strategy, seed },
+      {
+        characterId: setup.characterId,
+        deck: setup.deck,
+        enemyId: setup.enemyId,
+        ascension: setup.ascension,
+        strategy,
+        seed,
+      },
       { log: true },
     );
     const replay = buildReplay(result.log ?? []);
@@ -29,7 +40,9 @@ export function replayCombat(data: GameData, setup: SetupState, strategy: Strate
       if (!resolved) return null;
       const id = intendedMoveId(replay.rounds, i, resolved.pattern.order, resolved.pattern.start);
       const move = id ? resolved.moves[id] : undefined;
-      return id && move ? { intent: computeIntent(id, move, round.start.enemy, round.start.player), effects: move.effects } : null;
+      return id && move
+        ? { intent: computeIntent(id, move, round.start.enemy, round.start.player), effects: move.effects }
+        : null;
     });
     return { ok: true, replay, intents, result };
   } catch (err) {

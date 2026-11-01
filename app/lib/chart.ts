@@ -68,7 +68,12 @@ export type CurveShape = 'smooth' | 'step';
  * SVG path for a curve. 'smooth' joins points with straight segments (the KDE
  * is sampled finely); 'step' draws a histogram-like step centered on each x.
  */
-export function linePath(points: readonly Point[], sx: (v: number) => number, sy: (v: number) => number, shape: CurveShape = 'smooth'): string {
+export function linePath(
+  points: readonly Point[],
+  sx: (v: number) => number,
+  sy: (v: number) => number,
+  shape: CurveShape = 'smooth',
+): string {
   if (points.length === 0) return '';
   if (shape === 'smooth') {
     return points.map((p, i) => `${i === 0 ? 'M' : 'L'}${fmt(sx(p.x))},${fmt(sy(p.y))}`).join('');
@@ -84,7 +89,13 @@ export function linePath(points: readonly Point[], sx: (v: number) => number, sy
 }
 
 /** Closed area path: the line, then down to the baseline and back. */
-export function areaPath(points: readonly Point[], sx: (v: number) => number, sy: (v: number) => number, baselineY: number, shape: CurveShape = 'smooth'): string {
+export function areaPath(
+  points: readonly Point[],
+  sx: (v: number) => number,
+  sy: (v: number) => number,
+  baselineY: number,
+  shape: CurveShape = 'smooth',
+): string {
   const line = linePath(points, sx, sy, shape);
   if (!line) return '';
   const first = points[0]!;
@@ -159,8 +170,15 @@ function factorText(value: number): string {
 }
 
 /** Tick label and position along the slider track (0 = min, 1 = max). */
-export function bandwidthTicks(min: number = BANDWIDTH_FACTOR.min, max: number = BANDWIDTH_FACTOR.max): { value: number; label: string; fraction: number }[] {
-  return bandwidthTickValues(min, max).map((value) => ({ value, label: factorText(value), fraction: (value - min) / (max - min) }));
+export function bandwidthTicks(
+  min: number = BANDWIDTH_FACTOR.min,
+  max: number = BANDWIDTH_FACTOR.max,
+): { value: number; label: string; fraction: number }[] {
+  return bandwidthTickValues(min, max).map((value) => ({
+    value,
+    label: factorText(value),
+    fraction: (value - min) / (max - min),
+  }));
 }
 
 /** Slider label: "×1.00", or "Raw" at ×0. */
@@ -271,20 +289,16 @@ export function percentileMarkerSets<R extends ChartRow>(
 }
 
 /**
- * Labelled percentile markers ("P50 = 7") for a single visible strategy's raw HP lost.
- * Empty unless exactly one strategy is visible and it has combats.
- */
-export function percentileMarkers(rows: readonly ChartRow[], hidden: ReadonlySet<string>): PercentileMarker[] {
-  const shown = rows.filter((r) => !hidden.has(r.strategyId));
-  if (shown.length !== 1) return [];
-  return strategyPercentileMarkers(shown[0]!.summary.hpLostCounts);
-}
-
-/**
  * Closed path of the region ABOVE a curve: the line, then up to `topY` and back. Used as a
  * clip path so the P25-P75 band fills only the space between the curve and the top of the plot.
  */
-export function aboveCurvePath(points: readonly Point[], sx: (v: number) => number, sy: (v: number) => number, topY: number, shape: CurveShape = 'smooth'): string {
+export function aboveCurvePath(
+  points: readonly Point[],
+  sx: (v: number) => number,
+  sy: (v: number) => number,
+  topY: number,
+  shape: CurveShape = 'smooth',
+): string {
   return areaPath(points, sx, sy, topY, shape);
 }
 

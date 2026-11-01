@@ -33,12 +33,24 @@
     const rows = [];
     for (let offset = 0; ; offset += 500) {
       const q = new URLSearchParams({
-        action: 'cargoquery', tables: table, fields, where: 'Game="2"',
-        order_by: 'Name', limit: '500', offset: String(offset), format: 'json',
+        action: 'cargoquery',
+        tables: table,
+        fields,
+        where: 'Game="2"',
+        order_by: 'Name',
+        limit: '500',
+        offset: String(offset),
+        format: 'json',
       });
       const res = await fetch('/api.php?' + q).then((r) => r.json());
       const batch = (res.cargoquery || []).map((x) => x.title);
-      for (const r of batch) rows.push(fields.split(',').map((f) => clean(r[f]) || '∅').join('|'));
+      for (const r of batch)
+        rows.push(
+          fields
+            .split(',')
+            .map((f) => clean(r[f]) || '∅')
+            .join('|'),
+        );
       if (batch.length < 500) break;
     }
     data[table] = rows;
@@ -60,5 +72,7 @@
     document.body.appendChild(el);
     return header;
   };
-  return Object.entries(data).map(([t, r]) => `${t}=${r.length}`).join(' ');
+  return Object.entries(data)
+    .map(([t, r]) => `${t}=${r.length}`)
+    .join(' ');
 })();

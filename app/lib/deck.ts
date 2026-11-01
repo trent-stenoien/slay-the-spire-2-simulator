@@ -66,21 +66,6 @@ export function removeCard(deck: Deck, cardId: string): Deck {
 }
 
 /**
- * Flip the upgraded flag of a whole copy group, merging into the other
- * group if it already exists (the merged entry keeps the other group's position).
- */
-export function toggleUpgrade(deck: Deck, cardId: string, upgraded: boolean): Deck {
-  const idx = deck.findIndex((e) => e.cardId === cardId && e.upgraded === upgraded);
-  const from = deck[idx];
-  if (!from) return deck;
-  const otherIdx = deck.findIndex((e) => e.cardId === cardId && e.upgraded === !upgraded);
-  if (otherIdx < 0) return deck.map((e, i) => (i === idx ? { ...e, upgraded: !upgraded } : e));
-  return deck
-    .map((e, i) => (i === otherIdx ? { ...e, count: e.count + from.count } : e))
-    .filter((_, i) => i !== idx);
-}
-
-/**
  * The character's starting deck, minus cards the engine can't simulate yet
  * (so a character like the Silent can still be picked and run).
  */
@@ -92,7 +77,9 @@ export function startingDeckFor(data: GameData, characterId: string): Deck {
 /** Names of starting-deck cards left out because they aren't simulated yet. */
 export function unsimulatedStarters(data: GameData, characterId: string): string[] {
   const ch = data.characters[characterId];
-  return (ch?.startingDeck ?? []).filter((e) => data.cards[e.cardId]?.simulated !== true).map((e) => data.cards[e.cardId]?.name ?? e.cardId);
+  return (ch?.startingDeck ?? [])
+    .filter((e) => data.cards[e.cardId]?.simulated !== true)
+    .map((e) => data.cards[e.cardId]?.name ?? e.cardId);
 }
 
 export interface CardGroup {
@@ -101,7 +88,13 @@ export interface CardGroup {
   cards: CardDef[];
 }
 
-const CHARACTER_FOLDER: Record<string, string> = { I: 'Ironclad', S: 'Silent', D: 'Defect', N: 'Necrobinder', R: 'Regent' };
+const CHARACTER_FOLDER: Record<string, string> = {
+  I: 'Ironclad',
+  S: 'Silent',
+  D: 'Defect',
+  N: 'Necrobinder',
+  R: 'Regent',
+};
 
 /** The data folder a card lives in (data/cards/<folder>/), as a label. */
 export function cardFolder(card: CardDef): string {
@@ -162,16 +155,31 @@ export function filteredPool(data: GameData, characterId: string, filters: PoolF
  * deck builder can expand them when the filter is turned on. Multiplayer adds
  * multiplayer-only cards to whichever folders would otherwise be shown.
  */
-export function foldersForFilter(data: GameData, characterId: string, filter: keyof PoolFilters, ascension = 0): string[] {
+export function foldersForFilter(
+  data: GameData,
+  characterId: string,
+  filter: keyof PoolFilters,
+  ascension = 0,
+): string[] {
   if (filter === 'statuses') return ['status'];
   if (filter === 'curses') return ['curses'];
   const only = { ...DEFAULT_FILTERS, statuses: true, curses: true, multiplayer: true };
-  const keys = new Set(filteredPool(data, characterId, only, ascension).filter((c) => c.multiplayerOnly).map((c) => cardFolder(c).toLowerCase()));
+  const keys = new Set(
+    filteredPool(data, characterId, only, ascension)
+      .filter((c) => c.multiplayerOnly)
+      .map((c) => cardFolder(c).toLowerCase()),
+  );
   return [...keys];
 }
 
 /** Pool cards matching the search and filters, grouped by data folder in a fixed order. Empty groups are dropped. */
-export function groupedPool(data: GameData, characterId: string, query: string, filters: PoolFilters = DEFAULT_FILTERS, ascension = 0): CardGroup[] {
+export function groupedPool(
+  data: GameData,
+  characterId: string,
+  query: string,
+  filters: PoolFilters = DEFAULT_FILTERS,
+  ascension = 0,
+): CardGroup[] {
   const groups = new Map<string, CardDef[]>();
   for (const card of filteredPool(data, characterId, filters, ascension)) {
     if (!matchesSearch(card, query)) continue;
@@ -185,7 +193,13 @@ export function groupedPool(data: GameData, characterId: string, query: string, 
 
 export type CostColorKey = 'ironclad' | 'silent' | 'regent' | 'necrobinder' | 'defect' | 'colorless' | 'curse';
 
-const CODE_COLOR_KEY: Record<string, CostColorKey> = { I: 'ironclad', S: 'silent', R: 'regent', N: 'necrobinder', D: 'defect' };
+const CODE_COLOR_KEY: Record<string, CostColorKey> = {
+  I: 'ironclad',
+  S: 'silent',
+  R: 'regent',
+  N: 'necrobinder',
+  D: 'defect',
+};
 
 /**
  * Which color a card's energy-cost circle gets: its owner's, with shared

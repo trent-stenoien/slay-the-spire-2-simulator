@@ -31,7 +31,11 @@ describe('planChunks', () => {
     }
   });
   it('handles a ragged last chunk', () => {
-    expect(planChunks(1, 250, 100).map((c) => [c.from, c.to])).toEqual([[0, 100], [100, 200], [200, 250]]);
+    expect(planChunks(1, 250, 100).map((c) => [c.from, c.to])).toEqual([
+      [0, 100],
+      [100, 200],
+      [200, 250],
+    ]);
   });
 });
 
@@ -54,7 +58,10 @@ describe('mergeChunkResults', () => {
       results: runCombatRange(gameData, config, chunk.strategyIndex, chunk.from, chunk.to),
     }));
     // Deterministic shuffle of arrival order.
-    const shuffled = results.map((r, i) => ({ r, k: (i * 7919) % 13 })).sort((a, b) => a.k - b.k).map((x) => x.r);
+    const shuffled = results
+      .map((r, i) => ({ r, k: (i * 7919) % 13 }))
+      .sort((a, b) => a.k - b.k)
+      .map((x) => x.r);
     const merged = mergeChunkResults(gameData.manifest.gameVersion, config, shuffled);
     expect(merged).toEqual(runSimulationSync(gameData, config, combats));
   });

@@ -58,8 +58,22 @@ export function buildReplay(log: readonly GameEvent[]): Replay {
   const startEv = log.find((e) => e.t === 'combatStart');
   const playerMaxHp = startEv?.t === 'combatStart' ? startEv.playerHp : 0;
   const enemyMaxHp = startEv?.t === 'combatStart' ? startEv.enemyHp : 0;
-  const player: SideSnapshot = { hp: playerMaxHp, maxHp: playerMaxHp, block: 0, strength: 0, debuffs: emptyDebuffs(), poison: 0 };
-  const enemy: SideSnapshot = { hp: enemyMaxHp, maxHp: enemyMaxHp, block: 0, strength: 0, debuffs: emptyDebuffs(), poison: 0 };
+  const player: SideSnapshot = {
+    hp: playerMaxHp,
+    maxHp: playerMaxHp,
+    block: 0,
+    strength: 0,
+    debuffs: emptyDebuffs(),
+    poison: 0,
+  };
+  const enemy: SideSnapshot = {
+    hp: enemyMaxHp,
+    maxHp: enemyMaxHp,
+    block: 0,
+    strength: 0,
+    debuffs: emptyDebuffs(),
+    poison: 0,
+  };
   const side = (s: 'player' | 'enemy') => (s === 'player' ? player : enemy);
 
   const rounds: Round[] = [];
@@ -79,8 +93,16 @@ export function buildReplay(log: readonly GameEvent[]): Replay {
           closeRound();
           const snap = { player: clone(player), enemy: clone(enemy) };
           cur = {
-            turn: ev.turn, start: snap, end: snap, drawn: [], playerEvents: [], enemyMove: null, enemyMoveId: null,
-            enemyEvents: [], enemyAttack: 0, playerAttack: 0,
+            turn: ev.turn,
+            start: snap,
+            end: snap,
+            drawn: [],
+            playerEvents: [],
+            enemyMove: null,
+            enemyMoveId: null,
+            enemyEvents: [],
+            enemyAttack: 0,
+            playerAttack: 0,
           };
           rounds.push(cur);
           phase = 'player';
@@ -146,7 +168,7 @@ export function buildReplay(log: readonly GameEvent[]): Replay {
 
 /** One line of text per event, for the log view. `name` maps a cardId to a display name. */
 export function describeEvent(ev: GameEvent, name: (cardId: string) => string): string | null {
-  const who = (s: 'player' | 'enemy') => (s === 'player' ? 'You' : 'Enemy');
+  const gains = (s: 'player' | 'enemy') => (s === 'player' ? 'You gain' : 'Enemy gains');
   switch (ev.t) {
     case 'play':
       return ev.x !== undefined
@@ -162,9 +184,9 @@ export function describeEvent(ev: GameEvent, name: (cardId: string) => string): 
       return parts.join(', ');
     }
     case 'block':
-      return `${who(ev.side)} gain${ev.side === 'enemy' ? 's' : ''} ${ev.amount} Block (total ${ev.total})`;
+      return `${gains(ev.side)} ${ev.amount} Block (total ${ev.total})`;
     case 'strength':
-      return `${who(ev.side)} gain${ev.side === 'enemy' ? 's' : ''} ${ev.amount} Strength (total ${ev.total})`;
+      return `${gains(ev.side)} ${ev.amount} Strength (total ${ev.total})`;
     case 'debuff':
       return `${ev.side === 'player' ? 'You get' : 'Enemy gets'} ${ev.amount} ${cap(ev.kind)} (total ${ev.total})`;
     case 'poison':
@@ -193,7 +215,12 @@ function cap(s: string): string {
  * round that ended before the enemy acted) the move after the previous one in
  * the cycle. Null when it cannot be known (e.g. a random-start enemy killed on turn 1).
  */
-export function intendedMoveId(rounds: readonly Round[], i: number, order: readonly string[], start: 'first' | 'random'): string | null {
+export function intendedMoveId(
+  rounds: readonly Round[],
+  i: number,
+  order: readonly string[],
+  start: 'first' | 'random',
+): string | null {
   const r = rounds[i];
   if (!r) return null;
   if (r.enemyMoveId) return r.enemyMoveId;

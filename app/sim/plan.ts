@@ -35,7 +35,8 @@ export function planChunks(strategyCount: number, combats: number, chunkSize: nu
 
 /** Worker count: hardwareConcurrency capped at MAX_WORKERS, at least 1, never more than chunks. */
 export function workerCount(hardwareConcurrency: number | undefined, chunkCount: number): number {
-  const hc = Number.isFinite(hardwareConcurrency) && (hardwareConcurrency ?? 0) > 0 ? Math.floor(hardwareConcurrency!) : 1;
+  const hc =
+    Number.isFinite(hardwareConcurrency) && (hardwareConcurrency ?? 0) > 0 ? Math.floor(hardwareConcurrency!) : 1;
   return Math.max(1, Math.min(hc, MAX_WORKERS, chunkCount));
 }
 
@@ -57,7 +58,9 @@ export function mergeChunkResults(
     for (const cr of sorted) {
       if (cr.chunk.strategyIndex !== index) continue;
       if (cr.results.length !== cr.chunk.to - cr.chunk.from) {
-        throw new Error(`Chunk ${cr.chunk.id} returned ${cr.results.length} results, expected ${cr.chunk.to - cr.chunk.from}`);
+        throw new Error(
+          `Chunk ${cr.chunk.id} returned ${cr.results.length} results, expected ${cr.chunk.to - cr.chunk.from}`,
+        );
       }
       results.push(...cr.results);
     }

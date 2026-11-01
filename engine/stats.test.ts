@@ -1,39 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { cumulativeCurve, hpLostRange, kdeCurve, rawCurve, silvermanBandwidth } from './stats';
+import { cumulativeCurve, kdeCurve, rawCurve, silvermanBandwidth } from './stats';
 import type { CurvePoint } from './stats';
-import type { StrategySummary } from './types';
-
-function summary(hpLostCounts: number[]): StrategySummary {
-  return {
-    strategyId: 'x',
-    combats: hpLostCounts.reduce((a, b) => a + b, 0),
-    avgHpLost: 0,
-    avgTurnsToKill: null,
-    avgTurns: 0,
-    deathRate: 0,
-    turnCapRate: 0,
-    hpLostCounts,
-    firstCombatByHpLost: {},
-  };
-}
 
 const trapezoid = (pts: CurvePoint[]): number =>
   pts.slice(1).reduce((area, p, i) => area + ((p.y + pts[i]!.y) / 2) * (p.x - pts[i]!.x), 0);
 
 // Symmetric around 10.
 const symmetric = [0, 0, 0, 0, 0, 0, 1, 3, 8, 15, 20, 15, 8, 3, 1];
-
-describe('hpLostRange', () => {
-  it('pads observed min/max by 2 across summaries', () => {
-    expect(hpLostRange([summary([0, 0, 0, 0, 0, 1, 2]), summary([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3])])).toEqual([3, 12]);
-  });
-  it('ignores trailing/leading zero counts', () => {
-    expect(hpLostRange([summary([0, 0, 0, 0, 0, 0, 5, 0, 0])])).toEqual([4, 8]);
-  });
-  it('clamps the minimum at 0', () => {
-    expect(hpLostRange([summary([4, 1])])).toEqual([0, 3]);
-  });
-});
 
 describe('rawCurve', () => {
   it('has one point per integer and sums to 100 over the full range', () => {

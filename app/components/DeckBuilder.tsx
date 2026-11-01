@@ -4,7 +4,18 @@ import type { CardDef, Deck, GameData } from '../../engine/types';
 import { cardText } from '../lib/cardText';
 import { cardWikiUrl } from '../lib/wiki';
 import type { CostColorKey, PoolFilters } from '../lib/deck';
-import { DEFAULT_FILTERS, automaticCards, foldersForFilter, changeCount, combatDeckSize, copiesOf, costColorKey, groupedPool, removeCard, unsimulatedStarters } from '../lib/deck';
+import {
+  DEFAULT_FILTERS,
+  automaticCards,
+  foldersForFilter,
+  changeCount,
+  combatDeckSize,
+  copiesOf,
+  costColorKey,
+  groupedPool,
+  removeCard,
+  unsimulatedStarters,
+} from '../lib/deck';
 
 interface Props {
   data: GameData;
@@ -83,17 +94,38 @@ export function DeckBuilder({ data, characterId, ascension, deck, onChange, onRe
           ))}
         </div>
       </div>
-      {groups.length === 0 && <p className="muted small">No cards match{query.trim() ? ` "${query}"` : ' the current filters'}.</p>}
+      {groups.length === 0 && (
+        <p className="muted small">No cards match{query.trim() ? ` "${query}"` : ' the current filters'}.</p>
+      )}
       {groups.map((g) => {
-        const inDeck = g.cards.reduce((n, c) => n + (auto.has(c.id) ? 1 : copiesOf(deck, c.id, false) + copiesOf(deck, c.id, true)), 0);
+        const inDeck = g.cards.reduce(
+          (n, c) => n + (auto.has(c.id) ? 1 : copiesOf(deck, c.id, false) + copiesOf(deck, c.id, true)),
+          0,
+        );
         return (
-          <details key={g.key} className="card-group" open={expanded.has(g.key)} onToggle={(e) => setFolder(g.key, e.currentTarget.open)}>
+          <details
+            key={g.key}
+            className="card-group"
+            open={expanded.has(g.key)}
+            onToggle={(e) => setFolder(g.key, e.currentTarget.open)}
+          >
             <summary>
-              {g.label} <span className="muted small">({g.cards.length} {g.cards.length === 1 ? 'card' : 'cards'}{inDeck > 0 ? `, ${inDeck} in deck` : ''})</span>
+              {g.label}{' '}
+              <span className="muted small">
+                ({g.cards.length} {g.cards.length === 1 ? 'card' : 'cards'}
+                {inDeck > 0 ? `, ${inDeck} in deck` : ''})
+              </span>
             </summary>
             <ul className="card-list">
               {g.cards.map((card) => (
-                <CardRow key={card.id} card={card} colorKey={costColorKey(card, characterId, data)} deck={deck} autoLevel={auto.get(card.id)} onChange={onChange} />
+                <CardRow
+                  key={card.id}
+                  card={card}
+                  colorKey={costColorKey(card, characterId, data)}
+                  deck={deck}
+                  autoLevel={auto.get(card.id)}
+                  onChange={onChange}
+                />
               ))}
             </ul>
           </details>
@@ -103,7 +135,19 @@ export function DeckBuilder({ data, characterId, ascension, deck, onChange, onRe
   );
 }
 
-function CardRow({ card, colorKey, deck, autoLevel, onChange }: { card: CardDef; colorKey: CostColorKey; deck: Deck; autoLevel?: number; onChange: (d: Deck) => void }) {
+function CardRow({
+  card,
+  colorKey,
+  deck,
+  autoLevel,
+  onChange,
+}: {
+  card: CardDef;
+  colorKey: CostColorKey;
+  deck: Deck;
+  autoLevel?: number;
+  onChange: (d: Deck) => void;
+}) {
   const base = cardText(card, false);
   const up = card.upgraded ? cardText(card, true) : null;
   const locked = autoLevel !== undefined;
@@ -116,7 +160,12 @@ function CardRow({ card, colorKey, deck, autoLevel, onChange }: { card: CardDef;
           {base.cost}
         </span>
         <span className="card-name">
-          <a href={cardWikiUrl(card.name)} target="_blank" rel="noopener noreferrer" title={`${base.name} on the wiki (opens in a new tab)`}>
+          <a
+            href={cardWikiUrl(card.name)}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={`${base.name} on the wiki (opens in a new tab)`}
+          >
             {base.name}
           </a>
         </span>
@@ -128,7 +177,18 @@ function CardRow({ card, colorKey, deck, autoLevel, onChange }: { card: CardDef;
             title={`Remove all ${base.name} from deck`}
             onClick={() => onChange(removeCard(deck, card.id))}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+              focusable="false"
+            >
               <path d="M18 6 6 18M6 6l12 12" />
             </svg>
           </button>
@@ -143,7 +203,12 @@ function CardRow({ card, colorKey, deck, autoLevel, onChange }: { card: CardDef;
           </span>
         </div>
       ) : (
-        <Stepper label={base.name} tag="Standard" n={n} onStep={(d) => onChange(changeCount(deck, card.id, false, d))} />
+        <Stepper
+          label={base.name}
+          tag="Standard"
+          n={n}
+          onStep={(d) => onChange(changeCount(deck, card.id, false, d))}
+        />
       )}
       {locked && <span className="auto-note muted small">Added automatically at Ascension {autoLevel}+</span>}
       {up && (
@@ -153,23 +218,48 @@ function CardRow({ card, colorKey, deck, autoLevel, onChange }: { card: CardDef;
             {up.lines.join('. ')}
             {up.cost !== base.cost ? ` (costs ${up.cost})` : ''}
           </span>
-          <Stepper label={up.name} tag="Upgraded" n={nUp} onStep={(d) => onChange(changeCount(deck, card.id, true, d))} />
+          <Stepper
+            label={up.name}
+            tag="Upgraded"
+            n={nUp}
+            onStep={(d) => onChange(changeCount(deck, card.id, true, d))}
+          />
         </>
       )}
     </li>
   );
 }
 
-function Stepper({ label, tag, n, onStep }: { label: string; tag: string; n: number; onStep: (delta: number) => void }) {
+function Stepper({
+  label,
+  tag,
+  n,
+  onStep,
+}: {
+  label: string;
+  tag: string;
+  n: number;
+  onStep: (delta: number) => void;
+}) {
   return (
     <div className="stepper" title={`${tag} copies`}>
-      <button type="button" aria-label={`Remove one ${tag.toLowerCase()} ${label}`} disabled={n === 0} onClick={() => onStep(-1)}>
+      <button
+        type="button"
+        aria-label={`Remove one ${tag.toLowerCase()} ${label}`}
+        disabled={n === 0}
+        onClick={() => onStep(-1)}
+      >
         −
       </button>
       <span className="count" aria-label={`${n} ${tag.toLowerCase()} copies of ${label}`}>
         {n}
       </span>
-      <button type="button" aria-label={`Add one ${tag.toLowerCase()} ${label}`} disabled={n >= 99} onClick={() => onStep(1)}>
+      <button
+        type="button"
+        aria-label={`Add one ${tag.toLowerCase()} ${label}`}
+        disabled={n >= 99}
+        onClick={() => onStep(1)}
+      >
         +
       </button>
     </div>

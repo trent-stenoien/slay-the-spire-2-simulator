@@ -1,7 +1,22 @@
 {
   "cards": [
-    { "code": "SD", "id": "soulbound", "name": "Soulbound", "reason": "Beta-only Necrobinder multiplayer card, removed until it reaches the main release (#59)." },
-    { "code": "Ud", "id": "underworld", "name": "Underworld", "reason": "Beta-only Necrobinder multiplayer card, removed until it reaches the main release (#59)." },
-    { "code": "Ca", "id": "cacophony", "name": "Cacophony", "reason": "Beta-only Necrobinder multiplayer card, removed until it reaches the main release (#59)." }
+    {
+      "code": "SD",
+      "id": "soulbound",
+      "name": "Soulbound",
+      "reason": "Beta-only Necrobinder multiplayer card, removed until it reaches the main release (#59)."
+    },
+    {
+      "code": "Ud",
+      "id": "underworld",
+      "name": "Underworld",
+      "reason": "Beta-only Necrobinder multiplayer card, removed until it reaches the main release (#59)."
+    },
+    {
+      "code": "Ca",
+      "id": "cacophony",
+      "name": "Cacophony",
+      "reason": "Beta-only Necrobinder multiplayer card, removed until it reaches the main release (#59)."
+    }
   ]
 }

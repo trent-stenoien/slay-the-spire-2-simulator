@@ -5,7 +5,11 @@ import { COLORS, type Selection } from '../lib/colors';
 import { MAX_LIBRARY_SIZE, fullLibrary } from '../lib/strategyLibrary';
 import { StrategyPanel } from './StrategyPanel';
 
-const custom = (n: number) => ({ id: `u${n}`, name: `Block ${n}`, config: { kind: 'block' as const, allowThrough: n } });
+const custom = (n: number) => ({
+  id: `u${n}`,
+  name: `Block ${n}`,
+  config: { kind: 'block' as const, allowThrough: n },
+});
 const library = (customCount: number) => fullLibrary(Array.from({ length: customCount }, (_, i) => custom(i + 6)));
 
 function render(lib: ReturnType<typeof library>, selectedCount: number): string {

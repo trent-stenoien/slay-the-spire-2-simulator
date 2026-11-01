@@ -163,6 +163,16 @@ describe('combat number (n) in log links', () => {
     expect(q).not.toContain('&n=');
     expect(parseQuery(data, q).log?.combatIndex).toBeUndefined();
   });
+  it.each([0, 9999])('round-trips the boundary combat index %i', (combatIndex) => {
+    const q = buildQuery(data, defaultSetup(data), { seed: 7, strategies, combatIndex });
+    expect(q.endsWith(`&n=${combatIndex}`)).toBe(true);
+    expect(parseQuery(data, q)).toMatchObject({ errors: [], log: { combatIndex } });
+  });
+  it.each(['-1', 'abc', '1.5', '05', ''])('ignores n="%s" without an error, keeping the rest of the link', (n) => {
+    const r = parseQuery(data, buildQuery(data, defaultSetup(data), { seed: 7, strategies }) + `&n=${n}`);
+    expect(r.errors).toEqual([]);
+    expect(r.log).toEqual({ seed: 7, strategies });
+  });
   it('ignores an invalid n without an error', () => {
     const q = buildQuery(data, defaultSetup(data), { seed: 7, strategies }) + '&n=10000';
     const r = parseQuery(data, q);
@@ -188,7 +198,9 @@ describe('compare links (several strategies in st, colors in k)', () => {
     expect(parseQuery(data, `?${buildQuery(data, setup, three)}`)).toEqual({ setup, log: three, errors: [] });
     const five: LogTarget = {
       seed: 0,
-      strategies: [0, 1, 2, 3].map((n) => ({ kind: 'block' as const, allowThrough: n })).concat([{ kind: 'block', allowThrough: 9999 }]),
+      strategies: [0, 1, 2, 3]
+        .map((n) => ({ kind: 'block' as const, allowThrough: n }))
+        .concat([{ kind: 'block', allowThrough: 9999 }]),
       colors: ['blue', 'green', 'yellow', 'red', 'purple'],
     };
     expect(parseQuery(data, `?${buildQuery(data, setup, five)}`)).toEqual({ setup, log: five, errors: [] });
@@ -199,11 +211,19 @@ describe('compare links (several strategies in st, colors in k)', () => {
   it('keeps single-strategy links unchanged (no k unless colors are given)', () => {
     const q = buildQuery(data, setup, { seed: 1, strategies: [{ kind: 'greedyDamage' }] });
     expect(q).toBe('v=1&c=I&e=Nb&a=0&d=St5De4Ba1&s=1&st=g');
-    expect(parseQuery(data, '?v=1&c=I&e=Nb&a=0&d=St5De4Ba1&s=1&st=b4&n=3').log).toEqual({ seed: 1, strategies: [{ kind: 'block', allowThrough: 4 }], combatIndex: 3 });
+    expect(parseQuery(data, '?v=1&c=I&e=Nb&a=0&d=St5De4Ba1&s=1&st=b4&n=3').log).toEqual({
+      seed: 1,
+      strategies: [{ kind: 'block', allowThrough: 4 }],
+      combatIndex: 3,
+    });
   });
 
   it('survives URL-encoded commas', () => {
-    expect(parseQuery(data, '?s=1&st=b4%2Cg&k=b%2Cr').log).toEqual({ seed: 1, strategies: [{ kind: 'block', allowThrough: 4 }, { kind: 'greedyDamage' }], colors: ['blue', 'red'] });
+    expect(parseQuery(data, '?s=1&st=b4%2Cg&k=b%2Cr').log).toEqual({
+      seed: 1,
+      strategies: [{ kind: 'block', allowThrough: 4 }, { kind: 'greedyDamage' }],
+      colors: ['blue', 'red'],
+    });
   });
 
   it.each([

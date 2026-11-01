@@ -1,8 +1,10 @@
 /** Energy gain (#22) and X-cost cards (#23) in combat. */
 import { describe, expect, it } from 'vitest';
-import { attackHits, isPlayable, makeCardInstance, runCombat, simulateCombat } from './combat';
+import { makeCardInstance, runCombat, simulateCombat } from './combat';
+import { attackHits, isPlayable } from './rules';
 import { cards, makeEnemy, makeGameData } from './testFixtures';
-import type { CardDef, CombatConfig, Deck, GameData, GameEvent, Strategy, StrategyView } from './types';
+import { deckOf, events, scripted } from './combatTestHelpers';
+import type { CardDef, CombatConfig, GameData, Strategy } from './types';
 
 function cfg(overrides: Partial<CombatConfig> = {}): CombatConfig {
   return {
@@ -16,49 +18,40 @@ function cfg(overrides: Partial<CombatConfig> = {}): CombatConfig {
   };
 }
 
-const deckOf = (...entries: [string, number, boolean?][]): Deck =>
-  entries.map(([cardId, count, upgraded]) => ({ cardId, upgraded: upgraded ?? false, count }));
-
-/** Plays the listed cardIds in order each turn (a missing card throws). */
-function scripted(plan: (turn: number) => string[]): Strategy {
-  let turn = -1;
-  let queue: string[] = [];
-  return {
-    decide(view: StrategyView) {
-      if (view.state.turn !== turn) {
-        turn = view.state.turn;
-        queue = [...plan(turn)];
-      }
-      const want = queue.shift();
-      if (want === undefined) return { kind: 'endTurn' };
-      const c = view.playable.find((p) => p.cardId === want);
-      if (!c) throw new Error(`scripted: ${want} not playable on turn ${turn}`);
-      return { kind: 'play', uid: c.uid };
-    },
-  };
-}
-
-type Ev<T extends GameEvent['t']> = Extract<GameEvent, { t: T }>;
-const events = <T extends GameEvent['t']>(log: GameEvent[] | undefined, t: T): Ev<T>[] =>
-  (log ?? []).filter((e): e is Ev<T> => e.t === t);
-
 const fuel: CardDef = {
-  ...cards.defend!, id: 'fuel', code: 'Fu', cost: 0, keywords: ['exhaust'],
+  ...cards.defend!,
+  id: 'fuel',
+  code: 'Fu',
+  cost: 0,
+  keywords: ['exhaust'],
   effects: [{ type: 'gainEnergy', amount: 1 }],
   upgraded: { effects: [{ type: 'gainEnergy', amount: 2 }] },
 };
 const ritual: CardDef = {
-  ...cards.defend!, id: 'ritual', code: 'FR', cost: 1, keywords: ['exhaust'],
-  effects: [{ type: 'gainEnergy', amount: 3 }], upgraded: null,
+  ...cards.defend!,
+  id: 'ritual',
+  code: 'FR',
+  cost: 1,
+  keywords: ['exhaust'],
+  effects: [{ type: 'gainEnergy', amount: 3 }],
+  upgraded: null,
 };
 const whirlwind: CardDef = {
-  ...cards.strike!, id: 'whirlwind', code: 'Wh', cost: 0, xCost: true,
+  ...cards.strike!,
+  id: 'whirlwind',
+  code: 'Wh',
+  cost: 0,
+  xCost: true,
   effects: [{ type: 'attack', damage: 5, hits: 1, allEnemies: true, xTimes: true }],
   upgraded: { effects: [{ type: 'attack', damage: 8, hits: 1, allEnemies: true, xTimes: true }] },
 };
 /** Test-only "X+1 times" card (e.g. a Multi-Cast-style upgrade). */
 const flurry: CardDef = {
-  ...cards.strike!, id: 'flurry', code: 'Fl', cost: 0, xCost: true,
+  ...cards.strike!,
+  id: 'flurry',
+  code: 'Fl',
+  cost: 0,
+  xCost: true,
   effects: [{ type: 'attack', damage: 3, hits: 1, xTimes: true }],
   upgraded: { effects: [{ type: 'attack', damage: 3, hits: 1, xTimes: true, xBonus: 1 }] },
 };
@@ -98,14 +91,25 @@ describe('energy gain (#22)', () => {
 
   it('upgraded Fuel gains 2', () => {
     const d = data();
-    const r = simulateCombat(d, cfg({ deck: deckOf(['fuel', 1, true]) }), scripted((t) => (t === 1 ? ['fuel'] : [])), { log: true });
+    const r = simulateCombat(
+      d,
+      cfg({ deck: deckOf(['fuel', 1, true]) }),
+      scripted((t) => (t === 1 ? ['fuel'] : [])),
+      { log: true },
+    );
     expect(events(r.log, 'energy')).toEqual([{ t: 'energy', amount: 2, total: 5 }]);
   });
 
   it('an enemy move that gains energy is rejected', () => {
     const d = data();
     d.enemies.odd = makeEnemy('odd', 10, { charge: { name: 'Charge', effects: [{ type: 'gainEnergy', amount: 1 }] } });
-    expect(() => simulateCombat(d, cfg({ enemyId: 'odd' }), scripted(() => []))).toThrow(/energy/);
+    expect(() =>
+      simulateCombat(
+        d,
+        cfg({ enemyId: 'odd' }),
+        scripted(() => []),
+      ),
+    ).toThrow(/energy/);
   });
 });
 
@@ -127,7 +131,12 @@ describe('X-cost (#23)', () => {
 
   it('Whirlwind spends all energy and hits X times (ALL enemies counts once)', () => {
     const d = data();
-    const r = simulateCombat(d, cfg({ deck: deckOf(['whirlwind', 1]) }), scripted((t) => (t === 1 ? ['whirlwind'] : [])), { log: true });
+    const r = simulateCombat(
+      d,
+      cfg({ deck: deckOf(['whirlwind', 1]) }),
+      scripted((t) => (t === 1 ? ['whirlwind'] : [])),
+      { log: true },
+    );
     expect(events(r.log, 'play')[0]).toMatchObject({ cardId: 'whirlwind', energyLeft: 0, x: 3 });
     expect(events(r.log, 'damage').map((e) => e.amount)).toEqual([5, 5, 5]);
     expect(r.enemyHpRemaining).toBe(999 - 15);
@@ -135,9 +144,18 @@ describe('X-cost (#23)', () => {
 
   it('X counts energy gained earlier in the turn; Strength applies per hit; upgraded Whirlwind deals 8', () => {
     const d = data();
-    d.cards.flex = { ...cards.defend!, id: 'flex', code: 'Fx', cost: 0, effects: [{ type: 'gainStrength', amount: 1 }], upgraded: null };
+    d.cards.flex = {
+      ...cards.defend!,
+      id: 'flex',
+      code: 'Fx',
+      cost: 0,
+      effects: [{ type: 'gainStrength', amount: 1 }],
+      upgraded: null,
+    };
     const strat = scripted((t) => (t === 1 ? ['ritual', 'flex', 'whirlwind'] : []));
-    const r = simulateCombat(d, cfg({ deck: deckOf(['ritual', 1], ['flex', 1], ['whirlwind', 1, true]) }), strat, { log: true });
+    const r = simulateCombat(d, cfg({ deck: deckOf(['ritual', 1], ['flex', 1], ['whirlwind', 1, true]) }), strat, {
+      log: true,
+    });
     expect(events(r.log, 'play').at(-1)).toMatchObject({ cardId: 'whirlwind', energyLeft: 0, x: 5 });
     expect(events(r.log, 'damage').map((e) => e.amount)).toEqual([9, 9, 9, 9, 9]);
   });
@@ -152,14 +170,24 @@ describe('X-cost (#23)', () => {
 
   it('upgraded "X+1" adds 1 to X', () => {
     const d = data();
-    const r = simulateCombat(d, cfg({ deck: deckOf(['flurry', 1, true]) }), scripted((t) => (t === 1 ? ['flurry'] : [])), { log: true });
+    const r = simulateCombat(
+      d,
+      cfg({ deck: deckOf(['flurry', 1, true]) }),
+      scripted((t) => (t === 1 ? ['flurry'] : [])),
+      { log: true },
+    );
     expect(events(r.log, 'play')[0]).toMatchObject({ x: 3 });
     expect(events(r.log, 'damage')).toHaveLength(4);
   });
 
   it('non-X plays carry no x in the log', () => {
     const d = data();
-    const r = simulateCombat(d, cfg({ deck: deckOf(['strike', 1]) }), scripted((t) => (t === 1 ? ['strike'] : [])), { log: true });
+    const r = simulateCombat(
+      d,
+      cfg({ deck: deckOf(['strike', 1]) }),
+      scripted((t) => (t === 1 ? ['strike'] : [])),
+      { log: true },
+    );
     expect('x' in events(r.log, 'play')[0]!).toBe(false);
   });
 
@@ -169,7 +197,9 @@ describe('X-cost (#23)', () => {
     for (const strategy of [{ kind: 'greedyDamage' as const }, { kind: 'block' as const, allowThrough: 0 }]) {
       for (let s = 0; s < 10; s++) {
         const config = cfg({
-          enemyId: 'nibbit', seed: s, strategy,
+          enemyId: 'nibbit',
+          seed: s,
+          strategy,
           deck: deckOf(['strike', 4], ['defend', 4], ['bash', 1], ['whirlwind', 1], ['fuel', 1], ['ritual', 1]),
         });
         const a = runCombat(d, config, { log: true });

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { gameData } from '../../data';
-import { cardSummary, cardText, effectText } from './cardText';
+import { cardText, effectText } from './cardText';
 import { CONTRACT_EFFECT_SAMPLES } from '../../engine/testFixtures';
 
 const card = (id: string) => gameData.cards[id]!;
@@ -16,15 +16,21 @@ describe('card text', () => {
     [{ type: 'applyFrail', amount: 3 } as const, 'Apply 3 Frail'],
     [{ type: 'applyPoison', amount: 3 } as const, 'Apply 3 Poison'],
     [{ type: 'gainEnergy', amount: 2 } as const, 'Gain 2 Energy'],
-    [{ type: 'attack', damage: 5, hits: 1, allEnemies: true, xTimes: true } as const, 'Deal 5 damage to ALL enemies X times'],
+    [
+      { type: 'attack', damage: 5, hits: 1, allEnemies: true, xTimes: true } as const,
+      'Deal 5 damage to ALL enemies X times',
+    ],
     [{ type: 'attack', damage: 3, hits: 1, xTimes: true, xBonus: 1 } as const, 'Deal 3 damage X+1 times'],
   ])('%o → %s', (e, text) => {
     expect(effectText(e)).toBe(text);
   });
 
-  it('summarizes Bash and its upgrade', () => {
-    expect(cardSummary(card('bash'), false)).toBe('Deal 8 damage. Apply 2 Vulnerable.');
-    expect(cardText(card('bash'), true)).toEqual({ name: 'Bash+', cost: '2', lines: ['Deal 10 damage', 'Apply 3 Vulnerable'] });
+  it('describes Bash+', () => {
+    expect(cardText(card('bash'), true)).toEqual({
+      name: 'Bash+',
+      cost: '2',
+      lines: ['Deal 10 damage', 'Apply 3 Vulnerable'],
+    });
   });
 
   it('shows keywords and a dash cost for unplayable cards', () => {
@@ -36,7 +42,11 @@ describe('card text', () => {
   });
 
   it('shows X as the cost of X-cost cards', () => {
-    expect(cardText(card('whirlwind'), true)).toEqual({ name: 'Whirlwind+', cost: 'X', lines: ['Deal 8 damage to ALL enemies X times'] });
+    expect(cardText(card('whirlwind'), true)).toEqual({
+      name: 'Whirlwind+',
+      cost: 'X',
+      lines: ['Deal 8 damage to ALL enemies X times'],
+    });
   });
 
   it('applies an upgrade cost change', () => {

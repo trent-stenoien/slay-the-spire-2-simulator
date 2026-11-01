@@ -22,9 +22,30 @@ const RAW = join(ROOT, 'data/raw/cards.txt');
 const refreshMeta = process.argv.includes('--refresh-meta');
 const dryRun = process.argv.includes('--dry-run');
 
-const FIELDS = ['Name', 'Color', 'OverrideColor', 'Type', 'Rarity', 'Cost', 'CostPlus', 'StarCost', 'NoUpgrade', 'MultiplayerOnly', 'Tags', 'Description'];
+const FIELDS = [
+  'Name',
+  'Color',
+  'OverrideColor',
+  'Type',
+  'Rarity',
+  'Cost',
+  'CostPlus',
+  'StarCost',
+  'NoUpgrade',
+  'MultiplayerOnly',
+  'Tags',
+  'Description',
+];
 const CHARACTER = { Ironclad: 'I', Silent: 'S', Defect: 'D', Necrobinder: 'N', Regent: 'R', Colorless: 'colorless' };
-const KEYWORDS = { 'Unplayable.': 'unplayable', 'Ethereal.': 'ethereal', 'Eternal.': 'eternal', 'Exhaust.': 'exhaust', 'Retain.': 'retain', 'Innate.': 'innate', 'Sly.': 'sly' };
+const KEYWORDS = {
+  'Unplayable.': 'unplayable',
+  'Ethereal.': 'ethereal',
+  'Eternal.': 'eternal',
+  'Exhaust.': 'exhaust',
+  'Retain.': 'retain',
+  'Innate.': 'innate',
+  'Sly.': 'sly',
+};
 /** Basic Strike/Defend are identical for every character: one shared card each. */
 const SHARED = /^(Strike|Defend) \((Ironclad|Silent|Defect|Necrobinder|Regent)\)$/;
 
@@ -33,13 +54,23 @@ const version = JSON.parse(readFileSync(join(ROOT, 'data/manifest.json'), 'utf8'
 const RESERVED = JSON.parse(readFileSync(join(ROOT, 'data/reserved-codes.json'), 'utf8')).cards;
 
 export function slug(name) {
-  return name.toLowerCase().replace(/['’]/g, '').replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+  return name
+    .toLowerCase()
+    .replace(/['’]/g, '')
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_|_$/g, '');
 }
 
 /** Split wiki "(base;upgraded)" text into the two versions. */
 export function splitUpgrade(text) {
   const pick = (i) => text.replace(/\(([^()]*?);([^()]*?)\)/g, (_, a, b) => (i === 0 ? a : b));
-  const tidy = (s) => s.replace(/\s+/g, ' ').replace(/ \/ (?= \/ |$)/g, '').replace(/^ \/ /, '').replace(/\s+\./g, '.').trim();
+  const tidy = (s) =>
+    s
+      .replace(/\s+/g, ' ')
+      .replace(/ \/ (?= \/ |$)/g, '')
+      .replace(/^ \/ /, '')
+      .replace(/\s+\./g, '.')
+      .trim();
   return [tidy(pick(0)), tidy(pick(1))];
 }
 
@@ -90,17 +121,29 @@ function main() {
     usedCodes.add(card.code);
   }
 
-  const rows = readFileSync(RAW, 'utf8').trim().split('\n').map((line) => {
-    const parts = line.split('|');
-    if (parts.length !== FIELDS.length) throw new Error(`Bad row (${parts.length} fields): ${line}`);
-    return Object.fromEntries(FIELDS.map((f, i) => [f, parts[i] === '∅' ? '' : parts[i]]));
-  });
+  const rows = readFileSync(RAW, 'utf8')
+    .trim()
+    .split('\n')
+    .map((line) => {
+      const parts = line.split('|');
+      if (parts.length !== FIELDS.length) throw new Error(`Bad row (${parts.length} fields): ${line}`);
+      return Object.fromEntries(FIELDS.map((f, i) => [f, parts[i] === '∅' ? '' : parts[i]]));
+    });
 
   const seen = new Set();
-  let created = 0, refreshed = 0, skipped = 0, reserved = 0;
+  let created = 0,
+    refreshed = 0,
+    skipped = 0,
+    reserved = 0;
   for (const r of rows.sort((a, b) => a.Name.localeCompare(b.Name))) {
-    if (SHARED.test(r.Name)) { skipped++; continue; }
-    if (reservedNames.has(r.Name)) { reserved++; continue; }
+    if (SHARED.test(r.Name)) {
+      skipped++;
+      continue;
+    }
+    if (reservedNames.has(r.Name)) {
+      reserved++;
+      continue;
+    }
     const id = slug(r.Name);
     if (seen.has(id)) throw new Error(`Duplicate id ${id} (${r.Name})`);
     seen.add(id);
@@ -154,7 +197,11 @@ function main() {
     }
 
     let code;
-    for (const c of codeCandidates(r.Name)) if (!usedCodes.has(c)) { code = c; break; }
+    for (const c of codeCandidates(r.Name))
+      if (!usedCodes.has(c)) {
+        code = c;
+        break;
+      }
     usedCodes.add(code);
     const card = order({ ...meta, code, effects: [], upgraded, simulated: false });
     const path = join(CARDS_DIR, folderFor(type, r.Color), `${id}.json`);
@@ -164,12 +211,33 @@ function main() {
     }
     created++;
   }
-  console.log(`created ${created}, refreshed ${refreshed}, skipped ${skipped} shared Strike/Defend rows and ${reserved} reserved (removed) cards, existing kept ${existing.size}`);
+  console.log(
+    `created ${created}, refreshed ${refreshed}, skipped ${skipped} shared Strike/Defend rows and ${reserved} reserved (removed) cards, existing kept ${existing.size}`,
+  );
 }
 
 /** Stable key order matching the hand-written files. */
 function order(c) {
-  const keys = ['id', 'code', 'name', 'type', 'rarity', 'character', 'cost', 'xCost', 'starCost', 'xStarCost', 'keywords', 'effects', 'upgraded', 'description', 'upgradedDescription', 'simulated', 'multiplayerOnly', 'lastUpdateVersion'];
+  const keys = [
+    'id',
+    'code',
+    'name',
+    'type',
+    'rarity',
+    'character',
+    'cost',
+    'xCost',
+    'starCost',
+    'xStarCost',
+    'keywords',
+    'effects',
+    'upgraded',
+    'description',
+    'upgradedDescription',
+    'simulated',
+    'multiplayerOnly',
+    'lastUpdateVersion',
+  ];
   const out = {};
   for (const k of keys) if (k in c) out[k] = c[k];
   for (const k of Object.keys(c)) if (!(k in out)) out[k] = c[k];

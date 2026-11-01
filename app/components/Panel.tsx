@@ -42,8 +42,26 @@ export function Panel({ id, title, aside, actions, expandOn, defaultCollapsed, c
 
   const heading = (
     <h2 id={`${id}-h`} className="panel-title">
-      <button type="button" className="panel-toggle" aria-expanded={!collapsed} aria-controls={bodyId} onClick={() => set(!collapsed)}>
-        <svg className="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+      <button
+        type="button"
+        className="panel-toggle"
+        aria-expanded={!collapsed}
+        aria-controls={bodyId}
+        onClick={() => set(!collapsed)}
+      >
+        <svg
+          className="chevron"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+          focusable="false"
+        >
           <path d="m6 9 6 6 6-6" />
         </svg>
         <span className="panel-title-text">{title}</span>

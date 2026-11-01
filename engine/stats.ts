@@ -1,8 +1,6 @@
 /**
  * Chart math. All y values are percentages of combats (0–100).
  */
-import type { StrategySummary } from './types';
-
 export interface CurvePoint {
   x: number;
   y: number;
@@ -20,22 +18,6 @@ function integerXs(range: [number, number]): number[] {
   const xs: number[] = [];
   for (let x = lo; x <= hi; x++) xs.push(x);
   return xs;
-}
-
-/** X-axis range for overlaid strategies: [min observed HP lost − 2, max + 2], min clamped at 0. */
-export function hpLostRange(summaries: readonly StrategySummary[]): [number, number] {
-  let min = Infinity;
-  let max = -Infinity;
-  for (const s of summaries) {
-    s.hpLostCounts.forEach((c, n) => {
-      if (c > 0) {
-        if (n < min) min = n;
-        if (n > max) max = n;
-      }
-    });
-  }
-  if (min === Infinity) return [0, 2]; // nothing observed
-  return [Math.max(0, min - 2), max + 2];
 }
 
 /** Raw distribution: one point per integer HP-lost value in range, y = % of combats. */

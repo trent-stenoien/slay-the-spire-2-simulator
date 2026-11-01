@@ -13,11 +13,15 @@ describe('cardWikiUrl', () => {
   });
 
   it('keeps parentheses literal', () => {
-    expect(cardWikiUrl('Mad Science (Sapping)')).toBe('https://slaythespire.wiki.gg/wiki/Slay_the_Spire_2:Mad_Science_(Sapping)');
+    expect(cardWikiUrl('Mad Science (Sapping)')).toBe(
+      'https://slaythespire.wiki.gg/wiki/Slay_the_Spire_2:Mad_Science_(Sapping)',
+    );
   });
 
   it('keeps ! , - literal and encodes what a path cannot hold', () => {
-    expect(cardWikiUrl('Decisions, Decisions')).toBe('https://slaythespire.wiki.gg/wiki/Slay_the_Spire_2:Decisions,_Decisions');
+    expect(cardWikiUrl('Decisions, Decisions')).toBe(
+      'https://slaythespire.wiki.gg/wiki/Slay_the_Spire_2:Decisions,_Decisions',
+    );
     expect(cardWikiUrl('Flick-Flack')).toContain(':Flick-Flack');
     expect(cardWikiUrl('GUARDS!!!')).toContain(':GUARDS!!!');
     expect(cardWikiUrl('What?')).toContain(':What%3F');

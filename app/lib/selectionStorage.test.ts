@@ -19,7 +19,11 @@ const throwing: StorageLike = {
   },
 };
 
-const custom = (id: string, allow: number): SavedStrategy => ({ id, name: id, config: { kind: 'block', allowThrough: allow } });
+const custom = (id: string, allow: number): SavedStrategy => ({
+  id,
+  name: id,
+  config: { kind: 'block', allowThrough: allow },
+});
 const lib = fullLibrary([custom('u1', 3), custom('u2', 5), custom('u3', 7)]);
 
 describe('selection storage', () => {

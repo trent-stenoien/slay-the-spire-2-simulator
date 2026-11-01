@@ -70,7 +70,10 @@ export function loadSelection(storage: StorageLike | null, library: readonly Sav
 export function saveSelection(storage: StorageLike | null, sel: readonly Selection[]): boolean {
   if (!storage) return false;
   try {
-    storage.setItem(SELECTION_STORAGE_KEY, JSON.stringify(sel.map((s) => ({ strategyId: s.strategyId, color: s.color }))));
+    storage.setItem(
+      SELECTION_STORAGE_KEY,
+      JSON.stringify(sel.map((s) => ({ strategyId: s.strategyId, color: s.color }))),
+    );
     return true;
   } catch {
     return false;

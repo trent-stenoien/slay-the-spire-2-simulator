@@ -1,7 +1,8 @@
 import { useEffect, useId, useRef, useState, type FormEvent, type KeyboardEvent } from 'react';
 import { buildFeedbackUrl, MAX_TITLE_LENGTH, type FeedbackType } from '../lib/feedback';
 
-const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled])';
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled])';
 
 /** Footer link plus a native <dialog> form that opens a prefilled GitHub "New issue" page. */
 export function FeedbackDialog({ gameVersion }: { gameVersion: string }) {
@@ -82,17 +83,30 @@ export function FeedbackDialog({ gameVersion }: { gameVersion: string }) {
               <input type="radio" name="type" checked={type === 'issue'} onChange={() => setType('issue')} /> Issue
             </label>
             <label>
-              <input type="radio" name="type" checked={type === 'suggestion'} onChange={() => setType('suggestion')} /> Suggestion
+              <input type="radio" name="type" checked={type === 'suggestion'} onChange={() => setType('suggestion')} />{' '}
+              Suggestion
             </label>
           </fieldset>
           <label className="field" htmlFor={`${uid}-t`}>
             Title
           </label>
-          <input id={`${uid}-t`} value={title} maxLength={MAX_TITLE_LENGTH} required onChange={(e) => setTitle(e.target.value)} />
+          <input
+            id={`${uid}-t`}
+            value={title}
+            maxLength={MAX_TITLE_LENGTH}
+            required
+            onChange={(e) => setTitle(e.target.value)}
+          />
           <label className="field" htmlFor={`${uid}-d`}>
             Description
           </label>
-          <textarea id={`${uid}-d`} value={description} rows={6} required onChange={(e) => setDescription(e.target.value)} />
+          <textarea
+            id={`${uid}-d`}
+            value={description}
+            rows={6}
+            required
+            onChange={(e) => setDescription(e.target.value)}
+          />
           <p className="muted small">A GitHub account is needed to submit, and reports are public.</p>
           <div className="feedback-actions">
             <button type="button" className="btn" onClick={close}>
