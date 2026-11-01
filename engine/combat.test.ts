@@ -282,20 +282,29 @@ describe('damage rules in combat', () => {
   });
 
   it('enemy block protects it during the next player turn only', () => {
+    // Guard (enemy turn 1) gives 10 Block. The player leaves it untouched on turn 2, so only the
+    // reset at the start of enemy turn 2 can remove it: the turn-3 Strike lands in full.
+    const turtle = makeEnemy('turtle', 999, {
+      guard: { name: 'Guard', effects: [{ type: 'gainBlock', amount: 10 }] },
+      wait: { name: 'Wait', effects: [] },
+      wait2: { name: 'Wait', effects: [] },
+    });
+    const strat = scripted((turn) => (turn === 3 ? ['strike'] : []));
+    const r = logged(withEnemy(makeGameData(), turtle), strat, { enemyId: 'turtle', deck: deckOf(['strike', 10]) });
+    expect(events(r.log, 'damage')[0]).toMatchObject({ source: 'player', amount: 6, blocked: 0, hpLoss: 6 });
+  });
+
+  it('enemy block absorbs player hits during the player turn right after it is gained', () => {
+    // Nibbit's Hesitant Slice (enemy turn 2) gives 5 Block: the turn-3 Strike is 5 blocked, 1 HP.
     const strat = scripted((turn) => (turn <= 4 ? ['strike'] : []));
     const r = logged(makeGameData(), strat, { deck: deckOf(['strike', 10]) });
     const playerHits = events(r.log, 'damage').filter((d) => d.source === 'player');
-    // Turn 1, 2: no enemy block. Hesitant Slice (enemy turn 2) gives 5 block.
-    // Turn 3: Strike 6 → 5 blocked, 1 HP. Enemy block resets on its turn 3.
-    // Turn 4: full damage again.
     expect(playerHits.map((d) => [d.blocked, d.hpLoss])).toEqual([
       [0, 6],
       [0, 6],
       [5, 1],
       [0, 6],
     ]);
-    const resets = events(r.log, 'blockReset').filter((b) => b.side === 'enemy');
-    expect(resets.length).toBeGreaterThanOrEqual(3);
   });
 
   it('player block resets at the start of each player turn', () => {
