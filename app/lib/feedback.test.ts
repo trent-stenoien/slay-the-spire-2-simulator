@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { buildFeedbackUrl, contextFooter, labelFor, MAX_URL_LENGTH, REPO_NEW_ISSUE_URL, TRUNCATION_NOTE } from './feedback';
+import {
+  buildFeedbackUrl,
+  contextFooter,
+  labelFor,
+  MAX_URL_LENGTH,
+  REPO_NEW_ISSUE_URL,
+  TRUNCATION_NOTE,
+} from './feedback';
 
 const ctx = { gameVersion: 'v0.107.1', pageUrl: 'https://example.test/sim/?c=ironclad&x=1' };
 const parse = (url: string) => new URL(url).searchParams;
@@ -14,7 +21,9 @@ describe('buildFeedbackUrl', () => {
     expect(labelFor('issue')).toBe('bug');
     expect(labelFor('suggestion')).toBe('enhancement');
     expect(parse(buildFeedbackUrl({ type: 'issue', title: 't', description: 'd' }, ctx)).get('labels')).toBe('bug');
-    expect(parse(buildFeedbackUrl({ type: 'suggestion', title: 't', description: 'd' }, ctx)).get('labels')).toBe('enhancement');
+    expect(parse(buildFeedbackUrl({ type: 'suggestion', title: 't', description: 'd' }, ctx)).get('labels')).toBe(
+      'enhancement',
+    );
   });
 
   it('encodes special characters and round-trips them', () => {

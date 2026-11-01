@@ -1,6 +1,12 @@
 import { useId, type CSSProperties } from 'react';
 import { COLOR_HEX } from '../lib/colors';
-import { BANDWIDTH_FACTOR, bandwidthFactorLabel, bandwidthTicks, clampBandwidthFactor, toggleHidden } from '../lib/chart';
+import {
+  BANDWIDTH_FACTOR,
+  bandwidthFactorLabel,
+  bandwidthTicks,
+  clampBandwidthFactor,
+  toggleHidden,
+} from '../lib/chart';
 import type { ResultRow } from '../lib/results';
 import { InfoPopover } from './InfoPopover';
 
@@ -15,7 +21,14 @@ export function ModePicker({ mode, onChange }: { mode: ChartMode; onChange: (mod
   return (
     <div className="segmented" role="tablist" aria-label="Chart view">
       {MODES.map((m) => (
-        <button key={m.id} type="button" role="tab" aria-selected={mode === m.id} className={mode === m.id ? 'on' : ''} onClick={() => onChange(m.id)}>
+        <button
+          key={m.id}
+          type="button"
+          role="tab"
+          aria-selected={mode === m.id}
+          className={mode === m.id ? 'on' : ''}
+          onClick={() => onChange(m.id)}
+        >
           {m.label}
         </button>
       ))}

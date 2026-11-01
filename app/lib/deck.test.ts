@@ -1,6 +1,23 @@
 import { describe, expect, it } from 'vitest';
 import { gameData } from '../../data';
-import { automaticCards, cardFolder, combatDeckSize, changeCount, copiesOf, costColorKey, deckPool, deckSize, filteredPool, foldersForFilter, groupedPool, isCharacterSimulated, matchesSearch, removeCard, startingDeckFor, unsimulatedStarters } from './deck';
+import {
+  automaticCards,
+  cardFolder,
+  combatDeckSize,
+  changeCount,
+  copiesOf,
+  costColorKey,
+  deckPool,
+  deckSize,
+  filteredPool,
+  foldersForFilter,
+  groupedPool,
+  isCharacterSimulated,
+  matchesSearch,
+  removeCard,
+  startingDeckFor,
+  unsimulatedStarters,
+} from './deck';
 import type { CardDef, Deck } from '../../engine/types';
 
 const deck: Deck = [
@@ -17,9 +34,26 @@ describe('deckPool', () => {
   });
 
   it('excludes hidden cards even when simulated', () => {
-    const data = { ...gameData, cards: { ...gameData.cards, hid_test: { ...gameData.cards.strike!, id: 'hid_test', name: 'Hid Test', character: 'colorless' as const, simulated: true, hidden: true } } };
+    const data = {
+      ...gameData,
+      cards: {
+        ...gameData.cards,
+        hid_test: {
+          ...gameData.cards.strike!,
+          id: 'hid_test',
+          name: 'Hid Test',
+          character: 'colorless' as const,
+          simulated: true,
+          hidden: true,
+        },
+      },
+    };
     expect(deckPool(data, 'ironclad').map((c) => c.id)).not.toContain('hid_test');
-    expect(groupedPool(data, 'ironclad', '', { statuses: true, curses: true, multiplayer: true }).flatMap((g) => g.cards.map((c) => c.id))).not.toContain('hid_test');
+    expect(
+      groupedPool(data, 'ironclad', '', { statuses: true, curses: true, multiplayer: true }).flatMap((g) =>
+        g.cards.map((c) => c.id),
+      ),
+    ).not.toContain('hid_test');
   });
 
   it('hides the Mad Science placeholder', () => {
@@ -113,8 +147,22 @@ describe('card selector filters', () => {
     expect(cardsFor({ curses: true }).some((c) => c.type === 'curse')).toBe(true);
     expect(cardsFor({ curses: true }).some((c) => c.type === 'status' || c.multiplayerOnly)).toBe(false);
     // No simulated multiplayer-only card exists in the data yet, so flag one.
-    const data = { ...gameData, cards: { ...gameData.cards, mp_test: { ...gameData.cards.strike!, id: 'mp_test', name: 'MP Test', character: 'colorless' as const, multiplayerOnly: true, simulated: true } } };
-    const ids = (f: Partial<typeof off>) => groupedPool(data, 'ironclad', '', { ...off, ...f }).flatMap((g) => g.cards.map((c) => c.id));
+    const data = {
+      ...gameData,
+      cards: {
+        ...gameData.cards,
+        mp_test: {
+          ...gameData.cards.strike!,
+          id: 'mp_test',
+          name: 'MP Test',
+          character: 'colorless' as const,
+          multiplayerOnly: true,
+          simulated: true,
+        },
+      },
+    };
+    const ids = (f: Partial<typeof off>) =>
+      groupedPool(data, 'ironclad', '', { ...off, ...f }).flatMap((g) => g.cards.map((c) => c.id));
     expect(ids({})).not.toContain('mp_test');
     expect(ids({ multiplayer: true })).toContain('mp_test');
     expect(ids({ statuses: true, curses: true })).not.toContain('mp_test');
@@ -132,7 +180,9 @@ describe('card selector filters', () => {
     const q = cardsFor(all, 'BASH').map((c) => c.id);
     expect(q).toContain('bash');
     expect(q).not.toContain('strike');
-    const curse = Object.values(gameData.cards).find((c) => c.type === 'curse' && c.simulated && c.id !== 'ascenders_bane')!;
+    const curse = Object.values(gameData.cards).find(
+      (c) => c.type === 'curse' && c.simulated && c.id !== 'ascenders_bane',
+    )!;
     expect(cardsFor({}, curse.name).map((c) => c.id)).not.toContain(curse.id);
     expect(cardsFor({ curses: true }, curse.name).map((c) => c.id)).toContain(curse.id);
   });
@@ -178,7 +228,9 @@ describe("automatic ascension cards (Ascender's Bane)", () => {
   const off = { statuses: false, curses: false, multiplayer: false };
   const on = { ...off, curses: true };
   const curseIds = (asc: number, f = off) =>
-    groupedPool(gameData, 'ironclad', '', f, asc).find((g) => g.label === 'Curses')?.cards.map((c) => c.id) ?? [];
+    groupedPool(gameData, 'ironclad', '', f, asc)
+      .find((g) => g.label === 'Curses')
+      ?.cards.map((c) => c.id) ?? [];
   const level = gameData.manifest.ascensionCards[0]!.level;
 
   it('none below the manifest level, Bane at and above it', () => {
@@ -212,7 +264,9 @@ describe('foldersForFilter', () => {
   it('maps Statuses and Curses to their own folders, matching groupedPool keys', () => {
     expect(foldersForFilter(gameData, 'ironclad', 'statuses')).toEqual(['status']);
     expect(foldersForFilter(gameData, 'ironclad', 'curses')).toEqual(['curses']);
-    const keys = groupedPool(gameData, 'ironclad', '', { statuses: true, curses: true, multiplayer: false }).map((g) => g.key);
+    const keys = groupedPool(gameData, 'ironclad', '', { statuses: true, curses: true, multiplayer: false }).map(
+      (g) => g.key,
+    );
     expect(keys).toContain('status');
     expect(keys).toContain('curses');
   });
@@ -221,7 +275,9 @@ describe('foldersForFilter', () => {
     const folders = foldersForFilter(gameData, 'ironclad', 'multiplayer');
     const withIt = groupedPool(gameData, 'ironclad', '', { statuses: true, curses: true, multiplayer: true });
     const without = groupedPool(gameData, 'ironclad', '', { statuses: true, curses: true, multiplayer: false });
-    const gained = withIt.filter((g) => g.cards.length > (without.find((w) => w.key === g.key)?.cards.length ?? 0)).map((g) => g.key);
+    const gained = withIt
+      .filter((g) => g.cards.length > (without.find((w) => w.key === g.key)?.cards.length ?? 0))
+      .map((g) => g.key);
     expect([...folders].sort()).toEqual(gained.sort());
   });
 });

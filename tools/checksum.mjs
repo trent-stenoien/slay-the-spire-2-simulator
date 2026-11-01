@@ -13,5 +13,7 @@ const body = lines.slice(Number(start), Number(start) + Number(count)).join('\n'
 let s = 0;
 for (let i = 0; i < body.length; i++) s = (s + body.charCodeAt(i) * ((i % 31) + 1)) % 1000000007;
 const ok = String(s) === String(expected);
-console.log(`${ok ? 'OK' : 'MISMATCH'} rows ${start}..${Number(start) + Number(count) - 1}: sum=${s} expected=${expected}`);
+console.log(
+  `${ok ? 'OK' : 'MISMATCH'} rows ${start}..${Number(start) + Number(count) - 1}: sum=${s} expected=${expected}`,
+);
 process.exit(ok ? 0 : 1);

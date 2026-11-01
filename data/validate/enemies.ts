@@ -11,7 +11,8 @@ function checkEnemyOnlyEffects(r: Reporter, list: unknown, path: string): void {
   if (!Array.isArray(list)) return;
   list.forEach((e, i) => {
     if (!isObj(e)) return;
-    if (e.type === 'applyPoison') r.add(`${path}[${i}].type`, 'is "applyPoison", but Poison on the player is not simulated');
+    if (e.type === 'applyPoison')
+      r.add(`${path}[${i}].type`, 'is "applyPoison", but Poison on the player is not simulated');
     if (e.type === 'gainEnergy') r.add(`${path}[${i}].type`, 'is "gainEnergy", but enemies have no energy');
     if (isOneOf(e.type, CONTRACT_EFFECTS)) {
       r.add(`${path}[${i}].type`, `is "${e.type}", which is not simulated on enemy moves`);

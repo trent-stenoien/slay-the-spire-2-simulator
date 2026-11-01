@@ -65,7 +65,9 @@ describe('runCombatRange', () => {
       expect(hps[0]).toBeGreaterThan(0);
       expect(new Set(hps).size).toBe(1);
     }
-    const seedsPerStrategy = config.strategies.map((_, s) => runCombatRange(gameData, config, s, 0, 20).map((r) => r.seed));
+    const seedsPerStrategy = config.strategies.map((_, s) =>
+      runCombatRange(gameData, config, s, 0, 20).map((r) => r.seed),
+    );
     for (const seeds of seedsPerStrategy) expect(seeds).toEqual(seedsPerStrategy[0]);
   });
 
@@ -90,11 +92,21 @@ describe('runCombatRange', () => {
 
 describe('summarize', () => {
   it('keeps the lowest combat index for each HP lost value', () => {
-    const s = summarize('x', [result('win', 3, 4), result('win', 3, 0), result('win', 3, 4), result('loss', 9, 80), result('win', 3, 0)]);
+    const s = summarize('x', [
+      result('win', 3, 4),
+      result('win', 3, 0),
+      result('win', 3, 4),
+      result('loss', 9, 80),
+      result('win', 3, 0),
+    ]);
     expect(s.firstCombatByHpLost).toEqual({ 4: 0, 0: 1, 80: 3 });
     // Keys are exactly the HP values that occurred.
     const seen = s.hpLostCounts.flatMap((c, hp) => (c > 0 ? [hp] : []));
-    expect(Object.keys(s.firstCombatByHpLost).map(Number).sort((a, b) => a - b)).toEqual(seen);
+    expect(
+      Object.keys(s.firstCombatByHpLost)
+        .map(Number)
+        .sort((a, b) => a - b),
+    ).toEqual(seen);
   });
 
   it('computes averages, rates (as fractions) and the histogram', () => {

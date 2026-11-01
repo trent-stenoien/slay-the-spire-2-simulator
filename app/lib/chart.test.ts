@@ -24,7 +24,14 @@ import {
   CURVE_FILL_OPACITY,
   staggerLabels,
   areaPath,
-  curvesMaxY, linePath, linearScale, niceMax, niceStep, niceTicks, percentLabel } from './chart';
+  curvesMaxY,
+  linePath,
+  linearScale,
+  niceMax,
+  niceStep,
+  niceTicks,
+  percentLabel,
+} from './chart';
 
 describe('chart scaling', () => {
   it('linearScale maps and inverts direction', () => {
@@ -66,12 +73,23 @@ describe('chart scaling', () => {
 
   it('curvesMaxY', () => {
     expect(curvesMaxY([])).toBe(0);
-    expect(curvesMaxY([[{ x: 0, y: 2 }], [{ x: 1, y: 7 }, { x: 2, y: 3 }]])).toBe(7);
+    expect(
+      curvesMaxY([
+        [{ x: 0, y: 2 }],
+        [
+          { x: 1, y: 7 },
+          { x: 2, y: 3 },
+        ],
+      ]),
+    ).toBe(7);
   });
 
   it('builds line, step and area paths', () => {
     const id = (v: number) => v;
-    const pts = [{ x: 0, y: 1 }, { x: 2, y: 3 }];
+    const pts = [
+      { x: 0, y: 1 },
+      { x: 2, y: 3 },
+    ];
     expect(linePath([], id, id)).toBe('');
     expect(linePath(pts, id, id)).toBe('M0,1L2,3');
     expect(linePath(pts, id, id, 'step')).toBe('M-0.5,1L0.5,1L1.5,3L2.5,3');
@@ -197,7 +215,17 @@ describe('hpLostPercentile (nearest rank on the histogram)', () => {
 
 const row = (strategyId: string, hpLostCounts: number[]) => ({
   strategyId,
-  summary: { strategyId, combats: 1, avgHpLost: 0, avgTurnsToKill: null, avgTurns: 1, deathRate: 0, turnCapRate: 0, hpLostCounts, firstCombatByHpLost: {} },
+  summary: {
+    strategyId,
+    combats: 1,
+    avgHpLost: 0,
+    avgTurnsToKill: null,
+    avgTurns: 1,
+    deathRate: 0,
+    turnCapRate: 0,
+    hpLostCounts,
+    firstCombatByHpLost: {},
+  },
 });
 /** A histogram with `n` combats at each given HP value. */
 const hist = (entries: Record<number, number>) => {
@@ -246,7 +274,12 @@ describe('clipping helpers', () => {
   });
 
   it('the Y max ignores points outside the axis range', () => {
-    const c = [{ x: 3, y: 50 }, { x: 5, y: 7 }, { x: 10, y: 2 }, { x: 11, y: 90 }];
+    const c = [
+      { x: 3, y: 50 },
+      { x: 5, y: 7 },
+      { x: 10, y: 2 },
+      { x: 11, y: 90 },
+    ];
     expect(curvesMaxYInRange([c], [4, 10])).toBe(7);
   });
 });
@@ -280,7 +313,15 @@ describe('strategyPercentileMarkers', () => {
 
 describe('staggerLabels', () => {
   it('keeps well-separated labels on one row', () => {
-    expect(staggerLabels([{ x: 50, width: 20 }, { x: 100, width: 20 }], [0, 200])).toEqual([
+    expect(
+      staggerLabels(
+        [
+          { x: 50, width: 20 },
+          { x: 100, width: 20 },
+        ],
+        [0, 200],
+      ),
+    ).toEqual([
       { x: 50, row: 0 },
       { x: 100, row: 0 },
     ]);
@@ -300,7 +341,15 @@ describe('staggerLabels', () => {
   });
 
   it('clamps labels inside the bounds', () => {
-    expect(staggerLabels([{ x: 2, width: 20 }, { x: 199, width: 20 }], [0, 200])).toEqual([
+    expect(
+      staggerLabels(
+        [
+          { x: 2, width: 20 },
+          { x: 199, width: 20 },
+        ],
+        [0, 200],
+      ),
+    ).toEqual([
       { x: 10, row: 0 },
       { x: 190, row: 0 },
     ]);
@@ -364,14 +413,29 @@ describe('percentileMarkerSets', () => {
 describe('aboveCurvePath', () => {
   const sx = linearScale([0, 10], [0, 100]);
   const sy = linearScale([0, 10], [100, 0]);
-  const pts = [{ x: 0, y: 2 }, { x: 5, y: 8 }, { x: 10, y: 4 }];
+  const pts = [
+    { x: 0, y: 2 },
+    { x: 5, y: 8 },
+    { x: 10, y: 4 },
+  ];
 
   it('closes the curve up to the top of the plot (smooth)', () => {
     expect(aboveCurvePath(pts, sx, sy, 10)).toBe('M0,80L50,20L100,60L100,10L0,10Z');
   });
 
   it('follows the bar tops in the step (Raw) view', () => {
-    expect(aboveCurvePath([{ x: 1, y: 5 }, { x: 2, y: 10 }], sx, sy, 0, 'step')).toBe('M5,50L15,50L15,0L25,0L25,0L5,0Z');
+    expect(
+      aboveCurvePath(
+        [
+          { x: 1, y: 5 },
+          { x: 2, y: 10 },
+        ],
+        sx,
+        sy,
+        0,
+        'step',
+      ),
+    ).toBe('M5,50L15,50L15,0L25,0L25,0L5,0Z');
   });
 
   it('is empty for an empty curve', () => {
@@ -383,21 +447,36 @@ describe('groupedLabelRows', () => {
   it('gives each strategy its own block of label rows', () => {
     const out = groupedLabelRows(
       [
-        [{ x: 50, width: 20 }, { x: 100, width: 20 }],
-        [{ x: 50, width: 20 }, { x: 100, width: 20 }],
+        [
+          { x: 50, width: 20 },
+          { x: 100, width: 20 },
+        ],
+        [
+          { x: 50, width: 20 },
+          { x: 100, width: 20 },
+        ],
       ],
       [0, 200],
     );
     expect(out).toEqual([
-      [{ x: 50, row: 0 }, { x: 100, row: 0 }],
-      [{ x: 50, row: 1 }, { x: 100, row: 1 }],
+      [
+        { x: 50, row: 0 },
+        { x: 100, row: 0 },
+      ],
+      [
+        { x: 50, row: 1 },
+        { x: 100, row: 1 },
+      ],
     ]);
   });
 
   it('staggers collisions inside a strategy and shifts the next strategy below them', () => {
     const out = groupedLabelRows(
       [
-        [{ x: 50, width: 40 }, { x: 60, width: 40 }],
+        [
+          { x: 50, width: 40 },
+          { x: 60, width: 40 },
+        ],
         [{ x: 150, width: 20 }],
       ],
       [0, 200],

@@ -61,7 +61,11 @@ describe('createRng', () => {
 
 describe('engine randomness', () => {
   it('no engine source file calls Math.random (all randomness goes through the seeded Rng)', () => {
-    const sources = import.meta.glob<string>(['./*.ts', '!./*.test.ts'], { query: '?raw', import: 'default', eager: true });
+    const sources = import.meta.glob<string>(['./*.ts', '!./*.test.ts'], {
+      query: '?raw',
+      import: 'default',
+      eager: true,
+    });
     const files = Object.keys(sources);
     expect(files).toEqual(expect.arrayContaining(['./combat.ts', './rng.ts', './strategies.ts', './montecarlo.ts']));
     for (const file of files) {

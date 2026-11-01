@@ -1,5 +1,18 @@
 /** Effect lists, including the #105 contract shapes (filters, conditions, sources, triggers). */
-import { CARD_TYPES, CARD_RARITIES, CONTRACT_EFFECTS, PILES, DESTINATIONS, SELECT_MODES, COUNTERS, POWER_IDS, ENEMY_POWER_IDS, TRIGGER_WHENS, POOL_CHARACTERS, AMOUNT_EFFECTS } from './lists';
+import {
+  CARD_TYPES,
+  CARD_RARITIES,
+  CONTRACT_EFFECTS,
+  PILES,
+  DESTINATIONS,
+  SELECT_MODES,
+  COUNTERS,
+  POWER_IDS,
+  ENEMY_POWER_IDS,
+  TRIGGER_WHENS,
+  POOL_CHARACTERS,
+  AMOUNT_EFFECTS,
+} from './lists';
 import { type Obj, isOneOf, isObj, has, Reporter, optInt, optBool, enumList } from './shared';
 
 export function checkEffects(r: Reporter, list: unknown, path: string): void {
@@ -61,7 +74,12 @@ export function checkCondition(r: Reporter, v: unknown, p: string): void {
     r.add(p, 'must be an object');
     return;
   }
-  const kind = r.oneOf(v, 'kind', ['lostHpThisTurn', 'enemyHas', 'counter', 'handHasNone', 'handAll', 'fatal'], `${p}.kind`);
+  const kind = r.oneOf(
+    v,
+    'kind',
+    ['lostHpThisTurn', 'enemyHas', 'counter', 'handHasNone', 'handAll', 'fatal'],
+    `${p}.kind`,
+  );
   if (kind === 'enemyHas') r.oneOf(v, 'status', ['vulnerable', 'weak', 'frail', 'poison'], `${p}.status`);
   if (kind === 'counter') {
     r.oneOf(v, 'counter', COUNTERS, `${p}.counter`);
@@ -171,7 +189,8 @@ function checkContractEffect(r: Reporter, e: Obj, p: string): void {
       optBool(r, e, 'allEnemies', p);
       if (has(e, 'bonusPer')) checkPer(r, e.bonusPer, `${p}.bonusPer`);
       if (has(e, 'extraHitsPer')) checkPer(r, e.extraHitsPer, `${p}.extraHitsPer`);
-      if (!has(e, 'bonusPer') && !has(e, 'extraHitsPer')) r.add(p, 'needs "bonusPer" or "extraHitsPer" (use "attack" otherwise)');
+      if (!has(e, 'bonusPer') && !has(e, 'extraHitsPer'))
+        r.add(p, 'needs "bonusPer" or "extraHitsPer" (use "attack" otherwise)');
       break;
     case 'gainBlockFrom':
       r.int(e, 'amount', 0, `${p}.amount`);

@@ -36,7 +36,9 @@ export function StrategyPanel(props: Props) {
           </button>
         )}
       </div>
-      {!storageOk && <p className="note">Browser storage is unavailable; custom strategies last only until you close the page.</p>}
+      {!storageOk && (
+        <p className="note">Browser storage is unavailable; custom strategies last only until you close the page.</p>
+      )}
       <ul className="strat-list">
         {library.map((s) => (
           <StrategyRow key={s.id} {...props} s={s} sel={selection.find((x) => x.strategyId === s.id)} full={full} />
@@ -63,7 +65,10 @@ function StrategyRow({
   const [editing, setEditing] = useState(false);
   const checked = sel !== undefined;
   return (
-    <li className={`strat-row${checked ? ' selected' : ''}${builtIn ? '' : ' custom'}`} style={sel ? { borderLeftColor: COLOR_HEX[sel.color] } : undefined}>
+    <li
+      className={`strat-row${checked ? ' selected' : ''}${builtIn ? '' : ' custom'}`}
+      style={sel ? { borderLeftColor: COLOR_HEX[sel.color] } : undefined}
+    >
       <label className="strat-check">
         <input type="checkbox" checked={checked} disabled={!checked && full} onChange={() => onToggle(s.id)} />
         <span>
@@ -121,7 +126,12 @@ function StrategyRow({
             <span>Title</span>
             <input defaultValue={s.name} onBlur={(e) => onRename(s.id, e.target.value)} maxLength={40} />
           </label>
-          <AllowInput library={library} id={s.id} value={s.config.allowThrough} onCommit={(n) => onAllowThrough(s.id, n)} />
+          <AllowInput
+            library={library}
+            id={s.id}
+            value={s.config.allowThrough}
+            onCommit={(n) => onAllowThrough(s.id, n)}
+          />
         </div>
       )}
     </li>
@@ -130,7 +140,18 @@ function StrategyRow({
 
 function Icon({ children }: { children: React.ReactNode }) {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
       {children}
     </svg>
   );
@@ -152,7 +173,17 @@ const XIcon = () => (
   </Icon>
 );
 
-function AllowInput({ library, id, value, onCommit }: { library: SavedStrategy[]; id: string; value: number; onCommit: (n: number) => void }) {
+function AllowInput({
+  library,
+  id,
+  value,
+  onCommit,
+}: {
+  library: SavedStrategy[];
+  id: string;
+  value: number;
+  onCommit: (n: number) => void;
+}) {
   const [text, setText] = useState(String(value));
   const parsed = parseAllowThrough(text);
   const problem = parsed === null ? null : blockStrategyProblem(library, parsed, id);
@@ -178,7 +209,13 @@ function AllowInput({ library, id, value, onCommit }: { library: SavedStrategy[]
   );
 }
 
-function NewStrategyForm({ library, onAdd }: { library: SavedStrategy[]; onAdd: (name: string, allowThrough: number) => void }) {
+function NewStrategyForm({
+  library,
+  onAdd,
+}: {
+  library: SavedStrategy[];
+  onAdd: (name: string, allowThrough: number) => void;
+}) {
   const [name, setName] = useState('');
   const [allow, setAllow] = useState('5');
   const parsed = parseAllowThrough(allow);
@@ -197,11 +234,24 @@ function NewStrategyForm({ library, onAdd }: { library: SavedStrategy[]; onAdd: 
       <div className="field-row">
         <label className="field">
           <span>Title</span>
-          <input value={name} placeholder={`Block, allow ${parsed ?? 'X'}`} maxLength={40} onChange={(e) => setName(e.target.value)} />
+          <input
+            value={name}
+            placeholder={`Block, allow ${parsed ?? 'X'}`}
+            maxLength={40}
+            onChange={(e) => setName(e.target.value)}
+          />
         </label>
         <label className="field field-narrow">
           <span>Allow at most X damage per turn</span>
-          <input type="number" inputMode="numeric" min={0} step={1} value={allow} aria-invalid={parsed === null} onChange={(e) => setAllow(e.target.value)} />
+          <input
+            type="number"
+            inputMode="numeric"
+            min={0}
+            step={1}
+            value={allow}
+            aria-invalid={parsed === null}
+            onChange={(e) => setAllow(e.target.value)}
+          />
         </label>
         <button type="submit" className="btn" disabled={parsed === null || problem !== null}>
           Add

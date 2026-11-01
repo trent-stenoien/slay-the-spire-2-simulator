@@ -1,5 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { COLORS, deselectStrategy, firstFreeColor, isColorTaken, pruneSelection, selectStrategy, setColor, type Selection } from './colors';
+import {
+  COLORS,
+  deselectStrategy,
+  firstFreeColor,
+  isColorTaken,
+  pruneSelection,
+  selectStrategy,
+  setColor,
+  type Selection,
+} from './colors';
 
 function selectAll(ids: string[]): Selection[] {
   return ids.reduce<Selection[]>((sel, id) => selectStrategy(sel, id), []);

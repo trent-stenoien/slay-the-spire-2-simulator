@@ -49,7 +49,13 @@ export function App() {
           </button>
         </div>
       )}
-      <main>{logTarget ? <CombatLog data={data} setup={setup} target={logTarget} /> : <Simulator setup={setup} setSetup={setSetup} />}</main>
+      <main>
+        {logTarget ? (
+          <CombatLog data={data} setup={setup} target={logTarget} />
+        ) : (
+          <Simulator setup={setup} setSetup={setSetup} />
+        )}
+      </main>
       <footer className="muted small">
         <p>Card and enemy data from slaythespire.wiki.gg (CC BY-SA 4.0). Not affiliated with Mega Crit.</p>
         <p>
@@ -75,7 +81,11 @@ function Simulator({ setup, setSetup }: { setup: SetupState; setSetup: (s: Setup
   }, [setup]);
 
   const blocker =
-    deckSize(setup.deck) === 0 ? 'Add at least one card to the deck.' : strategies.selection.length === 0 ? 'Select at least one strategy.' : null;
+    deckSize(setup.deck) === 0
+      ? 'Add at least one card to the deck.'
+      : strategies.selection.length === 0
+        ? 'Select at least one strategy.'
+        : null;
 
   const run = async (runSeed: number) => {
     const strategiesForRun: RunStrategy[] = strategies.selection.flatMap((sel) => {
@@ -103,7 +113,14 @@ function Simulator({ setup, setSetup }: { setup: SetupState; setSetup: (s: Setup
 
   return (
     <>
-      <ResultsPanel data={data} characterId={setup.characterId} result={result} status={status} blocker={blocker} onRun={run} />
+      <ResultsPanel
+        data={data}
+        characterId={setup.characterId}
+        result={result}
+        status={status}
+        blocker={blocker}
+        onRun={run}
+      />
       <div className="grid">
         <div className="col col-deck">
           <DeckBuilder

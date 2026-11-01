@@ -20,7 +20,14 @@
  * would turn "+" into a space).
  */
 import { parseStrategyCode, strategyCode } from '../../engine/strategies';
-import { MAX_STRATEGIES_PER_RUN, type CardDef, type Deck, type GameData, type StrategyColor, type StrategyConfig } from '../../engine/types';
+import {
+  MAX_STRATEGIES_PER_RUN,
+  type CardDef,
+  type Deck,
+  type GameData,
+  type StrategyColor,
+  type StrategyConfig,
+} from '../../engine/types';
 import { deckPool, startingDeckFor } from './deck';
 
 export const URL_VERSION = '1';
@@ -109,7 +116,8 @@ export function decodeDeck(data: GameData, characterId: string, text: string): D
     const [whole, code = '', plus, countText = ''] = m;
     const card = byCode.get(code);
     if (!card) return { ok: false, error: `Deck: unknown card code "${code}"` };
-    if (!pool.has(card.id)) return { ok: false, error: `Deck: ${card.name} (${code}) is not available for this character` };
+    if (!pool.has(card.id))
+      return { ok: false, error: `Deck: ${card.name} (${code}) is not available for this character` };
     const upgraded = plus === '+';
     if (upgraded && !card.upgraded) return { ok: false, error: `Deck: ${card.name} (${code}) cannot be upgraded` };
     const count = Number(countText);
@@ -147,7 +155,8 @@ export function buildQuery(data: GameData, setup: SetupState, log?: LogTarget | 
       throw new Error(`A log link needs 1–${MAX_STRATEGIES_PER_RUN} strategies, got ${log.strategies.length}`);
     }
     parts.push(`s=${log.seed >>> 0}`, `st=${log.strategies.map(strategyCode).join(',')}`);
-    if (log.colors && log.colors.length === log.strategies.length) parts.push(`k=${log.colors.map((c) => COLOR_LETTER[c]).join(',')}`);
+    if (log.colors && log.colors.length === log.strategies.length)
+      parts.push(`k=${log.colors.map((c) => COLOR_LETTER[c]).join(',')}`);
     if (log.combatIndex !== undefined) parts.push(`n=${log.combatIndex}`);
   }
   return parts.join('&');
@@ -267,9 +276,15 @@ function parseLogTarget(p: Map<string, string>, errors: string[]): LogTarget | n
 }
 
 /** Parse `st`: one strategy code, or up to MAX_STRATEGIES_PER_RUN distinct codes joined by ",". */
-export function parseStrategyList(text: string): { ok: true; strategies: StrategyConfig[] } | { ok: false; error: string } {
+export function parseStrategyList(
+  text: string,
+): { ok: true; strategies: StrategyConfig[] } | { ok: false; error: string } {
   const codes = text.split(',');
-  if (codes.length > MAX_STRATEGIES_PER_RUN) return { ok: false, error: `A combat link holds at most ${MAX_STRATEGIES_PER_RUN} strategies, got ${codes.length}` };
+  if (codes.length > MAX_STRATEGIES_PER_RUN)
+    return {
+      ok: false,
+      error: `A combat link holds at most ${MAX_STRATEGIES_PER_RUN} strategies, got ${codes.length}`,
+    };
   const strategies: StrategyConfig[] = [];
   const seen = new Set<string>();
   for (const code of codes) {

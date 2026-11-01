@@ -110,7 +110,17 @@ export function DistributionChart({
 
   const { range, curves } = computed;
   const visible = rows.map((r) => !hidden.has(r.strategyId));
-  const yMax = mode === 'cumulative' ? 100 : niceMax(curvesMaxYInRange(curves.filter((_, i) => visible[i]), range), 5, 1);
+  const yMax =
+    mode === 'cumulative'
+      ? 100
+      : niceMax(
+          curvesMaxYInRange(
+            curves.filter((_, i) => visible[i]),
+            range,
+          ),
+          5,
+          1,
+        );
   const sx = linearScale(range, [M.left, W - M.right]);
   const markerSets = percentileMarkerSets(rows, hidden);
   const markerLabels = groupedLabelRows(
@@ -146,30 +156,72 @@ export function DistributionChart({
             );
           })}
         </defs>
-        <Axes sx={sx} sy={sy} top={top} xTicks={niceTicks(range[0], range[1], 8, true)} yTicks={niceTicks(0, yMax, 5)} yLabel={Y_LABELS[mode]} />
+        <Axes
+          sx={sx}
+          sy={sy}
+          top={top}
+          xTicks={niceTicks(range[0], range[1], 8, true)}
+          yTicks={niceTicks(0, yMax, 5)}
+          yLabel={Y_LABELS[mode]}
+        />
         <g clipPath={`url(#${clipId})`}>
           {/* P25-P75 bands, only between each marked strategy's curve and the top of the plot. */}
           {markerSets.map(({ row, markers }) => (
-            <PercentileBand key={`band-${row.strategyId}`} row={row} markers={markers} sx={sx} top={top} clipPath={`url(#${clipId}-above-${curveIndex(row)})`} />
+            <PercentileBand
+              key={`band-${row.strategyId}`}
+              row={row}
+              markers={markers}
+              sx={sx}
+              top={top}
+              clipPath={`url(#${clipId}-above-${curveIndex(row)})`}
+            />
           ))}
           {curves.map((pts, i) => {
             if (!visible[i]) return null;
             const color = COLOR_HEX[rows[i]!.color];
             return (
               <g key={rows[i]!.strategyId}>
-                <path className="curve-fill" d={areaPath(pts, sx, sy, sy(0), shape)} fill={color} fillOpacity={CURVE_FILL_OPACITY} stroke="none" />
-                <path d={linePath(pts, sx, sy, shape)} fill="none" stroke={color} strokeWidth={2} strokeLinejoin="round" />
+                <path
+                  className="curve-fill"
+                  d={areaPath(pts, sx, sy, sy(0), shape)}
+                  fill={color}
+                  fillOpacity={CURVE_FILL_OPACITY}
+                  stroke="none"
+                />
+                <path
+                  d={linePath(pts, sx, sy, shape)}
+                  fill="none"
+                  stroke={color}
+                  strokeWidth={2}
+                  strokeLinejoin="round"
+                />
               </g>
             );
           })}
         </g>
-        {markerSets.length > 0 && <PercentileMarks sets={markerSets} labels={markerLabels} sx={sx} percentileHref={percentileHref} />}
+        {markerSets.length > 0 && (
+          <PercentileMarks sets={markerSets} labels={markerLabels} sx={sx} percentileHref={percentileHref} />
+        )}
       </svg>
     </div>
   );
 }
 
-function Axes({ sx, sy, top, xTicks, yTicks, yLabel }: { sx: Scale; sy: Scale; top: number; xTicks: number[]; yTicks: number[]; yLabel: string }) {
+function Axes({
+  sx,
+  sy,
+  top,
+  xTicks,
+  yTicks,
+  yLabel,
+}: {
+  sx: Scale;
+  sy: Scale;
+  top: number;
+  xTicks: number[];
+  yTicks: number[];
+  yLabel: string;
+}) {
   return (
     <>
       {yTicks.map((t) => (
@@ -193,7 +245,11 @@ function Axes({ sx, sy, top, xTicks, yTicks, yLabel }: { sx: Scale; sy: Scale; t
       <text className="axis-label" x={(M.left + W - M.right) / 2} y={H - 6} textAnchor="middle">
         HP lost
       </text>
-      <text className="axis-label" transform={`translate(14 ${(top + PLOT_BOTTOM) / 2}) rotate(-90)`} textAnchor="middle">
+      <text
+        className="axis-label"
+        transform={`translate(14 ${(top + PLOT_BOTTOM) / 2}) rotate(-90)`}
+        textAnchor="middle"
+      >
         {yLabel}
       </text>
     </>
@@ -236,7 +292,14 @@ function PercentileMarks({
       {sets.map(({ row, markers }, s) => (
         <g key={row.strategyId} className="pmark-set" style={markColor(row)}>
           {markers.map((m, i) => (
-            <line key={`l${m.p}`} className="pmark" x1={sx(m.value)} x2={sx(m.value)} y1={labelY(labels[s]![i]!.row) + 3} y2={PLOT_BOTTOM} />
+            <line
+              key={`l${m.p}`}
+              className="pmark"
+              x1={sx(m.value)}
+              x2={sx(m.value)}
+              y1={labelY(labels[s]![i]!.row) + 3}
+              y2={PLOT_BOTTOM}
+            />
           ))}
         </g>
       ))}
@@ -245,14 +308,28 @@ function PercentileMarks({
           {markers.map((m, i) => {
             const pos = labels[s]![i]!;
             const label = (
-              <text key={`t${m.p}`} className="pmark-label" x={pos.x} y={labelY(pos.row)} textAnchor="middle" fontSize={MARK_FONT}>
+              <text
+                key={`t${m.p}`}
+                className="pmark-label"
+                x={pos.x}
+                y={labelY(pos.row)}
+                textAnchor="middle"
+                fontSize={MARK_FONT}
+              >
                 {m.label}
               </text>
             );
             const href = percentileHref?.(markedIds(), row.strategyId, m.value);
             if (!href) return label;
             return (
-              <a key={`t${m.p}`} className="pmark-link" href={href} target="_blank" rel="noopener" aria-label={`${row.name}: ${m.label} HP lost, open the first combat with that HP lost`}>
+              <a
+                key={`t${m.p}`}
+                className="pmark-link"
+                href={href}
+                target="_blank"
+                rel="noopener"
+                aria-label={`${row.name}: ${m.label} HP lost, open the first combat with that HP lost`}
+              >
                 {label}
               </a>
             );

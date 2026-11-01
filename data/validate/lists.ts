@@ -3,7 +3,18 @@ import type { Counter, EffectType, EnemyPowerId, PowerId } from '../../engine/ty
 
 export const CARD_TYPES = ['attack', 'skill', 'power', 'status', 'curse', 'quest'] as const;
 
-export const CARD_RARITIES = ['basic', 'common', 'uncommon', 'rare', 'ancient', 'event', 'token', 'status', 'curse', 'quest'] as const;
+export const CARD_RARITIES = [
+  'basic',
+  'common',
+  'uncommon',
+  'rare',
+  'ancient',
+  'event',
+  'token',
+  'status',
+  'curse',
+  'quest',
+] as const;
 
 export const CARD_KEYWORDS = ['unplayable', 'ethereal', 'eternal', 'exhaust', 'retain', 'innate', 'sly'] as const;
 
@@ -74,13 +85,53 @@ export const COUNTERS = [
 ] as const;
 
 export const POWER_IDS = [
-  'demonForm', 'energyPerTurn', 'rollingBoulder', 'crimsonMantle', 'plating', 'barricade', 'cruelty',
-  'dexterity', 'fasten', 'thorns', 'vigorPerTurn', 'vigor', 'powersCostLess', 'upgradeAtCombatEnd',
-  'corruption', 'strengthThisTurn', 'rage', 'flameBarrier', 'colossus', 'noBlockFromCards', 'retainHand',
-  'freeAttack', 'doubleAttack', 'nextCardToDrawTop', 'choking', 'noDraw', 'darkEmbrace', 'feelNoPain',
-  'rupture', 'inferno', 'juggernaut', 'unmovable', 'vicious', 'panache', 'automation', 'juggling',
-  'aggression', 'hellraiser', 'stampede', 'mayhem', 'nostalgia', 'stratagem', 'intangible', 'gambit',
-  'calamity', 'helloWorld', 'entropy',
+  'demonForm',
+  'energyPerTurn',
+  'rollingBoulder',
+  'crimsonMantle',
+  'plating',
+  'barricade',
+  'cruelty',
+  'dexterity',
+  'fasten',
+  'thorns',
+  'vigorPerTurn',
+  'vigor',
+  'powersCostLess',
+  'upgradeAtCombatEnd',
+  'corruption',
+  'strengthThisTurn',
+  'rage',
+  'flameBarrier',
+  'colossus',
+  'noBlockFromCards',
+  'retainHand',
+  'freeAttack',
+  'doubleAttack',
+  'nextCardToDrawTop',
+  'choking',
+  'noDraw',
+  'darkEmbrace',
+  'feelNoPain',
+  'rupture',
+  'inferno',
+  'juggernaut',
+  'unmovable',
+  'vicious',
+  'panache',
+  'automation',
+  'juggling',
+  'aggression',
+  'hellraiser',
+  'stampede',
+  'mayhem',
+  'nostalgia',
+  'stratagem',
+  'intangible',
+  'gambit',
+  'calamity',
+  'helloWorld',
+  'entropy',
 ] as const;
 
 export const ENEMY_POWER_IDS = ['strengthLossThisTurn', 'stun'] as const;

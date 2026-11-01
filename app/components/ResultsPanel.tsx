@@ -35,7 +35,10 @@ export function ResultsPanel({ data, characterId, result, status, blocker, onRun
   const running = status.kind === 'running';
   const reason = blocker ?? (seed === undefined ? SEED_ERROR : null);
   const disabled = running || reason !== null;
-  const pct = status.kind === 'running' && status.progress && status.progress.total > 0 ? (status.progress.done / status.progress.total) * 100 : 0;
+  const pct =
+    status.kind === 'running' && status.progress && status.progress.total > 0
+      ? (status.progress.done / status.progress.total) * 100
+      : 0;
   const start = () => {
     if (disabled) return;
     const used = resolveRunSeed(seedText);
@@ -82,18 +85,34 @@ export function ResultsPanel({ data, characterId, result, status, blocker, onRun
       >
         <label className="field">
           <span>Run seed (blank = random)</span>
-          <input inputMode="numeric" placeholder="random" value={seedText} aria-invalid={seed === undefined} onChange={(e) => setSeedText(e.target.value)} />
+          <input
+            inputMode="numeric"
+            placeholder="random"
+            value={seedText}
+            aria-invalid={seed === undefined}
+            onChange={(e) => setSeedText(e.target.value)}
+          />
         </label>
       </form>
       {seed === undefined && <p className="warn small">{SEED_ERROR}</p>}
       {status.kind === 'running' && (
-        <div className="progress" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(pct)}>
+        <div
+          className="progress"
+          role="progressbar"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.round(pct)}
+        >
           <div style={{ width: `${pct}%` }} />
           <span>{status.progress ? `${status.progress.done} / ${status.progress.total} combats` : 'Starting…'}</span>
         </div>
       )}
       {errorText && <p className="warn">{errorText}</p>}
-      {result ? <ResultsView data={data} result={result} /> : <p className="muted results-empty">Run a simulation to see the results.</p>}
+      {result ? (
+        <ResultsView data={data} result={result} />
+      ) : (
+        <p className="muted results-empty">Run a simulation to see the results.</p>
+      )}
     </Panel>
   );
 }

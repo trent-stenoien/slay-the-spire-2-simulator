@@ -2,15 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { computeIntent, makeCardInstance, runCombat, simulateCombat } from './combat';
 import { attackDamage, blockGain } from './rules';
 import { CONTRACT_EFFECT_SAMPLES, cards, makeEnemy, makeGameData } from './testFixtures';
-import type {
-  CardDef,
-  CombatConfig,
-  Deck,
-  GameData,
-  GameEvent,
-  Strategy,
-  StrategyView,
-} from './types';
+import type { CardDef, CombatConfig, Deck, GameData, GameEvent, Strategy, StrategyView } from './types';
 
 function cfg(overrides: Partial<CombatConfig> = {}): CombatConfig {
   return {
@@ -92,25 +84,46 @@ describe('rule helpers', () => {
   });
 
   it('computeIntent: non-attack move is 0/0/0', () => {
-    const i = computeIntent('hiss', { name: 'Hiss', effects: [{ type: 'gainStrength', amount: 2 }] },
+    const i = computeIntent(
+      'hiss',
+      { name: 'Hiss', effects: [{ type: 'gainStrength', amount: 2 }] },
       { strength: 0, debuffs: noDebuffs() },
-      { debuffs: noDebuffs() });
+      { debuffs: noDebuffs() },
+    );
     expect(i).toEqual({ moveId: 'hiss', name: 'Hiss', attacks: [], totalIncoming: 0 });
   });
 
   it('computeIntent: multi-hit with Strength and player Vulnerable', () => {
-    const i = computeIntent('x', { name: 'X', effects: [{ type: 'attack', damage: 2, hits: 2 }] },
+    const i = computeIntent(
+      'x',
+      { name: 'X', effects: [{ type: 'attack', damage: 2, hits: 2 }] },
       { strength: 2, debuffs: noDebuffs() },
-      { debuffs: { vulnerable: 1, weak: 0, frail: 0 } });
+      { debuffs: { vulnerable: 1, weak: 0, frail: 0 } },
+    );
     expect(i).toMatchObject({ attacks: [{ damagePerHit: 6, hits: 2 }], totalIncoming: 12 });
   });
 
   it('computeIntent: sums across several attack effects', () => {
-    const i = computeIntent('x', {
-      name: 'X',
-      effects: [{ type: 'attack', damage: 5, hits: 1 }, { type: 'gainBlock', amount: 3 }, { type: 'attack', damage: 3, hits: 2 }],
-    }, { strength: 1, debuffs: noDebuffs() }, { debuffs: noDebuffs() });
-    expect(i).toMatchObject({ attacks: [{ damagePerHit: 6, hits: 1 }, { damagePerHit: 4, hits: 2 }], totalIncoming: 6 + 4 * 2 });
+    const i = computeIntent(
+      'x',
+      {
+        name: 'X',
+        effects: [
+          { type: 'attack', damage: 5, hits: 1 },
+          { type: 'gainBlock', amount: 3 },
+          { type: 'attack', damage: 3, hits: 2 },
+        ],
+      },
+      { strength: 1, debuffs: noDebuffs() },
+      { debuffs: noDebuffs() },
+    );
+    expect(i).toMatchObject({
+      attacks: [
+        { damagePerHit: 6, hits: 1 },
+        { damagePerHit: 4, hits: 2 },
+      ],
+      totalIncoming: 6 + 4 * 2,
+    });
   });
 
   it('makeCardInstance applies upgrades and nulls cost for unplayable', () => {
@@ -169,7 +182,9 @@ describe('runCombat setup', () => {
   it('assigns uids 0..n-1 and logs the start shuffle', () => {
     const r = logged(makeGameData(), passive, { deck: deckOf(['defend', 10]) });
     expect(events(r.log, 'shuffle')[0]).toEqual({ t: 'shuffle', reason: 'start', count: 10 });
-    const firstTen = events(r.log, 'draw').slice(0, 10).map((d) => d.uid);
+    const firstTen = events(r.log, 'draw')
+      .slice(0, 10)
+      .map((d) => d.uid);
     expect([...firstTen].sort((a, b) => a - b)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
   });
 
@@ -182,7 +197,9 @@ describe('runCombat setup', () => {
 
   it('random pattern start is seeded and within the cycle', () => {
     const e = makeEnemy('rnd', 999, {
-      a: { name: 'A', effects: [] }, b: { name: 'B', effects: [] }, c: { name: 'C', effects: [] },
+      a: { name: 'A', effects: [] },
+      b: { name: 'B', effects: [] },
+      c: { name: 'C', effects: [] },
     });
     e.pattern.start = 'random';
     const data = withEnemy(makeGameData(), e);
@@ -205,7 +222,11 @@ describe('damage rules in combat', () => {
     const strat = scripted((turn) => (turn === 1 ? ['bash', 'strike'] : turn <= 3 ? ['strike'] : []));
     const r = simulateCombat(data, config, strat, { log: true });
     const log = r.log!;
-    expect(events(log, 'damage').slice(0, 4).map((d) => d.amount)).toEqual([8, 9, 9, 6]);
+    expect(
+      events(log, 'damage')
+        .slice(0, 4)
+        .map((d) => d.amount),
+    ).toEqual([8, 9, 9, 6]);
     const ticks = events(log, 'debuffTick').filter((e) => e.side === 'enemy' && e.kind === 'vulnerable');
     expect(ticks.slice(0, 2).map((t) => t.total)).toEqual([1, 0]);
     expect(ticks).toHaveLength(2);
@@ -239,13 +260,25 @@ describe('damage rules in combat', () => {
 
   it('enemy Strength persists: Nibbit second Butt hits 14 at A0', () => {
     const r = logged(makeGameData(), passive, { deck: [] });
-    expect(events(r.log, 'enemyMove').slice(0, 4).map((m) => m.moveId)).toEqual(['butt', 'hesitantSlice', 'hiss', 'butt']);
-    expect(events(r.log, 'damage').slice(0, 3).map((d) => d.amount)).toEqual([12, 6, 14]);
+    expect(
+      events(r.log, 'enemyMove')
+        .slice(0, 4)
+        .map((m) => m.moveId),
+    ).toEqual(['butt', 'hesitantSlice', 'hiss', 'butt']);
+    expect(
+      events(r.log, 'damage')
+        .slice(0, 3)
+        .map((d) => d.amount),
+    ).toEqual([12, 6, 14]);
   });
 
   it('A9 Nibbit uses the A9 numbers', () => {
     const r = logged(makeGameData(), passive, { deck: [], ascension: 9 });
-    expect(events(r.log, 'damage').slice(0, 3).map((d) => d.amount)).toEqual([13, 7, 16]);
+    expect(
+      events(r.log, 'damage')
+        .slice(0, 3)
+        .map((d) => d.amount),
+    ).toEqual([13, 7, 16]);
   });
 
   it('enemy block protects it during the next player turn only', () => {
@@ -255,30 +288,51 @@ describe('damage rules in combat', () => {
     // Turn 1, 2: no enemy block. Hesitant Slice (enemy turn 2) gives 5 block.
     // Turn 3: Strike 6 → 5 blocked, 1 HP. Enemy block resets on its turn 3.
     // Turn 4: full damage again.
-    expect(playerHits.map((d) => [d.blocked, d.hpLoss])).toEqual([[0, 6], [0, 6], [5, 1], [0, 6]]);
+    expect(playerHits.map((d) => [d.blocked, d.hpLoss])).toEqual([
+      [0, 6],
+      [0, 6],
+      [5, 1],
+      [0, 6],
+    ]);
     const resets = events(r.log, 'blockReset').filter((b) => b.side === 'enemy');
     expect(resets.length).toBeGreaterThanOrEqual(3);
   });
 
   it('player block resets at the start of each player turn', () => {
     const strat = scripted((turn) => (turn === 1 ? ['defend', 'defend', 'defend'] : []));
-    const data = withEnemy(makeGameData(), makeEnemy('late', 999, {
-      wait: { name: 'Wait', effects: [] },
-      hit: { name: 'Hit', effects: [{ type: 'attack', damage: 10, hits: 1 }] },
-    }));
+    const data = withEnemy(
+      makeGameData(),
+      makeEnemy('late', 999, {
+        wait: { name: 'Wait', effects: [] },
+        hit: { name: 'Hit', effects: [{ type: 'attack', damage: 10, hits: 1 }] },
+      }),
+    );
     const r = logged(data, strat, { enemyId: 'late', deck: deckOf(['defend', 10]) });
     // 15 block on turn 1 is gone by the enemy's turn-2 hit.
     expect(events(r.log, 'damage')[0]).toMatchObject({ amount: 10, blocked: 0, hpLoss: 10 });
   });
 
-  it('enemy debuffs target the player, Weak reduces the enemy\'s hits, Frail reduces block, and each side ticks on its own turn end', () => {
+  it("enemy debuffs target the player, Weak reduces the enemy's hits, Frail reduces block, and each side ticks on its own turn end", () => {
     const e = makeEnemy('hexer', 999, {
-      hex: { name: 'Hex', effects: [{ type: 'applyFrail', amount: 2 }, { type: 'applyVulnerable', amount: 1 }] },
+      hex: {
+        name: 'Hex',
+        effects: [
+          { type: 'applyFrail', amount: 2 },
+          { type: 'applyVulnerable', amount: 1 },
+        ],
+      },
       hit: { name: 'Hit', effects: [{ type: 'attack', damage: 10, hits: 1 }] },
     });
     const weakener: CardDef = {
-      ...cards.defend!, id: 'weakener', code: 'Wk', cost: 0,
-      effects: [{ type: 'applyWeak', amount: 1 }, { type: 'gainBlock', amount: 8 }], upgraded: null,
+      ...cards.defend!,
+      id: 'weakener',
+      code: 'Wk',
+      cost: 0,
+      effects: [
+        { type: 'applyWeak', amount: 1 },
+        { type: 'gainBlock', amount: 8 },
+      ],
+      upgraded: null,
     };
     const data = withEnemy(makeGameData(), e);
     data.cards.weakener = weakener;
@@ -309,14 +363,22 @@ describe('damage rules in combat', () => {
   it('1 Vulnerable on the enemy boosts that player turn and is gone by the next one', () => {
     const data = dummyData();
     data.cards.tap = {
-      ...cards.strike!, id: 'tap', code: 'Tp', cost: 0,
-      effects: [{ type: 'applyVulnerable', amount: 1 }], upgraded: null,
+      ...cards.strike!,
+      id: 'tap',
+      code: 'Tp',
+      cost: 0,
+      effects: [{ type: 'applyVulnerable', amount: 1 }],
+      upgraded: null,
     };
     const config = cfg({ enemyId: 'dummy', deck: deckOf(['tap', 1], ['strike', 9]) });
     const strat = scripted((turn) => (turn === 1 ? ['tap', 'strike', 'strike'] : turn === 2 ? ['strike'] : []));
     const r = simulateCombat(data, config, strat, { log: true });
     const log = r.log!;
-    expect(events(log, 'damage').slice(0, 3).map((d) => d.amount)).toEqual([9, 9, 6]);
+    expect(
+      events(log, 'damage')
+        .slice(0, 3)
+        .map((d) => d.amount),
+    ).toEqual([9, 9, 6]);
     // The tick happens at the end of the enemy turn, after its move, not at the end of the player turn.
     const tickIdx = log.findIndex((e) => e.t === 'debuffTick' && e.side === 'enemy' && e.kind === 'vulnerable');
     const moveIdx = log.findIndex((e) => e.t === 'enemyMove');
@@ -332,8 +394,12 @@ describe('damage rules in combat', () => {
     const e = makeEnemy('brute', 999, { hit: { name: 'Hit', effects: [{ type: 'attack', damage: 12, hits: 1 }] } });
     const data = withEnemy(makeGameData(), e);
     data.cards.sap = {
-      ...cards.strike!, id: 'sap', code: 'Sp', cost: 0,
-      effects: [{ type: 'applyWeak', amount: 1 }], upgraded: null,
+      ...cards.strike!,
+      id: 'sap',
+      code: 'Sp',
+      cost: 0,
+      effects: [{ type: 'applyWeak', amount: 1 }],
+      upgraded: null,
     };
     const intents: number[] = [];
     const strat: Strategy = {
@@ -348,7 +414,11 @@ describe('damage rules in combat', () => {
     };
     const r = logged(data, strat, { enemyId: 'brute', deck: deckOf(['sap', 1], ['defend', 9]) });
     expect(intents).toEqual([9]); // intent already reflects Weak
-    expect(events(r.log, 'damage').slice(0, 2).map((d) => d.amount)).toEqual([9, 12]);
+    expect(
+      events(r.log, 'damage')
+        .slice(0, 2)
+        .map((d) => d.amount),
+    ).toEqual([9, 12]);
   });
 
   it('Weak on the player cuts its attacks by 25% for that whole player turn, then ticks off at its end', () => {
@@ -368,7 +438,10 @@ describe('damage rules in combat', () => {
     expect(ticks[0]).toEqual({ t: 'debuffTick', side: 'player', kind: 'weak', total: 0 });
     const tickIdx = log.findIndex((ev) => ev.t === 'debuffTick' && ev.side === 'player');
     const t2End = log.findIndex((ev) => ev.t === 'turnEnd' && ev.turn === 2 && ev.side === 'player');
-    const lastT2Play = log.slice(0, t2End).map((ev) => ev.t).lastIndexOf('play');
+    const lastT2Play = log
+      .slice(0, t2End)
+      .map((ev) => ev.t)
+      .lastIndexOf('play');
     expect(tickIdx).toBe(t2End - 1);
     expect(tickIdx).toBeGreaterThan(lastT2Play);
   });
@@ -380,8 +453,15 @@ describe('damage rules in combat', () => {
     const data = withEnemy(makeGameData(), e);
     data.cards.mist = { ...cards.defend!, id: 'mist', code: 'Mi', keywords: ['ethereal'], upgraded: null };
     data.cards.venom = {
-      ...cards.defend!, id: 'venom', code: 'Vn', cost: 0,
-      effects: [{ type: 'applyPoison', amount: 3 }, { type: 'applyVulnerable', amount: 1 }], upgraded: null,
+      ...cards.defend!,
+      id: 'venom',
+      code: 'Vn',
+      cost: 0,
+      effects: [
+        { type: 'applyPoison', amount: 3 },
+        { type: 'applyVulnerable', amount: 1 },
+      ],
+      upgraded: null,
     };
     const strat = scripted((turn) => (turn === 1 ? ['venom'] : []));
     const r = logged(data, strat, { enemyId: 'hexer3', deck: deckOf(['mist', 1], ['venom', 1], ['strike', 3]) });
@@ -401,7 +481,15 @@ describe('damage rules in combat', () => {
     const e1 = at('turnStart', 1, 'enemy');
     const e1End = at('turnEnd', 1, 'enemy');
     expect(e1).toBe(p1End + 1);
-    expect(types(e1, e1End + 1)).toEqual(['turnStart', 'blockReset', 'poisonDamage', 'enemyMove', 'debuff', 'debuffTick', 'turnEnd']);
+    expect(types(e1, e1End + 1)).toEqual([
+      'turnStart',
+      'blockReset',
+      'poisonDamage',
+      'enemyMove',
+      'debuff',
+      'debuffTick',
+      'turnEnd',
+    ]);
     expect(log[e1End - 1]).toEqual({ t: 'debuffTick', side: 'enemy', kind: 'vulnerable', total: 0 });
 
     // Player turn 2: the empty draw pile reshuffles the discard; end of turn ticks the player's Weak last.
@@ -457,7 +545,10 @@ describe('cards and piles', () => {
     const r = logged(data, passive, { enemyId: 'dummy', deck: deckOf(['strike', 7]) });
     const log = r.log!;
     const t2 = log.findIndex((e) => e.t === 'turnStart' && e.turn === 2 && e.side === 'player');
-    const turn2 = log.slice(t2).filter((e) => e.t === 'draw' || e.t === 'shuffle').slice(0, 6);
+    const turn2 = log
+      .slice(t2)
+      .filter((e) => e.t === 'draw' || e.t === 'shuffle')
+      .slice(0, 6);
     expect(turn2.map((e) => e.t)).toEqual(['draw', 'draw', 'shuffle', 'draw', 'draw', 'draw']);
     expect(turn2[2]).toEqual({ t: 'shuffle', reason: 'reshuffle', count: 5 });
   });
@@ -490,7 +581,10 @@ describe('cards and piles', () => {
     const bad: Strategy = { decide: () => ({ kind: 'play', uid: 9999 }) };
     expect(() => simulateCombat(makeGameData(), cfg(), bad)).toThrow(/illegal/);
     const unaffordable: Strategy = {
-      decide: (v) => ({ kind: 'play', uid: v.state.player.hand.find((c) => c.cost !== null && c.cost > v.state.player.energy)?.uid ?? -1 }),
+      decide: (v) => ({
+        kind: 'play',
+        uid: v.state.player.hand.find((c) => c.cost !== null && c.cost > v.state.player.energy)?.uid ?? -1,
+      }),
     };
     expect(() => simulateCombat(makeGameData(), cfg(), unaffordable)).toThrow(/illegal/);
   });
@@ -556,7 +650,12 @@ describe('Innate', () => {
 
   it('Innate is deterministic', () => {
     const data = withInnate();
-    const config = cfg({ enemyId: 'dummy', seed: 31, deck: deckOf(['strike', 8], ['opener', 3]), strategy: { kind: 'greedyDamage' } });
+    const config = cfg({
+      enemyId: 'dummy',
+      seed: 31,
+      deck: deckOf(['strike', 8], ['opener', 3]),
+      strategy: { kind: 'greedyDamage' },
+    });
     expect(runCombat(data, config, { log: true })).toEqual(runCombat(data, config, { log: true }));
   });
 });
@@ -629,7 +728,12 @@ describe('Retain', () => {
 
   it('Retain is deterministic', () => {
     const data = withRetain();
-    const config = cfg({ enemyId: 'dummy', seed: 5, deck: deckOf(['keep', 3], ['strike', 7]), strategy: { kind: 'block', allowThrough: 0 } });
+    const config = cfg({
+      enemyId: 'dummy',
+      seed: 5,
+      deck: deckOf(['keep', 3], ['strike', 7]),
+      strategy: { kind: 'block', allowThrough: 0 },
+    });
     expect(runCombat(data, config, { log: true })).toEqual(runCombat(data, config, { log: true }));
   });
 });
@@ -638,12 +742,23 @@ describe('Poison', () => {
   const withVenom = (...extraEnemies: ReturnType<typeof makeEnemy>[]) => {
     const data = withEnemy(makeGameData(), dummy(), ...extraEnemies);
     data.cards.venom = {
-      ...cards.defend!, id: 'venom', code: 'Vn', cost: 0,
-      effects: [{ type: 'applyPoison', amount: 3 }], upgraded: null,
+      ...cards.defend!,
+      id: 'venom',
+      code: 'Vn',
+      cost: 0,
+      effects: [{ type: 'applyPoison', amount: 3 }],
+      upgraded: null,
     };
     data.cards.expose = {
-      ...cards.defend!, id: 'expose', code: 'Ex', cost: 0,
-      effects: [{ type: 'applyVulnerable', amount: 5 }, { type: 'applyWeak', amount: 5 }], upgraded: null,
+      ...cards.defend!,
+      id: 'expose',
+      code: 'Ex',
+      cost: 0,
+      effects: [
+        { type: 'applyVulnerable', amount: 5 },
+        { type: 'applyWeak', amount: 5 },
+      ],
+      upgraded: null,
     };
     return data;
   };
@@ -661,7 +776,12 @@ describe('Poison', () => {
     ]);
     // Order within enemy turn 1: turnStart enemy → blockReset → poisonDamage → enemyMove.
     const enemyStart = log.findIndex((e) => e.t === 'turnStart' && e.side === 'enemy');
-    expect(log.slice(enemyStart, enemyStart + 4).map((e) => e.t)).toEqual(['turnStart', 'blockReset', 'poisonDamage', 'enemyMove']);
+    expect(log.slice(enemyStart, enemyStart + 4).map((e) => e.t)).toEqual([
+      'turnStart',
+      'blockReset',
+      'poisonDamage',
+      'enemyMove',
+    ]);
     // Poison does not tick at the end of the player's turn (no debuffTick for it, and still 3 at the enemy turn).
     expect(events(log, 'debuffTick')).toHaveLength(0);
     expect(r.enemyHpRemaining).toBe(993);
@@ -673,12 +793,22 @@ describe('Poison', () => {
     const r = logged(data, strat, { enemyId: 'dummy', deck: deckOf(['venom', 3], ['defend', 2]) });
     expect(events(r.log, 'poison').map((p) => p.total)).toEqual([3, 6, 8]);
     // 6 → hits 6 (→5); +3 = 8 → hits 8 (→7) ...
-    expect(events(r.log, 'poisonDamage').slice(0, 3).map((p) => p.amount)).toEqual([6, 8, 7]);
+    expect(
+      events(r.log, 'poisonDamage')
+        .slice(0, 3)
+        .map((p) => p.amount),
+    ).toEqual([6, 8, 7]);
   });
 
   it('is HP loss: ignores enemy Block and is not changed by Strength, Weak or Vulnerable', () => {
     const blocker = makeEnemy('blocker', 999, {
-      fortify: { name: 'Fortify', effects: [{ type: 'gainBlock', amount: 50 }, { type: 'gainStrength', amount: 5 }] },
+      fortify: {
+        name: 'Fortify',
+        effects: [
+          { type: 'gainBlock', amount: 50 },
+          { type: 'gainStrength', amount: 5 },
+        ],
+      },
     });
     const data = withVenom(blocker);
     data.characters.ironclad!.drawPerTurn = 3;
@@ -691,7 +821,9 @@ describe('Poison', () => {
   });
 
   it('a Poison kill ends combat as a win before the enemy moves', () => {
-    const brute = makeEnemy('brute', 5, { smash: { name: 'Smash', effects: [{ type: 'attack', damage: 99, hits: 1 }] } });
+    const brute = makeEnemy('brute', 5, {
+      smash: { name: 'Smash', effects: [{ type: 'attack', damage: 99, hits: 1 }] },
+    });
     const data = withVenom(brute);
     const strat = scripted((turn) => (turn === 1 ? ['venom', 'venom'] : []));
     const r = logged(data, strat, { enemyId: 'brute', deck: deckOf(['venom', 2], ['defend', 3]) });
@@ -724,8 +856,14 @@ describe('Poison', () => {
   it('Poison is deterministic and identical with or without a log', () => {
     const data = withVenom();
     data.cards.stab = {
-      ...cards.strike!, id: 'stab', code: 'Sb',
-      effects: [{ type: 'attack', damage: 6, hits: 1 }, { type: 'applyPoison', amount: 3 }], upgraded: null,
+      ...cards.strike!,
+      id: 'stab',
+      code: 'Sb',
+      effects: [
+        { type: 'attack', damage: 6, hits: 1 },
+        { type: 'applyPoison', amount: 3 },
+      ],
+      upgraded: null,
     };
     for (let s = 0; s < 10; s++) {
       const config = cfg({ seed: s, deck: deckOf(['stab', 5], ['defend', 5]) });
@@ -766,9 +904,12 @@ describe('end conditions', () => {
   });
 
   it('multi-hit stops once the target dies', () => {
-    const data = withEnemy(makeGameData(), makeEnemy('flurry', 999, {
-      f: { name: 'Flurry', effects: [{ type: 'attack', damage: 3, hits: 10 }] },
-    }));
+    const data = withEnemy(
+      makeGameData(),
+      makeEnemy('flurry', 999, {
+        f: { name: 'Flurry', effects: [{ type: 'attack', damage: 3, hits: 10 }] },
+      }),
+    );
     data.characters.ironclad!.maxHp = 7;
     const r = logged(data, passive, { enemyId: 'flurry', deck: [] });
     expect(events(r.log, 'damage')).toHaveLength(3);
@@ -780,7 +921,9 @@ describe('end conditions', () => {
     for (let s = 0; s < 20; s++) {
       const r = runCombat(data, cfg({ seed: s }), { log: true });
       expect(r.outcome).toBe('win');
-      const taken = events(r.log, 'damage').filter((d) => d.target === 'player').reduce((a, d) => a + d.hpLoss, 0);
+      const taken = events(r.log, 'damage')
+        .filter((d) => d.target === 'player')
+        .reduce((a, d) => a + d.hpLoss, 0);
       expect(r.hpLost).toBe(taken);
       expect(r.turns).toBe(events(r.log, 'turnStart').filter((t) => t.side === 'player').length);
     }
@@ -803,24 +946,65 @@ describe('#105 contract effects are not simulated yet', () => {
     expect(types).toHaveLength(26);
   });
 
-  it.each(CONTRACT_EFFECT_SAMPLES.map((e) => [e.type, e] as const))('playing a card with "%s" throws "not simulated yet"', (type, effect) => {
-    const data = makeGameData();
-    const probe: CardDef = { ...cards.strike!, id: 'probe', code: 'Pr', name: 'Probe', cost: 0, effects: [effect], upgraded: null };
-    data.cards.probe = probe;
-    const strat = scripted((turn) => (turn === 1 ? ['probe'] : []));
-    expect(() => simulateCombat(data, cfg({ deck: deckOf(['probe', 5]) }), strat)).toThrow(new RegExp(`Effect "${type}" is not simulated yet`));
-  });
+  it.each(CONTRACT_EFFECT_SAMPLES.map((e) => [e.type, e] as const))(
+    'playing a card with "%s" throws "not simulated yet"',
+    (type, effect) => {
+      const data = makeGameData();
+      const probe: CardDef = {
+        ...cards.strike!,
+        id: 'probe',
+        code: 'Pr',
+        name: 'Probe',
+        cost: 0,
+        effects: [effect],
+        upgraded: null,
+      };
+      data.cards.probe = probe;
+      const strat = scripted((turn) => (turn === 1 ? ['probe'] : []));
+      expect(() => simulateCombat(data, cfg({ deck: deckOf(['probe', 5]) }), strat)).toThrow(
+        new RegExp(`Effect "${type}" is not simulated yet`),
+      );
+    },
+  );
 
   it('a contract effect on an enemy move also throws', () => {
     const e = makeEnemy('healer', 50, { mend: { name: 'Mend', effects: [{ type: 'heal', amount: 5 }] } });
     const data = withEnemy(makeGameData(), e);
-    expect(() => simulateCombat(data, cfg({ enemyId: 'healer', deck: [] }), passive)).toThrow(/"heal" is not simulated yet/);
+    expect(() => simulateCombat(data, cfg({ enemyId: 'healer', deck: [] }), passive)).toThrow(
+      /"heal" is not simulated yet/,
+    );
   });
 
   it('new optional state and card fields are absent, so existing combats are unchanged', () => {
     const r = runCombat(makeGameData(), cfg(), { log: true });
-    expect(r.log!.some((ev) => ['loseHp', 'heal', 'maxHp', 'powerApplied', 'powerRemoved', 'moved', 'generated', 'upgraded', 'transformed', 'costChanged', 'replay', 'enemySkip'].includes(ev.t))).toBe(false);
+    expect(
+      r.log!.some((ev) =>
+        [
+          'loseHp',
+          'heal',
+          'maxHp',
+          'powerApplied',
+          'powerRemoved',
+          'moved',
+          'generated',
+          'upgraded',
+          'transformed',
+          'costChanged',
+          'replay',
+          'enemySkip',
+        ].includes(ev.t),
+      ),
+    ).toBe(false);
     const inst = makeCardInstance(cards.strike!, false, 0);
-    expect(Object.keys(inst).sort()).toEqual(['cardId', 'cost', 'effects', 'keywords', 'name', 'type', 'uid', 'upgraded']);
+    expect(Object.keys(inst).sort()).toEqual([
+      'cardId',
+      'cost',
+      'effects',
+      'keywords',
+      'name',
+      'type',
+      'uid',
+      'upgraded',
+    ]);
   });
 });

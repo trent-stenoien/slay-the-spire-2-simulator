@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { checkedVisibleIds, combatRangeLabel, fromDisplayCombat, percentileLinkTarget, pickerButton, toDisplayCombat } from './combatPicker';
+import {
+  checkedVisibleIds,
+  combatRangeLabel,
+  fromDisplayCombat,
+  percentileLinkTarget,
+  pickerButton,
+  toDisplayCombat,
+} from './combatPicker';
 
 describe('combat number conversion (display is 1-based, internal 0-based)', () => {
   it('internal to display', () => {
@@ -53,7 +60,7 @@ describe('percentileLinkTarget', () => {
   it('one strategy: its own lowest combat with that HP lost', () => {
     expect(percentileLinkTarget(['a'], 'a', 7, first)).toEqual({ combatIndex: 2, strategyIds: ['a'] });
   });
-  it('two strategies: both, at the clicked strategy\'s combat, in chart order', () => {
+  it("two strategies: both, at the clicked strategy's combat, in chart order", () => {
     expect(percentileLinkTarget(['a', 'b'], 'b', 12, first)).toEqual({ combatIndex: 900, strategyIds: ['a', 'b'] });
   });
   it('is null for an HP value the strategy never lost, or a strategy not marked', () => {

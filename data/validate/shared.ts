@@ -66,12 +66,7 @@ export class Reporter {
     return v;
   }
 
-  oneOf<T extends string>(
-    o: Obj,
-    field: string,
-    allowed: readonly T[],
-    path = field,
-  ): T | undefined {
+  oneOf<T extends string>(o: Obj, field: string, allowed: readonly T[], path = field): T | undefined {
     const v = o[field];
     if (!isOneOf(v, allowed)) {
       this.add(path, oneOfText(allowed));
@@ -98,7 +93,14 @@ export function optBool(r: Reporter, o: Obj, field: string, p: string): void {
   if (has(o, field)) r.bool(o, field, `${p}.${field}`);
 }
 
-export function enumList(r: Reporter, o: Obj, field: string, allowed: readonly string[], p: string, nonEmpty = false): void {
+export function enumList(
+  r: Reporter,
+  o: Obj,
+  field: string,
+  allowed: readonly string[],
+  p: string,
+  nonEmpty = false,
+): void {
   const list = r.arr(o, field, `${p}.${field}`);
   if (!list) return;
   if (nonEmpty && list.length === 0) r.add(`${p}.${field}`, 'must not be empty');

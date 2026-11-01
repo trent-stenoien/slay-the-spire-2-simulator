@@ -9,7 +9,7 @@ describe('shared constants', () => {
     expect(MAX_STRATEGIES_PER_RUN).toBe(5);
   });
 
-  it('manifest adds Ascender\'s Bane at Ascension 5', () => {
+  it("manifest adds Ascender's Bane at Ascension 5", () => {
     expect(manifest.ascensionCards).toContainEqual({ level: 5, cardId: 'ascenders_bane' });
   });
 });

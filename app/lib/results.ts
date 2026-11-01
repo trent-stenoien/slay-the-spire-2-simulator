@@ -20,7 +20,8 @@ export function resultRows(result: RunResult): ResultRow[] {
   const rows: ResultRow[] = [];
   result.config.strategies.forEach((rs, strategyIndex) => {
     const summary = result.summaries.find((s) => s.strategyId === rs.strategy.id);
-    if (summary) rows.push({ strategyId: rs.strategy.id, name: rs.strategy.name, color: rs.color, summary, strategyIndex });
+    if (summary)
+      rows.push({ strategyId: rs.strategy.id, name: rs.strategy.name, color: rs.color, summary, strategyIndex });
   });
   return rows;
 }

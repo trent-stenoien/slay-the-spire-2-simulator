@@ -43,7 +43,12 @@ export function useStrategies() {
     (next: SavedStrategy[]) => {
       setUser(next);
       setStorageOk(saveUserStrategies(storage, next));
-      setSelection((sel) => pruneSelection(sel, fullLibrary(next).map((s) => s.id)));
+      setSelection((sel) =>
+        pruneSelection(
+          sel,
+          fullLibrary(next).map((s) => s.id),
+        ),
+      );
     },
     [storage],
   );
@@ -52,7 +57,10 @@ export function useStrategies() {
     library,
     selection,
     storageOk,
-    toggle: (id: string) => setSelection((sel) => (sel.some((s) => s.strategyId === id) ? deselectStrategy(sel, id) : selectStrategy(sel, id))),
+    toggle: (id: string) =>
+      setSelection((sel) =>
+        sel.some((s) => s.strategyId === id) ? deselectStrategy(sel, id) : selectStrategy(sel, id),
+      ),
     color: (id: string, c: StrategyColor) => setSelection((sel) => setColor(sel, id, c)),
     add: (name: string, allow: number) => {
       if (blockStrategyProblem(library, allow) !== null) return;
@@ -69,7 +77,12 @@ export function useStrategies() {
     clearAll: () => {
       clearUserStrategies(storage);
       setUser([]);
-      setSelection((sel) => pruneSelection(sel, DEFAULT_STRATEGIES.map((s) => s.id)));
+      setSelection((sel) =>
+        pruneSelection(
+          sel,
+          DEFAULT_STRATEGIES.map((s) => s.id),
+        ),
+      );
     },
   };
 }

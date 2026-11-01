@@ -7,5 +7,4 @@ export interface WorkerRequest {
 }
 
 export type WorkerResponse =
-  | { ok: true; chunkId: number; results: CombatResult[] }
-  | { ok: false; chunkId: number; error: string };
+  { ok: true; chunkId: number; results: CombatResult[] } | { ok: false; chunkId: number; error: string };

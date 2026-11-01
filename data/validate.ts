@@ -14,9 +14,7 @@ import { checkEnemy } from './validate/enemies';
 
 export { CONTRACT_LISTS_MATCH_TYPES } from './validate/lists';
 
-export type ValidationResult =
-  | { ok: true; data: GameData }
-  | { ok: false; errors: string[] };
+export type ValidationResult = { ok: true; data: GameData } | { ok: false; errors: string[] };
 
 function checkManifest(errors: string[], raw: unknown, cardIds: Set<string>): void {
   const r = new Reporter(errors, 'manifest');
@@ -98,7 +96,9 @@ function checkUniqueCodes(errors: string[], name: string, raw: unknown): void {
   }
   for (const [code, keys] of byCode) {
     if (keys.length > 1) {
-      errors.push(`${name}: field "code" "${code}" is used by more than one entry: ${keys.map((k) => `${name}/${k}`).join(', ')}`);
+      errors.push(
+        `${name}: field "code" "${code}" is used by more than one entry: ${keys.map((k) => `${name}/${k}`).join(', ')}`,
+      );
     }
   }
 }
@@ -115,7 +115,9 @@ function checkReservedCodes(errors: string[], raw: unknown): void {
     if (!isObj(value) || typeof value.code !== 'string') continue;
     const r = reserved.get(value.code);
     if (r) {
-      errors.push(`cards/${key}: field "code" "${value.code}" is reserved for removed card "${r.name}" (data/reserved-codes.json): ${r.reason}`);
+      errors.push(
+        `cards/${key}: field "code" "${value.code}" is reserved for removed card "${r.name}" (data/reserved-codes.json): ${r.reason}`,
+      );
     }
   }
 }

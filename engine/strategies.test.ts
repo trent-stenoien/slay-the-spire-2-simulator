@@ -7,20 +7,58 @@ import type { CardDef, CardInstance, CombatState, StrategyConfig, StrategyView }
 /** Extra test cards: Tremble (#1), energy gain (#22), X-cost (#23). */
 const extra: Record<string, CardDef> = {
   tremble: {
-    ...cards.defend!, id: 'tremble', code: 'Tl', cost: 1, keywords: ['exhaust'],
-    effects: [{ type: 'applyVulnerable', amount: 3 }], upgraded: { effects: [{ type: 'applyVulnerable', amount: 4 }] },
+    ...cards.defend!,
+    id: 'tremble',
+    code: 'Tl',
+    cost: 1,
+    keywords: ['exhaust'],
+    effects: [{ type: 'applyVulnerable', amount: 3 }],
+    upgraded: { effects: [{ type: 'applyVulnerable', amount: 4 }] },
   },
-  fuel: { ...cards.defend!, id: 'fuel', code: 'Fu', cost: 0, keywords: ['exhaust'], effects: [{ type: 'gainEnergy', amount: 1 }], upgraded: null },
-  ritual: { ...cards.defend!, id: 'ritual', code: 'FR', cost: 1, keywords: ['exhaust'], effects: [{ type: 'gainEnergy', amount: 3 }], upgraded: null },
+  fuel: {
+    ...cards.defend!,
+    id: 'fuel',
+    code: 'Fu',
+    cost: 0,
+    keywords: ['exhaust'],
+    effects: [{ type: 'gainEnergy', amount: 1 }],
+    upgraded: null,
+  },
+  ritual: {
+    ...cards.defend!,
+    id: 'ritual',
+    code: 'FR',
+    cost: 1,
+    keywords: ['exhaust'],
+    effects: [{ type: 'gainEnergy', amount: 3 }],
+    upgraded: null,
+  },
   /** Gains exactly its cost back: not a net energy card. */
-  wash: { ...cards.defend!, id: 'wash', code: 'Wa', cost: 1, effects: [{ type: 'gainEnergy', amount: 1 }], upgraded: null },
+  wash: {
+    ...cards.defend!,
+    id: 'wash',
+    code: 'Wa',
+    cost: 1,
+    effects: [{ type: 'gainEnergy', amount: 1 }],
+    upgraded: null,
+  },
   whirlwind: {
-    ...cards.strike!, id: 'whirlwind', code: 'Wh', cost: 0, xCost: true,
-    effects: [{ type: 'attack', damage: 5, hits: 1, allEnemies: true, xTimes: true }], upgraded: null,
+    ...cards.strike!,
+    id: 'whirlwind',
+    code: 'Wh',
+    cost: 0,
+    xCost: true,
+    effects: [{ type: 'attack', damage: 5, hits: 1, allEnemies: true, xTimes: true }],
+    upgraded: null,
   },
   xblock: {
-    ...cards.defend!, id: 'xblock', code: 'XB', cost: 0, xCost: true,
-    effects: [{ type: 'gainBlock', amount: 20 }], upgraded: null,
+    ...cards.defend!,
+    id: 'xblock',
+    code: 'XB',
+    cost: 0,
+    xCost: true,
+    effects: [{ type: 'gainBlock', amount: 20 }],
+    upgraded: null,
   },
 };
 
@@ -43,13 +81,27 @@ function playTurnCards(config: StrategyConfig, hand: CardInstance[], incoming: n
   const state = {
     turn: 1,
     player: {
-      hp: 80, maxHp: 80, block: 0, energy, strength: 0,
+      hp: 80,
+      maxHp: 80,
+      block: 0,
+      energy,
+      strength: 0,
       debuffs: { vulnerable: 0, weak: 0, frail: 0 },
-      drawPile: [], hand: [...hand], discardPile: [], exhaustPile: [],
+      drawPile: [],
+      hand: [...hand],
+      discardPile: [],
+      exhaustPile: [],
     },
     enemy: {
-      enemyId: 'x', name: 'x', hp: 100, maxHp: 100, block: 0, strength: 0,
-      debuffs: { vulnerable: 0, weak: 0, frail: 0 }, poison: 0, patternIndex: 0,
+      enemyId: 'x',
+      name: 'x',
+      hp: 100,
+      maxHp: 100,
+      block: 0,
+      strength: 0,
+      debuffs: { vulnerable: 0, weak: 0, frail: 0 },
+      poison: 0,
+      patternIndex: 0,
     },
   } satisfies CombatState;
   const played: CardInstance[] = [];
@@ -57,8 +109,10 @@ function playTurnCards(config: StrategyConfig, hand: CardInstance[], incoming: n
     const view: StrategyView = {
       state,
       intent: {
-        moveId: 'm', name: 'm',
-        attacks: incoming > 0 ? [{ damagePerHit: incoming, hits: 1 }] : [], totalIncoming: incoming,
+        moveId: 'm',
+        name: 'm',
+        attacks: incoming > 0 ? [{ damagePerHit: incoming, hits: 1 }] : [],
+        totalIncoming: incoming,
       },
       playable: state.player.hand.filter((c) => c.cost !== null && c.cost <= state.player.energy),
     };

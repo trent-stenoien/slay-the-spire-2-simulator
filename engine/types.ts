@@ -147,7 +147,14 @@ export type Effect =
    * turn (CardInstance.costThisTurn) or the rest of combat (costThisCombat).
    * `onlyIfHigher`: only cards whose current cost is above `cost` change.
    */
-  | { type: 'setCost'; piles: PileName[]; cost: number; duration: 'turn' | 'combat'; onlyIfHigher?: boolean; filter?: CardFilter }
+  | {
+      type: 'setCost';
+      piles: PileName[];
+      cost: number;
+      duration: 'turn' | 'combat';
+      onlyIfHigher?: boolean;
+      filter?: CardFilter;
+    }
   /** #111: resolve `then` if the condition holds when reached, otherwise `else`. */
   | { type: 'conditional'; if: Condition; then: Effect[]; else?: Effect[] }
   /**
@@ -161,7 +168,14 @@ export type Effect =
    * Mind Blast, Body Slam). Hits: `hits` + extraHitsPer.amount × counter
    * (Tear Asunder). Strength and modifiers apply as for `attack`.
    */
-  | { type: 'attackFrom'; damage: number; hits: number; allEnemies?: boolean; bonusPer?: PerCounter; extraHitsPer?: PerCounter }
+  | {
+      type: 'attackFrom';
+      damage: number;
+      hits: number;
+      allEnemies?: boolean;
+      bonusPer?: PerCounter;
+      extraHitsPer?: PerCounter;
+    }
   /** #111: gain `amount` + bonusPer.amount × counter Block, as one gain (Expect a Fight, Stack, Entrench, Fisticuffs). */
   | { type: 'gainBlockFrom'; amount: number; bonusPer: PerCounter }
   /**
@@ -502,16 +516,7 @@ export interface CombatCounters {
 export type CardType = 'attack' | 'skill' | 'power' | 'status' | 'curse' | 'quest';
 
 export type CardRarity =
-  | 'basic'
-  | 'common'
-  | 'uncommon'
-  | 'rare'
-  | 'ancient'
-  | 'event'
-  | 'token'
-  | 'status'
-  | 'curse'
-  | 'quest';
+  'basic' | 'common' | 'uncommon' | 'rare' | 'ancient' | 'event' | 'token' | 'status' | 'curse' | 'quest';
 
 /** Engine-simulated keywords: unplayable, ethereal, eternal, exhaust, retain, innate. `sly` is recorded only. */
 export type CardKeyword = 'unplayable' | 'ethereal' | 'eternal' | 'exhaust' | 'retain' | 'innate' | 'sly';
@@ -861,7 +866,14 @@ export type GameEvent =
    * #113/#114: `by` is present when the card was played automatically rather than
    * by the strategy: 'effect' (Havoc, Cascade), 'power' (Mayhem, Hellraiser), 'replay', 'trigger' (Howl from Beyond).
    */
-  | { t: 'play'; uid: number; cardId: string; energyLeft: number; x?: number; by?: 'effect' | 'power' | 'replay' | 'trigger' }
+  | {
+      t: 'play';
+      uid: number;
+      cardId: string;
+      energyLeft: number;
+      x?: number;
+      by?: 'effect' | 'power' | 'replay' | 'trigger';
+    }
   /** The player gained energy from a card. */
   | { t: 'energy'; amount: number; total: number }
   | { t: 'damage'; source: Side; target: Side; amount: number; blocked: number; hpLoss: number }
@@ -936,11 +948,7 @@ export interface CombatResult {
 }
 
 /** Engine entry point, implemented in engine/combat.ts. */
-export type RunCombat = (
-  data: GameData,
-  config: CombatConfig,
-  options?: { log?: boolean },
-) => CombatResult;
+export type RunCombat = (data: GameData, config: CombatConfig, options?: { log?: boolean }) => CombatResult;
 
 export interface RunConfig {
   characterId: string;

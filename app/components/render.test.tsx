@@ -35,8 +35,28 @@ const result: RunResult = {
     ],
   },
   summaries: [
-    { strategyId: 'g', combats: 10, avgHpLost: 8.4, avgTurnsToKill: 6.1, avgTurns: 6.4, deathRate: 0.1, turnCapRate: 0, hpLostCounts: [0, 0, 2, 3, 5], firstCombatByHpLost: { 2: 4, 3: 0, 4: 1 } },
-    { strategyId: 's', combats: 10, avgHpLost: 3.2, avgTurnsToKill: null, avgTurns: 9.5, deathRate: 0, turnCapRate: 0.2, hpLostCounts: [4, 4, 2], firstCombatByHpLost: { 0: 1, 1: 0, 2: 7 } },
+    {
+      strategyId: 'g',
+      combats: 10,
+      avgHpLost: 8.4,
+      avgTurnsToKill: 6.1,
+      avgTurns: 6.4,
+      deathRate: 0.1,
+      turnCapRate: 0,
+      hpLostCounts: [0, 0, 2, 3, 5],
+      firstCombatByHpLost: { 2: 4, 3: 0, 4: 1 },
+    },
+    {
+      strategyId: 's',
+      combats: 10,
+      avgHpLost: 3.2,
+      avgTurnsToKill: null,
+      avgTurns: 9.5,
+      deathRate: 0,
+      turnCapRate: 0.2,
+      hpLostCounts: [4, 4, 2],
+      firstCombatByHpLost: { 0: 1, 1: 0, 2: 7 },
+    },
   ],
 };
 
@@ -49,22 +69,42 @@ const renderViewCombat = (hidden: ReadonlySet<string>, initialChecked?: string[]
   );
 const renderResultsPanel = (
   status: RunStatus,
-  { result = null, blocker = null, characterId = 'ironclad' }: { result?: RunResult | null; blocker?: string | null; characterId?: string } = {},
+  {
+    result = null,
+    blocker = null,
+    characterId = 'ironclad',
+  }: { result?: RunResult | null; blocker?: string | null; characterId?: string } = {},
 ) =>
   renderToStaticMarkup(
-    <ResultsPanel data={gameData} characterId={characterId} result={result} status={status} blocker={blocker} onRun={noop} />,
+    <ResultsPanel
+      data={gameData}
+      characterId={characterId}
+      result={result}
+      status={status}
+      blocker={blocker}
+      onRun={noop}
+    />,
   );
 const renderDeckBuilder = (characterId: string, ascension: number, deck: Deck) =>
   renderToStaticMarkup(
-    <DeckBuilder data={gameData} characterId={characterId} ascension={ascension} deck={deck} onChange={noop} onReset={noop} />,
+    <DeckBuilder
+      data={gameData}
+      characterId={characterId}
+      ascension={ascension}
+      deck={deck}
+      onChange={noop}
+      onReset={noop}
+    />,
   );
 const renderSetupPanel = (setup: SetupState) =>
-  renderToStaticMarkup(<SetupPanel data={gameData} setup={setup} onCharacter={noop} onEnemy={noop} onAscension={noop} />);
+  renderToStaticMarkup(
+    <SetupPanel data={gameData} setup={setup} onCharacter={noop} onEnemy={noop} onAscension={noop} />,
+  );
 
 describe('views render', () => {
   it('renders the main page with the Burning Blood note inside the Results panel body, not at the top', () => {
     const html = renderToStaticMarkup(<App />);
-    const note = html.indexOf("Burning Blood&#x27;s 6 HP heal is not simulated.");
+    const note = html.indexOf('Burning Blood&#x27;s 6 HP heal is not simulated.');
     expect(note).toBeGreaterThan(html.indexOf('id="res-body"'));
     expect(note).toBeLessThan(html.indexOf('class="grid"'));
     expect(html.match(/is not simulated\./g)).toHaveLength(1);
@@ -97,7 +137,7 @@ describe('views render', () => {
   });
 
   it('Results shows the seed input and empty-state text before any run, and blockers in the title bar', () => {
-    const html = renderResultsPanel({ kind: 'idle' }, { blocker: "Select at least one strategy." });
+    const html = renderResultsPanel({ kind: 'idle' }, { blocker: 'Select at least one strategy.' });
     expect(html).toContain('Run seed (blank = random)');
     expect(html).toContain('Run a simulation to see the results.');
     expect(html.indexOf('Run seed')).toBeGreaterThan(html.indexOf('id="res-body"'));
@@ -156,7 +196,9 @@ describe('views render', () => {
     expect(html).not.toContain('v0.107.1');
     expect(html).not.toContain('run seed');
     expect(html).not.toContain('-card deck');
-    expect(html).toContain('<p class="muted small">Ironclad vs Nibbit, Ascension 5. 10,000 simulated combats per strategy.</p>');
+    expect(html).toContain(
+      '<p class="muted small">Ironclad vs Nibbit, Ascension 5. 10,000 simulated combats per strategy.</p>',
+    );
     expect(html).toContain('<svg');
     // The combat picker defaults to the first listed (lowest HP lost) strategy: Scared Block.
     expect(html).toContain('?v=1&amp;c=I&amp;e=Nb&amp;a=5&amp;d=St5De4Ba1&amp;s=2751716061&amp;st=b0');
@@ -232,7 +274,8 @@ describe('views render', () => {
     const html = renderToStaticMarkup(<DistributionChart rows={one} />);
     expect(html.match(/class="pmark"/g)).toHaveLength(5);
     expect(html.match(/class="pband"/g)).toHaveLength(1);
-    for (const label of ['P5 = 2', 'P25 = 3', 'P50 = 3', 'P75 = 4', 'P95 = 4']) expect(html).toContain(`>${label}</text>`);
+    for (const label of ['P5 = 2', 'P25 = 3', 'P50 = 3', 'P75 = 4', 'P95 = 4'])
+      expect(html).toContain(`>${label}</text>`);
   });
 
   it('has no Raw view button: only Smoothed (KDE) and Cumulative', () => {
@@ -243,7 +286,8 @@ describe('views render', () => {
 
   it('labels the smoothing slider at its min (Raw), ×1-×4 and its max (×5)', () => {
     const html = renderChart();
-    for (const l of ['Raw', '×1', '×2', '×3', '×4', '×5']) expect(html).toMatch(new RegExp(`class="bandwidth-tick" style="--f:[0-9.]+">${l}</span>`));
+    for (const l of ['Raw', '×1', '×2', '×3', '×4', '×5'])
+      expect(html).toMatch(new RegExp(`class="bandwidth-tick" style="--f:[0-9.]+">${l}</span>`));
     expect(html.match(/class="bandwidth-tick"/g)).toHaveLength(6);
     expect(html).toMatch(/<option value="0" label="Raw">/);
     expect(html).toMatch(/<option value="5" label="×5">/);
@@ -251,7 +295,9 @@ describe('views render', () => {
 
   it('has a closed info button next to Smoothing', () => {
     const html = renderChart();
-    expect(html).toMatch(/Smoothing<\/label><span class="info-pop"><button[^>]*aria-label="About smoothing"[^>]*aria-expanded="false"/);
+    expect(html).toMatch(
+      /Smoothing<\/label><span class="info-pop"><button[^>]*aria-label="About smoothing"[^>]*aria-expanded="false"/,
+    );
     expect(html).not.toContain('info-pop-card');
   });
 
@@ -261,7 +307,9 @@ describe('views render', () => {
     expect(html).toContain('role="dialog"');
     expect(html).toContain('left shows more detail');
     expect(html).toContain('smooths the curve more');
-    expect(html).toContain('href="https://en.wikipedia.org/wiki/Kernel_density_estimation" target="_blank" rel="noopener noreferrer"');
+    expect(html).toContain(
+      'href="https://en.wikipedia.org/wiki/Kernel_density_estimation" target="_blank" rel="noopener noreferrer"',
+    );
   });
 
   it('lists strategies by avg HP lost, lowest first, in table, legend and chart, keeping colors', () => {
@@ -304,7 +352,11 @@ describe('views render', () => {
 
   it('renders a combat log with intent', () => {
     const html = renderToStaticMarkup(
-      <CombatLog data={gameData} setup={defaultSetup(gameData)} target={{ seed: 123456, strategies: [{ kind: 'block', allowThrough: 4 }] }} />,
+      <CombatLog
+        data={gameData}
+        setup={defaultSetup(gameData)}
+        target={{ seed: 123456, strategies: [{ kind: 'block', allowThrough: 4 }] }}
+      />,
     );
     expect(html).toContain('Turn');
     expect(html).toContain('Enemy Intent: Butt (12 damage)');
@@ -322,7 +374,11 @@ describe('views render', () => {
 
   it('shows the 1-based combat number on the log page when the link carries it', () => {
     const html = renderToStaticMarkup(
-      <CombatLog data={gameData} setup={defaultSetup(gameData)} target={{ seed: 123456, strategies: [{ kind: 'block', allowThrough: 4 }], combatIndex: 0 }} />,
+      <CombatLog
+        data={gameData}
+        setup={defaultSetup(gameData)}
+        target={{ seed: 123456, strategies: [{ kind: 'block', allowThrough: 4 }], combatIndex: 0 }}
+      />,
     );
     expect(html).toContain('Combat #1');
   });
@@ -353,10 +409,7 @@ describe('views render', () => {
   });
 
   it('disables the button with nothing checked (or every checked strategy hidden)', () => {
-    for (const html of [
-      renderViewCombat(new Set(), []),
-      renderViewCombat(new Set(['g']), ['g']),
-    ]) {
+    for (const html of [renderViewCombat(new Set(), []), renderViewCombat(new Set(['g']), ['g'])]) {
       expect(html).toContain('aria-disabled="true"');
       expect(html).not.toContain('</a>');
     }
@@ -367,7 +420,16 @@ describe('views render', () => {
       <CombatLog
         data={gameData}
         setup={defaultSetup(gameData)}
-        target={{ seed: 123456, strategies: [{ kind: 'greedyDamage' }, { kind: 'block', allowThrough: 0 }, { kind: 'block', allowThrough: 5 }], colors: ['blue', 'red', 'green'], combatIndex: 4 }}
+        target={{
+          seed: 123456,
+          strategies: [
+            { kind: 'greedyDamage' },
+            { kind: 'block', allowThrough: 0 },
+            { kind: 'block', allowThrough: 5 },
+          ],
+          colors: ['blue', 'red', 'green'],
+          combatIndex: 4,
+        }}
       />,
     );
     expect(html).toContain('Combat #5');
@@ -385,20 +447,32 @@ describe('views render', () => {
   it('rescales the Y axis to the visible strategies only', () => {
     // 'tall': 100 combats all at 20 HP (a high peak). 'flat': 1 combat at each of 0-40 HP (a low curve).
     const summary = (strategyId: string, hpLostCounts: number[]) => ({
-      strategyId, combats: hpLostCounts.reduce((a, b) => a + b, 0), avgHpLost: 0, avgTurnsToKill: null,
-      avgTurns: 1, deathRate: 0, turnCapRate: 0, hpLostCounts, firstCombatByHpLost: {},
+      strategyId,
+      combats: hpLostCounts.reduce((a, b) => a + b, 0),
+      avgHpLost: 0,
+      avgTurnsToKill: null,
+      avgTurns: 1,
+      deathRate: 0,
+      turnCapRate: 0,
+      hpLostCounts,
+      firstCombatByHpLost: {},
     });
     const rows = resultRows({
       ...result,
-      config: { ...result.config, strategies: [
-        { strategy: { id: 'tall', name: 'Tall', config: { kind: 'greedyDamage' } }, color: 'blue' },
-        { strategy: { id: 'flat', name: 'Flat', config: { kind: 'block', allowThrough: 0 } }, color: 'red' },
-      ] },
+      config: {
+        ...result.config,
+        strategies: [
+          { strategy: { id: 'tall', name: 'Tall', config: { kind: 'greedyDamage' } }, color: 'blue' },
+          { strategy: { id: 'flat', name: 'Flat', config: { kind: 'block', allowThrough: 0 } }, color: 'red' },
+        ],
+      },
       summaries: [summary('tall', [...Array(20).fill(0), 100]), summary('flat', Array(41).fill(1))],
     });
     const yMax = (hidden: Set<string>) => {
       const html = renderToStaticMarkup(<DistributionChart rows={rows} hidden={hidden} />);
-      const labels = [...html.matchAll(/<text class="tick"[^>]*text-anchor="end"[^>]*>([\d.]+)%<\/text>/g)].map((m) => Number(m[1]));
+      const labels = [...html.matchAll(/<text class="tick"[^>]*text-anchor="end"[^>]*>([\d.]+)%<\/text>/g)].map((m) =>
+        Number(m[1]),
+      );
       expect(labels.length).toBeGreaterThan(1);
       return Math.max(...labels);
     };
@@ -409,7 +483,13 @@ describe('views render', () => {
 
   it('links percentile labels to the first combat with that HP lost', () => {
     // One strategy shown: Greedy's labels carry only its own id (P75 = 4).
-    const one = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} hidden={new Set(['s'])} percentileHref={(ids, id, hp) => `#${ids.join('+')}/${id}/${hp}`} />);
+    const one = renderToStaticMarkup(
+      <DistributionChart
+        rows={resultRows(result)}
+        hidden={new Set(['s'])}
+        percentileHref={(ids, id, hp) => `#${ids.join('+')}/${id}/${hp}`}
+      />,
+    );
     expect(one.match(/class="pmark-link"/g)).toHaveLength(5);
     expect(one).toContain('href="#g/g/4"');
     expect(one).toContain('href="#g/g/3"');
@@ -465,8 +545,7 @@ describe('views render', () => {
 });
 
 describe('deck folders, links and page layout', () => {
-  const deckHtml = () =>
-    renderDeckBuilder('ironclad', 0, startingDeckFor(gameData, 'ironclad'));
+  const deckHtml = () => renderDeckBuilder('ironclad', 0, startingDeckFor(gameData, 'ironclad'));
 
   it('renders every card folder collapsed on load', () => {
     const html = deckHtml();

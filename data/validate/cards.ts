@@ -1,5 +1,13 @@
 /** Card validation. */
-import { CARD_TYPES, CARD_RARITIES, CARD_KEYWORDS, SIMULATED_KEYWORDS, UNSIMULATED_EFFECTS, UNSIMULATED_CARD_FIELDS, CHARACTER_CODES } from './lists';
+import {
+  CARD_TYPES,
+  CARD_RARITIES,
+  CARD_KEYWORDS,
+  SIMULATED_KEYWORDS,
+  UNSIMULATED_EFFECTS,
+  UNSIMULATED_CARD_FIELDS,
+  CHARACTER_CODES,
+} from './lists';
 import { type Obj, isOneOf, isObj, has, oneOfText, Reporter, checkTwoCharCode } from './shared';
 import { checkEffects, checkPer, checkCondition, checkTriggers } from './effects';
 
@@ -30,7 +38,8 @@ function usesX(list: unknown): boolean {
 
 /** A card marked `simulated` may only use keywords, effects and fields the engine handles. */
 function checkSimulatable(r: Reporter, c: Obj): void {
-  const unsupported = (name: string) => r.add('simulated', `is true but the card uses "${name}", which the engine does not simulate`);
+  const unsupported = (name: string) =>
+    r.add('simulated', `is true but the card uses "${name}", which the engine does not simulate`);
   const lists: unknown[] = [c.keywords, c.effects];
   if (isObj(c.upgraded)) lists.push(c.upgraded.keywords, c.upgraded.effects);
   for (const list of lists) {

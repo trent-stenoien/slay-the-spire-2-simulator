@@ -27,23 +27,80 @@ describe('real game data', () => {
   });
 
   const expected = [
-    { id: 'strike', code: 'St', name: 'Strike', type: 'attack', character: 'shared', cost: 1, keywords: [],
+    {
+      id: 'strike',
+      code: 'St',
+      name: 'Strike',
+      type: 'attack',
+      character: 'shared',
+      cost: 1,
+      keywords: [],
       effects: [{ type: 'attack', damage: 6, hits: 1 }],
-      upgraded: { effects: [{ type: 'attack', damage: 9, hits: 1 }] } },
-    { id: 'defend', code: 'De', name: 'Defend', type: 'skill', character: 'shared', cost: 1, keywords: [],
+      upgraded: { effects: [{ type: 'attack', damage: 9, hits: 1 }] },
+    },
+    {
+      id: 'defend',
+      code: 'De',
+      name: 'Defend',
+      type: 'skill',
+      character: 'shared',
+      cost: 1,
+      keywords: [],
       effects: [{ type: 'gainBlock', amount: 5 }],
-      upgraded: { effects: [{ type: 'gainBlock', amount: 8 }] } },
-    { id: 'bash', code: 'Ba', name: 'Bash', type: 'attack', character: 'I', cost: 2, keywords: [],
-      effects: [{ type: 'attack', damage: 8, hits: 1 }, { type: 'applyVulnerable', amount: 2 }],
-      upgraded: { effects: [{ type: 'attack', damage: 10, hits: 1 }, { type: 'applyVulnerable', amount: 3 }] } },
-    { id: 'ultimate_strike', code: 'US', name: 'Ultimate Strike', type: 'attack', character: 'colorless', cost: 1, keywords: [],
+      upgraded: { effects: [{ type: 'gainBlock', amount: 8 }] },
+    },
+    {
+      id: 'bash',
+      code: 'Ba',
+      name: 'Bash',
+      type: 'attack',
+      character: 'I',
+      cost: 2,
+      keywords: [],
+      effects: [
+        { type: 'attack', damage: 8, hits: 1 },
+        { type: 'applyVulnerable', amount: 2 },
+      ],
+      upgraded: {
+        effects: [
+          { type: 'attack', damage: 10, hits: 1 },
+          { type: 'applyVulnerable', amount: 3 },
+        ],
+      },
+    },
+    {
+      id: 'ultimate_strike',
+      code: 'US',
+      name: 'Ultimate Strike',
+      type: 'attack',
+      character: 'colorless',
+      cost: 1,
+      keywords: [],
       effects: [{ type: 'attack', damage: 14, hits: 1 }],
-      upgraded: { effects: [{ type: 'attack', damage: 20, hits: 1 }] } },
-    { id: 'ultimate_defend', code: 'UD', name: 'Ultimate Defend', type: 'skill', character: 'colorless', cost: 1, keywords: [],
+      upgraded: { effects: [{ type: 'attack', damage: 20, hits: 1 }] },
+    },
+    {
+      id: 'ultimate_defend',
+      code: 'UD',
+      name: 'Ultimate Defend',
+      type: 'skill',
+      character: 'colorless',
+      cost: 1,
+      keywords: [],
       effects: [{ type: 'gainBlock', amount: 11 }],
-      upgraded: { effects: [{ type: 'gainBlock', amount: 15 }] } },
-    { id: 'ascenders_bane', code: 'AB', name: "Ascender's Bane", type: 'curse', character: 'colorless', cost: null,
-      keywords: ['unplayable', 'ethereal', 'eternal'], effects: [], upgraded: null },
+      upgraded: { effects: [{ type: 'gainBlock', amount: 15 }] },
+    },
+    {
+      id: 'ascenders_bane',
+      code: 'AB',
+      name: "Ascender's Bane",
+      type: 'curse',
+      character: 'colorless',
+      cost: null,
+      keywords: ['unplayable', 'ethereal', 'eternal'],
+      effects: [],
+      upgraded: null,
+    },
   ];
 
   it.each(expected)('card $id has the wiki values', (card) => {
@@ -59,7 +116,14 @@ describe('real game data', () => {
   it('Ironclad has the v1 stats and a 10-card starting deck', () => {
     const ic = characterByCode('I');
     expect(ic?.id).toBe('ironclad');
-    expect(ic).toMatchObject({ name: 'Ironclad', maxHp: 80, energyPerTurn: 3, drawPerTurn: 5, startingRelic: 'Burning Blood', lastUpdateVersion: VERSION });
+    expect(ic).toMatchObject({
+      name: 'Ironclad',
+      maxHp: 80,
+      energyPerTurn: 3,
+      drawPerTurn: 5,
+      startingRelic: 'Burning Blood',
+      lastUpdateVersion: VERSION,
+    });
     expect(ic?.startingDeck.reduce((n, e) => n + e.count, 0)).toBe(10);
     expect(ic?.startingDeck).toEqual([
       { cardId: 'strike', upgraded: false, count: 5 },
@@ -105,7 +169,10 @@ describe('real game data', () => {
     expect(e.moves.butt!.effects).toEqual([{ type: 'attack', damage: butt, hits: 1 }]);
     expect(e.moves.hesitantSlice).toEqual({
       name: 'Hesitant Slice',
-      effects: [{ type: 'attack', damage: slice, hits: 1 }, { type: 'gainBlock', amount: block }],
+      effects: [
+        { type: 'attack', damage: slice, hits: 1 },
+        { type: 'gainBlock', amount: block },
+      ],
     });
     expect(e.moves.hiss!.effects).toEqual([{ type: 'gainStrength', amount: hiss }]);
   });
@@ -116,7 +183,7 @@ describe('real game data', () => {
     expect(characterByCode('X')).toBeUndefined();
   });
 
-  it('Ascender\'s Bane referenced by the manifest exists', () => {
+  it("Ascender's Bane referenced by the manifest exists", () => {
     for (const { cardId } of gameData.manifest.ascensionCards) {
       expect(gameData.cards[cardId]).toBeDefined();
     }
@@ -183,7 +250,9 @@ describe('validateGameData on broken fixtures', () => {
   it('reports an unknown card id in a starting deck', () => {
     const d = fixture();
     d.characters.ironclad.startingDeck[0].cardId = 'strike_silent';
-    expect(errorsOf(d)).toContainEqual(expect.stringMatching(/characters\/ironclad.*startingDeck\[0\]\.cardId.*"strike_silent"/));
+    expect(errorsOf(d)).toContainEqual(
+      expect.stringMatching(/characters\/ironclad.*startingDeck\[0\]\.cardId.*"strike_silent"/),
+    );
   });
 
   it('reports an unknown manifest ascension card', () => {
@@ -238,7 +307,9 @@ describe('validateGameData on broken fixtures', () => {
     e.enemies.nibbit.ascension['9'].moves.butt.effects.push({ type: 'applyPoison', amount: 2 });
     const errs = errorsOf(e);
     expect(errs).toContainEqual(expect.stringMatching(/enemies\/nibbit.*moves\.hiss\.effects\[1\]\.type.*Poison/));
-    expect(errs).toContainEqual(expect.stringMatching(/enemies\/nibbit.*ascension\.9\.moves\.butt\.effects\[1\]\.type.*Poison/));
+    expect(errs).toContainEqual(
+      expect.stringMatching(/enemies\/nibbit.*ascension\.9\.moves\.butt\.effects\[1\]\.type.*Poison/),
+    );
   });
 
   it('accepts gainEnergy on cards and rejects it on enemy moves', () => {
@@ -249,7 +320,9 @@ describe('validateGameData on broken fixtures', () => {
     expect(errorsOf(d)).toContainEqual(expect.stringMatching(/cards\/strike.*effects\[2\]\.amount/));
     const e = fixture();
     e.enemies.nibbit.moves.hiss.effects.push({ type: 'gainEnergy', amount: 1 });
-    expect(errorsOf(e)).toContainEqual(expect.stringMatching(/enemies\/nibbit.*moves\.hiss\.effects\[1\]\.type.*energy/));
+    expect(errorsOf(e)).toContainEqual(
+      expect.stringMatching(/enemies\/nibbit.*moves\.hiss\.effects\[1\]\.type.*energy/),
+    );
   });
 
   it('X-cost: simulated only with an xTimes effect; xTimes only on X-cost cards; xBonus needs xTimes', () => {
@@ -278,30 +351,77 @@ describe('validateGameData on broken fixtures', () => {
 
   it('energy, X-cost and Tremble cards (#1, #22, #23) have the expected effects', () => {
     const c = gameData.cards;
-    expect(c.whirlwind).toMatchObject({ xCost: true, cost: 0, simulated: true,
+    expect(c.whirlwind).toMatchObject({
+      xCost: true,
+      cost: 0,
+      simulated: true,
       effects: [{ type: 'attack', damage: 5, hits: 1, allEnemies: true, xTimes: true }],
-      upgraded: { effects: [{ type: 'attack', damage: 8, hits: 1, allEnemies: true, xTimes: true }] } });
-    expect(c.forgotten_ritual).toMatchObject({ simulated: true, effects: [{ type: 'gainEnergy', amount: 3 }], upgraded: { effects: [{ type: 'gainEnergy', amount: 4 }] } });
-    expect(c.fuel).toMatchObject({ simulated: true, effects: [{ type: 'gainEnergy', amount: 1 }], upgraded: { effects: [{ type: 'gainEnergy', amount: 2 }] } });
-    expect(c.production).toMatchObject({ simulated: true, effects: [{ type: 'gainEnergy', amount: 2 }], upgraded: { effects: [{ type: 'gainEnergy', amount: 3 }] } });
-    expect(c.luminesce).toMatchObject({ simulated: true, keywords: ['retain', 'exhaust'], effects: [{ type: 'gainEnergy', amount: 2 }], upgraded: { effects: [{ type: 'gainEnergy', amount: 3 }] } });
-    expect(c.mad_science_energized).toMatchObject({ simulated: true, effects: [{ type: 'gainBlock', amount: 8 }, { type: 'gainEnergy', amount: 2 }] });
+      upgraded: { effects: [{ type: 'attack', damage: 8, hits: 1, allEnemies: true, xTimes: true }] },
+    });
+    expect(c.forgotten_ritual).toMatchObject({
+      simulated: true,
+      effects: [{ type: 'gainEnergy', amount: 3 }],
+      upgraded: { effects: [{ type: 'gainEnergy', amount: 4 }] },
+    });
+    expect(c.fuel).toMatchObject({
+      simulated: true,
+      effects: [{ type: 'gainEnergy', amount: 1 }],
+      upgraded: { effects: [{ type: 'gainEnergy', amount: 2 }] },
+    });
+    expect(c.production).toMatchObject({
+      simulated: true,
+      effects: [{ type: 'gainEnergy', amount: 2 }],
+      upgraded: { effects: [{ type: 'gainEnergy', amount: 3 }] },
+    });
+    expect(c.luminesce).toMatchObject({
+      simulated: true,
+      keywords: ['retain', 'exhaust'],
+      effects: [{ type: 'gainEnergy', amount: 2 }],
+      upgraded: { effects: [{ type: 'gainEnergy', amount: 3 }] },
+    });
+    expect(c.mad_science_energized).toMatchObject({
+      simulated: true,
+      effects: [
+        { type: 'gainBlock', amount: 8 },
+        { type: 'gainEnergy', amount: 2 },
+      ],
+    });
     for (const id of ['bloodletting', 'offering', 'brightest_flame', 'cascade']) expect(c[id]?.simulated).toBe(false);
     expect(c.tremble).toMatchObject({ simulated: true, effects: [{ type: 'applyVulnerable', amount: 3 }] });
   });
 
   // Volley (#64): random target is the one enemy (#6), repeated X times (#23).
   it('Volley is a simulated X-times attack', () => {
-    expect(gameData.cards.volley).toMatchObject({ xCost: true, cost: 0, simulated: true, keywords: [],
+    expect(gameData.cards.volley).toMatchObject({
+      xCost: true,
+      cost: 0,
+      simulated: true,
+      keywords: [],
       effects: [{ type: 'attack', damage: 10, hits: 1, xTimes: true }],
-      upgraded: { effects: [{ type: 'attack', damage: 14, hits: 1, xTimes: true }] } });
+      upgraded: { effects: [{ type: 'attack', damage: 14, hits: 1, xTimes: true }] },
+    });
     expect(cardByCode('Vl')?.id).toBe('volley');
   });
 
   it('Poisoned Stab has the wiki values: 6 damage then 3 Poison (8 / 4 upgraded)', () => {
-    expect(gameData.cards.poisoned_stab).toMatchObject({ code: 'Pd', cost: 1, type: 'attack', character: 'S', simulated: true, keywords: [],
-      effects: [{ type: 'attack', damage: 6, hits: 1 }, { type: 'applyPoison', amount: 3 }],
-      upgraded: { effects: [{ type: 'attack', damage: 8, hits: 1 }, { type: 'applyPoison', amount: 4 }] } });
+    expect(gameData.cards.poisoned_stab).toMatchObject({
+      code: 'Pd',
+      cost: 1,
+      type: 'attack',
+      character: 'S',
+      simulated: true,
+      keywords: [],
+      effects: [
+        { type: 'attack', damage: 6, hits: 1 },
+        { type: 'applyPoison', amount: 3 },
+      ],
+      upgraded: {
+        effects: [
+          { type: 'attack', damage: 8, hits: 1 },
+          { type: 'applyPoison', amount: 4 },
+        ],
+      },
+    });
   });
 
   it('reports a non-boolean "hidden" and accepts true, false or absent', () => {
@@ -404,19 +524,24 @@ describe('#105 contract shapes', () => {
     expect(errorsOf(d)).toEqual([]);
   });
 
-  it.each(CONTRACT_EFFECT_SAMPLES.map((e) => [e.type, e] as const))('rejects "%s" on a simulated card', (type, effect) => {
-    const d = fixture();
-    d.cards.strike.effects.push(structuredClone(effect));
-    expect(errorsOf(d)).toEqual([expect.stringMatching(new RegExp(`cards/strike.*"simulated".*"${type}"`))]);
-    const u = fixture();
-    u.cards.strike.upgraded.effects.push(structuredClone(effect));
-    expect(errorsOf(u)).toEqual([expect.stringMatching(new RegExp(`cards/strike.*"simulated".*"${type}"`))]);
-  });
+  it.each(CONTRACT_EFFECT_SAMPLES.map((e) => [e.type, e] as const))(
+    'rejects "%s" on a simulated card',
+    (type, effect) => {
+      const d = fixture();
+      d.cards.strike.effects.push(structuredClone(effect));
+      expect(errorsOf(d)).toEqual([expect.stringMatching(new RegExp(`cards/strike.*"simulated".*"${type}"`))]);
+      const u = fixture();
+      u.cards.strike.upgraded.effects.push(structuredClone(effect));
+      expect(errorsOf(u)).toEqual([expect.stringMatching(new RegExp(`cards/strike.*"simulated".*"${type}"`))]);
+    },
+  );
 
   it('rejects contract effects on enemy moves', () => {
     const d = fixture();
     d.enemies.nibbit.moves.hiss.effects.push({ type: 'heal', amount: 5 });
-    expect(errorsOf(d)).toContainEqual(expect.stringMatching(/enemies\/nibbit.*moves\.hiss\.effects\[1\]\.type.*"heal".*not simulated on enemy moves/));
+    expect(errorsOf(d)).toContainEqual(
+      expect.stringMatching(/enemies\/nibbit.*moves\.hiss\.effects\[1\]\.type.*"heal".*not simulated on enemy moves/),
+    );
   });
 
   it('accepts triggers, playableIf and costLessPer on unsimulated cards and rejects them on simulated ones', () => {

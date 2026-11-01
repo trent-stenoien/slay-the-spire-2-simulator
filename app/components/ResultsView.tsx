@@ -6,7 +6,14 @@ import { describeRun, fmtHpLostRange, fmtNumber, fmtRate, sortedResultRows, type
 import { DistributionChart } from './DistributionChart';
 import { toggleHidden } from '../lib/chart';
 import { logHref } from '../lib/links';
-import { checkedVisibleIds, combatRangeLabel, fromDisplayCombat, percentileLinkTarget, pickerButton, toDisplayCombat } from '../lib/combatPicker';
+import {
+  checkedVisibleIds,
+  combatRangeLabel,
+  fromDisplayCombat,
+  percentileLinkTarget,
+  pickerButton,
+  toDisplayCombat,
+} from '../lib/combatPicker';
 
 /** The results body (stats table, chart, combat picker), strategies sorted by avg HP lost. */
 export function ResultsView({ data, result }: { data: GameData; result: RunResult }) {
@@ -89,7 +96,9 @@ export function ViewCombat({
   const rows = sortedResultRows(result);
   const [idx, setIdx] = useState(0); // 0-based internally; the field shows idx + 1
   const [text, setText] = useState(String(toDisplayCombat(0)));
-  const [checked, setChecked] = useState<ReadonlySet<string>>(() => new Set(initialChecked ?? rows.slice(0, 1).map((r) => r.strategyId)));
+  const [checked, setChecked] = useState<ReadonlySet<string>>(
+    () => new Set(initialChecked ?? rows.slice(0, 1).map((r) => r.strategyId)),
+  );
   if (rows.length === 0) return null;
   // Strategies hidden on the chart are not listed, and never count as checked.
   const visibleRows = rows.filter((r) => !hidden.has(r.strategyId));
@@ -113,7 +122,11 @@ export function ViewCombat({
             <span className="muted small">None shown on the chart.</span>
           ) : (
             visibleRows.map((r) => (
-              <label key={r.strategyId} className="strategy-check" style={{ '--strategy-color': COLOR_HEX[r.color] } as CSSProperties}>
+              <label
+                key={r.strategyId}
+                className="strategy-check"
+                style={{ '--strategy-color': COLOR_HEX[r.color] } as CSSProperties}
+              >
                 <input type="checkbox" checked={checked.has(r.strategyId)} onChange={() => toggle(r.strategyId)} />
                 <span className="legend-swatch" style={{ background: COLOR_HEX[r.color] }} aria-hidden />
                 {r.name}
@@ -159,7 +172,13 @@ export function ViewCombat({
 }
 
 /** Link to combat `idx` for the given strategy ids (in order): its combat log, or the compare view for 2+. */
-export function combatHref(data: GameData, result: RunResult, rows: readonly ResultRow[], ids: readonly string[], idx: number): string {
+export function combatHref(
+  data: GameData,
+  result: RunResult,
+  rows: readonly ResultRow[],
+  ids: readonly string[],
+  idx: number,
+): string {
   const picked = ids.flatMap((id) => rows.filter((r) => r.strategyId === id));
   const seed = deriveSeed(result.config.runSeed, idx);
   return logHref(data, result.config, {

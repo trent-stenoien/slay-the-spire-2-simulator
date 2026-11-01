@@ -1,7 +1,19 @@
 import { describe, expect, it } from 'vitest';
 import type { RunResult, StrategySummary } from '../../engine/types';
 import { gameData } from '../../data';
-import { describeRun, fmtHpLostRange, resolveRunSeed, relicNote, fmtNumber, fmtRate, parseSeedInput, randomSeed, resultRows, sortResultRows, type ResultRow } from './results';
+import {
+  describeRun,
+  fmtHpLostRange,
+  resolveRunSeed,
+  relicNote,
+  fmtNumber,
+  fmtRate,
+  parseSeedInput,
+  randomSeed,
+  resultRows,
+  sortResultRows,
+  type ResultRow,
+} from './results';
 
 function fakeSummary(strategyId: string, over: Partial<StrategySummary> = {}): StrategySummary {
   return {
@@ -68,14 +80,26 @@ describe('results helpers', () => {
   });
 
   it('sorts rows by avg HP lost, then death rate, then avg combat turns, then selection order; keeps colors', () => {
-    const row = (id: string, strategyIndex: number, avgHpLost: number, deathRate: number, avgTurns: number): ResultRow => ({
+    const row = (
+      id: string,
+      strategyIndex: number,
+      avgHpLost: number,
+      deathRate: number,
+      avgTurns: number,
+    ): ResultRow => ({
       strategyId: id,
       name: id,
       color: (['blue', 'red', 'purple', 'green', 'yellow'] as const)[strategyIndex]!,
       strategyIndex,
       summary: fakeSummary(id, { avgHpLost, deathRate, avgTurns }),
     });
-    const rows = [row('a', 0, 5, 0, 4), row('b', 1, 2, 0.5, 3), row('c', 2, 2, 0.1, 9), row('d', 3, 5, 0, 4), row('e', 4, 2, 0.1, 7)];
+    const rows = [
+      row('a', 0, 5, 0, 4),
+      row('b', 1, 2, 0.5, 3),
+      row('c', 2, 2, 0.1, 9),
+      row('d', 3, 5, 0, 4),
+      row('e', 4, 2, 0.1, 7),
+    ];
     const sorted = sortResultRows(rows);
     expect(sorted.map((r) => r.strategyId)).toEqual(['e', 'c', 'b', 'a', 'd']);
     expect(sorted.map((r) => r.color)).toEqual(['yellow', 'purple', 'red', 'blue', 'green']);
@@ -86,12 +110,16 @@ describe('results helpers', () => {
 describe('relicNote', () => {
   it('names Burning Blood for the Ironclad and the starting relic otherwise', () => {
     expect(relicNote(gameData, 'ironclad')).toBe("Burning Blood's 6 HP heal is not simulated.");
-    expect(relicNote(gameData, 'silent')).toBe(`${gameData.characters.silent!.startingRelic} (starting relic) is not simulated.`);
+    expect(relicNote(gameData, 'silent')).toBe(
+      `${gameData.characters.silent!.startingRelic} (starting relic) is not simulated.`,
+    );
     expect(relicNote(gameData, 'nobody')).toBe('The starting relic (starting relic) is not simulated.');
   });
 
   it('describes the run from its own config, not the live setup', () => {
-    expect(describeRun(gameData, result.config)).toBe('Ironclad vs Nibbit, Ascension 0. 10,000 simulated combats per strategy.');
+    expect(describeRun(gameData, result.config)).toBe(
+      'Ironclad vs Nibbit, Ascension 0. 10,000 simulated combats per strategy.',
+    );
     expect(describeRun(gameData, { ...result.config, ascension: 7 })).toContain('Ascension 7.');
   });
 

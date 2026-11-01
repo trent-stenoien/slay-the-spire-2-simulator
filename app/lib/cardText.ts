@@ -13,8 +13,7 @@ const KEYWORD_LABEL: Record<CardKeyword, string> = {
 
 export function effectText(e: Effect): string {
   switch (e.type) {
-    case 'attack':
-      {
+    case 'attack': {
       const target = e.allEnemies ? ' to ALL enemies' : '';
       if (e.xTimes) {
         const x = e.xBonus ? `X+${e.xBonus}` : 'X';
@@ -46,7 +45,9 @@ export function effectText(e: Effect): string {
     case 'drawUntil':
       return e.handFull ? 'Draw cards until your Hand is full' : 'Draw cards until a condition is met';
     case 'exhaustCards':
-      return e.mode === 'all' ? 'Exhaust cards' : `Exhaust ${e.upTo ? 'up to ' : ''}${e.count ?? 1} ${e.count === 1 || e.count === undefined ? 'card' : 'cards'}${e.mode === 'random' ? ' at random' : ''}`;
+      return e.mode === 'all'
+        ? 'Exhaust cards'
+        : `Exhaust ${e.upTo ? 'up to ' : ''}${e.count ?? 1} ${e.count === 1 || e.count === undefined ? 'card' : 'cards'}${e.mode === 'random' ? ' at random' : ''}`;
     case 'applyPower':
       return `Gain ${e.amount} ${cap(e.power)}`;
     case 'applyEnemyPower':

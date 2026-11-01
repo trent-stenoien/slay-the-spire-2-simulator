@@ -8,7 +8,15 @@ import type { LogTarget, SetupState } from '../lib/url';
 import { Panel } from './Panel';
 import { deckSize } from '../lib/deck';
 import { toDisplayCombat } from '../lib/combatPicker';
-import { clampTurn, columnTurn, outcomeLabel, replayCombat, sharedTurnCount, type ReplayedCombat, type TurnIntent } from '../lib/compare';
+import {
+  clampTurn,
+  columnTurn,
+  outcomeLabel,
+  replayCombat,
+  sharedTurnCount,
+  type ReplayedCombat,
+  type TurnIntent,
+} from '../lib/compare';
 import { COLOR_HEX, COLORS } from '../lib/colors';
 
 interface Props {
@@ -41,7 +49,11 @@ const cardNamer = (data: GameData) => (id: string) => data.cards[id]?.name ?? id
 
 /** The log page for a link: the single combat log, or the compare view for 2+ strategies. */
 export function CombatLog({ data, setup, target }: Props) {
-  return target.strategies.length > 1 ? <CompareLog data={data} setup={setup} target={target} /> : <SingleLog data={data} setup={setup} target={target} />;
+  return target.strategies.length > 1 ? (
+    <CompareLog data={data} setup={setup} target={target} />
+  ) : (
+    <SingleLog data={data} setup={setup} target={target} />
+  );
 }
 
 function LogHeader({ data, setup, target, children }: Props & { children: ReactNode }) {
@@ -59,7 +71,8 @@ function LogHeader({ data, setup, target, children }: Props & { children: ReactN
         </p>
       )}
       <p className="muted small">
-        {enemy?.name ?? setup.enemyId}, {ascensionLabel(setup.ascension)}, {deckSize(setup.deck)}-card deck. {children}Seed {target.seed}.
+        {enemy?.name ?? setup.enemyId}, {ascensionLabel(setup.ascension)}, {deckSize(setup.deck)}-card deck. {children}
+        Seed {target.seed}.
       </p>
     </>
   );
@@ -88,7 +101,12 @@ function SingleLog({ data, setup, target }: Props) {
           {roundCount > 0 && (
             <div className="round">
               <TurnNav idx={idx} count={roundCount} onStep={step} onJump={jump} />
-              <RoundBody round={outcome.replay.rounds[idx]!} intent={outcome.intents[idx] ?? null} characterId={setup.characterId} name={name} />
+              <RoundBody
+                round={outcome.replay.rounds[idx]!}
+                intent={outcome.intents[idx] ?? null}
+                characterId={setup.characterId}
+                name={name}
+              />
             </div>
           )}
         </>
@@ -135,16 +153,36 @@ function CompareLog({ data, setup, target }: Props) {
       {count > 0 && <TurnNav idx={idx} count={count} onStep={step} onJump={jump} />}
       <div className="compare-cols" style={{ '--cols': columns.length } as CSSProperties}>
         {columns.map((col) => (
-          <CompareColumn key={strategyCode(col.config)} col={col} idx={idx} characterId={setup.characterId} name={name} />
+          <CompareColumn
+            key={strategyCode(col.config)}
+            col={col}
+            idx={idx}
+            characterId={setup.characterId}
+            name={name}
+          />
         ))}
       </div>
     </Panel>
   );
 }
 
-function CompareColumn({ col, idx, characterId, name }: { col: Column; idx: number; characterId: string; name: (id: string) => string }) {
+function CompareColumn({
+  col,
+  idx,
+  characterId,
+  name,
+}: {
+  col: Column;
+  idx: number;
+  characterId: string;
+  name: (id: string) => string;
+}) {
   return (
-    <section className="compare-col" style={{ '--strategy-color': COLOR_HEX[col.color] } as CSSProperties} aria-label={col.name}>
+    <section
+      className="compare-col"
+      style={{ '--strategy-color': COLOR_HEX[col.color] } as CSSProperties}
+      aria-label={col.name}
+    >
       <header className="compare-head">
         <h3>
           <span className="legend-swatch" style={{ background: COLOR_HEX[col.color] }} aria-hidden />
@@ -152,7 +190,8 @@ function CompareColumn({ col, idx, characterId, name }: { col: Column; idx: numb
         </h3>
         {col.combat.ok ? (
           <p className={`outcome small outcome-${col.combat.result.outcome}`}>
-            {outcomeLabel(col.combat.result.outcome)} on turn {col.combat.result.turns}, lost {col.combat.result.hpLost} HP
+            {outcomeLabel(col.combat.result.outcome)} on turn {col.combat.result.turns}, lost {col.combat.result.hpLost}{' '}
+            HP
           </p>
         ) : (
           <p className="warn small">Could not replay: {col.combat.error}</p>
@@ -178,14 +217,32 @@ function CompareCell({
   if (at.kind === 'ended') {
     return (
       <p className={`compare-ended outcome outcome-${combat.result.outcome}`}>
-        Combat ended on turn {at.endTurn}: {outcomeLabel(combat.result.outcome).toLowerCase()}, lost {combat.result.hpLost} HP.
+        Combat ended on turn {at.endTurn}: {outcomeLabel(combat.result.outcome).toLowerCase()}, lost{' '}
+        {combat.result.hpLost} HP.
       </p>
     );
   }
-  return <RoundBody round={combat.replay.rounds[at.index]!} intent={combat.intents[at.index] ?? null} characterId={characterId} name={name} />;
+  return (
+    <RoundBody
+      round={combat.replay.rounds[at.index]!}
+      intent={combat.intents[at.index] ?? null}
+      characterId={characterId}
+      name={name}
+    />
+  );
 }
 
-function TurnNav({ idx, count, onStep, onJump }: { idx: number; count: number; onStep: (d: number) => void; onJump: (i: number) => void }) {
+function TurnNav({
+  idx,
+  count,
+  onStep,
+  onJump,
+}: {
+  idx: number;
+  count: number;
+  onStep: (d: number) => void;
+  onJump: (i: number) => void;
+}) {
   return (
     <div className="turn-nav">
       <button type="button" className="btn" onClick={() => onStep(-1)} disabled={idx === 0} aria-label="Previous turn">
@@ -202,7 +259,13 @@ function TurnNav({ idx, count, onStep, onJump }: { idx: number; count: number; o
         </select>{' '}
         of {count}
       </label>
-      <button type="button" className="btn" onClick={() => onStep(1)} disabled={idx >= count - 1} aria-label="Next turn">
+      <button
+        type="button"
+        className="btn"
+        onClick={() => onStep(1)}
+        disabled={idx >= count - 1}
+        aria-label="Next turn"
+      >
         Next →
       </button>
     </div>

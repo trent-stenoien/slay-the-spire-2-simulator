@@ -120,7 +120,10 @@ export function addUserStrategy(
   newId: () => string,
 ): SavedStrategy[] {
   const trimmed = name.trim();
-  return [...user, { id: newId(), name: trimmed || defaultName(allowThrough), config: { kind: 'block', allowThrough } }];
+  return [
+    ...user,
+    { id: newId(), name: trimmed || defaultName(allowThrough), config: { kind: 'block', allowThrough } },
+  ];
 }
 
 export function renameUserStrategy(user: readonly SavedStrategy[], id: string, name: string): SavedStrategy[] {
@@ -130,7 +133,9 @@ export function renameUserStrategy(user: readonly SavedStrategy[], id: string, n
 }
 
 export function setAllowThrough(user: readonly SavedStrategy[], id: string, allowThrough: number): SavedStrategy[] {
-  return user.map((s) => (s.id === id && s.config.kind === 'block' ? { ...s, config: { kind: 'block', allowThrough } } : s));
+  return user.map((s) =>
+    s.id === id && s.config.kind === 'block' ? { ...s, config: { kind: 'block', allowThrough } } : s,
+  );
 }
 
 export function deleteUserStrategy(user: readonly SavedStrategy[], id: string): SavedStrategy[] {
@@ -153,8 +158,14 @@ export const MAX_LIBRARY_SIZE = 10;
  * Why a block strategy allowing `allowThrough` can't be added (or another one
  * changed to it), or null if it can. `exceptId` is the strategy being edited.
  */
-export function blockStrategyProblem(library: readonly SavedStrategy[], allowThrough: number, exceptId?: string): string | null {
-  const twin = library.find((s) => s.id !== exceptId && s.config.kind === 'block' && s.config.allowThrough === allowThrough);
+export function blockStrategyProblem(
+  library: readonly SavedStrategy[],
+  allowThrough: number,
+  exceptId?: string,
+): string | null {
+  const twin = library.find(
+    (s) => s.id !== exceptId && s.config.kind === 'block' && s.config.allowThrough === allowThrough,
+  );
   if (twin) return `"${twin.name}" already allows ${allowThrough} damage per turn.`;
   if (exceptId === undefined && library.length >= MAX_LIBRARY_SIZE) {
     return `You can have at most ${MAX_LIBRARY_SIZE} strategies. Delete one to add another.`;

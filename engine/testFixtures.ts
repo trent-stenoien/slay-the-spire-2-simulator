@@ -228,7 +228,11 @@ export const CONTRACT_EFFECT_SAMPLES: Effect[] = [
   { type: 'dealDamage', amount: 40, allEnemies: true }, // The Bomb (inside a schedule)
   { type: 'enemyLoseHp', amount: 6 }, // Choking
   { type: 'setCost', piles: ['hand'], cost: 1, duration: 'turn', onlyIfHigher: true }, // Enlightenment
-  { type: 'conditional', if: { kind: 'handHasNone', filter: { types: ['attack'] } }, then: [{ type: 'draw', amount: 2 }] }, // Impatience
+  {
+    type: 'conditional',
+    if: { kind: 'handHasNone', filter: { types: ['attack'] } },
+    then: [{ type: 'draw', amount: 2 }],
+  }, // Impatience
   { type: 'repeat', per: 'enemyVulnerable', effects: [{ type: 'gainStrength', amount: 1 }] }, // Dominate
   { type: 'attackFrom', damage: 5, hits: 1, extraHitsPer: { per: 'hpLossesThisCombat', amount: 1 } }, // Tear Asunder
   { type: 'gainBlockFrom', amount: 15, bonusPer: { per: 'playerStrength', amount: 5 } }, // Expect a Fight
@@ -238,8 +242,20 @@ export const CONTRACT_EFFECT_SAMPLES: Effect[] = [
   { type: 'upgradeCards', piles: ['hand', 'draw', 'discard', 'exhaust'], mode: 'all' }, // Apotheosis
   { type: 'playCards', from: 'draw', mode: 'top', count: 1, exhaust: true }, // Havoc
   { type: 'addReplay', amount: 2, from: 'draw', mode: 'random', filter: { noReplay: true } }, // Hidden Gem
-  { type: 'addCards', source: { kind: 'random', pool: { character: 'own', types: ['attack'] } }, count: 1, to: 'hand', freeThisTurn: true }, // Infernal Blade
-  { type: 'transformCards', from: 'hand', mode: 'all', filter: { types: ['attack'] }, into: { kind: 'card', cardId: 'giant_rock' } }, // Primal Force
+  {
+    type: 'addCards',
+    source: { kind: 'random', pool: { character: 'own', types: ['attack'] } },
+    count: 1,
+    to: 'hand',
+    freeThisTurn: true,
+  }, // Infernal Blade
+  {
+    type: 'transformCards',
+    from: 'hand',
+    mode: 'all',
+    filter: { types: ['attack'] },
+    into: { kind: 'card', cardId: 'giant_rock' },
+  }, // Primal Force
   { type: 'heal', amount: 10 }, // Not Yet
   { type: 'gainMaxHp', amount: 3 }, // Feed
   { type: 'loseMaxHp', amount: 2 }, // Brightest Flame

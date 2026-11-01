@@ -1,11 +1,4 @@
-import type {
-  CardInstance,
-  DeepReadonly,
-  Decision,
-  Strategy,
-  StrategyConfig,
-  StrategyView,
-} from './types';
+import type { CardInstance, DeepReadonly, Decision, Strategy, StrategyConfig, StrategyView } from './types';
 import { attackHits } from './rules';
 
 type Card = DeepReadonly<CardInstance>;
@@ -122,7 +115,10 @@ const play = (c: Card): Decision => ({ kind: 'play', uid: c.uid });
  * that nets energy (#22), as long as some other card in hand could use it.
  */
 function pickFirst(view: StrategyView): Card | undefined {
-  const first = best(view.playable.filter((c) => PLAY_FIRST_CARD_IDS.includes(c.cardId)), () => []);
+  const first = best(
+    view.playable.filter((c) => PLAY_FIRST_CARD_IDS.includes(c.cardId)),
+    () => [],
+  );
   if (first) return first;
   const energy = best(view.playable.filter(isNetEnergyCard), (c) => [netEnergy(c)]);
   if (!energy) return undefined;
@@ -138,7 +134,9 @@ function netEnergy(card: Card): number {
 /** A card that costs energy and that some strategy would play. */
 function wantsEnergy(c: Card): boolean {
   const costsEnergy = c.cost !== null && (c.xCost || c.cost > 0);
-  return costsEnergy && (isAttackCard(c) || isBlockCard(c) || isNetEnergyCard(c) || PLAY_FIRST_CARD_IDS.includes(c.cardId));
+  return (
+    costsEnergy && (isAttackCard(c) || isBlockCard(c) || isNetEnergyCard(c) || PLAY_FIRST_CARD_IDS.includes(c.cardId))
+  );
 }
 
 function greedyDecide(view: StrategyView): Decision {
