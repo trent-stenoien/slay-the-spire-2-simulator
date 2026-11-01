@@ -120,9 +120,3 @@ export function cardText(def: CardDef, upgraded: boolean): CardText {
     lines: [...keywords.map((k) => KEYWORD_LABEL[k]), ...effects.map(effectText)],
   };
 }
-
-/** One sentence: "Deal 8 damage. Apply 2 Vulnerable." */
-export function cardSummary(def: CardDef, upgraded: boolean): string {
-  const { lines } = cardText(def, upgraded);
-  return lines.length === 0 ? '' : `${lines.join('. ')}.`;
-}

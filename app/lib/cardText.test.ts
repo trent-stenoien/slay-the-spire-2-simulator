@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { gameData } from '../../data';
-import { cardSummary, cardText, effectText } from './cardText';
+import { cardText, effectText } from './cardText';
 import { CONTRACT_EFFECT_SAMPLES } from '../../engine/testFixtures';
 
 const card = (id: string) => gameData.cards[id]!;
@@ -22,8 +22,7 @@ describe('card text', () => {
     expect(effectText(e)).toBe(text);
   });
 
-  it('summarizes Bash and its upgrade', () => {
-    expect(cardSummary(card('bash'), false)).toBe('Deal 8 damage. Apply 2 Vulnerable.');
+  it('describes Bash+', () => {
     expect(cardText(card('bash'), true)).toEqual({ name: 'Bash+', cost: '2', lines: ['Deal 10 damage', 'Apply 3 Vulnerable'] });
   });
 

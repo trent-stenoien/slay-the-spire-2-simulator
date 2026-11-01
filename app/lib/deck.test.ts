@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { gameData } from '../../data';
-import { automaticCards, cardFolder, combatDeckSize, changeCount, copiesOf, costColorKey, deckPool, deckSize, filteredPool, foldersForFilter, groupedPool, isCharacterSimulated, matchesSearch, removeCard, startingDeckFor, toggleUpgrade, unsimulatedStarters } from './deck';
+import { automaticCards, cardFolder, combatDeckSize, changeCount, copiesOf, costColorKey, deckPool, deckSize, filteredPool, foldersForFilter, groupedPool, isCharacterSimulated, matchesSearch, removeCard, startingDeckFor, unsimulatedStarters } from './deck';
 import type { CardDef, Deck } from '../../engine/types';
 
 const deck: Deck = [
@@ -46,16 +46,6 @@ describe('deck edits', () => {
   it('removes a group at zero and ignores removing what is absent', () => {
     expect(changeCount(deck, 'defend', false, -4)).toEqual([deck[0]]);
     expect(changeCount(deck, 'bash', false, -1)).toBe(deck);
-  });
-
-  it('toggles a group, merging into an existing one', () => {
-    expect(toggleUpgrade(deck, 'defend', false)[1]).toEqual({ cardId: 'defend', upgraded: true, count: 4 });
-    const mixed = changeCount(deck, 'strike', true, 2);
-    expect(toggleUpgrade(mixed, 'strike', true)).toEqual([
-      { cardId: 'strike', upgraded: false, count: 7 },
-      deck[1],
-    ]);
-    expect(deck[0]!.count).toBe(5); // input untouched
   });
 });
 

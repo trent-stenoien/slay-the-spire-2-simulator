@@ -66,21 +66,6 @@ export function removeCard(deck: Deck, cardId: string): Deck {
 }
 
 /**
- * Flip the upgraded flag of a whole copy group, merging into the other
- * group if it already exists (the merged entry keeps the other group's position).
- */
-export function toggleUpgrade(deck: Deck, cardId: string, upgraded: boolean): Deck {
-  const idx = deck.findIndex((e) => e.cardId === cardId && e.upgraded === upgraded);
-  const from = deck[idx];
-  if (!from) return deck;
-  const otherIdx = deck.findIndex((e) => e.cardId === cardId && e.upgraded === !upgraded);
-  if (otherIdx < 0) return deck.map((e, i) => (i === idx ? { ...e, upgraded: !upgraded } : e));
-  return deck
-    .map((e, i) => (i === otherIdx ? { ...e, count: e.count + from.count } : e))
-    .filter((_, i) => i !== idx);
-}
-
-/**
  * The character's starting deck, minus cards the engine can't simulate yet
  * (so a character like the Silent can still be picked and run).
  */
