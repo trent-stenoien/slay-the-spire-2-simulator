@@ -11,8 +11,8 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "format": "prettier --write \"{engine,app,data,tools}/**/*.{ts,tsx,js,mjs}\" vite.config.ts eslint.config.js",
-    "format:check": "prettier --check \"{engine,app,data,tools}/**/*.{ts,tsx,js,mjs}\" vite.config.ts eslint.config.js"
+    "format": "prettier --write \"{engine,app,data,tools}/**/*.{ts,tsx,js,mjs,css,json}\" \"*.{js,ts,json}\"",
+    "format:check": "prettier --check \"{engine,app,data,tools}/**/*.{ts,tsx,js,mjs,css,json}\" \"*.{js,ts,json}\""
   },
   "dependencies": {
     "react": "^19.3.1",

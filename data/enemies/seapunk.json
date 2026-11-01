@@ -11,19 +11,34 @@
     "spinningKick": { "name": "Spinning Kick", "effects": [{ "type": "attack", "damage": 2, "hits": 4 }] },
     "bubbleBurp": {
       "name": "Bubble Burp",
-      "effects": [{ "type": "gainBlock", "amount": 7 }, { "type": "gainStrength", "amount": 1 }]
+      "effects": [
+        { "type": "gainBlock", "amount": 7 },
+        { "type": "gainStrength", "amount": 1 }
+      ]
     }
   },
   "pattern": { "type": "cycle", "order": ["seaKick", "spinningKick", "bubbleBurp"], "start": "first" },
   "ascension": {
     "8": {
       "hp": { "min": 47, "max": 49 },
-      "moves": { "bubbleBurp": { "effects": [{ "type": "gainBlock", "amount": 8 }, { "type": "gainStrength", "amount": 1 }] } }
+      "moves": {
+        "bubbleBurp": {
+          "effects": [
+            { "type": "gainBlock", "amount": 8 },
+            { "type": "gainStrength", "amount": 1 }
+          ]
+        }
+      }
     },
     "9": {
       "moves": {
         "seaKick": { "effects": [{ "type": "attack", "damage": 13, "hits": 1 }] },
-        "bubbleBurp": { "effects": [{ "type": "gainBlock", "amount": 8 }, { "type": "gainStrength", "amount": 2 }] }
+        "bubbleBurp": {
+          "effects": [
+            { "type": "gainBlock", "amount": 8 },
+            { "type": "gainStrength", "amount": 2 }
+          ]
+        }
       }
     }
   },

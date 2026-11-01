@@ -1,0 +1,6 @@
+dist/
+package-lock.json
+# Written by tools/build-card-skeletons.mjs (JSON.stringify, 2 spaces); Prettier would fight the tool.
+data/cards/
+# Raw wiki exports, kept byte-for-byte.
+data/raw/
