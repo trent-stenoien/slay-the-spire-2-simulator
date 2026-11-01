@@ -9,11 +9,33 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "draw",
+      "amount": 3
+    },
+    {
+      "type": "applyPower",
+      "power": "noDraw",
+      "amount": 1
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "draw",
+        "amount": 4
+      },
+      {
+        "type": "applyPower",
+        "power": "noDraw",
+        "amount": 1
+      }
+    ]
+  },
   "description": "Draw 3 cards. / You cannot draw additional cards this turn.",
   "upgradedDescription": "Draw 4 cards. / You cannot draw additional cards this turn.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

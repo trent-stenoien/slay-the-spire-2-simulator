@@ -22,8 +22,8 @@ export const CARD_KEYWORDS = ['unplayable', 'ethereal', 'eternal', 'exhaust', 'r
 export const SIMULATED_KEYWORDS = new Set(['unplayable', 'ethereal', 'eternal', 'exhaust', 'innate', 'retain']);
 
 /**
- * #105 contract effects: valid data, but not simulated yet. Each mechanic card
- * (#106–#116) removes its effects from this list when the engine supports them.
+ * #105 contract effects: valid data. Each mechanic card (#106–#116) moves its effects into
+ * SIMULATED_CONTRACT_EFFECTS when the engine supports them; the rest are not simulated yet.
  */
 export const CONTRACT_EFFECTS = [
   'loseHp',
@@ -54,7 +54,21 @@ export const CONTRACT_EFFECTS = [
   'script',
 ] as const;
 
-export const UNSIMULATED_EFFECTS = new Set<string>(['gainStars', ...CONTRACT_EFFECTS]);
+/** Contract effects the engine simulates: #106 loseHp, #107 draw and drawUntil. */
+export const SIMULATED_CONTRACT_EFFECTS = new Set<string>(['loseHp', 'draw', 'drawUntil']);
+
+export const UNSIMULATED_EFFECTS = new Set<string>(
+  ['gainStars', ...CONTRACT_EFFECTS].filter((t) => !SIMULATED_CONTRACT_EFFECTS.has(t)),
+);
+
+/**
+ * Powers the engine simulates. `applyPower` stays unsimulated in general (#109), but a
+ * simulated card may apply one of these: #107 noDraw (Battle Trance).
+ */
+export const SIMULATED_POWERS = new Set<string>(['noDraw']);
+
+/** CardFilter fields the engine matches on (#107: Pillage's `stopOn`); others are not simulated yet. */
+export const SIMULATED_FILTER_FIELDS = new Set<string>(['types', 'notTypes', 'cardId', 'upgraded']);
 
 /** CardDef fields from #105 that the engine does not simulate yet. */
 export const UNSIMULATED_CARD_FIELDS = ['triggers', 'playableIf', 'costLessPer'] as const;

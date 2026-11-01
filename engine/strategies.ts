@@ -51,6 +51,47 @@ function totalBaseDamage(card: Card, energy: number): number {
   return sum;
 }
 
+/** #107: true for a card that draws cards (`draw` or `drawUntil`). */
+export function isDrawCard(card: Card): boolean {
+  return card.effects.some((e) => e.type === 'draw' || e.type === 'drawUntil');
+}
+
+/** #107: a draw card with no attack or block part (Master of Strategy, Soul, Scrawl, Offering). */
+export function isPureDrawCard(card: Card): boolean {
+  return isDrawCard(card) && !isAttackCard(card) && !isBlockCard(card);
+}
+
+/** #107: true for a card that stops all further draws this turn (Battle Trance). */
+export function stopsDrawing(card: Card): boolean {
+  return card.effects.some((e) => e.type === 'applyPower' && e.power === 'noDraw');
+}
+
+/** #106: HP the card makes you lose when played (sum of its `loseHp` effects). */
+export function selfDamage(card: Card): number {
+  let sum = 0;
+  for (const e of card.effects) if (e.type === 'loseHp') sum += e.amount;
+  return sum;
+}
+
+/** #107: a draw would find a card: draws aren't blocked and the draw or discard pile has cards. */
+export function canDraw(view: StrategyView): boolean {
+  const p = view.state.player;
+  return !(p.powers?.noDraw ?? 0) && p.drawPile.length + p.discardPile.length > 0;
+}
+
+/**
+ * #106: the view with every self-damage card that would drop the player to 0 HP removed from
+ * `playable`. Strategies otherwise ignore the HP cost (Trent, #106 Q4).
+ */
+function withoutLethal(view: StrategyView): StrategyView {
+  const hp = view.state.player.hp;
+  if (!view.playable.some((c) => selfDamage(c) >= hp)) return view;
+  return { ...view, playable: view.playable.filter((c) => selfDamage(c) < hp) };
+}
+
+/** 1 for a card that draws: draw cards win ties against cards that don't (#107). */
+const draws = (c: Card): number => (isDrawCard(c) ? 1 : 0);
+
 function totalBlock(card: Card): number {
   let sum = 0;
   for (const e of card.effects) if (e.type === 'gainBlock') sum += e.amount;
@@ -91,28 +132,32 @@ const notXCost = (c: Card): number => (c.xCost ? 0 : 1);
 /**
  * Best attack to play: X-cost attacks only once no other attack is playable
  * (so they spend the leftover energy; never at 0 energy), then Vulnerable-appliers
- * first, then highest total base damage (damage × hits), ties → lowest uid.
+ * first, then highest total base damage (damage × hits), then cards that draw (#107),
+ * ties → lowest uid.
  */
 export function pickAttack(playable: readonly Card[], energy = 0): Card | undefined {
   const attacks = playable.filter((c) => isAttackCard(c) && xCostPlayable(c, energy));
-  return best(attacks, (c) => [notXCost(c), appliesVulnerable(c) ? 1 : 0, totalBaseDamage(c, energy)]);
+  return best(attacks, (c) => [notXCost(c), appliesVulnerable(c) ? 1 : 0, totalBaseDamage(c, energy), draws(c)]);
 }
 
 /**
  * Best block card: X-cost block cards only once no other block card is
- * playable (never at 0 energy), then largest block amount, ties → lowest uid.
+ * playable (never at 0 energy), then largest block amount, then cards that
+ * draw (#107), ties → lowest uid.
  */
 export function pickBlock(playable: readonly Card[], energy = 0): Card | undefined {
   const blocks = playable.filter((c) => isBlockCard(c) && xCostPlayable(c, energy));
-  return best(blocks, (c) => [notXCost(c), totalBlock(c)]);
+  return best(blocks, (c) => [notXCost(c), totalBlock(c), draws(c)]);
 }
 
 const END: Decision = { kind: 'endTurn' };
 const play = (c: Card): Decision => ({ kind: 'play', uid: c.uid });
 
 /**
- * Plays every strategy makes before its own logic: Tremble (#1), then a card
- * that nets energy (#22), as long as some other card in hand could use it.
+ * Plays every strategy makes before its own logic: Tremble (#1); then, while there is
+ * something to draw, a pure draw card (#107); then a card that nets energy (#22), as long as
+ * some other card in hand could use it; then Battle Trance (#107), once no other draw card in
+ * hand is playable, so every other draw that turn comes first.
  */
 function pickFirst(view: StrategyView): Card | undefined {
   const first = best(
@@ -120,10 +165,23 @@ function pickFirst(view: StrategyView): Card | undefined {
     () => [],
   );
   if (first) return first;
+  const drawing = canDraw(view);
+  if (drawing) {
+    const pureDraw = best(
+      view.playable.filter((c) => isPureDrawCard(c) && !stopsDrawing(c)),
+      () => [],
+    );
+    if (pureDraw) return pureDraw;
+  }
   const energy = best(view.playable.filter(isNetEnergyCard), (c) => [netEnergy(c)]);
-  if (!energy) return undefined;
-  const useful = view.state.player.hand.some((c) => c.uid !== energy.uid && wantsEnergy(c));
-  return useful ? energy : undefined;
+  if (energy && view.state.player.hand.some((c) => c.uid !== energy.uid && wantsEnergy(c))) return energy;
+  if (drawing) {
+    const trance = best(view.playable.filter(stopsDrawing), () => []);
+    if (trance && !view.playable.some((c) => c.uid !== trance.uid && isDrawCard(c) && !stopsDrawing(c))) {
+      return trance;
+    }
+  }
+  return undefined;
 }
 
 /** Energy left over after playing a net-energy card. */
@@ -135,11 +193,13 @@ function netEnergy(card: Card): number {
 function wantsEnergy(c: Card): boolean {
   const costsEnergy = c.cost !== null && (c.xCost || c.cost > 0);
   return (
-    costsEnergy && (isAttackCard(c) || isBlockCard(c) || isNetEnergyCard(c) || PLAY_FIRST_CARD_IDS.includes(c.cardId))
+    costsEnergy &&
+    (isAttackCard(c) || isBlockCard(c) || isDrawCard(c) || isNetEnergyCard(c) || PLAY_FIRST_CARD_IDS.includes(c.cardId))
   );
 }
 
-function greedyDecide(view: StrategyView): Decision {
+function greedyDecide(raw: StrategyView): Decision {
+  const view = withoutLethal(raw);
   const first = pickFirst(view);
   if (first) return play(first);
   return greedyMain(view);
@@ -154,7 +214,8 @@ function greedyMain(view: StrategyView): Decision {
   return END;
 }
 
-function blockDecide(view: StrategyView, allowThrough: number): Decision {
+function blockDecide(raw: StrategyView, allowThrough: number): Decision {
+  const view = withoutLethal(raw);
   const first = pickFirst(view);
   if (first) return play(first);
   // Phase 1: block until at most `allowThrough` damage would get through.
@@ -168,8 +229,9 @@ function blockDecide(view: StrategyView, allowThrough: number): Decision {
 }
 
 /**
- * Strategies are stateless: each decision is recomputed from the view, so one
- * instance can safely be reused across combats.
+ * Strategies are stateless: each decision is recomputed from the view (the current hand and
+ * energy, so cards drawn mid-turn are re-planned around), and one instance can safely be
+ * reused across combats.
  */
 export function createStrategy(config: StrategyConfig): Strategy {
   switch (config.kind) {

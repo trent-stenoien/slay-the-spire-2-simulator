@@ -6,9 +6,11 @@ import {
   HAND_LIMIT,
   TURN_CAP,
   type CardDef,
+  type CardFilter,
   type CardInstance,
   type CharacterDef,
   type CombatConfig,
+  type CombatCounters,
   type CombatResult,
   type CombatState,
   type DebuffKind,
@@ -128,18 +130,49 @@ function resolveCheckedEnemy(data: GameData, config: CombatConfig): EnemyDef {
 }
 
 /**
- * Turn-1 Innate rule: Innate cards move to the top of the draw pile (keeping their shuffled
- * relative order) so they are drawn first, and at least that many cards are drawn, capped at
- * the hand limit. Returns the reordered pile and the draw count.
+ * Innate rule (#2): Innate cards go on top of the draw pile at the start of combat, keeping
+ * their shuffled relative order. The turn-1 draw is the normal amount; Innate cards beyond it
+ * stay on top for later turns. Uses no randomness.
  */
-function innateFirst(drawPile: CardInstance[], drawPerTurn: number): { drawPile: CardInstance[]; drawCount: number } {
+export function innateOnTop(drawPile: CardInstance[]): CardInstance[] {
   const innate = drawPile.filter((c) => c.keywords.includes('innate'));
-  if (innate.length === 0) return { drawPile, drawCount: drawPerTurn };
+  if (innate.length === 0) return drawPile;
+  return [...drawPile.filter((c) => !c.keywords.includes('innate')), ...innate];
+}
+
+function emptyCounters(): CombatCounters {
   return {
-    drawPile: [...drawPile.filter((c) => !c.keywords.includes('innate')), ...innate],
-    drawCount: Math.min(Math.max(drawPerTurn, innate.length), HAND_LIMIT),
+    hpLostThisTurn: 0,
+    hpLostThisCombat: 0,
+    hpLossesThisCombat: 0,
+    cardsPlayedThisTurn: 0,
+    cardsPlayedThisCombat: 0,
+    attacksPlayedThisTurn: 0,
+    skillsPlayedThisTurn: 0,
+    cardsExhaustedThisTurn: 0,
+    cardsExhaustedThisCombat: 0,
+    cardsDrawnThisTurn: 0,
+    cardsDrawnThisCombat: 0,
   };
 }
+
+/**
+ * True when `card` matches every present field of `filter` (#107: Pillage's non-Attack stop rule).
+ * Fields whose rules are still open (rarity, nameIncludes, noReplay) throw until their cards land.
+ */
+export function matchesFilter(card: CardInstance, filter: CardFilter): boolean {
+  for (const field of ['rarity', 'nameIncludes', 'noReplay'] as const) {
+    if (filter[field] !== undefined) throw new Error(`Card filter "${field}" is not simulated yet`);
+  }
+  if (filter.types && !filter.types.includes(card.type)) return false;
+  if (filter.notTypes?.includes(card.type)) return false;
+  if (filter.cardId !== undefined && card.cardId !== filter.cardId) return false;
+  if (filter.upgraded !== undefined && card.upgraded !== filter.upgraded) return false;
+  return true;
+}
+
+/** Safety guard: at most this many cards drawn by one `drawUntil` effect. */
+const MAX_DRAW_UNTIL = 1000;
 
 /**
  * One combat in progress. Each method is a named step of the turn order in CLAUDE.md; all
@@ -175,10 +208,11 @@ class Combat {
         energy: 0,
         strength: 0,
         debuffs: emptyDebuffs(),
-        drawPile: deck,
+        drawPile: innateOnTop(deck),
         hand: [],
         discardPile: [],
         exhaustPile: [],
+        counters: emptyCounters(),
       },
       enemy: {
         enemyId: enemyDef.id,
@@ -209,7 +243,8 @@ class Combat {
     for (;;) {
       this.state.turn++;
       this.startPlayerTurn();
-      if (this.playCards()) return this.finish('win');
+      const played = this.playCards();
+      if (played) return this.finish(played);
       this.endPlayerTurn();
       const outcome = this.enemyTurn();
       if (outcome) return this.finish(outcome);
@@ -217,26 +252,30 @@ class Combat {
     }
   }
 
-  /** Block resets, energy refills, then the draw (Innate cards first on turn 1). */
+  private get counters(): CombatCounters {
+    return this.state.player.counters as CombatCounters;
+  }
+
+  /** "This turn" counters reset, block resets, energy refills, then the normal draw. */
   private startPlayerTurn(): void {
-    const { player, log } = this;
+    const { player, log, counters } = this;
     log?.push({ t: 'turnStart', turn: this.state.turn, side: 'player' });
+    counters.hpLostThisTurn = 0;
+    counters.cardsDrawnThisTurn = 0;
     player.block = 0;
     log?.push({ t: 'blockReset', side: 'player' });
     player.energy = this.character.energyPerTurn;
-    let drawCount = this.character.drawPerTurn;
-    if (this.state.turn === 1) {
-      const opening = innateFirst(player.drawPile, drawCount);
-      player.drawPile = opening.drawPile;
-      drawCount = opening.drawCount;
-    }
-    for (let i = 0; i < drawCount; i++) {
+    for (let i = 0; i < this.character.drawPerTurn; i++) {
       if (!this.drawOne()) break;
     }
   }
 
-  /** The strategy plays cards until it ends its turn. Returns true if the enemy died. */
-  private playCards(): boolean {
+  /**
+   * The strategy plays cards until it ends its turn. Each decision gets a fresh view (current
+   * hand and energy), so cards drawn mid-turn are considered. Returns the outcome if combat ended:
+   * 'win' when the enemy died, 'loss' when the player's own card dropped them to 0 HP.
+   */
+  private playCards(): Outcome | null {
     const { player, enemy, log } = this;
     const { id: moveId, move } = this.currentMove();
     for (let decisions = 0; decisions < MAX_DECISIONS_PER_TURN; decisions++) {
@@ -261,16 +300,17 @@ class Combat {
         if (card.xCost) ev.x = x;
         log.push(ev);
       }
-      const killed = this.resolveEffects('player', card.effects, x);
+      const died = this.resolveEffects('player', card.effects, x);
+      if (died === 'player' || player.hp <= 0) return 'loss';
       if (card.keywords.includes('exhaust')) {
         player.exhaustPile.push(card);
         log?.push({ t: 'exhaust', uid: card.uid, cardId: card.cardId, reason: 'keyword' });
       } else {
         player.discardPile.push(card);
       }
-      if (killed || enemy.hp <= 0) return true;
+      if (died === 'enemy' || enemy.hp <= 0) return 'win';
     }
-    return false;
+    return null;
   }
 
   /** Ethereal exhausts first (even if Retain), Retain stays, the rest is discarded; then player debuffs tick. */
@@ -289,6 +329,11 @@ class Combat {
       }
     }
     player.hand = retained;
+    // Battle Trance's no-draw lasts for the rest of this turn only.
+    if (player.powers?.noDraw) {
+      delete player.powers.noDraw;
+      log?.push({ t: 'powerRemoved', side: 'player', power: 'noDraw' });
+    }
     this.tickDebuffs('player');
     log?.push({ t: 'turnEnd', turn: this.state.turn, side: 'player' });
   }
@@ -309,9 +354,9 @@ class Combat {
     }
     const { id: moveId, move } = this.currentMove();
     log?.push({ t: 'enemyMove', moveId, name: move.name });
-    const playerDied = this.resolveEffects('enemy', move.effects);
+    const died = this.resolveEffects('enemy', move.effects);
     enemy.patternIndex = (enemy.patternIndex + 1) % this.order.length;
-    if (playerDied || player.hp <= 0) return 'loss';
+    if (died === 'player' || player.hp <= 0) return 'loss';
     // Debuffs on the enemy tick down at the end of the enemy's own turn, after its move.
     this.tickDebuffs('enemy');
     log?.push({ t: 'turnEnd', turn: this.state.turn, side: 'enemy' });
@@ -329,16 +374,16 @@ class Combat {
 
   /**
    * Resolve effects from `source`. Attacks and debuffs hit the opponent; block
-   * and Strength go to the source. Returns true if the opponent died.
+   * and Strength go to the source. Stops and returns the side that died, if one did.
    */
-  private resolveEffects(source: Side, effects: readonly Effect[], x = 0): boolean {
+  private resolveEffects(source: Side, effects: readonly Effect[], x = 0): Side | null {
     const { player, enemy, log } = this;
     const other: Side = source === 'player' ? 'enemy' : 'player';
     const self = this.fighter(source);
     for (const e of effects) {
       switch (e.type) {
         case 'attack':
-          if (this.attack(source, other, e.damage, attackHits(e, x))) return true;
+          if (this.attack(source, other, e.damage, attackHits(e, x))) return other;
           break;
         case 'gainBlock': {
           const amt = blockGain(e.amount, self.debuffs.frail);
@@ -371,12 +416,81 @@ class Combat {
           break;
         case 'gainStars':
           throw new Error('Stars are not simulated yet');
+        case 'loseHp':
+          if (source !== 'player') throw new Error(`Effect "loseHp" is not simulated yet on enemy moves`);
+          if (this.loseHp(e.amount)) return 'player';
+          break;
+        case 'draw':
+          if (source !== 'player') throw new Error('Enemies do not draw cards');
+          this.drawCards(e.amount);
+          break;
+        case 'drawUntil':
+          if (source !== 'player') throw new Error('Enemies do not draw cards');
+          this.drawUntil(e.stopOn);
+          break;
+        case 'applyPower':
+          if (source !== 'player' || e.power !== 'noDraw') {
+            throw new Error(`Effect "applyPower" is not simulated yet (power "${e.power}")`);
+          }
+          this.applyPower(e.power, e.amount);
+          break;
         default:
           // #105: declared in the contract, implemented by later mechanic cards.
           throw new Error(`Effect "${e.type}" is not simulated yet`);
       }
     }
-    return false;
+    return null;
+  }
+
+  /** #106: the player loses HP directly (ignores Block; not an attack). Returns true if they died. */
+  private loseHp(amount: number): boolean {
+    const { player } = this;
+    player.hp -= amount;
+    this.recordHpLoss(amount);
+    this.log?.push({ t: 'loseHp', side: 'player', amount, hpAfter: Math.max(player.hp, 0) });
+    return player.hp <= 0;
+  }
+
+  /** #106: tallies for every drop in the player's HP, from any source. A drop of 0 is not a loss. */
+  private recordHpLoss(amount: number): void {
+    if (amount <= 0) return;
+    const c = this.counters;
+    c.hpLostThisTurn += amount;
+    c.hpLostThisCombat += amount;
+    c.hpLossesThisCombat++;
+  }
+
+  /** #107: gain a player power (stacks add). Only `noDraw` is simulated so far. */
+  private applyPower(power: 'noDraw', amount: number): void {
+    const powers = (this.player.powers ??= {});
+    powers[power] = (powers[power] ?? 0) + amount;
+    this.log?.push({ t: 'powerApplied', side: 'player', power, amount, total: powers[power] });
+  }
+
+  /** #107: true while Battle Trance's no-draw is active; it blocks every draw from any source. */
+  private drawBlocked(): boolean {
+    return (this.player.powers?.noDraw ?? 0) > 0;
+  }
+
+  /** #107: draw `amount` cards one by one (full hand → discarded, as at turn start). */
+  private drawCards(amount: number): void {
+    for (let i = 0; i < amount; i++) {
+      if (this.drawBlocked() || !this.drawOne()) return;
+    }
+  }
+
+  /**
+   * #107: draw one card at a time. Stops when the hand is full (Scrawl), after drawing a card
+   * matching `stopOn` (Pillage), when nothing is left to draw, or when drawing is blocked.
+   * It never draws into a full hand, so it never discards for the hand limit.
+   */
+  private drawUntil(stopOn: CardFilter | undefined): void {
+    for (let i = 0; i < MAX_DRAW_UNTIL; i++) {
+      if (this.drawBlocked() || this.player.hand.length >= HAND_LIMIT) return;
+      const card = this.drawOne();
+      if (!card) return;
+      if (stopOn && matchesFilter(card, stopOn)) return;
+    }
   }
 
   /** Deal one attack effect, hit by hit (Block absorbs hits in order). Returns true if the target died. */
@@ -390,6 +504,7 @@ class Combat {
       const hpLoss = perHit - blocked;
       t.hp -= hpLoss;
       this.log?.push({ t: 'damage', source, target, amount: perHit, blocked, hpLoss });
+      if (target === 'player') this.recordHpLoss(hpLoss);
       if (t.hp <= 0) return true;
     }
     return false;
@@ -401,11 +516,14 @@ class Combat {
     this.log?.push({ t: 'debuff', side, kind, amount, total: f.debuffs[kind] });
   }
 
-  /** Draw one card, reshuffling the discard pile if the draw pile is empty. False when both are empty. */
-  private drawOne(): boolean {
+  /**
+   * Draw one card, reshuffling the discard pile if the draw pile is empty. Returns the card
+   * (in hand, or discarded when the hand is full), or null when both piles are empty.
+   */
+  private drawOne(): CardInstance | null {
     const { player, log } = this;
     if (player.drawPile.length === 0) {
-      if (player.discardPile.length === 0) return false;
+      if (player.discardPile.length === 0) return null;
       player.drawPile = player.discardPile;
       player.discardPile = [];
       this.rng.shuffle(player.drawPile);
@@ -413,13 +531,15 @@ class Combat {
     }
     const card = player.drawPile.pop() as CardInstance;
     log?.push({ t: 'draw', uid: card.uid, cardId: card.cardId });
+    this.counters.cardsDrawnThisTurn++;
+    this.counters.cardsDrawnThisCombat++;
     if (player.hand.length >= HAND_LIMIT) {
       player.discardPile.push(card);
       log?.push({ t: 'discard', uid: card.uid, cardId: card.cardId, reason: 'handLimit' });
     } else {
       player.hand.push(card);
     }
-    return true;
+    return card;
   }
 
   /** Each debuff on `side` goes down by 1 (at the end of that side's turn). */

@@ -16,6 +16,10 @@
       "type": "attack",
       "damage": 6,
       "hits": 1
+    },
+    {
+      "type": "draw",
+      "amount": 1
     }
   ],
   "upgraded": {
@@ -24,12 +28,16 @@
         "type": "attack",
         "damage": 9,
         "hits": 1
+      },
+      {
+        "type": "draw",
+        "amount": 1
       }
     ]
   },
   "description": "Deal 6 damage. / Draw 1 card. / Exhaust.",
   "upgradedDescription": "Deal 9 damage. / Draw 1 card. / Exhaust.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

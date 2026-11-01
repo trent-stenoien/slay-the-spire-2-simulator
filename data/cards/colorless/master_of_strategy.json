@@ -11,11 +11,23 @@
   "keywords": [
     "exhaust"
   ],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "draw",
+      "amount": 3
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "draw",
+        "amount": 4
+      }
+    ]
+  },
   "description": "Draw 3 cards. / Exhaust.",
   "upgradedDescription": "Draw 4 cards. / Exhaust.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

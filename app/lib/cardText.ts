@@ -1,5 +1,5 @@
 /** Plain-language card text, e.g. "Deal 8 damage. Apply 2 Vulnerable." */
-import type { CardDef, CardKeyword, Effect } from '../../engine/types';
+import type { CardDef, CardFilter, CardKeyword, CardType, Effect } from '../../engine/types';
 
 const KEYWORD_LABEL: Record<CardKeyword, string> = {
   unplayable: 'Unplayable',
@@ -37,18 +37,21 @@ export function effectText(e: Effect): string {
       return `Gain ${e.amount} Energy`;
     case 'gainStars':
       return `Gain ${e.amount} Stars`;
-    // #105: plain fallback text for mechanics that are not simulated yet.
+    // #106, #107: simulated.
     case 'loseHp':
       return `Lose ${e.amount} HP`;
     case 'draw':
       return `Draw ${e.amount} ${e.amount === 1 ? 'card' : 'cards'}`;
     case 'drawUntil':
-      return e.handFull ? 'Draw cards until your Hand is full' : 'Draw cards until a condition is met';
+      if (e.handFull) return 'Draw cards until your Hand is full';
+      return e.stopOn ? `Draw cards until you draw ${filterText(e.stopOn)}` : 'Draw cards until a condition is met';
+    // #105: plain fallback text for mechanics that are not simulated yet.
     case 'exhaustCards':
       return e.mode === 'all'
         ? 'Exhaust cards'
         : `Exhaust ${e.upTo ? 'up to ' : ''}${e.count ?? 1} ${e.count === 1 || e.count === undefined ? 'card' : 'cards'}${e.mode === 'random' ? ' at random' : ''}`;
     case 'applyPower':
+      if (e.power === 'noDraw') return 'You cannot draw additional cards this turn';
       return `Gain ${e.amount} ${cap(e.power)}`;
     case 'applyEnemyPower':
       return `Apply ${e.amount} ${cap(e.power)} to the enemy`;
@@ -93,6 +96,22 @@ export function effectText(e: Effect): string {
     case 'script':
       return 'Special effect';
   }
+}
+
+const TYPE_LABEL: Record<CardType, string> = {
+  attack: 'Attack',
+  skill: 'Skill',
+  power: 'Power',
+  status: 'Status',
+  curse: 'Curse',
+  quest: 'Quest',
+};
+
+/** "a non-Attack card", "a Skill card", or "a matching card" for filters without a type rule. */
+function filterText(f: CardFilter): string {
+  if (f.notTypes?.length) return `a non-${f.notTypes.map((t) => TYPE_LABEL[t]).join('/')} card`;
+  if (f.types?.length) return `a ${f.types.map((t) => TYPE_LABEL[t]).join('/')} card`;
+  return 'a matching card';
 }
 
 /** "noDraw" → "No Draw". */

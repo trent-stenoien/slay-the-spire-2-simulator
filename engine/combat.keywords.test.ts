@@ -28,17 +28,39 @@ describe('Innate', () => {
     }
   });
 
-  it('turn-1 draw is max(drawPerTurn, Innate count), capped at the hand limit; later turns draw normally', () => {
+  it('turn 1 draws the normal 5 even with more Innate cards; the rest stay on top for later turns (#2)', () => {
     const data = withInnate();
     const seven = logged(data, passive, { enemyId: 'dummy', deck: deckOf(['defend', 10], ['opener', 7]) });
-    expect(drawsOnTurn(seven.log!, 1).map((d) => d.cardId)).toEqual(Array(7).fill('opener'));
-    expect(drawsOnTurn(seven.log!, 2)).toHaveLength(5);
+    expect(drawsOnTurn(seven.log!, 1).map((d) => d.cardId)).toEqual(Array(5).fill('opener'));
+    expect(drawsOnTurn(seven.log!, 2).map((d) => d.cardId)).toEqual(['opener', 'opener', 'defend', 'defend', 'defend']);
 
+    // 12 Innate: turns 1 and 2 draw 5 each, turn 3 draws the last 2 Innate, then the 3 others.
     const twelve = logged(data, passive, { enemyId: 'dummy', deck: deckOf(['defend', 3], ['opener', 12]) });
-    const t1 = drawsOnTurn(twelve.log!, 1);
-    expect(t1).toHaveLength(10);
-    expect(t1.every((d) => d.cardId === 'opener')).toBe(true);
+    expect(drawsOnTurn(twelve.log!, 1).map((d) => d.cardId)).toEqual(Array(5).fill('opener'));
+    expect(drawsOnTurn(twelve.log!, 2).map((d) => d.cardId)).toEqual(Array(5).fill('opener'));
+    expect(drawsOnTurn(twelve.log!, 3).map((d) => d.cardId)).toEqual([
+      'opener',
+      'opener',
+      'defend',
+      'defend',
+      'defend',
+    ]);
     expect(events(twelve.log, 'discard').filter((d) => d.reason === 'handLimit')).toHaveLength(0);
+  });
+
+  it('Innate cards are put on top once, at the start of combat: a reshuffle does not put them back on top', () => {
+    const data = withInnate();
+    // 1 Innate + 5 Defend: turn 1 draws the opener + 4 Defend; turn 2 draws the last Defend, then
+    // reshuffles the 5 discarded cards. After that the opener lands anywhere in the draw order.
+    const positions = new Set<number>();
+    for (let s = 0; s < 20; s++) {
+      const r = logged(data, passive, { enemyId: 'dummy', seed: s, deck: deckOf(['defend', 5], ['opener', 1]) });
+      expect(drawsOnTurn(r.log!, 1)[0]!.cardId).toBe('opener');
+      const t2 = drawsOnTurn(r.log!, 2).map((d) => d.cardId);
+      expect(t2[0]).toBe('defend');
+      positions.add(t2.indexOf('opener'));
+    }
+    expect(positions.size).toBeGreaterThan(1);
   });
 
   it('a deck without Innate cards gives the same log as before (no extra RNG use)', () => {

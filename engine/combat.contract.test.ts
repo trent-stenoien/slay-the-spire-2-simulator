@@ -5,6 +5,9 @@ import { CONTRACT_EFFECT_SAMPLES, cards, makeEnemy, makeGameData } from './testF
 import { cfg, deckOf, passive, scripted, withEnemy } from './combatTestHelpers';
 import type { CardDef } from './types';
 
+/** Contract effects the engine simulates now: #106 loseHp, #107 draw and drawUntil (tested in combat.mechanics.test.ts). */
+const SIMULATED = ['loseHp', 'draw', 'drawUntil'];
+
 describe('#105 contract effects are not simulated yet', () => {
   it('covers every contract effect type exactly once', () => {
     const types = CONTRACT_EFFECT_SAMPLES.map((e) => e.type);
@@ -12,7 +15,7 @@ describe('#105 contract effects are not simulated yet', () => {
     expect(types).toHaveLength(26);
   });
 
-  it.each(CONTRACT_EFFECT_SAMPLES.map((e) => [e.type, e] as const))(
+  it.each(CONTRACT_EFFECT_SAMPLES.filter((e) => !SIMULATED.includes(e.type)).map((e) => [e.type, e] as const))(
     'playing a card with "%s" throws "not simulated yet"',
     (type, effect) => {
       const data = makeGameData();
@@ -38,6 +41,22 @@ describe('#105 contract effects are not simulated yet', () => {
     const data = withEnemy(makeGameData(), e);
     expect(() => simulateCombat(data, cfg({ enemyId: 'healer', deck: [] }), passive)).toThrow(
       /"heal" is not simulated yet/,
+    );
+  });
+
+  it('applyPower throws for every power but noDraw (#107)', () => {
+    const data = makeGameData();
+    data.cards.probe = {
+      ...cards.strike!,
+      id: 'probe',
+      code: 'Pr',
+      cost: 0,
+      effects: [{ type: 'applyPower', power: 'rupture', amount: 1 }],
+      upgraded: null,
+    };
+    const strat = scripted((turn) => (turn === 1 ? ['probe'] : []));
+    expect(() => simulateCombat(data, cfg({ deck: deckOf(['probe', 5]) }), strat)).toThrow(
+      /Effect "applyPower" is not simulated yet \(power "rupture"\)/,
     );
   });
 

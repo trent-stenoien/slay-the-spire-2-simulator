@@ -3,6 +3,11 @@ import { describe, expect, it } from 'vitest';
 import { CONTRACT_EFFECT_SAMPLES } from '../engine/testFixtures';
 import { fixture, errorsOf } from './dataTestHelpers';
 
+/** Contract effects the engine simulates now (#106, #107); a simulated card may use them. */
+const SIMULATED = ['loseHp', 'draw', 'drawUntil'];
+const UNSIMULATED_SAMPLES = CONTRACT_EFFECT_SAMPLES.filter((e) => !SIMULATED.includes(e.type));
+const SIMULATED_SAMPLES = CONTRACT_EFFECT_SAMPLES.filter((e) => SIMULATED.includes(e.type));
+
 describe('#105 contract shapes', () => {
   it('accepts every contract effect on unsimulated cards', () => {
     const d = fixture();
@@ -12,17 +17,37 @@ describe('#105 contract shapes', () => {
     expect(errorsOf(d)).toEqual([]);
   });
 
-  it.each(CONTRACT_EFFECT_SAMPLES.map((e) => [e.type, e] as const))(
-    'rejects "%s" on a simulated card',
-    (type, effect) => {
-      const d = fixture();
-      d.cards.strike.effects.push(structuredClone(effect));
-      expect(errorsOf(d)).toEqual([expect.stringMatching(new RegExp(`cards/strike.*"simulated".*"${type}"`))]);
-      const u = fixture();
-      u.cards.strike.upgraded.effects.push(structuredClone(effect));
-      expect(errorsOf(u)).toEqual([expect.stringMatching(new RegExp(`cards/strike.*"simulated".*"${type}"`))]);
-    },
-  );
+  it.each(SIMULATED_SAMPLES.map((e) => [e.type, e] as const))('accepts "%s" on a simulated card', (_type, effect) => {
+    const d = fixture();
+    d.cards.strike.effects.push(structuredClone(effect));
+    d.cards.strike.upgraded.effects.push(structuredClone(effect));
+    expect(errorsOf(d)).toEqual([]);
+  });
+
+  it('accepts applyPower only for simulated powers (noDraw) on a simulated card', () => {
+    const d = fixture();
+    d.cards.strike.effects.push({ type: 'applyPower', power: 'noDraw', amount: 1 });
+    expect(errorsOf(d)).toEqual([]);
+    d.cards.strike.upgraded.effects.push({ type: 'applyPower', power: 'rupture', amount: 1 });
+    expect(errorsOf(d)).toEqual([expect.stringMatching(/cards\/strike.*"simulated".*"applyPower"/)]);
+  });
+
+  it('rejects a drawUntil stop filter on a field the engine does not match yet', () => {
+    const d = fixture();
+    d.cards.strike.effects.push({ type: 'drawUntil', stopOn: { types: ['skill'], rarity: ['rare'] } });
+    expect(errorsOf(d)).toEqual([expect.stringMatching(/cards\/strike.*"simulated".*"drawUntil\.stopOn\.rarity"/)]);
+    d.cards.strike.effects.at(-1).stopOn = { notTypes: ['attack'] };
+    expect(errorsOf(d)).toEqual([]);
+  });
+
+  it.each(UNSIMULATED_SAMPLES.map((e) => [e.type, e] as const))('rejects "%s" on a simulated card', (type, effect) => {
+    const d = fixture();
+    d.cards.strike.effects.push(structuredClone(effect));
+    expect(errorsOf(d)).toEqual([expect.stringMatching(new RegExp(`cards/strike.*"simulated".*"${type}"`))]);
+    const u = fixture();
+    u.cards.strike.upgraded.effects.push(structuredClone(effect));
+    expect(errorsOf(u)).toEqual([expect.stringMatching(new RegExp(`cards/strike.*"simulated".*"${type}"`))]);
+  });
 
   // Every field of every contract sample is checked: a value that is wrong for any field type
   // (NaN is not an int, string, enum, bool, list or object) must be reported at that field.

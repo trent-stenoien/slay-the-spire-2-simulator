@@ -9,8 +9,36 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "draw",
+      "amount": 2
+    }
+  ],
+  "triggers": [
+    {
+      "when": "exhausted",
+      "effects": [
+        {
+          "type": "gainEnergy",
+          "amount": 2
+        }
+      ]
+    }
+  ],
+  "upgraded": {
+    "triggers": [
+      {
+        "when": "exhausted",
+        "effects": [
+          {
+            "type": "gainEnergy",
+            "amount": 3
+          }
+        ]
+      }
+    ]
+  },
   "description": "Draw 2 cards. / When this card is Exhausted, gain [E][E].",
   "upgradedDescription": "Draw 2 cards. / When this card is Exhausted, gain [E][E][E].",
   "simulated": false,

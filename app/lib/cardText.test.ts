@@ -49,6 +49,26 @@ describe('card text', () => {
     });
   });
 
+  it.each([
+    ['hemokinesis', false, ['Lose 2 HP', 'Deal 15 damage']],
+    ['pommel_strike', true, ['Deal 10 damage', 'Draw 2 cards']],
+    ['battle_trance', false, ['Draw 3 cards', 'You cannot draw additional cards this turn']],
+    ['pillage', false, ['Deal 6 damage', 'Draw cards until you draw a non-Attack card']],
+    ['scrawl', true, ['Retain', 'Exhaust', 'Draw cards until your Hand is full']],
+    ['offering', true, ['Exhaust', 'Lose 6 HP', 'Gain 2 Energy', 'Draw 5 cards']],
+  ] as const)('describes #106/#107 card %s (upgraded: %s)', (id, up, lines) => {
+    expect(cardText(card(id), up).lines).toEqual(lines);
+  });
+
+  it('describes drawUntil stop filters', () => {
+    expect(effectText({ type: 'drawUntil', stopOn: { types: ['skill'] } })).toBe(
+      'Draw cards until you draw a Skill card',
+    );
+    expect(effectText({ type: 'drawUntil', stopOn: { cardId: 'x' } })).toBe(
+      'Draw cards until you draw a matching card',
+    );
+  });
+
   it('applies an upgrade cost change', () => {
     const def = { ...card('strike'), upgraded: { cost: 0 } };
     expect(cardText(def, true).cost).toBe('0');

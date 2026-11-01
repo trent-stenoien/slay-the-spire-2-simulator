@@ -13,6 +13,10 @@
     {
       "type": "gainBlock",
       "amount": 8
+    },
+    {
+      "type": "draw",
+      "amount": 1
     }
   ],
   "upgraded": {
@@ -20,12 +24,16 @@
       {
         "type": "gainBlock",
         "amount": 11
+      },
+      {
+        "type": "draw",
+        "amount": 1
       }
     ]
   },
   "description": "Gain 8 Block. / Draw 1 card.",
   "upgradedDescription": "Gain 11 Block. / Draw 1 card.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

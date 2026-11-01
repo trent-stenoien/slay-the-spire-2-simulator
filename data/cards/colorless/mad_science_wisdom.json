@@ -13,6 +13,10 @@
     {
       "type": "gainBlock",
       "amount": 8
+    },
+    {
+      "type": "draw",
+      "amount": 3
     }
   ],
   "upgraded": {
@@ -22,7 +26,7 @@
   },
   "description": "Gain 8 Block. / Draw 3 cards.",
   "upgradedDescription": "Innate. / Gain 8 Block. / Draw 3 cards.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

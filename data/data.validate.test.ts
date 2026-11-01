@@ -201,7 +201,8 @@ describe('validateGameData on broken fixtures', () => {
         { type: 'gainEnergy', amount: 2 },
       ],
     });
-    for (const id of ['bloodletting', 'offering', 'brightest_flame', 'cascade']) expect(c[id]?.simulated).toBe(false);
+    // Bloodletting and Offering became simulated with #106/#107 (see data.mechanics.test.ts).
+    for (const id of ['brightest_flame', 'cascade']) expect(c[id]?.simulated).toBe(false);
     expect(c.tremble).toMatchObject({ simulated: true, effects: [{ type: 'applyVulnerable', amount: 3 }] });
   });
 
