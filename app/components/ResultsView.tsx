@@ -151,7 +151,7 @@ export function ViewCombat({
           />
         </label>
         {button.disabled ? (
-          <span className="btn" aria-disabled="true" role="link" style={{ opacity: 0.5, pointerEvents: 'none' }}>
+          <span className="btn btn-disabled" aria-disabled="true" role="link">
             {button.label}
           </span>
         ) : (
