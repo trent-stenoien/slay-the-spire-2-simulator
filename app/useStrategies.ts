@@ -24,6 +24,12 @@ function newId(): string {
   }
 }
 
+/** This browser's saved strategy library, read once on mount (the log page uses it to name strategies). */
+export function useSavedLibrary(): readonly SavedStrategy[] {
+  const [library] = useState(() => fullLibrary(loadUserStrategies(browserStorage())));
+  return library;
+}
+
 /** Strategy library + per-run selection state, persisted to localStorage when possible. */
 export function useStrategies() {
   const storage = useMemo(browserStorage, []);

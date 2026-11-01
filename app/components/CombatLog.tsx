@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react';
 import { strategyCode } from '../../engine/strategies';
-import type { GameData, GameEvent, StrategyColor, StrategyConfig } from '../../engine/types';
-import { browserStorage, defaultName, describeConfig, fullLibrary, loadUserStrategies } from '../lib/strategyLibrary';
+import type { GameData, GameEvent, SavedStrategy, StrategyColor, StrategyConfig } from '../../engine/types';
+import { defaultName, describeConfig } from '../lib/strategyLibrary';
+import { useSavedLibrary } from '../useStrategies';
 import { ascensionLabel, describeEvent, enemyIntentLabel, type Round, type SideSnapshot } from '../lib/logReplay';
 import { setupHref } from '../lib/links';
 import type { LogTarget, SetupState } from '../lib/url';
@@ -115,10 +116,10 @@ function SingleLog({ data, setup, target }: Props) {
   );
 }
 
-/** Saved name for a strategy config (from this browser's library), or its default name. */
-function strategyName(config: StrategyConfig): string {
+/** Saved name for a strategy config (from the given library), or its default name. */
+function strategyName(config: StrategyConfig, library: readonly SavedStrategy[]): string {
   const code = strategyCode(config);
-  const saved = fullLibrary(loadUserStrategies(browserStorage())).find((s) => strategyCode(s.config) === code);
+  const saved = library.find((s) => strategyCode(s.config) === code);
   return saved?.name ?? (config.kind === 'block' ? defaultName(config.allowThrough) : describeConfig(config));
 }
 
@@ -131,15 +132,16 @@ interface Column {
 
 /** Several strategies on the same combat, side by side, all showing the same turn. */
 function CompareLog({ data, setup, target }: Props) {
+  const library = useSavedLibrary();
   const columns = useMemo(
     (): Column[] =>
       target.strategies.map((config, i) => ({
         config,
-        name: strategyName(config),
+        name: strategyName(config, library),
         color: target.colors?.[i] ?? COLORS[i % COLORS.length]!,
         combat: replayCombat(data, setup, config, target.seed),
       })),
-    [data, setup, target],
+    [data, setup, target, library],
   );
   const count = sharedTurnCount(columns.map((c) => (c.combat.ok ? c.combat.replay.rounds.length : 0)));
   const { idx, step, jump } = useTurn(count);
