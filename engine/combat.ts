@@ -7,6 +7,7 @@ import {
   TURN_CAP,
   type CardDef,
   type CardInstance,
+  type CharacterDef,
   type CombatConfig,
   type CombatResult,
   type CombatState,
@@ -15,9 +16,11 @@ import {
   type Effect,
   type EnemyDef,
   type EnemyIntent,
+  type EnemyMove,
   type GameData,
   type GameEvent,
   type Outcome,
+  type Rng,
   type RunCombat,
   type Side,
   type Strategy,
@@ -139,98 +142,203 @@ function innateFirst(drawPile: CardInstance[], drawPerTurn: number): { drawPile:
 }
 
 /**
- * Run one combat with an explicit Strategy object. `runCombat` builds the
- * strategy from `config.strategy`; tests use this to script exact plays.
+ * One combat in progress. Each method is a named step of the turn order in CLAUDE.md; all
+ * randomness goes through `rng`, and events are recorded only when logging is on.
  */
-export function simulateCombat(
-  data: GameData,
-  config: CombatConfig,
-  strategy: Strategy,
-  options?: { log?: boolean },
-): CombatResult {
-  const log: GameEvent[] | null = options?.log ? [] : null;
+class Combat {
+  private readonly state: CombatState;
+  private readonly log: GameEvent[] | null;
+  private readonly rng: Rng;
+  private readonly order: readonly string[];
 
-  const character = data.characters[config.characterId];
-  if (!character) throw new Error(`Unknown character "${config.characterId}"`);
-  const enemyDef = resolveCheckedEnemy(data, config);
-  const order = enemyDef.pattern.order;
-  const deck = buildDeck(data, config);
-
-  // RNG use order is fixed: (1) enemy HP, (2) random pattern start, (3) shuffle.
-  const rng = createRng(config.seed);
-  const enemyHp = rng.int(enemyDef.hp.min, enemyDef.hp.max);
-  const startIndex = enemyDef.pattern.start === 'random' ? rng.int(0, order.length - 1) : 0;
-  rng.shuffle(deck);
-
-  const state: CombatState = {
-    turn: 0,
-    player: {
-      hp: character.maxHp,
-      maxHp: character.maxHp,
-      block: 0,
-      energy: 0,
-      strength: 0,
-      debuffs: emptyDebuffs(),
-      drawPile: deck,
-      hand: [],
-      discardPile: [],
-      exhaustPile: [],
-    },
-    enemy: {
-      enemyId: enemyDef.id,
-      name: enemyDef.name,
-      hp: enemyHp,
-      maxHp: enemyHp,
-      block: 0,
-      strength: 0,
-      debuffs: emptyDebuffs(),
-      poison: 0,
-      patternIndex: startIndex,
-    },
-  };
-  const player = state.player;
-  const enemy = state.enemy;
-
-  if (log) {
-    log.push({ t: 'combatStart', seed: config.seed, enemyHp, playerHp: player.hp });
-    log.push({ t: 'shuffle', reason: 'start', count: deck.length });
+  constructor(
+    private readonly config: CombatConfig,
+    private readonly character: CharacterDef,
+    private readonly enemyDef: EnemyDef,
+    deck: CardInstance[],
+    private readonly strategy: Strategy,
+    logging: boolean,
+  ) {
+    this.log = logging ? [] : null;
+    this.order = enemyDef.pattern.order;
+    // RNG use order is fixed: (1) enemy HP, (2) random pattern start, (3) shuffle.
+    this.rng = createRng(config.seed);
+    const enemyHp = this.rng.int(enemyDef.hp.min, enemyDef.hp.max);
+    const startIndex = enemyDef.pattern.start === 'random' ? this.rng.int(0, this.order.length - 1) : 0;
+    this.rng.shuffle(deck);
+    this.state = {
+      turn: 0,
+      player: {
+        hp: character.maxHp,
+        maxHp: character.maxHp,
+        block: 0,
+        energy: 0,
+        strength: 0,
+        debuffs: emptyDebuffs(),
+        drawPile: deck,
+        hand: [],
+        discardPile: [],
+        exhaustPile: [],
+      },
+      enemy: {
+        enemyId: enemyDef.id,
+        name: enemyDef.name,
+        hp: enemyHp,
+        maxHp: enemyHp,
+        block: 0,
+        strength: 0,
+        debuffs: emptyDebuffs(),
+        poison: 0,
+        patternIndex: startIndex,
+      },
+    };
+    this.log?.push({ t: 'combatStart', seed: config.seed, enemyHp, playerHp: character.maxHp });
+    this.log?.push({ t: 'shuffle', reason: 'start', count: deck.length });
   }
 
-  const fighter = (side: Side): Fighter => (side === 'player' ? player : enemy);
+  private get player() {
+    return this.state.player;
+  }
 
-  /** Deal one attack effect. Returns true if the target died. */
-  const doAttack = (source: Side, target: Side, damage: number, hits: number): boolean => {
-    const a = fighter(source);
-    const t = fighter(target);
-    const perHit = attackDamage(damage, a.strength, a.debuffs.weak, t.debuffs.vulnerable);
-    for (let h = 0; h < hits; h++) {
-      const blocked = Math.min(t.block, perHit);
-      t.block -= blocked;
-      const hpLoss = perHit - blocked;
-      t.hp -= hpLoss;
-      log?.push({ t: 'damage', source, target, amount: perHit, blocked, hpLoss });
-      if (t.hp <= 0) return true;
+  private get enemy() {
+    return this.state.enemy;
+  }
+
+  /** Turns until one side dies or the turn cap is reached. */
+  run(): CombatResult {
+    for (;;) {
+      this.state.turn++;
+      this.startPlayerTurn();
+      if (this.playCards()) return this.finish('win');
+      this.endPlayerTurn();
+      const outcome = this.enemyTurn();
+      if (outcome) return this.finish(outcome);
+      if (this.state.turn >= TURN_CAP) return this.finish('turnCap');
+    }
+  }
+
+  /** Block resets, energy refills, then the draw (Innate cards first on turn 1). */
+  private startPlayerTurn(): void {
+    const { player, log } = this;
+    log?.push({ t: 'turnStart', turn: this.state.turn, side: 'player' });
+    player.block = 0;
+    log?.push({ t: 'blockReset', side: 'player' });
+    player.energy = this.character.energyPerTurn;
+    let drawCount = this.character.drawPerTurn;
+    if (this.state.turn === 1) {
+      const opening = innateFirst(player.drawPile, drawCount);
+      player.drawPile = opening.drawPile;
+      drawCount = opening.drawCount;
+    }
+    for (let i = 0; i < drawCount; i++) {
+      if (!this.drawOne()) break;
+    }
+  }
+
+  /** The strategy plays cards until it ends its turn. Returns true if the enemy died. */
+  private playCards(): boolean {
+    const { player, enemy, log } = this;
+    const { id: moveId, move } = this.currentMove();
+    for (let decisions = 0; decisions < MAX_DECISIONS_PER_TURN; decisions++) {
+      const view: StrategyView = {
+        state: this.state,
+        intent: computeIntent(moveId, move, enemy, player),
+        playable: player.hand.filter((c) => isPlayable(c, player.energy)),
+      };
+      const decision = this.strategy.decide(view);
+      if (decision.kind === 'endTurn') break;
+      const idx = player.hand.findIndex((c) => c.uid === decision.uid);
+      const card = idx >= 0 ? player.hand[idx] : undefined;
+      if (!card || !isPlayable(card, player.energy)) {
+        throw new Error(`Strategy tried to play illegal card uid ${decision.uid} on turn ${this.state.turn}`);
+      }
+      player.hand.splice(idx, 1);
+      // X-cost: X is all the energy available, and the card spends all of it.
+      const x = card.xCost ? player.energy : 0;
+      player.energy -= card.xCost ? x : (card.cost as number);
+      if (log) {
+        const ev: GameEvent = { t: 'play', uid: card.uid, cardId: card.cardId, energyLeft: player.energy };
+        if (card.xCost) ev.x = x;
+        log.push(ev);
+      }
+      const killed = this.resolveEffects('player', card.effects, x);
+      if (card.keywords.includes('exhaust')) {
+        player.exhaustPile.push(card);
+        log?.push({ t: 'exhaust', uid: card.uid, cardId: card.cardId, reason: 'keyword' });
+      } else {
+        player.discardPile.push(card);
+      }
+      if (killed || enemy.hp <= 0) return true;
     }
     return false;
-  };
+  }
 
-  const applyDebuff = (side: Side, kind: DebuffKind, amount: number) => {
-    const f = fighter(side);
-    f.debuffs[kind] += amount;
-    log?.push({ t: 'debuff', side, kind, amount, total: f.debuffs[kind] });
-  };
+  /** Ethereal exhausts first (even if Retain), Retain stays, the rest is discarded; then player debuffs tick. */
+  private endPlayerTurn(): void {
+    const { player, log } = this;
+    const retained: CardInstance[] = [];
+    for (const card of player.hand) {
+      if (card.keywords.includes('ethereal')) {
+        player.exhaustPile.push(card);
+        log?.push({ t: 'exhaust', uid: card.uid, cardId: card.cardId, reason: 'ethereal' });
+      } else if (card.keywords.includes('retain')) {
+        retained.push(card);
+      } else {
+        player.discardPile.push(card);
+        log?.push({ t: 'discard', uid: card.uid, cardId: card.cardId, reason: 'endOfTurn' });
+      }
+    }
+    player.hand = retained;
+    this.tickDebuffs('player');
+    log?.push({ t: 'turnEnd', turn: this.state.turn, side: 'player' });
+  }
+
+  /** Block resets, Poison, the move, pattern advance, then enemy debuffs tick. Returns the outcome if combat ended. */
+  private enemyTurn(): Outcome | null {
+    const { player, enemy, log } = this;
+    log?.push({ t: 'turnStart', turn: this.state.turn, side: 'enemy' });
+    enemy.block = 0;
+    log?.push({ t: 'blockReset', side: 'enemy' });
+    // Poison: HP loss equal to stacks (ignores Block and modifiers), then -1. A kill ends combat before the move.
+    if (enemy.poison > 0) {
+      const amount = enemy.poison;
+      enemy.hp -= amount;
+      enemy.poison--;
+      log?.push({ t: 'poisonDamage', amount, hpAfter: Math.max(enemy.hp, 0) });
+      if (enemy.hp <= 0) return 'win';
+    }
+    const { id: moveId, move } = this.currentMove();
+    log?.push({ t: 'enemyMove', moveId, name: move.name });
+    const playerDied = this.resolveEffects('enemy', move.effects);
+    enemy.patternIndex = (enemy.patternIndex + 1) % this.order.length;
+    if (playerDied || player.hp <= 0) return 'loss';
+    // Debuffs on the enemy tick down at the end of the enemy's own turn, after its move.
+    this.tickDebuffs('enemy');
+    log?.push({ t: 'turnEnd', turn: this.state.turn, side: 'enemy' });
+    return null;
+  }
+
+  private currentMove(): { id: string; move: EnemyMove } {
+    const id = this.order[this.enemy.patternIndex] as string;
+    return { id, move: this.enemyDef.moves[id]! };
+  }
+
+  private fighter(side: Side): Fighter {
+    return side === 'player' ? this.player : this.enemy;
+  }
 
   /**
    * Resolve effects from `source`. Attacks and debuffs hit the opponent; block
    * and Strength go to the source. Returns true if the opponent died.
    */
-  const resolveEffects = (source: Side, effects: readonly Effect[], x = 0): boolean => {
+  private resolveEffects(source: Side, effects: readonly Effect[], x = 0): boolean {
+    const { player, enemy, log } = this;
     const other: Side = source === 'player' ? 'enemy' : 'player';
-    const self = fighter(source);
+    const self = this.fighter(source);
     for (const e of effects) {
       switch (e.type) {
         case 'attack':
-          if (doAttack(source, other, e.damage, attackHits(e, x))) return true;
+          if (this.attack(source, other, e.damage, attackHits(e, x))) return true;
           break;
         case 'gainBlock': {
           const amt = blockGain(e.amount, self.debuffs.frail);
@@ -243,13 +351,13 @@ export function simulateCombat(
           log?.push({ t: 'strength', side: source, amount: e.amount, total: self.strength });
           break;
         case 'applyVulnerable':
-          applyDebuff(other, 'vulnerable', e.amount);
+          this.applyDebuff(other, 'vulnerable', e.amount);
           break;
         case 'applyWeak':
-          applyDebuff(other, 'weak', e.amount);
+          this.applyDebuff(other, 'weak', e.amount);
           break;
         case 'applyFrail':
-          applyDebuff(other, 'frail', e.amount);
+          this.applyDebuff(other, 'frail', e.amount);
           break;
         case 'applyPoison':
           if (source !== 'player') throw new Error('Poison on the player is not simulated yet');
@@ -269,14 +377,38 @@ export function simulateCombat(
       }
     }
     return false;
-  };
+  }
 
-  const drawOne = (): boolean => {
+  /** Deal one attack effect, hit by hit (Block absorbs hits in order). Returns true if the target died. */
+  private attack(source: Side, target: Side, damage: number, hits: number): boolean {
+    const a = this.fighter(source);
+    const t = this.fighter(target);
+    const perHit = attackDamage(damage, a.strength, a.debuffs.weak, t.debuffs.vulnerable);
+    for (let h = 0; h < hits; h++) {
+      const blocked = Math.min(t.block, perHit);
+      t.block -= blocked;
+      const hpLoss = perHit - blocked;
+      t.hp -= hpLoss;
+      this.log?.push({ t: 'damage', source, target, amount: perHit, blocked, hpLoss });
+      if (t.hp <= 0) return true;
+    }
+    return false;
+  }
+
+  private applyDebuff(side: Side, kind: DebuffKind, amount: number): void {
+    const f = this.fighter(side);
+    f.debuffs[kind] += amount;
+    this.log?.push({ t: 'debuff', side, kind, amount, total: f.debuffs[kind] });
+  }
+
+  /** Draw one card, reshuffling the discard pile if the draw pile is empty. False when both are empty. */
+  private drawOne(): boolean {
+    const { player, log } = this;
     if (player.drawPile.length === 0) {
       if (player.discardPile.length === 0) return false;
       player.drawPile = player.discardPile;
       player.discardPile = [];
-      rng.shuffle(player.drawPile);
+      this.rng.shuffle(player.drawPile);
       log?.push({ t: 'shuffle', reason: 'reshuffle', count: player.drawPile.length });
     }
     const card = player.drawPile.pop() as CardInstance;
@@ -288,129 +420,52 @@ export function simulateCombat(
       player.hand.push(card);
     }
     return true;
-  };
+  }
 
   /** Each debuff on `side` goes down by 1 (at the end of that side's turn). */
-  const tickDebuffs = (side: Side) => {
-    const f = fighter(side);
+  private tickDebuffs(side: Side): void {
+    const f = this.fighter(side);
     for (const kind of DEBUFF_KINDS) {
       if (f.debuffs[kind] > 0) {
         f.debuffs[kind]--;
-        log?.push({ t: 'debuffTick', side, kind, total: f.debuffs[kind] });
+        this.log?.push({ t: 'debuffTick', side, kind, total: f.debuffs[kind] });
       }
     }
-  };
+  }
 
-  const currentMoveId = (): string => order[enemy.patternIndex] as string;
-
-  const finish = (outcome: Outcome): CombatResult => {
+  private finish(outcome: Outcome): CombatResult {
+    const { player, enemy, log } = this;
     const hpLost = player.maxHp - Math.max(player.hp, 0);
     const result: CombatResult = {
-      seed: config.seed,
+      seed: this.config.seed,
       outcome,
-      turns: state.turn,
+      turns: this.state.turn,
       hpLost,
       enemyHpRemaining: Math.max(enemy.hp, 0),
     };
     if (log) {
-      log.push({ t: 'combatEnd', outcome, turns: state.turn, hpLost });
+      log.push({ t: 'combatEnd', outcome, turns: this.state.turn, hpLost });
       result.log = log;
     }
     return result;
-  };
-
-  for (;;) {
-    // 1. Player turn start.
-    state.turn++;
-    log?.push({ t: 'turnStart', turn: state.turn, side: 'player' });
-    player.block = 0;
-    log?.push({ t: 'blockReset', side: 'player' });
-    player.energy = character.energyPerTurn;
-    let drawCount = character.drawPerTurn;
-    if (state.turn === 1) {
-      const opening = innateFirst(player.drawPile, drawCount);
-      player.drawPile = opening.drawPile;
-      drawCount = opening.drawCount;
-    }
-    for (let i = 0; i < drawCount; i++) {
-      if (!drawOne()) break;
-    }
-
-    // 2. Strategy plays.
-    const moveId = currentMoveId();
-    const move = enemyDef.moves[moveId]!;
-    for (let decisions = 0; decisions < MAX_DECISIONS_PER_TURN; decisions++) {
-      const view: StrategyView = {
-        state,
-        intent: computeIntent(moveId, move, enemy, player),
-        playable: player.hand.filter((c) => isPlayable(c, player.energy)),
-      };
-      const decision = strategy.decide(view);
-      if (decision.kind === 'endTurn') break;
-      const idx = player.hand.findIndex((c) => c.uid === decision.uid);
-      const card = idx >= 0 ? player.hand[idx] : undefined;
-      if (!card || !isPlayable(card, player.energy)) {
-        throw new Error(`Strategy tried to play illegal card uid ${decision.uid} on turn ${state.turn}`);
-      }
-      player.hand.splice(idx, 1);
-      // X-cost: X is all the energy available, and the card spends all of it.
-      const x = card.xCost ? player.energy : 0;
-      player.energy -= card.xCost ? x : (card.cost as number);
-      if (log) {
-        const ev: GameEvent = { t: 'play', uid: card.uid, cardId: card.cardId, energyLeft: player.energy };
-        if (card.xCost) ev.x = x;
-        log.push(ev);
-      }
-      const killed = resolveEffects('player', card.effects, x);
-      if (card.keywords.includes('exhaust')) {
-        player.exhaustPile.push(card);
-        log?.push({ t: 'exhaust', uid: card.uid, cardId: card.cardId, reason: 'keyword' });
-      } else {
-        player.discardPile.push(card);
-      }
-      if (killed || enemy.hp <= 0) return finish('win');
-    }
-
-    // 3. Player turn end. Ethereal exhausts first (even if Retain), Retain stays, the rest is discarded.
-    const retained: CardInstance[] = [];
-    for (const card of player.hand) {
-      if (card.keywords.includes('ethereal')) {
-        player.exhaustPile.push(card);
-        log?.push({ t: 'exhaust', uid: card.uid, cardId: card.cardId, reason: 'ethereal' });
-      } else if (card.keywords.includes('retain')) {
-        retained.push(card);
-      } else {
-        player.discardPile.push(card);
-        log?.push({ t: 'discard', uid: card.uid, cardId: card.cardId, reason: 'endOfTurn' });
-      }
-    }
-    player.hand = retained;
-    tickDebuffs('player');
-    log?.push({ t: 'turnEnd', turn: state.turn, side: 'player' });
-
-    // 4. Enemy turn.
-    log?.push({ t: 'turnStart', turn: state.turn, side: 'enemy' });
-    enemy.block = 0;
-    log?.push({ t: 'blockReset', side: 'enemy' });
-    // Poison: HP loss equal to stacks (ignores Block and modifiers), then -1. A kill ends combat before the move.
-    if (enemy.poison > 0) {
-      const amount = enemy.poison;
-      enemy.hp -= amount;
-      enemy.poison--;
-      log?.push({ t: 'poisonDamage', amount, hpAfter: Math.max(enemy.hp, 0) });
-      if (enemy.hp <= 0) return finish('win');
-    }
-    log?.push({ t: 'enemyMove', moveId, name: move.name });
-    const playerDied = resolveEffects('enemy', move.effects);
-    enemy.patternIndex = (enemy.patternIndex + 1) % order.length;
-    if (playerDied || player.hp <= 0) return finish('loss');
-    // Debuffs on the enemy tick down at the end of the enemy's own turn, after its move.
-    tickDebuffs('enemy');
-    log?.push({ t: 'turnEnd', turn: state.turn, side: 'enemy' });
-
-    // 5. Turn cap.
-    if (state.turn >= TURN_CAP) return finish('turnCap');
   }
+}
+
+/**
+ * Run one combat with an explicit Strategy object. `runCombat` builds the
+ * strategy from `config.strategy`; tests use this to script exact plays.
+ */
+export function simulateCombat(
+  data: GameData,
+  config: CombatConfig,
+  strategy: Strategy,
+  options?: { log?: boolean },
+): CombatResult {
+  const character = data.characters[config.characterId];
+  if (!character) throw new Error(`Unknown character "${config.characterId}"`);
+  const enemyDef = resolveCheckedEnemy(data, config);
+  const deck = buildDeck(data, config);
+  return new Combat(config, character, enemyDef, deck, strategy, options?.log === true).run();
 }
 
 export const runCombat: RunCombat = (data, config, options) =>
