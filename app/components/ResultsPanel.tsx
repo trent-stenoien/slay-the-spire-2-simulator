@@ -24,6 +24,15 @@ interface Props {
 
 const SEED_ERROR = 'Seed must be a whole number from 0 to 4294967295.';
 
+const ENGINE_UNAVAILABLE =
+  "The simulation engine isn't available in this build yet (the Monte Carlo runner is still being implemented). Setup, deck and strategy choices still work, and combat logs can be viewed from a link.";
+
+/** The full error message for a failed run, or null when the run didn't fail. */
+function runErrorText(status: RunStatus): string | null {
+  if (status.kind !== 'error') return null;
+  return status.notImplemented ? ENGINE_UNAVAILABLE : `Simulation failed: ${status.message}`;
+}
+
 /**
  * The Results panel: Run button, progress, blocker and error live in the title bar (usable
  * while collapsed); the run seed and the results live in the body. Starts collapsed on
@@ -47,12 +56,7 @@ export function ResultsPanel({ data, characterId, result, status, blocker, onRun
     onRun(used);
   };
 
-  const errorText =
-    status.kind === 'error'
-      ? status.notImplemented
-        ? "The simulation engine isn't available in this build yet (the Monte Carlo runner is still being implemented). Setup, deck and strategy choices still work, and combat logs can be viewed from a link."
-        : `Simulation failed: ${status.message}`
-      : null;
+  const errorText = runErrorText(status);
 
   const actions = (
     <>
