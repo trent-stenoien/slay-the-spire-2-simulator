@@ -1,6 +1,7 @@
 /** Energy gain (#22) and X-cost cards (#23) in combat. */
 import { describe, expect, it } from 'vitest';
-import { attackHits, isPlayable, makeCardInstance, runCombat, simulateCombat } from './combat';
+import { makeCardInstance, runCombat, simulateCombat } from './combat';
+import { attackHits, isPlayable } from './rules';
 import { cards, makeEnemy, makeGameData } from './testFixtures';
 import type { CardDef, CombatConfig, Deck, GameData, GameEvent, Strategy, StrategyView } from './types';
 

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { attackDamage, blockGain, computeIntent, makeCardInstance, runCombat, simulateCombat } from './combat';
+import { computeIntent, makeCardInstance, runCombat, simulateCombat } from './combat';
+import { attackDamage, blockGain } from './rules';
 import { CONTRACT_EFFECT_SAMPLES, cards, makeEnemy, makeGameData } from './testFixtures';
 import type {
   CardDef,

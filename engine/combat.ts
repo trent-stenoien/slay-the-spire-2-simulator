@@ -1,5 +1,6 @@
 import { createRng } from './rng';
 import { resolveEnemy } from './enemy';
+import { attackDamage, attackHits, blockGain, isPlayable } from './rules';
 import { createStrategy } from './strategies';
 import {
   HAND_LIMIT,
@@ -29,29 +30,8 @@ export const MAX_DECISIONS_PER_TURN = 50;
 const DEBUFF_KINDS: readonly DebuffKind[] = ['vulnerable', 'weak', 'frail'];
 
 // ---------------------------------------------------------------------------
-// Pure rule helpers (exported for tests)
+// Intent and card instances (exported for tests)
 // ---------------------------------------------------------------------------
-
-/**
- * Damage per hit = floor((base + Strength) × (Weak ? 0.75 : 1) × (Vulnerable ? 1.5 : 1)),
- * floored once at the end, minimum 0.
- */
-export function attackDamage(
-  base: number,
-  attackerStrength: number,
-  attackerWeak: number,
-  targetVulnerable: number,
-): number {
-  let dmg = base + attackerStrength;
-  if (attackerWeak > 0) dmg *= 0.75;
-  if (targetVulnerable > 0) dmg *= 1.5;
-  return Math.max(0, Math.floor(dmg));
-}
-
-/** Block gained = floor(amount × (Frail ? 0.75 : 1)), minimum 0. */
-export function blockGain(amount: number, frail: number): number {
-  return Math.max(0, Math.floor(amount * (frail > 0 ? 0.75 : 1)));
-}
 
 /** Intent for an enemy move as the player sees it right now. */
 export function computeIntent(
@@ -98,15 +78,6 @@ export function makeCardInstance(def: CardDef, upgraded: boolean, uid: number): 
   return inst;
 }
 
-/** Total hits of an attack effect, given X (the energy spent on an X-cost card; 0 otherwise). */
-export function attackHits(e: { hits: number; xTimes?: boolean; xBonus?: number }, x: number): number {
-  return e.xTimes ? e.hits * Math.max(0, x + (e.xBonus ?? 0)) : e.hits;
-}
-
-export function isPlayable(card: CardInstance, energy: number): boolean {
-  return card.cost !== null && card.cost <= energy && !card.keywords.includes('unplayable');
-}
-
 // ---------------------------------------------------------------------------
 // Combat
 // ---------------------------------------------------------------------------
@@ -120,6 +91,51 @@ interface Fighter {
 
 function emptyDebuffs(): Debuffs {
   return { vulnerable: 0, weak: 0, frail: 0 };
+}
+
+/** The combat deck: config deck in order, then Ascension cards. uids 0..n-1. */
+function buildDeck(data: GameData, config: CombatConfig): CardInstance[] {
+  const deck: CardInstance[] = [];
+  const addCard = (cardId: string, upgraded: boolean) => {
+    const def = data.cards[cardId];
+    if (!def) throw new Error(`Unknown card "${cardId}"`);
+    if (!def.simulated) throw new Error(`Card "${def.name}" is not supported by the simulator yet`);
+    deck.push(makeCardInstance(def, upgraded, deck.length));
+  };
+  for (const entry of config.deck) {
+    for (let i = 0; i < entry.count; i++) addCard(entry.cardId, entry.upgraded);
+  }
+  for (const ac of data.manifest.ascensionCards) {
+    if (ac.level <= config.ascension) addCard(ac.cardId, false);
+  }
+  return deck;
+}
+
+/** The enemy with Ascension applied, after checking its pattern only names known moves. */
+function resolveCheckedEnemy(data: GameData, config: CombatConfig): EnemyDef {
+  const baseEnemy = data.enemies[config.enemyId];
+  if (!baseEnemy) throw new Error(`Unknown enemy "${config.enemyId}"`);
+  const enemyDef = resolveEnemy(baseEnemy, config.ascension);
+  const order = enemyDef.pattern.order;
+  if (order.length === 0) throw new Error(`Enemy ${enemyDef.id} has an empty pattern`);
+  for (const id of order) {
+    if (!enemyDef.moves[id]) throw new Error(`Enemy ${enemyDef.id} pattern uses unknown move "${id}"`);
+  }
+  return enemyDef;
+}
+
+/**
+ * Turn-1 Innate rule: Innate cards move to the top of the draw pile (keeping their shuffled
+ * relative order) so they are drawn first, and at least that many cards are drawn, capped at
+ * the hand limit. Returns the reordered pile and the draw count.
+ */
+function innateFirst(drawPile: CardInstance[], drawPerTurn: number): { drawPile: CardInstance[]; drawCount: number } {
+  const innate = drawPile.filter((c) => c.keywords.includes('innate'));
+  if (innate.length === 0) return { drawPile, drawCount: drawPerTurn };
+  return {
+    drawPile: [...drawPile.filter((c) => !c.keywords.includes('innate')), ...innate],
+    drawCount: Math.min(Math.max(drawPerTurn, innate.length), HAND_LIMIT),
+  };
 }
 
 /**
@@ -136,29 +152,9 @@ export function simulateCombat(
 
   const character = data.characters[config.characterId];
   if (!character) throw new Error(`Unknown character "${config.characterId}"`);
-  const baseEnemy = data.enemies[config.enemyId];
-  if (!baseEnemy) throw new Error(`Unknown enemy "${config.enemyId}"`);
-  const enemyDef: EnemyDef = resolveEnemy(baseEnemy, config.ascension);
+  const enemyDef = resolveCheckedEnemy(data, config);
   const order = enemyDef.pattern.order;
-  if (order.length === 0) throw new Error(`Enemy ${enemyDef.id} has an empty pattern`);
-  for (const id of order) {
-    if (!enemyDef.moves[id]) throw new Error(`Enemy ${enemyDef.id} pattern uses unknown move "${id}"`);
-  }
-
-  // Build the deck: config deck in order, then Ascension cards. uids 0..n-1.
-  const deck: CardInstance[] = [];
-  const addCard = (cardId: string, upgraded: boolean) => {
-    const def = data.cards[cardId];
-    if (!def) throw new Error(`Unknown card "${cardId}"`);
-    if (!def.simulated) throw new Error(`Card "${def.name}" is not supported by the simulator yet`);
-    deck.push(makeCardInstance(def, upgraded, deck.length));
-  };
-  for (const entry of config.deck) {
-    for (let i = 0; i < entry.count; i++) addCard(entry.cardId, entry.upgraded);
-  }
-  for (const ac of data.manifest.ascensionCards) {
-    if (ac.level <= config.ascension) addCard(ac.cardId, false);
-  }
+  const deck = buildDeck(data, config);
 
   // RNG use order is fixed: (1) enemy HP, (2) random pattern start, (3) shuffle.
   const rng = createRng(config.seed);
@@ -212,7 +208,7 @@ export function simulateCombat(
       t.block -= blocked;
       const hpLoss = perHit - blocked;
       t.hp -= hpLoss;
-      if (log) log.push({ t: 'damage', source, target, amount: perHit, blocked, hpLoss });
+      log?.push({ t: 'damage', source, target, amount: perHit, blocked, hpLoss });
       if (t.hp <= 0) return true;
     }
     return false;
@@ -221,7 +217,7 @@ export function simulateCombat(
   const applyDebuff = (side: Side, kind: DebuffKind, amount: number) => {
     const f = fighter(side);
     f.debuffs[kind] += amount;
-    if (log) log.push({ t: 'debuff', side, kind, amount, total: f.debuffs[kind] });
+    log?.push({ t: 'debuff', side, kind, amount, total: f.debuffs[kind] });
   };
 
   /**
@@ -239,12 +235,12 @@ export function simulateCombat(
         case 'gainBlock': {
           const amt = blockGain(e.amount, self.debuffs.frail);
           self.block += amt;
-          if (log) log.push({ t: 'block', side: source, amount: amt, total: self.block });
+          log?.push({ t: 'block', side: source, amount: amt, total: self.block });
           break;
         }
         case 'gainStrength':
           self.strength += e.amount;
-          if (log) log.push({ t: 'strength', side: source, amount: e.amount, total: self.strength });
+          log?.push({ t: 'strength', side: source, amount: e.amount, total: self.strength });
           break;
         case 'applyVulnerable':
           applyDebuff(other, 'vulnerable', e.amount);
@@ -258,12 +254,12 @@ export function simulateCombat(
         case 'applyPoison':
           if (source !== 'player') throw new Error('Poison on the player is not simulated yet');
           enemy.poison += e.amount;
-          if (log) log.push({ t: 'poison', amount: e.amount, total: enemy.poison });
+          log?.push({ t: 'poison', amount: e.amount, total: enemy.poison });
           break;
         case 'gainEnergy':
           if (source !== 'player') throw new Error('Enemies have no energy');
           player.energy += e.amount;
-          if (log) log.push({ t: 'energy', amount: e.amount, total: player.energy });
+          log?.push({ t: 'energy', amount: e.amount, total: player.energy });
           break;
         case 'gainStars':
           throw new Error('Stars are not simulated yet');
@@ -281,13 +277,13 @@ export function simulateCombat(
       player.drawPile = player.discardPile;
       player.discardPile = [];
       rng.shuffle(player.drawPile);
-      if (log) log.push({ t: 'shuffle', reason: 'reshuffle', count: player.drawPile.length });
+      log?.push({ t: 'shuffle', reason: 'reshuffle', count: player.drawPile.length });
     }
     const card = player.drawPile.pop() as CardInstance;
-    if (log) log.push({ t: 'draw', uid: card.uid, cardId: card.cardId });
+    log?.push({ t: 'draw', uid: card.uid, cardId: card.cardId });
     if (player.hand.length >= HAND_LIMIT) {
       player.discardPile.push(card);
-      if (log) log.push({ t: 'discard', uid: card.uid, cardId: card.cardId, reason: 'handLimit' });
+      log?.push({ t: 'discard', uid: card.uid, cardId: card.cardId, reason: 'handLimit' });
     } else {
       player.hand.push(card);
     }
@@ -300,7 +296,7 @@ export function simulateCombat(
     for (const kind of DEBUFF_KINDS) {
       if (f.debuffs[kind] > 0) {
         f.debuffs[kind]--;
-        if (log) log.push({ t: 'debuffTick', side, kind, total: f.debuffs[kind] });
+        log?.push({ t: 'debuffTick', side, kind, total: f.debuffs[kind] });
       }
     }
   };
@@ -326,20 +322,15 @@ export function simulateCombat(
   for (;;) {
     // 1. Player turn start.
     state.turn++;
-    if (log) log.push({ t: 'turnStart', turn: state.turn, side: 'player' });
+    log?.push({ t: 'turnStart', turn: state.turn, side: 'player' });
     player.block = 0;
-    if (log) log.push({ t: 'blockReset', side: 'player' });
+    log?.push({ t: 'blockReset', side: 'player' });
     player.energy = character.energyPerTurn;
     let drawCount = character.drawPerTurn;
     if (state.turn === 1) {
-      // Innate: move Innate cards to the top of the draw pile (keeping their
-      // shuffled relative order) so they are drawn first, and draw at least
-      // that many cards, capped at the hand limit.
-      const innate = player.drawPile.filter((c) => c.keywords.includes('innate'));
-      if (innate.length > 0) {
-        player.drawPile = [...player.drawPile.filter((c) => !c.keywords.includes('innate')), ...innate];
-        drawCount = Math.min(Math.max(character.drawPerTurn, innate.length), HAND_LIMIT);
-      }
+      const opening = innateFirst(player.drawPile, drawCount);
+      player.drawPile = opening.drawPile;
+      drawCount = opening.drawCount;
     }
     for (let i = 0; i < drawCount; i++) {
       if (!drawOne()) break;
@@ -373,7 +364,7 @@ export function simulateCombat(
       const killed = resolveEffects('player', card.effects, x);
       if (card.keywords.includes('exhaust')) {
         player.exhaustPile.push(card);
-        if (log) log.push({ t: 'exhaust', uid: card.uid, cardId: card.cardId, reason: 'keyword' });
+        log?.push({ t: 'exhaust', uid: card.uid, cardId: card.cardId, reason: 'keyword' });
       } else {
         player.discardPile.push(card);
       }
@@ -385,37 +376,37 @@ export function simulateCombat(
     for (const card of player.hand) {
       if (card.keywords.includes('ethereal')) {
         player.exhaustPile.push(card);
-        if (log) log.push({ t: 'exhaust', uid: card.uid, cardId: card.cardId, reason: 'ethereal' });
+        log?.push({ t: 'exhaust', uid: card.uid, cardId: card.cardId, reason: 'ethereal' });
       } else if (card.keywords.includes('retain')) {
         retained.push(card);
       } else {
         player.discardPile.push(card);
-        if (log) log.push({ t: 'discard', uid: card.uid, cardId: card.cardId, reason: 'endOfTurn' });
+        log?.push({ t: 'discard', uid: card.uid, cardId: card.cardId, reason: 'endOfTurn' });
       }
     }
     player.hand = retained;
     tickDebuffs('player');
-    if (log) log.push({ t: 'turnEnd', turn: state.turn, side: 'player' });
+    log?.push({ t: 'turnEnd', turn: state.turn, side: 'player' });
 
     // 4. Enemy turn.
-    if (log) log.push({ t: 'turnStart', turn: state.turn, side: 'enemy' });
+    log?.push({ t: 'turnStart', turn: state.turn, side: 'enemy' });
     enemy.block = 0;
-    if (log) log.push({ t: 'blockReset', side: 'enemy' });
+    log?.push({ t: 'blockReset', side: 'enemy' });
     // Poison: HP loss equal to stacks (ignores Block and modifiers), then -1. A kill ends combat before the move.
     if (enemy.poison > 0) {
       const amount = enemy.poison;
       enemy.hp -= amount;
       enemy.poison--;
-      if (log) log.push({ t: 'poisonDamage', amount, hpAfter: Math.max(enemy.hp, 0) });
+      log?.push({ t: 'poisonDamage', amount, hpAfter: Math.max(enemy.hp, 0) });
       if (enemy.hp <= 0) return finish('win');
     }
-    if (log) log.push({ t: 'enemyMove', moveId, name: move.name });
+    log?.push({ t: 'enemyMove', moveId, name: move.name });
     const playerDied = resolveEffects('enemy', move.effects);
     enemy.patternIndex = (enemy.patternIndex + 1) % order.length;
     if (playerDied || player.hp <= 0) return finish('loss');
     // Debuffs on the enemy tick down at the end of the enemy's own turn, after its move.
     tickDebuffs('enemy');
-    if (log) log.push({ t: 'turnEnd', turn: state.turn, side: 'enemy' });
+    log?.push({ t: 'turnEnd', turn: state.turn, side: 'enemy' });
 
     // 5. Turn cap.
     if (state.turn >= TURN_CAP) return finish('turnCap');

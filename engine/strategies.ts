@@ -6,6 +6,7 @@ import type {
   StrategyConfig,
   StrategyView,
 } from './types';
+import { attackHits } from './rules';
 
 type Card = DeepReadonly<CardInstance>;
 
@@ -52,8 +53,7 @@ function totalBaseDamage(card: Card, energy: number): number {
   let sum = 0;
   for (const e of card.effects) {
     if (e.type !== 'attack') continue;
-    const hits = e.xTimes ? e.hits * Math.max(0, x + (e.xBonus ?? 0)) : e.hits;
-    sum += e.damage * hits;
+    sum += e.damage * attackHits(e, x);
   }
   return sum;
 }
@@ -65,35 +65,44 @@ function totalBlock(card: Card): number {
 }
 
 /**
+ * The highest-ranked card among `cards`: ranks compare element by element (higher wins),
+ * ties go to the lowest uid.
+ */
+function best(cards: readonly Card[], rank: (c: Card) => readonly number[]): Card | undefined {
+  let top: Card | undefined;
+  let topRank: readonly number[] = [];
+  for (const c of cards) {
+    const r = rank(c);
+    if (!top || outranks(r, topRank) || (sameRank(r, topRank) && c.uid < top.uid)) {
+      top = c;
+      topRank = r;
+    }
+  }
+  return top;
+}
+
+function outranks(a: readonly number[], b: readonly number[]): boolean {
+  for (let i = 0; i < a.length; i++) {
+    if (a[i]! !== b[i]!) return a[i]! > b[i]!;
+  }
+  return false;
+}
+
+function sameRank(a: readonly number[], b: readonly number[]): boolean {
+  return a.every((v, i) => v === b[i]);
+}
+
+/** X-cost cards rank below every other card, so they only spend leftover energy. */
+const notXCost = (c: Card): number => (c.xCost ? 0 : 1);
+
+/**
  * Best attack to play: X-cost attacks only once no other attack is playable
  * (so they spend the leftover energy; never at 0 energy), then Vulnerable-appliers
  * first, then highest total base damage (damage × hits), ties → lowest uid.
  */
 export function pickAttack(playable: readonly Card[], energy = 0): Card | undefined {
-  let best: Card | undefined;
-  for (const c of playable) {
-    if (!isAttackCard(c) || !xCostPlayable(c, energy)) continue;
-    if (!best) {
-      best = c;
-      continue;
-    }
-    const cx = c.xCost === true;
-    const bx = best.xCost === true;
-    if (cx !== bx) {
-      if (bx) best = c;
-      continue;
-    }
-    const cv = appliesVulnerable(c);
-    const bv = appliesVulnerable(best);
-    if (cv !== bv) {
-      if (cv) best = c;
-      continue;
-    }
-    const cd = totalBaseDamage(c, energy);
-    const bd = totalBaseDamage(best, energy);
-    if (cd > bd || (cd === bd && c.uid < best.uid)) best = c;
-  }
-  return best;
+  const attacks = playable.filter((c) => isAttackCard(c) && xCostPlayable(c, energy));
+  return best(attacks, (c) => [notXCost(c), appliesVulnerable(c) ? 1 : 0, totalBaseDamage(c, energy)]);
 }
 
 /**
@@ -101,24 +110,8 @@ export function pickAttack(playable: readonly Card[], energy = 0): Card | undefi
  * playable (never at 0 energy), then largest block amount, ties → lowest uid.
  */
 export function pickBlock(playable: readonly Card[], energy = 0): Card | undefined {
-  let best: Card | undefined;
-  for (const c of playable) {
-    if (!isBlockCard(c) || !xCostPlayable(c, energy)) continue;
-    if (!best) {
-      best = c;
-      continue;
-    }
-    const cx = c.xCost === true;
-    const bx = best.xCost === true;
-    if (cx !== bx) {
-      if (bx) best = c;
-      continue;
-    }
-    const cb = totalBlock(c);
-    const bb = totalBlock(best);
-    if (cb > bb || (cb === bb && c.uid < best.uid)) best = c;
-  }
-  return best;
+  const blocks = playable.filter((c) => isBlockCard(c) && xCostPlayable(c, energy));
+  return best(blocks, (c) => [notXCost(c), totalBlock(c)]);
 }
 
 const END: Decision = { kind: 'endTurn' };
@@ -129,28 +122,23 @@ const play = (c: Card): Decision => ({ kind: 'play', uid: c.uid });
  * that nets energy (#22), as long as some other card in hand could use it.
  */
 function pickFirst(view: StrategyView): Card | undefined {
-  let first: Card | undefined;
-  for (const c of view.playable) {
-    if (PLAY_FIRST_CARD_IDS.includes(c.cardId) && (!first || c.uid < first.uid)) first = c;
-  }
+  const first = best(view.playable.filter((c) => PLAY_FIRST_CARD_IDS.includes(c.cardId)), () => []);
   if (first) return first;
-  let energy: Card | undefined;
-  for (const c of view.playable) {
-    if (!isNetEnergyCard(c)) continue;
-    if (!energy) {
-      energy = c;
-      continue;
-    }
-    const gain = energyGain(c) - (c.cost as number);
-    const bestGain = energyGain(energy) - (energy.cost as number);
-    if (gain > bestGain || (gain === bestGain && c.uid < energy.uid)) energy = c;
-  }
+  const energy = best(view.playable.filter(isNetEnergyCard), (c) => [netEnergy(c)]);
   if (!energy) return undefined;
-  const e = energy;
-  const useful = view.state.player.hand.some(
-    (c) => c.uid !== e.uid && c.cost !== null && (c.xCost || c.cost > 0) && (isAttackCard(c) || isBlockCard(c) || isNetEnergyCard(c) || PLAY_FIRST_CARD_IDS.includes(c.cardId)),
-  );
+  const useful = view.state.player.hand.some((c) => c.uid !== energy.uid && wantsEnergy(c));
   return useful ? energy : undefined;
+}
+
+/** Energy left over after playing a net-energy card. */
+function netEnergy(card: Card): number {
+  return energyGain(card) - (card.cost as number);
+}
+
+/** A card that costs energy and that some strategy would play. */
+function wantsEnergy(c: Card): boolean {
+  const costsEnergy = c.cost !== null && (c.xCost || c.cost > 0);
+  return costsEnergy && (isAttackCard(c) || isBlockCard(c) || isNetEnergyCard(c) || PLAY_FIRST_CARD_IDS.includes(c.cardId));
 }
 
 function greedyDecide(view: StrategyView): Decision {
