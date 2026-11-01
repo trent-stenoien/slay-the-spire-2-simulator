@@ -5,17 +5,17 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { gameData } from '../../data';
-import type { RunResult } from '../../engine/types';
+import type { Deck, RunResult } from '../../engine/types';
 import indexHtml from '../../index.html?raw';
 import { App } from '../App';
 import { resultRows } from '../lib/results';
-import { defaultSetup } from '../lib/url';
+import { defaultSetup, type SetupState } from '../lib/url';
 import { startingDeckFor } from '../lib/deck';
 import { DeckBuilder } from './DeckBuilder';
 import { CombatLog } from './CombatLog';
 import { DistributionChart } from './DistributionChart';
 import { InfoPopover } from './InfoPopover';
-import { ResultsPanel } from './ResultsPanel';
+import { ResultsPanel, type RunStatus } from './ResultsPanel';
 import { ResultsView, ViewCombat } from './ResultsView';
 import { SetupPanel } from './SetupPanel';
 import { StrategyPanel } from './StrategyPanel';
@@ -39,6 +39,27 @@ const result: RunResult = {
     { strategyId: 's', combats: 10, avgHpLost: 3.2, avgTurnsToKill: null, avgTurns: 9.5, deathRate: 0, turnCapRate: 0.2, hpLostCounts: [4, 4, 2], firstCombatByHpLost: { 0: 1, 1: 0, 2: 7 } },
   ],
 };
+
+const noop = () => {};
+const renderChart = () => renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
+const renderResults = () => renderToStaticMarkup(<ResultsView data={gameData} result={result} />);
+const renderViewCombat = (hidden: ReadonlySet<string>, initialChecked?: string[]) =>
+  renderToStaticMarkup(
+    <ViewCombat data={gameData} result={result} combats={10} hidden={hidden} initialChecked={initialChecked} />,
+  );
+const renderResultsPanel = (
+  status: RunStatus,
+  { result = null, blocker = null, characterId = 'ironclad' }: { result?: RunResult | null; blocker?: string | null; characterId?: string } = {},
+) =>
+  renderToStaticMarkup(
+    <ResultsPanel data={gameData} characterId={characterId} result={result} status={status} blocker={blocker} onRun={noop} />,
+  );
+const renderDeckBuilder = (characterId: string, ascension: number, deck: Deck) =>
+  renderToStaticMarkup(
+    <DeckBuilder data={gameData} characterId={characterId} ascension={ascension} deck={deck} onChange={noop} onReset={noop} />,
+  );
+const renderSetupPanel = (setup: SetupState) =>
+  renderToStaticMarkup(<SetupPanel data={gameData} setup={setup} onCharacter={noop} onEnemy={noop} onAscension={noop} />);
 
 describe('views render', () => {
   it('renders the main page with the Burning Blood note inside the Results panel body, not at the top', () => {
@@ -76,9 +97,7 @@ describe('views render', () => {
   });
 
   it('Results shows the seed input and empty-state text before any run, and blockers in the title bar', () => {
-    const html = renderToStaticMarkup(
-      <ResultsPanel data={gameData} characterId="ironclad" result={null} status={{ kind: 'idle' }} blocker="Select at least one strategy." onRun={() => {}} />,
-    );
+    const html = renderResultsPanel({ kind: 'idle' }, { blocker: "Select at least one strategy." });
     expect(html).toContain('Run seed (blank = random)');
     expect(html).toContain('Run a simulation to see the results.');
     expect(html.indexOf('Run seed')).toBeGreaterThan(html.indexOf('id="res-body"'));
@@ -88,13 +107,9 @@ describe('views render', () => {
   });
 
   it('Results title bar shows progress and a compact error', () => {
-    const running = renderToStaticMarkup(
-      <ResultsPanel data={gameData} characterId="ironclad" result={null} status={{ kind: 'running', progress: { done: 42, total: 100 } }} blocker={null} onRun={() => {}} />,
-    );
+    const running = renderResultsPanel({ kind: 'running', progress: { done: 42, total: 100 } });
     expect(running.slice(0, running.indexOf('id="res-body"'))).toContain('Running… 42%');
-    const failed = renderToStaticMarkup(
-      <ResultsPanel data={gameData} characterId="ironclad" result={result} status={{ kind: 'error', message: 'boom', notImplemented: false }} blocker={null} onRun={() => {}} />,
-    );
+    const failed = renderResultsPanel({ kind: 'error', message: 'boom', notImplemented: false }, { result });
     const bar = failed.slice(0, failed.indexOf('id="res-body"'));
     expect(bar).toContain('Run failed');
     expect(bar).toContain('title="Simulation failed: boom"');
@@ -103,7 +118,6 @@ describe('views render', () => {
 
   it('strategy panel: Title label, New Strategy heading, no description on custom strategies', () => {
     const custom = { id: 'u1', name: 'Mine', config: { kind: 'block' as const, allowThrough: 3 } };
-    const noop = () => {};
     const html = renderToStaticMarkup(
       <StrategyPanel
         library={[...DEFAULT_STRATEGIES, custom]}
@@ -127,16 +141,14 @@ describe('views render', () => {
 
   it('Results body shows the starting-relic note for the setup character', () => {
     const silent = gameData.characters.silent!;
-    const html = renderToStaticMarkup(
-      <ResultsPanel data={gameData} characterId="silent" result={null} status={{ kind: 'idle' }} blocker={null} onRun={() => {}} />,
-    );
+    const html = renderResultsPanel({ kind: 'idle' }, { characterId: 'silent' });
     const body = html.slice(html.indexOf('id="res-body"'));
     expect(body).toContain(`${silent.startingRelic} (starting relic) is not simulated.`);
     expect(html).not.toContain('Burning Blood');
   });
 
   it('renders results with death rate as a percentage, no turn-cap column, and the description line', () => {
-    const html = renderToStaticMarkup(<ResultsView data={gameData} result={result} />);
+    const html = renderResults();
     expect(html).toContain('10.0%');
     expect(html).not.toContain('Turn-cap rate');
     expect(html).not.toContain('20.0%');
@@ -151,7 +163,7 @@ describe('views render', () => {
   });
 
   it('shows Avg combat turn length over every combat, with no dash for a strategy with no wins', () => {
-    const html = renderToStaticMarkup(<ResultsView data={gameData} result={result} />);
+    const html = renderResults();
     expect(html).toContain('<th scope="col">Avg combat turn length</th>');
     expect(html).not.toContain('Avg turns to kill');
     const table = html.slice(html.indexOf('<table'), html.indexOf('</table>'));
@@ -163,7 +175,7 @@ describe('views render', () => {
   });
 
   it('adds a "HP lost, P25-P75" column right after Avg HP lost with en-dash values', () => {
-    const html = renderToStaticMarkup(<ResultsView data={gameData} result={result} />);
+    const html = renderResults();
     const heads = [...html.matchAll(/<th scope="col">([^<]*)<\/th>/g)].map((m) => m[1]);
     expect(heads).toEqual(['Strategy', 'Avg HP lost', 'HP lost, P25-P75', 'Avg combat turn length', 'Death rate']);
     const table = html.slice(html.indexOf('<table'), html.indexOf('</table>'));
@@ -172,7 +184,7 @@ describe('views render', () => {
   });
 
   it('puts the legend above the chart, as toggle buttons, with the KDE smoothing slider', () => {
-    const html = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
+    const html = renderChart();
     expect(html.indexOf('class="legend"')).toBeGreaterThan(-1);
     expect(html.indexOf('class="legend"')).toBeLessThan(html.indexOf('<svg class="chart"'));
     expect(html.match(/<button type="button" class="legend-item" aria-pressed="true"/g)).toHaveLength(2);
@@ -186,7 +198,7 @@ describe('views render', () => {
   });
 
   it('aligns the legend with the plot area and renders names for bold-on-hover', () => {
-    const html = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
+    const html = renderChart();
     // Picker, smoothing row and legend sit in one block inset to the Y axis.
     expect(html).toContain('class="chart-controls" style="padding-left:8.125%"');
     expect(html.indexOf('class="chart-controls"')).toBeLessThan(html.indexOf('class="segmented"'));
@@ -196,7 +208,7 @@ describe('views render', () => {
   });
 
   it('draws percentile marks for each of two visible strategies, in their colors, with a P25-P75 band each', () => {
-    const html = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
+    const html = renderChart();
     expect(html.match(/class="pmark"/g)).toHaveLength(10);
     expect(html.match(/class="pmark-label"/g)).toHaveLength(10);
     expect(html.match(/class="pband"/g)).toHaveLength(2);
@@ -224,13 +236,13 @@ describe('views render', () => {
   });
 
   it('has no Raw view button: only Smoothed (KDE) and Cumulative', () => {
-    const html = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
+    const html = renderChart();
     const tabs = [...html.matchAll(/role="tab"[^>]*>([^<]*)</g)].map((m) => m[1]);
     expect(tabs).toEqual(['Smoothed (KDE)', 'Cumulative']);
   });
 
   it('labels the smoothing slider at its min (Raw), ×1-×4 and its max (×5)', () => {
-    const html = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
+    const html = renderChart();
     for (const l of ['Raw', '×1', '×2', '×3', '×4', '×5']) expect(html).toMatch(new RegExp(`class="bandwidth-tick" style="--f:[0-9.]+">${l}</span>`));
     expect(html.match(/class="bandwidth-tick"/g)).toHaveLength(6);
     expect(html).toMatch(/<option value="0" label="Raw">/);
@@ -238,7 +250,7 @@ describe('views render', () => {
   });
 
   it('has a closed info button next to Smoothing', () => {
-    const html = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
+    const html = renderChart();
     expect(html).toMatch(/Smoothing<\/label><span class="info-pop"><button[^>]*aria-label="About smoothing"[^>]*aria-expanded="false"/);
     expect(html).not.toContain('info-pop-card');
   });
@@ -253,7 +265,7 @@ describe('views render', () => {
   });
 
   it('lists strategies by avg HP lost, lowest first, in table, legend and chart, keeping colors', () => {
-    const html = renderToStaticMarkup(<ResultsView data={gameData} result={result} />);
+    const html = renderResults();
     expect(html.indexOf('Scared Block')).toBeLessThan(html.indexOf('Greedy Damage'));
     // Chart series (purple = Scared Block, blue = Greedy Damage) and legend follow the same order.
     expect(html.indexOf('stroke="#8a5cd6"')).toBeLessThan(html.indexOf('stroke="#2f6fdf"'));
@@ -262,7 +274,7 @@ describe('views render', () => {
   });
 
   it('draws one line and one 15% fill per strategy in run colors', () => {
-    const html = renderToStaticMarkup(<DistributionChart rows={resultRows(result)} />);
+    const html = renderChart();
     expect(html.match(/fill-opacity="0.15"/g)).toHaveLength(2);
     expect(html).toContain('stroke="#2f6fdf"');
     expect(html).toContain('stroke="#8a5cd6"');
@@ -316,7 +328,7 @@ describe('views render', () => {
   });
 
   it('labels the combat picker 1-10000 and links the 0-based index', () => {
-    const html = renderToStaticMarkup(<ResultsView data={gameData} result={result} />);
+    const html = renderResults();
     const combats = resultRows(result)[0]!.summary.combats;
     expect(html).toContain(`Combat # (1-${combats})`);
     expect(html).not.toContain('(0–');
@@ -324,26 +336,26 @@ describe('views render', () => {
   });
 
   it('lists a checkbox per visible strategy; one checked opens the combat log', () => {
-    const html = renderToStaticMarkup(<ViewCombat data={gameData} result={result} combats={10} hidden={new Set()} />);
+    const html = renderViewCombat(new Set());
     expect(html.match(/type="checkbox"/g)).toHaveLength(2);
     expect(html).not.toContain('<select');
     expect(html).toContain('>Open combat log</a>');
     expect(html).toMatch(/href="[^"]*&amp;st=b0&amp;n=0"/); // sorted first: Scared Block, no k for one strategy
-    const hidden = renderToStaticMarkup(<ViewCombat data={gameData} result={result} combats={10} hidden={new Set(['g'])} />);
+    const hidden = renderViewCombat(new Set(['g']));
     expect(hidden.match(/type="checkbox"/g)).toHaveLength(1);
     expect(hidden).not.toContain('Greedy Damage');
   });
 
   it('reads Compare with 2+ checked and links every checked strategy with its color', () => {
-    const html = renderToStaticMarkup(<ViewCombat data={gameData} result={result} combats={10} hidden={new Set()} initialChecked={['g', 's']} />);
+    const html = renderViewCombat(new Set(), ['g', 's']);
     expect(html).toContain('>Compare</a>');
     expect(html).toMatch(/href="[^"]*&amp;st=b0,g&amp;k=p,b&amp;n=0"/);
   });
 
   it('disables the button with nothing checked (or every checked strategy hidden)', () => {
     for (const html of [
-      renderToStaticMarkup(<ViewCombat data={gameData} result={result} combats={10} hidden={new Set()} initialChecked={[]} />),
-      renderToStaticMarkup(<ViewCombat data={gameData} result={result} combats={10} hidden={new Set(['g'])} initialChecked={['g']} />),
+      renderViewCombat(new Set(), []),
+      renderViewCombat(new Set(['g']), ['g']),
     ]) {
       expect(html).toContain('aria-disabled="true"');
       expect(html).not.toContain('</a>');
@@ -402,7 +414,7 @@ describe('views render', () => {
     expect(one).toContain('href="#g/g/4"');
     expect(one).toContain('href="#g/g/3"');
     // ResultsView builds the real links: two strategies shown, so each label opens the compare view.
-    const html = renderToStaticMarkup(<ResultsView data={gameData} result={result} />);
+    const html = renderResults();
     expect(html.match(/class="pmark-link"/g)).toHaveLength(10);
     // Greedy P75 = 4 -> first combat index 1; Greedy P50 = 3 and Scared P50 = 1 -> index 0. Both strategies, in chart order.
     expect(html).toMatch(/class="pmark-link" href="[^"]*&amp;st=b0,g&amp;k=p,b&amp;n=1"/);
@@ -410,18 +422,14 @@ describe('views render', () => {
   });
 
   it('marks characters with unsimulated starters as work in progress', () => {
-    const html = renderToStaticMarkup(
-      <SetupPanel data={gameData} setup={defaultSetup(gameData)} onCharacter={() => {}} onEnemy={() => {}} onAscension={() => {}} />,
-    );
+    const html = renderSetupPanel(defaultSetup(gameData));
     const option = (id: string) => html.match(new RegExp(`<option value="${id}"[^>]*>([^<]*)</option>`))?.[1];
     expect(option('ironclad')).toBe(gameData.characters.ironclad!.name);
     expect(option('silent')).toBe(`${gameData.characters.silent!.name} (work in progress)`);
   });
 
   it('tints deck rows with the same key as the cost circle', () => {
-    const html = renderToStaticMarkup(
-      <DeckBuilder data={gameData} characterId="silent" ascension={0} deck={[]} onChange={() => {}} onReset={() => {}} />,
-    );
+    const html = renderDeckBuilder('silent', 0, []);
     expect(html).toContain('row-silent');
     const rows = [...html.matchAll(/<li class="card-row row-(\w+)[^"]*">.*?<span class="cost cost-(\w+)"/g)];
     expect(rows.length).toBeGreaterThan(0);
@@ -429,25 +437,19 @@ describe('views render', () => {
   });
 
   it('shows the remove-all X only for cards that have copies in the deck', () => {
-    const html = renderToStaticMarkup(
-      <DeckBuilder data={gameData} characterId="ironclad" ascension={5} deck={startingDeckFor(gameData, 'ironclad')} onChange={() => {}} onReset={() => {}} />,
-    );
+    const html = renderDeckBuilder('ironclad', 5, startingDeckFor(gameData, 'ironclad'));
     expect(html).toContain('aria-label="Remove all Strike from deck"');
     expect(html).toContain('title="Remove all Defend from deck"');
     expect(html).not.toContain('Remove all Anger from deck');
     expect(html).not.toContain('Remove all Ascender');
-    const upgradedOnly = renderToStaticMarkup(
-      <DeckBuilder data={gameData} characterId="ironclad" ascension={0} deck={[{ cardId: 'strike', upgraded: true, count: 1 }]} onChange={() => {}} onReset={() => {}} />,
-    );
+    const upgradedOnly = renderDeckBuilder('ironclad', 0, [{ cardId: 'strike', upgraded: true, count: 1 }]);
     expect(upgradedOnly).toContain('Remove all Strike from deck');
     expect(upgradedOnly).not.toContain('Remove all Defend from deck');
   });
 
   it("shows Ascender's Bane locked in the Curses group at A5, not at A4, and drops the old setup note", () => {
     const render = (ascension: number) =>
-      renderToStaticMarkup(
-        <DeckBuilder data={gameData} characterId="ironclad" ascension={ascension} deck={startingDeckFor(gameData, 'ironclad')} onChange={() => {}} onReset={() => {}} />,
-      );
+      renderDeckBuilder('ironclad', ascension, startingDeckFor(gameData, 'ironclad'));
     const a5 = render(5);
     expect(a5).toContain('Ascender&#x27;s Bane');
     expect(a5).toContain('Added automatically at Ascension 5+');
@@ -457,18 +459,14 @@ describe('views render', () => {
     const a4 = render(4);
     expect(a4).not.toContain('Ascender');
     expect(a4).toContain('(10 cards)');
-    const setup = renderToStaticMarkup(
-      <SetupPanel data={gameData} setup={{ ...defaultSetup(gameData), ascension: 5 }} onCharacter={() => {}} onEnemy={() => {}} onAscension={() => {}} />,
-    );
+    const setup = renderSetupPanel({ ...defaultSetup(gameData), ascension: 5 });
     expect(setup).not.toContain('Ascender');
   });
 });
 
 describe('deck folders, links and page layout', () => {
   const deckHtml = () =>
-    renderToStaticMarkup(
-      <DeckBuilder data={gameData} characterId="ironclad" ascension={0} deck={startingDeckFor(gameData, 'ironclad')} onChange={() => {}} onReset={() => {}} />,
-    );
+    renderDeckBuilder('ironclad', 0, startingDeckFor(gameData, 'ironclad'));
 
   it('renders every card folder collapsed on load', () => {
     const html = deckHtml();

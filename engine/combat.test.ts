@@ -60,6 +60,15 @@ const withEnemy = (data: GameData, ...enemies: ReturnType<typeof makeEnemy>[]) =
 
 const dummy = () => makeEnemy('dummy', 999, { wait: { name: 'Wait', effects: [] } });
 
+/** Game data with the 999-HP `dummy` enemy that never acts. */
+const dummyData = () => withEnemy(makeGameData(), dummy());
+
+const noDebuffs = () => ({ vulnerable: 0, weak: 0, frail: 0 });
+
+/** Run a combat with the event log on; `overrides` go to `cfg`. */
+const logged = (data: GameData, strategy: Strategy, overrides: Partial<CombatConfig> = {}) =>
+  simulateCombat(data, cfg(overrides), strategy, { log: true });
+
 type Ev<T extends GameEvent['t']> = Extract<GameEvent, { t: T }>;
 const events = <T extends GameEvent['t']>(log: GameEvent[] | undefined, t: T): Ev<T>[] =>
   (log ?? []).filter((e): e is Ev<T> => e.t === t);
@@ -84,14 +93,14 @@ describe('rule helpers', () => {
 
   it('computeIntent: non-attack move is 0/0/0', () => {
     const i = computeIntent('hiss', { name: 'Hiss', effects: [{ type: 'gainStrength', amount: 2 }] },
-      { strength: 0, debuffs: { vulnerable: 0, weak: 0, frail: 0 } },
-      { debuffs: { vulnerable: 0, weak: 0, frail: 0 } });
+      { strength: 0, debuffs: noDebuffs() },
+      { debuffs: noDebuffs() });
     expect(i).toEqual({ moveId: 'hiss', name: 'Hiss', attacks: [], totalIncoming: 0 });
   });
 
   it('computeIntent: multi-hit with Strength and player Vulnerable', () => {
     const i = computeIntent('x', { name: 'X', effects: [{ type: 'attack', damage: 2, hits: 2 }] },
-      { strength: 2, debuffs: { vulnerable: 0, weak: 0, frail: 0 } },
+      { strength: 2, debuffs: noDebuffs() },
       { debuffs: { vulnerable: 1, weak: 0, frail: 0 } });
     expect(i).toMatchObject({ attacks: [{ damagePerHit: 6, hits: 2 }], totalIncoming: 12 });
   });
@@ -100,7 +109,7 @@ describe('rule helpers', () => {
     const i = computeIntent('x', {
       name: 'X',
       effects: [{ type: 'attack', damage: 5, hits: 1 }, { type: 'gainBlock', amount: 3 }, { type: 'attack', damage: 3, hits: 2 }],
-    }, { strength: 1, debuffs: { vulnerable: 0, weak: 0, frail: 0 } }, { debuffs: { vulnerable: 0, weak: 0, frail: 0 } });
+    }, { strength: 1, debuffs: noDebuffs() }, { debuffs: noDebuffs() });
     expect(i).toMatchObject({ attacks: [{ damagePerHit: 6, hits: 1 }, { damagePerHit: 4, hits: 2 }], totalIncoming: 6 + 4 * 2 });
   });
 
@@ -158,7 +167,7 @@ describe('runCombat setup', () => {
   });
 
   it('assigns uids 0..n-1 and logs the start shuffle', () => {
-    const r = simulateCombat(makeGameData(), cfg({ deck: deckOf(['defend', 10]) }), passive, { log: true });
+    const r = logged(makeGameData(), passive, { deck: deckOf(['defend', 10]) });
     expect(events(r.log, 'shuffle')[0]).toEqual({ t: 'shuffle', reason: 'start', count: 10 });
     const firstTen = events(r.log, 'draw').slice(0, 10).map((d) => d.uid);
     expect([...firstTen].sort((a, b) => a - b)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
@@ -179,9 +188,9 @@ describe('runCombat setup', () => {
     const data = withEnemy(makeGameData(), e);
     const starts = new Set<string>();
     for (let s = 0; s < 50; s++) {
-      const log = simulateCombat(data, cfg({ enemyId: 'rnd', seed: s, deck: [] }), passive, { log: true }).log;
+      const log = logged(data, passive, { enemyId: 'rnd', seed: s, deck: [] }).log;
       const first = events(log, 'enemyMove')[0]!.moveId;
-      const again = events(simulateCombat(data, cfg({ enemyId: 'rnd', seed: s, deck: [] }), passive, { log: true }).log, 'enemyMove')[0]!.moveId;
+      const again = events(logged(data, passive, { enemyId: 'rnd', seed: s, deck: [] }).log, 'enemyMove')[0]!.moveId;
       expect(again).toBe(first);
       starts.add(first);
     }
@@ -191,7 +200,7 @@ describe('runCombat setup', () => {
 
 describe('damage rules in combat', () => {
   it('Vulnerable: Bash then Strike = 8 + 9; Vulnerable 2 lasts two player turns', () => {
-    const data = withEnemy(makeGameData(), dummy());
+    const data = dummyData();
     const config = cfg({ enemyId: 'dummy', deck: deckOf(['bash', 1], ['strike', 4]) });
     const strat = scripted((turn) => (turn === 1 ? ['bash', 'strike'] : turn <= 3 ? ['strike'] : []));
     const r = simulateCombat(data, config, strat, { log: true });
@@ -219,7 +228,7 @@ describe('damage rules in combat', () => {
         return { kind: 'endTurn' };
       },
     };
-    const r = simulateCombat(data, cfg({ enemyId: 'twin', deck: deckOf(['defend', 5]) }), strat, { log: true });
+    const r = logged(data, strat, { enemyId: 'twin', deck: deckOf(['defend', 5]) });
     expect(intents.slice(0, 2)).toEqual([0, 8]);
     const dmg = events(r.log, 'damage').slice(0, 2);
     expect(dmg).toEqual([
@@ -229,19 +238,19 @@ describe('damage rules in combat', () => {
   });
 
   it('enemy Strength persists: Nibbit second Butt hits 14 at A0', () => {
-    const r = simulateCombat(makeGameData(), cfg({ deck: [] }), passive, { log: true });
+    const r = logged(makeGameData(), passive, { deck: [] });
     expect(events(r.log, 'enemyMove').slice(0, 4).map((m) => m.moveId)).toEqual(['butt', 'hesitantSlice', 'hiss', 'butt']);
     expect(events(r.log, 'damage').slice(0, 3).map((d) => d.amount)).toEqual([12, 6, 14]);
   });
 
   it('A9 Nibbit uses the A9 numbers', () => {
-    const r = simulateCombat(makeGameData(), cfg({ deck: [], ascension: 9 }), passive, { log: true });
+    const r = logged(makeGameData(), passive, { deck: [], ascension: 9 });
     expect(events(r.log, 'damage').slice(0, 3).map((d) => d.amount)).toEqual([13, 7, 16]);
   });
 
   it('enemy block protects it during the next player turn only', () => {
     const strat = scripted((turn) => (turn <= 4 ? ['strike'] : []));
-    const r = simulateCombat(makeGameData(), cfg({ deck: deckOf(['strike', 10]) }), strat, { log: true });
+    const r = logged(makeGameData(), strat, { deck: deckOf(['strike', 10]) });
     const playerHits = events(r.log, 'damage').filter((d) => d.source === 'player');
     // Turn 1, 2: no enemy block. Hesitant Slice (enemy turn 2) gives 5 block.
     // Turn 3: Strike 6 → 5 blocked, 1 HP. Enemy block resets on its turn 3.
@@ -257,7 +266,7 @@ describe('damage rules in combat', () => {
       wait: { name: 'Wait', effects: [] },
       hit: { name: 'Hit', effects: [{ type: 'attack', damage: 10, hits: 1 }] },
     }));
-    const r = simulateCombat(data, cfg({ enemyId: 'late', deck: deckOf(['defend', 10]) }), strat, { log: true });
+    const r = logged(data, strat, { enemyId: 'late', deck: deckOf(['defend', 10]) });
     // 15 block on turn 1 is gone by the enemy's turn-2 hit.
     expect(events(r.log, 'damage')[0]).toMatchObject({ amount: 10, blocked: 0, hpLoss: 10 });
   });
@@ -274,7 +283,7 @@ describe('damage rules in combat', () => {
     const data = withEnemy(makeGameData(), e);
     data.cards.weakener = weakener;
     const strat = scripted((turn) => (turn === 2 ? ['weakener'] : []));
-    const r = simulateCombat(data, cfg({ enemyId: 'hexer', deck: deckOf(['weakener', 5]) }), strat, { log: true });
+    const r = logged(data, strat, { enemyId: 'hexer', deck: deckOf(['weakener', 5]) });
     const log = r.log!;
     expect(events(log, 'debuff').slice(0, 3)).toEqual([
       { t: 'debuff', side: 'player', kind: 'frail', amount: 2, total: 2 },
@@ -298,7 +307,7 @@ describe('damage rules in combat', () => {
   });
 
   it('1 Vulnerable on the enemy boosts that player turn and is gone by the next one', () => {
-    const data = withEnemy(makeGameData(), dummy());
+    const data = dummyData();
     data.cards.tap = {
       ...cards.strike!, id: 'tap', code: 'Tp', cost: 0,
       effects: [{ type: 'applyVulnerable', amount: 1 }], upgraded: null,
@@ -337,7 +346,7 @@ describe('damage rules in combat', () => {
         return { kind: 'endTurn' };
       },
     };
-    const r = simulateCombat(data, cfg({ enemyId: 'brute', deck: deckOf(['sap', 1], ['defend', 9]) }), strat, { log: true });
+    const r = logged(data, strat, { enemyId: 'brute', deck: deckOf(['sap', 1], ['defend', 9]) });
     expect(intents).toEqual([9]); // intent already reflects Weak
     expect(events(r.log, 'damage').slice(0, 2).map((d) => d.amount)).toEqual([9, 12]);
   });
@@ -351,7 +360,7 @@ describe('damage rules in combat', () => {
     });
     const data = withEnemy(makeGameData(), e);
     const strat = scripted((turn) => (turn === 2 ? ['strike', 'strike'] : turn === 3 ? ['strike'] : []));
-    const r = simulateCombat(data, cfg({ enemyId: 'hexer2', deck: deckOf(['strike', 15]) }), strat, { log: true });
+    const r = logged(data, strat, { enemyId: 'hexer2', deck: deckOf(['strike', 15]) });
     const log = r.log!;
     expect(events(log, 'damage').map((d) => d.amount)).toEqual([4, 4, 6]);
     // The tick comes after the player's last play of turn 2 and right before that player turn ends.
@@ -375,7 +384,7 @@ describe('damage rules in combat', () => {
       effects: [{ type: 'applyPoison', amount: 3 }, { type: 'applyVulnerable', amount: 1 }], upgraded: null,
     };
     const strat = scripted((turn) => (turn === 1 ? ['venom'] : []));
-    const r = simulateCombat(data, cfg({ enemyId: 'hexer3', deck: deckOf(['mist', 1], ['venom', 1], ['strike', 3]) }), strat, { log: true });
+    const r = logged(data, strat, { enemyId: 'hexer3', deck: deckOf(['mist', 1], ['venom', 1], ['strike', 3]) });
     const log = r.log!;
     const at = (t: GameEvent['t'], turn: number, side: 'player' | 'enemy') =>
       log.findIndex((ev) => ev.t === t && 'turn' in ev && ev.turn === turn && 'side' in ev && ev.side === side);
@@ -406,13 +415,13 @@ describe('damage rules in combat', () => {
 
 describe('cards and piles', () => {
   it("Ascender's Bane is added only at A5+ and exhausts from hand at end of turn", () => {
-    const data = withEnemy(makeGameData(), dummy());
+    const data = dummyData();
     const deck = deckOf(['defend', 4]);
-    const a4 = simulateCombat(data, cfg({ enemyId: 'dummy', deck, ascension: 4 }), passive, { log: true });
+    const a4 = logged(data, passive, { enemyId: 'dummy', deck, ascension: 4 });
     expect(events(a4.log, 'shuffle')[0]!.count).toBe(4);
     expect(events(a4.log, 'draw').some((d) => d.cardId === 'ascenders_bane')).toBe(false);
 
-    const a5 = simulateCombat(data, cfg({ enemyId: 'dummy', deck, ascension: 5 }), passive, { log: true });
+    const a5 = logged(data, passive, { enemyId: 'dummy', deck, ascension: 5 });
     expect(events(a5.log, 'shuffle')[0]!.count).toBe(5);
     const bane = events(a5.log, 'draw').find((d) => d.cardId === 'ascenders_bane')!;
     expect(bane.uid).toBe(4); // appended after the config deck
@@ -423,7 +432,7 @@ describe('cards and piles', () => {
   });
 
   it("Ascender's Bane is never offered as playable", () => {
-    const data = withEnemy(makeGameData(), dummy());
+    const data = dummyData();
     const strat: Strategy = {
       decide(view) {
         expect(view.playable.some((c) => c.cardId === 'ascenders_bane')).toBe(false);
@@ -434,18 +443,18 @@ describe('cards and piles', () => {
   });
 
   it('exhaust keyword sends a played card to the exhaust pile', () => {
-    const data = withEnemy(makeGameData(), dummy());
+    const data = dummyData();
     data.cards.slash = { ...cards.strike!, id: 'slash', code: 'Sl', keywords: ['exhaust'] };
     const strat = scripted((turn) => (turn === 1 ? ['slash'] : []));
-    const r = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['slash', 1]) }), strat, { log: true });
+    const r = logged(data, strat, { enemyId: 'dummy', deck: deckOf(['slash', 1]) });
     expect(events(r.log, 'exhaust')).toEqual([{ t: 'exhaust', uid: 0, cardId: 'slash', reason: 'keyword' }]);
     // Nothing left to draw on turn 2.
     expect(events(r.log, 'draw')).toHaveLength(1);
   });
 
   it('reshuffles the discard pile mid-draw', () => {
-    const data = withEnemy(makeGameData(), dummy());
-    const r = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['strike', 7]) }), passive, { log: true });
+    const data = dummyData();
+    const r = logged(data, passive, { enemyId: 'dummy', deck: deckOf(['strike', 7]) });
     const log = r.log!;
     const t2 = log.findIndex((e) => e.t === 'turnStart' && e.turn === 2 && e.side === 'player');
     const turn2 = log.slice(t2).filter((e) => e.t === 'draw' || e.t === 'shuffle').slice(0, 6);
@@ -454,18 +463,18 @@ describe('cards and piles', () => {
   });
 
   it('stops drawing when both piles are empty', () => {
-    const data = withEnemy(makeGameData(), dummy());
+    const data = dummyData();
     const strat = scripted((turn) => (turn === 1 ? ['defend'] : []));
-    const r = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['defend', 2]) }), strat, { log: true });
+    const r = logged(data, strat, { enemyId: 'dummy', deck: deckOf(['defend', 2]) });
     const t1 = r.log!.findIndex((e) => e.t === 'turnStart' && e.turn === 1);
     const t2 = r.log!.findIndex((e) => e.t === 'turnStart' && e.turn === 2);
     expect(r.log!.slice(t1, t2).filter((e) => e.t === 'draw')).toHaveLength(2);
   });
 
   it('a card drawn at the hand limit goes to the discard pile', () => {
-    const data = withEnemy(makeGameData(), dummy());
+    const data = dummyData();
     data.characters.ironclad!.drawPerTurn = 12;
-    const r = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['strike', 12]) }), passive, { log: true });
+    const r = logged(data, passive, { enemyId: 'dummy', deck: deckOf(['strike', 12]) });
     const t1End = r.log!.findIndex((e) => e.t === 'turnEnd');
     const turn1 = r.log!.slice(0, t1End);
     expect(turn1.filter((e) => e.t === 'draw')).toHaveLength(12);
@@ -495,14 +504,14 @@ describe('cards and piles', () => {
         return c ? { kind: 'play', uid: c.uid } : { kind: 'endTurn' };
       },
     };
-    simulateCombat(withEnemy(makeGameData(), dummy()), cfg({ enemyId: 'dummy', deck: deckOf(['defend', 10]) }), strat);
+    simulateCombat(dummyData(), cfg({ enemyId: 'dummy', deck: deckOf(['defend', 10]) }), strat);
     expect(energies.slice(0, 5)).toEqual([1, 2, 3, 4, 5]);
   });
 });
 
 describe('Innate', () => {
   const withInnate = () => {
-    const data = withEnemy(makeGameData(), dummy());
+    const data = dummyData();
     data.cards.opener = { ...cards.strike!, id: 'opener', code: 'Op', keywords: ['innate'], upgraded: null };
     return data;
   };
@@ -515,7 +524,7 @@ describe('Innate', () => {
   it('Innate cards are always in the opening hand, drawn first', () => {
     const data = withInnate();
     for (let s = 0; s < 30; s++) {
-      const r = simulateCombat(data, cfg({ enemyId: 'dummy', seed: s, deck: deckOf(['defend', 15], ['opener', 2]) }), passive, { log: true });
+      const r = logged(data, passive, { enemyId: 'dummy', seed: s, deck: deckOf(['defend', 15], ['opener', 2]) });
       const t1 = drawsOnTurn(r.log!, 1);
       expect(t1).toHaveLength(5);
       expect(t1.slice(0, 2).map((d) => d.cardId)).toEqual(['opener', 'opener']);
@@ -525,11 +534,11 @@ describe('Innate', () => {
 
   it('turn-1 draw is max(drawPerTurn, Innate count), capped at the hand limit; later turns draw normally', () => {
     const data = withInnate();
-    const seven = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['defend', 10], ['opener', 7]) }), passive, { log: true });
+    const seven = logged(data, passive, { enemyId: 'dummy', deck: deckOf(['defend', 10], ['opener', 7]) });
     expect(drawsOnTurn(seven.log!, 1).map((d) => d.cardId)).toEqual(Array(7).fill('opener'));
     expect(drawsOnTurn(seven.log!, 2)).toHaveLength(5);
 
-    const twelve = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['defend', 3], ['opener', 12]) }), passive, { log: true });
+    const twelve = logged(data, passive, { enemyId: 'dummy', deck: deckOf(['defend', 3], ['opener', 12]) });
     const t1 = drawsOnTurn(twelve.log!, 1);
     expect(t1).toHaveLength(10);
     expect(t1.every((d) => d.cardId === 'opener')).toBe(true);
@@ -554,7 +563,7 @@ describe('Innate', () => {
 
 describe('Retain', () => {
   const withRetain = () => {
-    const data = withEnemy(makeGameData(), dummy());
+    const data = dummyData();
     data.cards.keep = { ...cards.defend!, id: 'keep', code: 'Kp', keywords: ['retain'], upgraded: null };
     data.cards.ghost = { ...cards.defend!, id: 'ghost', code: 'Gh', keywords: ['ethereal', 'retain'], upgraded: null };
     return data;
@@ -569,7 +578,7 @@ describe('Retain', () => {
         return { kind: 'endTurn' };
       },
     };
-    const r = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['keep', 1], ['strike', 20]) }), strat, { log: true });
+    const r = logged(data, strat, { enemyId: 'dummy', deck: deckOf(['keep', 1], ['strike', 20]) });
     const firstKeep = hands.findIndex((h) => h.includes('keep'));
     expect(firstKeep).toBeGreaterThanOrEqual(0);
     // From the turn it is drawn on, it stays in hand for good, and hand size is 5 + 1.
@@ -585,14 +594,14 @@ describe('Retain', () => {
   it('a retained card can be played on a later turn', () => {
     const data = withRetain();
     const strat = scripted((turn) => (turn === 3 ? ['keep'] : []));
-    const r = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['keep', 1], ['strike', 4]) }), strat, { log: true });
+    const r = logged(data, strat, { enemyId: 'dummy', deck: deckOf(['keep', 1], ['strike', 4]) });
     expect(events(r.log, 'play')[0]).toMatchObject({ cardId: 'keep' });
     expect(events(r.log, 'block')[0]).toMatchObject({ amount: 5 });
   });
 
   it('Ethereal + Retain exhausts', () => {
     const data = withRetain();
-    const r = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['ghost', 1], ['strike', 4]) }), passive, { log: true });
+    const r = logged(data, passive, { enemyId: 'dummy', deck: deckOf(['ghost', 1], ['strike', 4]) });
     expect(events(r.log, 'exhaust')).toEqual([{ t: 'exhaust', uid: 0, cardId: 'ghost', reason: 'ethereal' }]);
     expect(events(r.log, 'draw').filter((d) => d.cardId === 'ghost')).toHaveLength(1);
   });
@@ -608,7 +617,7 @@ describe('Retain', () => {
     };
     // 12 Retain cards: turn 1 holds 5, turn 2 draws 5 more (10). On turn 3 the hand is full, so all
     // 5 draws (the last 2 cards, reshuffled back and drawn again) go straight to the discard pile.
-    const r = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['keep', 12]) }), strat, { log: true });
+    const r = logged(data, strat, { enemyId: 'dummy', deck: deckOf(['keep', 12]) });
     expect(hands.slice(0, 3)).toEqual([5, 10, 10]);
     const log = r.log!;
     const t3 = log.findIndex((e) => e.t === 'turnStart' && e.turn === 3 && e.side === 'player');
@@ -642,7 +651,7 @@ describe('Poison', () => {
   it('ticks at the start of the enemy turn after block reset, before the move; then decreases by 1', () => {
     const data = withVenom();
     const strat = scripted((turn) => (turn === 1 ? ['venom'] : []));
-    const r = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['venom', 1], ['defend', 9]) }), strat, { log: true });
+    const r = logged(data, strat, { enemyId: 'dummy', deck: deckOf(['venom', 1], ['defend', 9]) });
     const log = r.log!;
     expect(events(log, 'poison')).toEqual([{ t: 'poison', amount: 3, total: 3 }]);
     expect(events(log, 'poisonDamage')).toEqual([
@@ -661,7 +670,7 @@ describe('Poison', () => {
   it('stacks additively', () => {
     const data = withVenom();
     const strat = scripted((turn) => (turn === 1 ? ['venom', 'venom'] : turn === 2 ? ['venom'] : []));
-    const r = simulateCombat(data, cfg({ enemyId: 'dummy', deck: deckOf(['venom', 3], ['defend', 2]) }), strat, { log: true });
+    const r = logged(data, strat, { enemyId: 'dummy', deck: deckOf(['venom', 3], ['defend', 2]) });
     expect(events(r.log, 'poison').map((p) => p.total)).toEqual([3, 6, 8]);
     // 6 → hits 6 (→5); +3 = 8 → hits 8 (→7) ...
     expect(events(r.log, 'poisonDamage').slice(0, 3).map((p) => p.amount)).toEqual([6, 8, 7]);
@@ -674,7 +683,7 @@ describe('Poison', () => {
     const data = withVenom(blocker);
     data.characters.ironclad!.drawPerTurn = 3;
     const strat = scripted((turn) => (turn === 1 ? ['expose', 'venom'] : []));
-    const r = simulateCombat(data, cfg({ enemyId: 'blocker', deck: deckOf(['expose', 1], ['venom', 1], ['defend', 1]) }), strat, { log: true });
+    const r = logged(data, strat, { enemyId: 'blocker', deck: deckOf(['expose', 1], ['venom', 1], ['defend', 1]) });
     const pd = events(r.log, 'poisonDamage');
     expect(pd.map((p) => p.amount)).toEqual([3, 2, 1]);
     expect(pd.map((p) => p.hpAfter)).toEqual([996, 994, 993]);
@@ -685,7 +694,7 @@ describe('Poison', () => {
     const brute = makeEnemy('brute', 5, { smash: { name: 'Smash', effects: [{ type: 'attack', damage: 99, hits: 1 }] } });
     const data = withVenom(brute);
     const strat = scripted((turn) => (turn === 1 ? ['venom', 'venom'] : []));
-    const r = simulateCombat(data, cfg({ enemyId: 'brute', deck: deckOf(['venom', 2], ['defend', 3]) }), strat, { log: true });
+    const r = logged(data, strat, { enemyId: 'brute', deck: deckOf(['venom', 2], ['defend', 3]) });
     expect(r).toMatchObject({ outcome: 'win', turns: 1, hpLost: 0, enemyHpRemaining: 0 });
     expect(events(r.log, 'enemyMove')).toHaveLength(0);
     expect(events(r.log, 'poisonDamage')).toEqual([{ t: 'poisonDamage', amount: 6, hpAfter: 0 }]);
@@ -731,8 +740,8 @@ describe('Poison', () => {
 
 describe('end conditions', () => {
   it('turn cap: passive player vs. non-attacking enemy', () => {
-    const data = withEnemy(makeGameData(), dummy());
-    const r = simulateCombat(data, cfg({ enemyId: 'dummy' }), passive, { log: true });
+    const data = dummyData();
+    const r = logged(data, passive, { enemyId: 'dummy' });
     expect(r).toMatchObject({ outcome: 'turnCap', turns: 100, hpLost: 0 });
     expect(r.enemyHpRemaining).toBeGreaterThan(0);
     expect(events(r.log, 'discard').every((e) => e.reason === 'endOfTurn' || e.reason === 'handLimit')).toBe(true);
@@ -751,7 +760,7 @@ describe('end conditions', () => {
   it('loss: hpLost is capped at max HP', () => {
     const data = makeGameData();
     data.characters.ironclad!.maxHp = 5;
-    const r = simulateCombat(data, cfg({ deck: [] }), passive, { log: true });
+    const r = logged(data, passive, { deck: [] });
     expect(r).toMatchObject({ outcome: 'loss', turns: 1, hpLost: 5 });
     expect(events(r.log, 'damage')[0]).toMatchObject({ amount: 12, hpLoss: 12 });
   });
@@ -761,7 +770,7 @@ describe('end conditions', () => {
       f: { name: 'Flurry', effects: [{ type: 'attack', damage: 3, hits: 10 }] },
     }));
     data.characters.ironclad!.maxHp = 7;
-    const r = simulateCombat(data, cfg({ enemyId: 'flurry', deck: [] }), passive, { log: true });
+    const r = logged(data, passive, { enemyId: 'flurry', deck: [] });
     expect(events(r.log, 'damage')).toHaveLength(3);
     expect(r).toMatchObject({ outcome: 'loss', hpLost: 7 });
   });
