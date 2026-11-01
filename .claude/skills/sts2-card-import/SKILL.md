@@ -54,6 +54,11 @@ skeleton script skips them, and the validator rejects any card that uses a reser
 | (X-cost card) Deal N damage to ALL enemies X times. | `{ "type": "attack", "damage": N, "hits": 1, "allEnemies": true, "xTimes": true }` |
 | (X-cost card) Deal N damage to a random enemy X times. | `{ "type": "attack", "damage": N, "hits": 1, "xTimes": true }` (no target flag) |
 | (X-cost card) Deal N damage X+1 times. | `{ "type": "attack", "damage": N, "hits": 1, "xTimes": true, "xBonus": 1 }` |
+| Lose N HP. (the player; #106) | `{ "type": "loseHp", "amount": N }` |
+| Draw N card(s). (#107) | `{ "type": "draw", "amount": N }` |
+| Draw cards until your Hand is full. | `{ "type": "drawUntil", "handFull": true }` |
+| Draw cards until you draw a non-Attack card. | `{ "type": "drawUntil", "stopOn": { "notTypes": ["attack"] } }` |
+| You cannot draw additional cards this turn. | `{ "type": "applyPower", "power": "noDraw", "amount": 1 }` |
 
 `gainEnergy` is only for energy gained right now. "Next turn, gain [E]", "Gain [E] at the
 start of each turn", "When this card is Exhausted, gain [E]", conditional gains and
@@ -75,7 +80,7 @@ Effects go in card-text order. Damage/Block numbers are the printed base values
 FULL upgraded list in `upgraded.effects` (it replaces the base list). If only the cost or
 keywords change, leave `upgraded.effects` out.
 
-Anything not in the table (draw, discard, delayed or conditional energy gain, lose HP, Doom, Orbs,
+Anything not in the table (discard, delayed or conditional energy gain, conditional draw, Doom, Orbs,
 Summon, Forge, "this turn" Strength, conditions, X-cost scaling other than "X times" attacks, "for each",
 creating cards, powers, multiplayer, Poison that is conditional, scaling,
 or random-target Poison/debuffs, …) has no effect object. Record the parts
@@ -108,11 +113,11 @@ Venerate — `Gain [STAR][STAR].` → `Gain [STAR][STAR][STAR].`
 "upgraded": { "effects": [{ "type": "gainStars", "amount": 3 }] },
 "simulated": false
 ```
-Breakthrough — `Lose 1 HP. / Deal 9 damage to ALL enemies.` → partial effects, not simulated:
+Breakthrough — `Lose 1 HP. / Deal 9 damage to ALL enemies.` → `Lose 1 HP. / Deal 13 damage to ALL enemies.`
 ```json
-"effects": [{ "type": "attack", "damage": 9, "hits": 1, "allEnemies": true }],
-"upgraded": { "effects": [{ "type": "attack", "damage": 13, "hits": 1, "allEnemies": true }] },
-"simulated": false
+"effects": [{ "type": "loseHp", "amount": 1 }, { "type": "attack", "damage": 9, "hits": 1, "allEnemies": true }],
+"upgraded": { "effects": [{ "type": "loseHp", "amount": 1 }, { "type": "attack", "damage": 13, "hits": 1, "allEnemies": true }] },
+"simulated": true
 ```
 Apparition — base `Ethereal. / Gain 1 Intangible. / Exhaust.`, upgraded `Gain 1 Intangible. / Exhaust.`
 ```json

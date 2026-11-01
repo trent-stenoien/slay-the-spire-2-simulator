@@ -13,14 +13,37 @@
   ],
   "effects": [
     {
+      "type": "loseHp",
+      "amount": 6
+    },
+    {
       "type": "gainEnergy",
       "amount": 2
+    },
+    {
+      "type": "draw",
+      "amount": 3
     }
   ],
-  "upgraded": {},
+  "upgraded": {
+    "effects": [
+      {
+        "type": "loseHp",
+        "amount": 6
+      },
+      {
+        "type": "gainEnergy",
+        "amount": 2
+      },
+      {
+        "type": "draw",
+        "amount": 5
+      }
+    ]
+  },
   "description": "Lose 6 HP. / Gain [E][E]. / Draw 3 cards. / Exhaust.",
   "upgradedDescription": "Lose 6 HP. / Gain [E][E]. / Draw 5 cards. / Exhaust.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

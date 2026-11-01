@@ -11,12 +11,50 @@
   "keywords": [],
   "effects": [
     {
-      "type": "attack",
-      "damage": 5,
-      "hits": 1
+      "type": "conditional",
+      "if": {
+        "kind": "lostHpThisTurn"
+      },
+      "then": [
+        {
+          "type": "attack",
+          "damage": 5,
+          "hits": 2
+        }
+      ],
+      "else": [
+        {
+          "type": "attack",
+          "damage": 5,
+          "hits": 1
+        }
+      ]
     }
   ],
-  "upgraded": {},
+  "upgraded": {
+    "effects": [
+      {
+        "type": "conditional",
+        "if": {
+          "kind": "lostHpThisTurn"
+        },
+        "then": [
+          {
+            "type": "attack",
+            "damage": 5,
+            "hits": 3
+          }
+        ],
+        "else": [
+          {
+            "type": "attack",
+            "damage": 5,
+            "hits": 1
+          }
+        ]
+      }
+    ]
+  },
   "description": "Deal 5 damage. If you lost HP this turn, hits 2 times.",
   "upgradedDescription": "Deal 5 damage. If you lost HP this turn, hits 3 times.",
   "simulated": false,

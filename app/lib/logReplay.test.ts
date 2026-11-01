@@ -75,6 +75,37 @@ describe('log replay', () => {
     expect(rp.rounds[0]!.enemyEvents.map((e) => e.t)).toContain('poisonDamage');
   });
 
+  it('tracks self-inflicted HP loss and lists mid-turn draws as events (#106, #107)', () => {
+    const log = [
+      { t: 'combatStart', seed: 1, enemyHp: 40, playerHp: 70 },
+      { t: 'turnStart', turn: 1, side: 'player' },
+      { t: 'draw', uid: 0, cardId: 'pommel_strike' },
+      { t: 'draw', uid: 1, cardId: 'strike' },
+      { t: 'play', uid: 2, cardId: 'hemokinesis', energyLeft: 2 },
+      { t: 'loseHp', side: 'player', amount: 2, hpAfter: 68 },
+      { t: 'play', uid: 0, cardId: 'pommel_strike', energyLeft: 1 },
+      { t: 'draw', uid: 3, cardId: 'defend' },
+      { t: 'turnEnd', turn: 1, side: 'player' },
+    ] as const;
+    const rp = buildReplay(log);
+    const r0 = rp.rounds[0]!;
+    expect(r0.drawn).toEqual(['pommel_strike', 'strike']);
+    expect(r0.end.player.hp).toBe(68);
+    expect(r0.playerEvents.filter((e) => e.t === 'draw')).toEqual([{ t: 'draw', uid: 3, cardId: 'defend' }]);
+  });
+
+  it('describes lose HP, mid-turn draws and the no-draw power', () => {
+    const name = (id: string) => gameData.cards[id]?.name ?? id;
+    expect(describeEvent({ t: 'loseHp', side: 'player', amount: 2, hpAfter: 78 }, name)).toBe(
+      'You lose 2 HP (78 HP left)',
+    );
+    expect(describeEvent({ t: 'draw', uid: 4, cardId: 'shrug_it_off' }, name)).toBe('You draw Shrug It Off');
+    expect(describeEvent({ t: 'powerApplied', side: 'player', power: 'noDraw', amount: 1, total: 1 }, name)).toBe(
+      'You cannot draw additional cards this turn',
+    );
+    expect(describeEvent({ t: 'powerRemoved', side: 'player', power: 'noDraw' }, name)).toBeNull();
+  });
+
   it('works out the intended move, including after a kill', () => {
     expect(intendedMoveId(replay.rounds, 0, ['butt', 'hesitantSlice', 'hiss'], 'first')).toBe('butt');
     const r = (id: string | null) => ({ enemyMoveId: id }) as Round;

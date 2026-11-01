@@ -213,9 +213,9 @@ export function makeEnemy(
 }
 
 /**
- * #105: one valid example of every contract effect that is declared but not
- * simulated yet, modelled on a real card. Shared by engine, validator and
- * card-text tests; remove an entry when its mechanic card makes it simulated.
+ * #105: one valid example of every contract effect, modelled on a real card. Shared by
+ * engine, validator and card-text tests. loseHp (#106), draw and drawUntil (#107) are
+ * simulated now; the tests filter them out of the "not simulated yet" checks.
  */
 export const CONTRACT_EFFECT_SAMPLES: Effect[] = [
   { type: 'loseHp', amount: 2 }, // Hemokinesis

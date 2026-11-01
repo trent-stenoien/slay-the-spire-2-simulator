@@ -11,6 +11,10 @@
   "keywords": [],
   "effects": [
     {
+      "type": "loseHp",
+      "amount": 1
+    },
+    {
       "type": "attack",
       "damage": 9,
       "hits": 1,
@@ -19,6 +23,10 @@
   ],
   "upgraded": {
     "effects": [
+      {
+        "type": "loseHp",
+        "amount": 1
+      },
       {
         "type": "attack",
         "damage": 13,
@@ -29,7 +37,7 @@
   },
   "description": "Lose 1 HP. / Deal 9 damage to ALL enemies.",
   "upgradedDescription": "Lose 1 HP. / Deal 13 damage to ALL enemies.",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

@@ -9,8 +9,46 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
-  "upgraded": {},
+  "effects": [
+    {
+      "type": "conditional",
+      "if": {
+        "kind": "handHasNone",
+        "filter": {
+          "types": [
+            "attack"
+          ]
+        }
+      },
+      "then": [
+        {
+          "type": "draw",
+          "amount": 2
+        }
+      ]
+    }
+  ],
+  "upgraded": {
+    "effects": [
+      {
+        "type": "conditional",
+        "if": {
+          "kind": "handHasNone",
+          "filter": {
+            "types": [
+              "attack"
+            ]
+          }
+        },
+        "then": [
+          {
+            "type": "draw",
+            "amount": 3
+          }
+        ]
+      }
+    ]
+  },
   "description": "If you have no Attacks in your Hand, draw 2 cards.",
   "upgradedDescription": "If you have no Attacks in your Hand, draw 3 cards.",
   "simulated": false,

@@ -11,12 +11,20 @@
   "keywords": [],
   "effects": [
     {
+      "type": "loseHp",
+      "amount": 3
+    },
+    {
       "type": "gainEnergy",
       "amount": 2
     }
   ],
   "upgraded": {
     "effects": [
+      {
+        "type": "loseHp",
+        "amount": 3
+      },
       {
         "type": "gainEnergy",
         "amount": 3
@@ -25,7 +33,7 @@
   },
   "description": "Lose 3 HP. / Gain [E][E].",
   "upgradedDescription": "Lose 3 HP. / Gain [E][E][E].",
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }

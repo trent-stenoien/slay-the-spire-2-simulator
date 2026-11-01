@@ -21,7 +21,7 @@ export interface Round {
   start: { player: SideSnapshot; enemy: SideSnapshot };
   /** State at the end of the round (after the enemy acts, or when combat ended). */
   end: { player: SideSnapshot; enemy: SideSnapshot };
-  /** Card ids drawn this round, in order. */
+  /** Card ids drawn at the start of this round's player turn, in order. Mid-turn draws are events. */
   drawn: string[];
   /** Player phase events (after turnStart player, up to the enemy turnStart). */
   playerEvents: GameEvent[];
@@ -81,6 +81,8 @@ export function buildReplay(log: readonly GameEvent[]): Replay {
   let phase: 'player' | 'enemy' = 'player';
   let outcome: Outcome | null = null;
   let hpLost: number | null = null;
+  /** True once a card has been played this round: later draws come from card effects. */
+  let played = false;
 
   const closeRound = () => {
     if (cur) cur.end = { player: clone(player), enemy: clone(enemy) };
@@ -106,6 +108,7 @@ export function buildReplay(log: readonly GameEvent[]): Replay {
           };
           rounds.push(cur);
           phase = 'player';
+          played = false;
           continue;
         }
         phase = 'enemy';
@@ -140,8 +143,18 @@ export function buildReplay(log: readonly GameEvent[]): Replay {
         }
         break;
       }
+      case 'play':
+        played = true;
+        break;
       case 'draw':
-        cur?.drawn.push(ev.cardId);
+        // The turn-start draw is summarised in `drawn`; draws from cards are listed as events.
+        if (!played) {
+          cur?.drawn.push(ev.cardId);
+          continue;
+        }
+        break;
+      case 'loseHp':
+        side(ev.side).hp = ev.hpAfter;
         break;
       case 'enemyMove':
         if (cur) {
@@ -193,6 +206,18 @@ export function describeEvent(ev: GameEvent, name: (cardId: string) => string): 
       return `Enemy gets ${ev.amount} Poison (total ${ev.total})`;
     case 'poisonDamage':
       return `Enemy loses ${ev.amount} HP from Poison (${ev.hpAfter} HP left)`;
+    case 'loseHp':
+      return ev.side === 'player'
+        ? `You lose ${ev.amount} HP (${ev.hpAfter} HP left)`
+        : `Enemy loses ${ev.amount} HP (${ev.hpAfter} HP left)`;
+    case 'draw':
+      return `You draw ${name(ev.cardId)}`;
+    case 'powerApplied':
+      return ev.power === 'noDraw'
+        ? 'You cannot draw additional cards this turn'
+        : `${gains(ev.side)} ${ev.amount} ${powerName(ev.power)} (total ${ev.total})`;
+    case 'powerRemoved':
+      return ev.power === 'noDraw' ? null : `${ev.side === 'player' ? 'Your' : "Enemy's"} ${powerName(ev.power)} ends`;
     case 'exhaust':
       return `${name(ev.cardId)} exhausted${ev.reason === 'ethereal' ? ' (Ethereal)' : ''}`;
     case 'discard':
@@ -208,6 +233,11 @@ export function describeEvent(ev: GameEvent, name: (cardId: string) => string): 
 
 function cap(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
+/** "demonForm" → "Demon Form". */
+function powerName(id: string): string {
+  return cap(id.replace(/([A-Z])/g, ' $1'));
 }
 
 /**

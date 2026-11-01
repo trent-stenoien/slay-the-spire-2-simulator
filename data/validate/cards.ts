@@ -4,6 +4,8 @@ import {
   CARD_RARITIES,
   CARD_KEYWORDS,
   SIMULATED_KEYWORDS,
+  SIMULATED_POWERS,
+  SIMULATED_FILTER_FIELDS,
   UNSIMULATED_EFFECTS,
   UNSIMULATED_CARD_FIELDS,
   CHARACTER_CODES,
@@ -36,6 +38,20 @@ function usesX(list: unknown): boolean {
   return Array.isArray(list) && list.some((e) => isObj(e) && e.xTimes === true);
 }
 
+/**
+ * The name to report when a simulated card's effect is not simulated, or undefined when it is.
+ * `applyPower` is simulated only for SIMULATED_POWERS; `drawUntil.stopOn` only with simulated filter fields.
+ */
+function unsimulatedEffect(e: Obj, name: string): string | undefined {
+  if (name === 'applyPower') return SIMULATED_POWERS.has(String(e.power)) ? undefined : name;
+  if (UNSIMULATED_EFFECTS.has(name)) return name;
+  if (name === 'drawUntil' && isObj(e.stopOn)) {
+    const field = Object.keys(e.stopOn).find((k) => !SIMULATED_FILTER_FIELDS.has(k));
+    if (field !== undefined) return `drawUntil.stopOn.${field}`;
+  }
+  return undefined;
+}
+
 /** A card marked `simulated` may only use keywords, effects and fields the engine handles. */
 function checkSimulatable(r: Reporter, c: Obj): void {
   const unsupported = (name: string) =>
@@ -45,10 +61,13 @@ function checkSimulatable(r: Reporter, c: Obj): void {
   for (const list of lists) {
     if (!Array.isArray(list)) continue;
     for (const item of list) {
-      const name = typeof item === 'string' ? item : isObj(item) ? item.type : undefined;
-      if (typeof name !== 'string') continue;
-      const bad = typeof item === 'string' ? !SIMULATED_KEYWORDS.has(name) : UNSIMULATED_EFFECTS.has(name);
-      if (bad) unsupported(name);
+      if (typeof item === 'string') {
+        if (!SIMULATED_KEYWORDS.has(item)) unsupported(item);
+        continue;
+      }
+      if (!isObj(item) || typeof item.type !== 'string') continue;
+      const bad = unsimulatedEffect(item, item.type);
+      if (bad !== undefined) unsupported(bad);
     }
   }
   for (const field of UNSIMULATED_CARD_FIELDS) {
