@@ -1875,7 +1875,10 @@ class Combat {
         case 'applyWeak': {
           const kind = e.type === 'applyVulnerable' ? 'vulnerable' : 'weak';
           // #5: on enemies, `allEnemies` applies it to each living one.
-          if (source === 'player') died = this.onEnemies(e.allEnemies, () => this.applyDebuff(other, kind, e.amount));
+          if (source === 'player')
+            died = this.onEnemies(e.allEnemies || (kind === 'weak' && this.shivAll), () =>
+              this.applyDebuff(other, kind, e.amount),
+            );
           else this.applyDebuff(other, kind, e.amount);
           break;
         }

@@ -112,6 +112,35 @@ describe('#267 Phantom Blades', () => {
   });
 });
 
+describe('#356 Phantom Blades: the strategy keeps one Shiv for next turn', () => {
+  const phantom = (hp = 999) => {
+    const d = world(['phantom_blades', 'blade_dance']);
+    d.enemies.dummy!.hp = { min: hp, max: hp };
+    return run(d, createStrategy(GREEDY_CONFIG), deckOf(['phantom_blades', 1], ['blade_dance', 1]));
+  };
+  /** Player damage per turn: the log is split at each player turnStart. */
+  const byTurn = (log: Log) => {
+    const turns: number[][] = [];
+    for (const e of log ?? []) {
+      if (e.t === 'turnStart' && e.side === 'player') turns.push([]);
+      else if (e.t === 'damage' && e.source === 'player') turns[turns.length - 1]!.push(e.amount);
+    }
+    return turns;
+  };
+
+  it('plays the first Shiv (bonus), keeps the last one, and plays it first next turn with the bonus again', () => {
+    const r = phantom();
+    const turns = byTurn(r.log);
+    expect(turns[0]).toEqual([13, 4]);
+    expect(turns[1]![0]).toBe(13);
+  });
+
+  it('plays the last Shiv when it kills the enemy', () => {
+    const r = phantom(21);
+    expect(byTurn(r.log)).toEqual([[13, 4, 4]]);
+  });
+});
+
 describe('#267 Infinite Blades', () => {
   it('adds a Shiv to the hand at the start of each turn (the turn it is played: none)', () => {
     const r = run(world(['infinite_blades']), plan(['infinite_blades'], [], []), deckOf(['infinite_blades', 1]));
@@ -147,6 +176,16 @@ describe('#267 Fan of Knives', () => {
       { enemyId: undefined, enemyIds: ['dummy', 'dummy2'], startEnergy: undefined },
     );
     expect(amounts(r.log)).toEqual([8, 8]);
+  });
+
+  it('an Inky Shiv applies its Weak to ALL enemies too (#356), and to one without the power', () => {
+    const weakOn = (r: ReturnType<typeof run>) =>
+      events(r.log, 'debuff').filter((e) => e.side === 'enemy' && e.kind === 'weak').length;
+    const two = { enemyId: undefined, enemyIds: ['dummy', 'dummy2'] };
+    const deck = deckOf(['fan_of_knives', 1], ['blade_of_ink', 1]);
+    const w = () => world(['fan_of_knives', 'blade_of_ink']);
+    expect(weakOn(run(w(), plan(['fan_of_knives', 'blade_of_ink', 'inky_shiv']), deck, two))).toBe(2);
+    expect(weakOn(run(w(), plan(['blade_of_ink', 'inky_shiv']), deck, two))).toBe(1);
   });
 
   it('without the power, a Shiv hits one enemy', () => {
@@ -192,13 +231,13 @@ describe('#267 Knife Trap', () => {
     expect(amounts(r.log)).toEqual([]);
   });
 
-  it('plays Inky Shivs too (they are Shivs)', () => {
+  it('plays only Shiv and Shiv+, not Inky Shivs (#356)', () => {
     const r = run(
       world(['knife_trap', 'blade_of_ink']),
       plan(['blade_of_ink', 'inky_shiv', 'knife_trap']),
       deckOf(['knife_trap', 1], ['blade_of_ink', 1]),
     );
-    expect(amounts(r.log)).toEqual([4, 4]); // the Inky Shiv played, then the same one again by Knife Trap
+    expect(amounts(r.log)).toEqual([4]); // the Inky Shiv played once; Knife Trap leaves it in the Exhaust pile
   });
 });
 
@@ -218,6 +257,25 @@ describe('#267 strategy: Shivs in hand are always played', () => {
       deckOf(['blade_dance', 1]),
     );
     expect(amounts(r.log).slice(0, 3)).toEqual([4, 4, 4]);
+  });
+
+  it('#356: Shivs already in hand are played before Fan of Knives', () => {
+    const d = world(['shiv', 'fan_of_knives']);
+    const r = run(d, createStrategy(GREEDY_CONFIG), deckOf(['shiv', 2], ['fan_of_knives', 1]));
+    const order = events(r.log, 'play')
+      .slice(0, 3)
+      .map((e) => e.cardId);
+    expect(order.indexOf('fan_of_knives')).toBe(2);
+    expect(order.slice(0, 2)).toEqual(['shiv', 'shiv']);
+  });
+
+  it('#356: Knife Trap is played after the Shivs in hand', () => {
+    const d = world(['blade_dance', 'knife_trap'], ['shiv']);
+    const r = run(d, createStrategy(GREEDY_CONFIG), deckOf(['blade_dance', 1], ['knife_trap', 1]));
+    const order = events(r.log, 'play')
+      .slice(0, 5)
+      .map((e) => e.cardId);
+    expect(order.indexOf('knife_trap')).toBeGreaterThan(order.lastIndexOf('shiv', 3));
   });
 
   it('isShivCard covers Shiv and Inky Shiv only', () => {

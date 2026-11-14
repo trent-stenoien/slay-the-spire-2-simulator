@@ -417,12 +417,13 @@ has a test; new rules agreed on a card are added here. Details live in the linke
     unchanged. Infinite Blades: at the start of each turn after the draw, add 1 Shiv to the hand (upgraded: Innate);
     not on the turn it is played. Phantom Blades: Shivs gain Retain; the first Shiv played each turn deals 9 (12
     upgraded) more, a Replay of it does not count as a second Shiv; stacks add. Fan of Knives: Shivs hit ALL enemies
-    (each hit lands on every living enemy) and the card adds 4 Shivs (5 upgraded); the Inky Shiv's Weak still goes to
-    the target only. Knife Trap (2 energy): plays every Shiv in the Exhaust pile on the current target, in pile order,
+    (each hit lands on every living enemy) and the card adds 4 Shivs (5 upgraded); an Inky Shiv's Weak goes to ALL
+    enemies too (#356). Knife Trap (2 energy): plays every Shiv and Shiv+ (card `shiv`, not Inky Shivs) in the Exhaust pile on the current target, in pile order,
     for free; upgraded, upgrades each one first. Each played Shiv Exhausts again (once each; Dark Embrace and Feel No
     Pain react). Strategy (Trent, Nov 14): Shivs in hand are always played, unless that would kill the player (a Shiv
-    costs no HP, so nothing stops it today); before them the strategy plays an affordable Accuracy, Phantom Blades or
-    Fan of Knives (not a second Fan). A Shiv maker's damage per energy counts Accuracy per Shiv, Phantom Blades once
+    costs no HP, so nothing stops it today); before them the strategy plays an affordable Accuracy or Phantom Blades. Shivs in hand
+    also go before Fan of Knives and Knife Trap (#356). With Phantom Blades in play (no Infinite Blades) and a Shiv
+    already played this turn, the last Shiv is kept (Retain) for next turn's bonus unless it kills an enemy. A Shiv maker's damage per energy counts Accuracy per Shiv, Phantom Blades once
     (while no Shiv was played this turn) and, with Fan of Knives, × living enemies.
 
 ## Act 2 bosses (#24)
