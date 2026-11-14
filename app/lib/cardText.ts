@@ -124,6 +124,9 @@ export function effectText(e: Effect): string {
     case 'spawnEnemies':
       // #322: declared only.
       return `Summon ${e.count} ${e.enemyId}${e.stunned ? ' (Stunned)' : ''}`;
+    case 'upgradeAllCopies':
+      // #273: declared only (Increasing Intensity).
+      return `Upgrade all ${e.cardId}`;
     case 'playerChoice':
       // #271: declared only (Curse of Knowledge).
       return `Choose one: ${e.options.map((o) => o.label).join(' or ')}`;

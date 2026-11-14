@@ -210,6 +210,31 @@ describe('#105 contract shapes', () => {
     expect(errorsOf(bad)).toContainEqual(expect.stringMatching(/options.*at least 2/));
   });
 
+  it('#273: Aeonglass contract (Withering Presence, upgrade levels, move-use X, upgradeAllCopies) is declared but rejected', () => {
+    const d = fixture();
+    d.enemies.nibbit.startPowers = { witheringPresence: 6 };
+    d.enemies.nibbit.moves.hiss.effects.push(
+      { type: 'enemyGainStrength', amount: 2, xFromMoveUses: 'hiss' },
+      {
+        type: 'addCards',
+        source: { kind: 'card', cardId: 'strike' },
+        count: 1,
+        to: 'discard',
+        upgradeLevel: 0,
+        xFromMoveUses: 'hiss',
+      },
+      { type: 'upgradeAllCopies', cardId: 'strike', level: 0, xFromMoveUses: 'hiss' },
+    );
+    const errs = errorsOf(d);
+    expect(errs).toContainEqual(expect.stringMatching(/startPowers\.witheringPresence.*not simulated yet/));
+    expect(errs).toContainEqual(expect.stringMatching(/effects\[1\]\.xFromMoveUses.*not simulated yet/));
+    expect(errs).toContainEqual(expect.stringMatching(/effects\[2\]\.upgradeLevel.*not simulated yet/));
+    expect(errs).toContainEqual(expect.stringMatching(/"upgradeAllCopies".*not simulated on enemy moves/));
+    const bad = fixture();
+    bad.enemies.nibbit.moves.hiss.effects.push({ type: 'upgradeAllCopies', cardId: 'strike', level: -1 });
+    expect(errorsOf(bad)).toContainEqual(expect.stringMatching(/upgradeAllCopies|level/));
+  });
+
   it('#271: accepts heal on an enemy move (the enemy heals itself)', () => {
     const d = fixture();
     d.enemies.nibbit.moves.hiss.effects.push({ type: 'heal', amount: 30 });
