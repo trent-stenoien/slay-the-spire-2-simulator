@@ -154,7 +154,10 @@ const CONTRACT_CHECKS: Record<ContractEffect, EffectCheck> = {
     optBool(r, e, 'allEnemies', p);
   },
   enemyLoseHp: amountOnly,
-  enemyGainStrength: amountOnly,
+  enemyGainStrength: (r, e, p) => {
+    amountOnly(r, e, p);
+    if (has(e, 'xFromMoveUses')) r.str(e, 'xFromMoveUses', `${p}.xFromMoveUses`);
+  },
   heal: amountOnly,
   gainMaxHp: amountOnly,
   loseMaxHp: amountOnly,
@@ -282,6 +285,14 @@ const CONTRACT_CHECKS: Record<ContractEffect, EffectCheck> = {
     optBool(r, e, 'upgraded', p);
     optBool(r, e, 'freeThisTurn', p);
     optInt(r, e, 'costThisCombat', 0, p);
+    optInt(r, e, 'upgradeLevel', 0, p);
+    if (has(e, 'xFromMoveUses')) r.str(e, 'xFromMoveUses', `${p}.xFromMoveUses`);
+  },
+  // #273: enemy moves only (Increasing Intensity: upgrade all Withers).
+  upgradeAllCopies: (r, e, p) => {
+    r.str(e, 'cardId', `${p}.cardId`);
+    r.int(e, 'level', 0, `${p}.level`);
+    if (has(e, 'xFromMoveUses')) r.str(e, 'xFromMoveUses', `${p}.xFromMoveUses`);
   },
   transformCards: (r, e, p) => {
     r.oneOf(e, 'from', PILES, `${p}.from`);

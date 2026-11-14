@@ -12,6 +12,7 @@ import {
   SIMULATED_SCRIPTS,
   SIMULATED_CARD_SOURCES,
   UNSIMULATED_ADD_CARDS_FIELDS,
+  UNSIMULATED_EFFECT_FIELDS,
   SIMULATED_TRIGGERS,
   UNSIMULATED_EFFECTS,
   UNSIMULATED_CARD_FIELDS,
@@ -95,6 +96,9 @@ function unsimulatedPool(source: unknown): string | undefined {
  * SIMULATED_COUNTERS (#108, #111) with simulated inner effects; `script` only for SIMULATED_SCRIPTS.
  */
 function unsimulatedEffect(e: Obj, name: string): string | undefined {
+  // #273: upgrade levels and move-use X are declared, not simulated yet.
+  const field = UNSIMULATED_EFFECT_FIELDS.find((f) => has(e, f));
+  if (field) return `${name}.${field}`;
   if (name === 'applyPower') return SIMULATED_POWERS.has(String(e.power)) ? undefined : name;
   if (name === 'repeat') return SIMULATED_COUNTERS.has(String(e.per)) ? unsimulatedIn(e.effects) : name;
   // #111: attackFrom and gainBlockFrom read counters; only simulated ones count.

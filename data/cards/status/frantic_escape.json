@@ -9,11 +9,11 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [],
+  "effects": [{ "type": "script", "id": "increaseOwnCost", "values": [1] }],
   "upgraded": null,
   "description": "Get farther away. / Increase Sandpit by 1. / Increase the cost of this card by 1.",
   "upgradedDescription": null,
-  "simulated": false,
+  "simulated": true,
   "multiplayerOnly": false,
   "lastUpdateVersion": "v0.107.1"
 }
