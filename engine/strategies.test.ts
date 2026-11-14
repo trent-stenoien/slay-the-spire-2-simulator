@@ -10,6 +10,7 @@ import {
   strategyCode,
   GREEDY_CONFIG,
   blockFirstConfig,
+  withOptionChoices,
 } from './strategies';
 import { cards } from './testFixtures';
 import type { CardDef, CardInstance, CombatState, StrategyConfig, StrategyView } from './types';
@@ -485,5 +486,41 @@ describe('#12 cheapest set of block and attack cards', () => {
     );
     const strike = makeCardInstance(cards[S]!, false, 1);
     expect(pickAttack([two, strike], 2)!.uid).toBe(1);
+  });
+});
+
+describe('#271 option choices in the strategy code', () => {
+  const base: StrategyConfig = { order: ['attack', 'powers', 'block'], allowThrough: 0 };
+
+  it('appends "~<id>.<n>" per non-zero pick, sorted by id, and parses back', () => {
+    const config = withOptionChoices(base, { curseOfKnowledge3: 1, curseOfKnowledge1: 1, curseOfKnowledge2: 0 });
+    expect(config.optionChoices).toEqual({ curseOfKnowledge1: 1, curseOfKnowledge3: 1 });
+    const code = strategyCode(config);
+    expect(code).toBe('apb~curseOfKnowledge1.1~curseOfKnowledge3.1');
+    expect(parseStrategyCode(code)).toEqual(config);
+    expect(parseStrategyCode('apbi~curseOfKnowledge2.1')).toEqual({
+      ...base,
+      target: 'biggestAttack',
+      optionChoices: { curseOfKnowledge2: 1 },
+    });
+  });
+
+  it('all-zero picks leave the code and config unchanged; picks make configs differ', () => {
+    expect(withOptionChoices(base, { curseOfKnowledge1: 0 })).toEqual(base);
+    expect(strategyCode(withOptionChoices(base, {}))).toBe('apb');
+    expect(sameConfig(base, withOptionChoices(base, { curseOfKnowledge1: 1 }))).toBe(false);
+  });
+
+  it('rejects malformed, unsorted, repeated or zero picks in a code', () => {
+    for (const bad of ['apb~', 'apb~x', 'apb~x.0', 'apb~x.a', 'apb~b.1~a.1', 'apb~a.1~a.1', 'apb~1x.1', 'zz~a.1']) {
+      expect(parseStrategyCode(bad)).toBeNull();
+    }
+  });
+
+  it('normalizeConfig keeps valid picks (zeros dropped) and rejects malformed ones', () => {
+    expect(normalizeConfig({ ...base, optionChoices: { a: 1, b: 0 } })).toEqual({ ...base, optionChoices: { a: 1 } });
+    expect(normalizeConfig({ ...base, optionChoices: { a: 0 } })).toEqual(base);
+    expect(normalizeConfig({ ...base, optionChoices: { a: -1 } })).toBeNull();
+    expect(normalizeConfig({ ...base, optionChoices: [1] })).toBeNull();
   });
 });

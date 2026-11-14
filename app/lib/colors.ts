@@ -37,6 +37,21 @@ export function chartPalette(colorBlind: boolean): Record<StrategyColor, string>
 export interface Selection {
   strategyId: string;
   color: StrategyColor;
+  /** #271: this strategy's option picks for `playerChoice` effects (Curse of Knowledge), by choice id. */
+  optionChoices?: Record<string, number>;
+}
+
+/** #271: set a selected strategy's option picks (an empty object removes them). */
+export function setOptionChoices(
+  sel: readonly Selection[],
+  strategyId: string,
+  choices: Record<string, number>,
+): Selection[] {
+  return sel.map((s) => {
+    if (s.strategyId !== strategyId) return s;
+    const { optionChoices: _old, ...rest } = s;
+    return Object.keys(choices).length > 0 ? { ...rest, optionChoices: { ...choices } } : rest;
+  });
 }
 
 export function firstFreeColor(sel: readonly Selection[]): StrategyColor | null {

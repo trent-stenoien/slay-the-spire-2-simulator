@@ -57,7 +57,7 @@ export const CONTRACT_EFFECTS = [
   'gainCardReward',
   'loseEnergy',
   'spawnEnemies',
-  // #271: enemy moves only; not simulated yet.
+  // #271: enemy moves only (simulated there; rejected on cards).
   'playerChoice',
   'script',
 ] as const;

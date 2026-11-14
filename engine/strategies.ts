@@ -2656,7 +2656,38 @@ export function normalizeConfig(raw: unknown): StrategyConfig | null {
     allowThrough: groups[groups.length - 1] === 'block' ? 0 : o.allowThrough,
   };
   if (o.target === 'biggestAttack') config.target = 'biggestAttack';
+  // #271: option picks; only non-default (non-zero) entries are kept, so the canonical form is stable.
+  if (o.optionChoices !== undefined) {
+    const choices = cleanOptionChoices(o.optionChoices);
+    if (!choices) return null;
+    if (Object.keys(choices).length > 0) config.optionChoices = choices;
+  }
   return config;
+}
+
+/** #271: a `playerChoice` id usable in a strategy code: a letter, then letters, digits and "_". */
+const CHOICE_ID = /^[A-Za-z][A-Za-z0-9_]*$/;
+/** #271: highest option index a strategy code may hold (choices have 2 options today). */
+const MAX_OPTION_INDEX = 9;
+
+/** #271: optionChoices with the zero (default) picks dropped; null when malformed. */
+function cleanOptionChoices(raw: unknown): Record<string, number> | null {
+  if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) return null;
+  const out: Record<string, number> = {};
+  for (const id of Object.keys(raw).sort()) {
+    const n = (raw as Record<string, unknown>)[id];
+    if (!CHOICE_ID.test(id) || typeof n !== 'number' || !Number.isInteger(n) || n < 0 || n > MAX_OPTION_INDEX)
+      return null;
+    if (n > 0) out[id] = n;
+  }
+  return out;
+}
+
+/** #271: the config with `optionChoices` replaced (picks of 0 dropped; none left = the field removed). */
+export function withOptionChoices(config: StrategyConfig, choices: Record<string, number> | undefined): StrategyConfig {
+  const { optionChoices: _old, ...rest } = config;
+  const clean = choices ? cleanOptionChoices(choices) : null;
+  return clean && Object.keys(clean).length > 0 ? { ...rest, optionChoices: clean } : rest;
 }
 
 /** #5: the target priorities a strategy can use; the first is the default. */
@@ -2677,11 +2708,34 @@ const LETTER_GROUP: Record<string, StrategyGroup> = { a: 'attack', b: 'block', p
 export function strategyCode(config: StrategyConfig): string {
   const last = blockIsLast(config);
   const order = config.order.map((g) => (g === 'block' && !last ? `b${config.allowThrough}` : GROUP_LETTER[g]));
-  return order.join('') + (config.target === 'biggestAttack' ? 'i' : '');
+  return order.join('') + (config.target === 'biggestAttack' ? 'i' : '') + choicesCode(config.optionChoices);
+}
+
+/** #271: "~<id>.<n>" per non-zero option pick, sorted by id ("~curseOfKnowledge1.1~curseOfKnowledge3.1"). */
+function choicesCode(choices: Record<string, number> | undefined): string {
+  const clean = choices ? cleanOptionChoices(choices) : null;
+  if (!clean) return '';
+  return Object.entries(clean)
+    .map(([id, n]) => `~${id}.${n}`)
+    .join('');
 }
 
 /** Parses a code from strategyCode, or an old one ("g", "b<X>"). Null for anything else. */
 export function parseStrategyCode(code: string): StrategyConfig | null {
+  // #271: option picks after the first "~", one "<id>.<n>" each (n 1–9, ids sorted, no repeats).
+  const tilde = code.indexOf('~');
+  if (tilde >= 0) {
+    const base = parseStrategyCode(code.slice(0, tilde));
+    if (!base) return null;
+    const choices: Record<string, number> = {};
+    for (const part of code.slice(tilde + 1).split('~')) {
+      const m = /^([A-Za-z0-9_]+)\.([1-9])$/.exec(part);
+      if (!m || Object.hasOwn(choices, m[1]!)) return null;
+      choices[m[1]!] = Number(m[2]);
+    }
+    const config = withOptionChoices(base, choices);
+    return strategyCode(config) === code ? config : null;
+  }
   // #5: a trailing "i" = 'biggestAttack' target priority (never on the old "g" / "b<X>" codes).
   if (code.endsWith('i')) {
     const base = code.slice(0, -1);

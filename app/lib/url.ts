@@ -5,7 +5,8 @@
  *   ?v=1&c=I&e=Nb&a=0&d=St5De4Ba1&s=123&st=b4pa combat-log link
  *   ?v=1&c=I&e=Nb&a=0&d=St5De4Ba1&s=123&st=b4pa,apb,b0pa&k=b,r,g&n=41  compare link
  *   (st codes, #130: group letters a/b/p in priority order, X after "b" unless Block is last;
- *   the old "g" and "b<X>" still parse)
+ *   the old "g" and "b<X>" still parse; #5 a trailing "i" = biggest-attack target; #271 then
+ *   "~<choiceId>.<n>" per non-zero Curse of Knowledge pick, e.g. "apb~curseOfKnowledge2.1")
  *
  * Log params:
  *   s   per-combat seed (required for a log link)

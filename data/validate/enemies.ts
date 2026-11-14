@@ -28,6 +28,7 @@ function checkEnemyOnlyEffects(r: Reporter, list: unknown, path: string): void {
     // #303: an enemy move may buff its own Strength (Bygone Effigy's Wake).
     // #322: an enemy move or onDeath may summon enemies.
     // #270: an enemy move may put a simulated power on the player (Curse of Knowledge's debuffs).
+    // #271: an enemy move may offer the player a choice of effects (Curse of Knowledge).
     // #271: an enemy move may heal the enemy itself (Knowledge Demon's Ponder), capped at its Max HP.
     const playerPower = e.type === 'applyPower' && SIMULATED_POWERS.has(String(e.power));
     if (
@@ -36,6 +37,7 @@ function checkEnemyOnlyEffects(r: Reporter, list: unknown, path: string): void {
       e.type !== 'enemyGainStrength' &&
       e.type !== 'spawnEnemies' &&
       e.type !== 'heal' &&
+      e.type !== 'playerChoice' &&
       isOneOf(e.type, CONTRACT_EFFECTS)
     ) {
       r.add(`${path}[${i}].type`, `is "${e.type}", which is not simulated on enemy moves`);
@@ -44,6 +46,12 @@ function checkEnemyOnlyEffects(r: Reporter, list: unknown, path: string): void {
       r.add(`${path}[${i}].amount`, 'is a percent and must be at most 100');
     }
     if (e.xTimes === true) r.add(`${path}[${i}].xTimes`, 'is only allowed on X-cost cards');
+    // #271: a choice's options follow the same enemy-move rules.
+    if (e.type === 'playerChoice' && Array.isArray(e.options)) {
+      e.options.forEach((o, j) => {
+        if (isObj(o)) checkEnemyOnlyEffects(r, o.effects, `${path}[${i}].options[${j}].effects`);
+      });
+    }
   });
 }
 
