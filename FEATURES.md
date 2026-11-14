@@ -441,12 +441,14 @@ has a test; new rules agreed on a card are added here. Details live in the linke
     (Done saves, Cancel keeps); the row shows "Takes: ..." with a Change button. Picks are stored with the
     selection, apply only in fights with that choice, and go into the strategy code as "~<id>.<n>" per non-zero
     pick (sorted by id), so log links reproduce them.
-63. **The Insatiable and Frantic Escape (#272, Trent):** The Insatiable (Act 2, Hive, boss, 321 HP, A8 341) opens
-    Liquify Ground (shuffles 6 Frantic Escape into the deck: 3 at random places in the draw pile, 3 into the discard
-    pile), then cycles Thrash 8x2 (A9 9x2), Lunging Bite 28 (31), Salivate +2 (3) Strength, Thrash. Frantic Escape
-    (status, cost 1, no Exhaust): each play raises that copy's cost by 1 for the rest of combat, through discard and
-    reshuffle. Interim until the Sandpit contract type lands: no Sandpit countdown (no loss to it), Frantic Escape
-    does not raise Sandpit, and strategies don't play Frantic Escape.
+63. **The Insatiable, Sandpit and Frantic Escape (#272, Trent):** The Insatiable (Act 2, Hive, boss, 321 HP, A8
+    341) opens Liquify Ground (4 Sandpit on the player; shuffles 6 Frantic Escape into the deck: 3 at random places in
+    the draw pile, 3 into the discard pile), then cycles Thrash 8x2 (A9 9x2), Lunging Bite 28 (31), Salivate +2 (3)
+    Strength, Thrash. Sandpit goes down by 1 at the end of the player's turn; when it reaches 0 the player is eaten
+    (all HP lost, combat lost, nothing prevents it) at the start of the enemy's turn, after Poison, so a Poison kill
+    still wins (builder call, Trent asked). Frantic Escape (status, cost 1, no Exhaust): +1 Sandpit, and that copy's
+    cost rises by 1 for the rest of combat, through discard and reshuffle. Every strategy plays Frantic Escape first
+    while Sandpit is 2 or below, and otherwise with Energy left once nothing else is played (cheapest copy first).
 
 ## Act 3 bosses (#24)
 

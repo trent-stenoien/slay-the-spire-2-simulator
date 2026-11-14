@@ -238,6 +238,7 @@ describe('#109 played Power cards', () => {
         'mindRot',
         'sloth',
         'wasteAway',
+        'sandpit',
         // #266
         'afterimage',
         'serpentForm',

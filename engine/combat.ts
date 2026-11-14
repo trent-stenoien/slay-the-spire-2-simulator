@@ -422,6 +422,8 @@ export const SIMULATED_POWER_IDS: readonly PowerId[] = [
   'mindRot',
   'sloth',
   'wasteAway',
+  // #272 The Insatiable
+  'sandpit',
 ];
 
 /** #116 Hello World: a random Common card from the player's character. */
@@ -495,6 +497,8 @@ class Combat {
   private unpowered = false;
   /** #264 Shadow Step: the player turn it was last played on (its double damage is for the turn after). */
   private shadowStepTurn = 0;
+  /** #272: Sandpit reached 0 at the end of the player's turn; the player is eaten at the enemy's turn, after Poison. */
+  private eaten = false;
   /** #116: uid for the next created card (the deck uses 0..n-1). */
   private nextUid: number;
   /** #116: pools already computed, keyed by pool + upgraded. */
@@ -1658,6 +1662,7 @@ class Combat {
     }
     this.endFreeCosts();
     this.tickDebuffs('player');
+    this.tickSandpit();
     log?.push({ t: 'turnEnd', turn: this.state.turn, side: 'player' });
     return null;
   }
@@ -1751,6 +1756,8 @@ class Combat {
         if (enemy.hp <= 0) break;
       }
       if (this.enemy.hp <= 0) continue;
+      // #272 Sandpit at 0: the player is eaten now, after Poison (so a Poison kill still wins).
+      if (this.eaten) return this.eatPlayer();
       const { id: moveId, move } = this.currentMove();
       let died: Side | null = null;
       const stunSkipped = this.enemyStunned();
@@ -1775,6 +1782,24 @@ class Combat {
     if (!playerPowersEnded) endPlayerPowers();
     log?.push({ t: 'turnEnd', turn: this.state.turn, side: 'enemy' });
     return null;
+  }
+
+  /**
+   * #272 Sandpit: −1 at the end of the player's turn (after the debuff tick). Reaching 0 marks the player
+   * to be eaten at the start of the enemy's turn, after Poison (builder call; Trent asked).
+   */
+  private tickSandpit(): void {
+    if (this.power('sandpit') <= 0) return;
+    this.applyPower('sandpit', -1);
+    if (this.power('sandpit') <= 0) this.eaten = true;
+  }
+
+  /** #272: eaten by The Insatiable: the player loses all remaining HP and the combat. Nothing prevents it. */
+  private eatPlayer(): Outcome {
+    const amount = this.player.hp;
+    this.player.hp = 0;
+    this.log?.push({ t: 'loseHp', side: 'player', amount, hpAfter: 0 });
+    return 'loss';
   }
 
   /** The end of enemy `i`'s own turn: temporary Strength loss ends, Strength per turn, debuffs tick down. */

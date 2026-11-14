@@ -10,6 +10,7 @@
     "liquifyGround": {
       "name": "Liquify Ground",
       "effects": [
+        { "type": "applyPower", "power": "sandpit", "amount": 4 },
         {
           "type": "addCards",
           "source": { "kind": "card", "cardId": "frantic_escape" },
