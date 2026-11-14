@@ -434,12 +434,22 @@ has a test; new rules agreed on a card are added here. Details live in the linke
     2 (3) Strength, three times (the Curse offers Disintegration 6 or Mind Rot, 7 or Sloth, 8 or Waste Away), then
     repeats Slap, Knowledge Overwhelming, Ponder. Act 2 becomes selectable in the Setup picker. Interim until the
     per-strategy Curse choice lands: each Curse applies the Disintegration option. The enemy heal is not logged yet.
-61. **The Insatiable and Frantic Escape (#272, Trent):** The Insatiable (Act 2, Hive, boss, 321 HP, A8 341) opens
+62. **The Insatiable and Frantic Escape (#272, Trent):** The Insatiable (Act 2, Hive, boss, 321 HP, A8 341) opens
     Liquify Ground (shuffles 6 Frantic Escape into the deck: 3 at random places in the draw pile, 3 into the discard
     pile), then cycles Thrash 8x2 (A9 9x2), Lunging Bite 28 (31), Salivate +2 (3) Strength, Thrash. Frantic Escape
     (status, cost 1, no Exhaust): each play raises that copy's cost by 1 for the rest of combat, through discard and
     reshuffle. Interim until the Sandpit contract type lands: no Sandpit countdown (no loss to it), Frantic Escape
     does not raise Sandpit, and strategies don't play Frantic Escape.
+
+## Act 3 bosses (#24)
+
+61. **Aeonglass (#273, Trent):** Act 3, Glory, boss; 512 HP (A8 535), starts with 3 Artifact. Cycle from turn 1:
+    Ebb 22 (A9 26) + 33 Block, Eye Lasers 11x2 (12x2), Increasing Intensity: shuffle 1 (A9 2) Wither into the
+    discard pile and gain 2 (3) Strength. Imported although the wiki marks it beta (Trent: it is in the full
+    release; raw v0.107.1 numbers win). Wither: Unplayable, end of turn in Hand take 3 damage (blockable). Act 3
+    becomes selectable in the Setup picker. Interim until the contract lands: no Withering Presence (every 6 cards
+    played, every card counts, add a Wither to the Hand), and Increasing Intensity ignores X (no Wither+X, no +X
+    Strength, no upgrading of existing Withers).
 
 ## Known failure points
 
