@@ -185,7 +185,8 @@ export function buildReplay(log: readonly GameEvent[]): Replay {
         side(ev.side).hp = ev.hpAfter;
         break;
       case 'heal':
-        player.hp = ev.hpAfter;
+        // #271: side 'enemy' = the current enemy healed itself.
+        side(ev.side ?? 'player').hp = ev.hpAfter;
         break;
       case 'maxHp':
         player.maxHp = ev.maxHpAfter;
@@ -269,6 +270,7 @@ export function describeEvent(
         ? `You lose ${ev.amount} HP (${ev.hpAfter} HP left)`
         : `Enemy loses ${ev.amount} HP (${ev.hpAfter} HP left)`;
     case 'heal':
+      if (ev.side === 'enemy') return `Enemy heals ${ev.amount} HP (${ev.hpAfter} HP)`;
       return `You heal ${ev.amount} HP${ev.source ? ` from ${relicName(ev.source)}` : ''} (${ev.hpAfter} HP)`;
     case 'relic':
       return `${relicName(ev.relicId)} activates`;

@@ -7,10 +7,11 @@ import { FeedbackDialog } from './components/FeedbackDialog';
 import { ResultsPanel, type RunStatus } from './components/ResultsPanel';
 import { SetupPanel } from './components/SetupPanel';
 import { StrategyPanel } from './components/StrategyPanel';
+import { configForRun, fightChoices } from './lib/choices';
 import { deckPowerNames, deckSize, startingDeckFor } from './lib/deck';
 import { setupHref } from './lib/links';
 import { setupRelics } from './lib/relics';
-import { buildQuery, enemyIdsField, parseQuery, type SetupState } from './lib/url';
+import { buildQuery, enemyIdsField, parseQuery, setupEnemyIds, type SetupState } from './lib/url';
 import { runSimulation } from './sim/runSimulation';
 import { useStrategies } from './useStrategies';
 
@@ -69,6 +70,8 @@ export function App() {
 
 function Simulator({ setup, setSetup }: { setup: SetupState; setSetup: (s: SetupState) => void }) {
   const strategies = useStrategies();
+  // #271: the fight's "choose one" effects (Knowledge Demon's Curse of Knowledge).
+  const choices = useMemo(() => fightChoices(data, setupEnemyIds(setup)), [setup]);
   const [status, setStatus] = useState<RunStatus>({ kind: 'idle' });
   const [result, setResult] = useState<RunResult | null>(null);
 
@@ -91,7 +94,10 @@ function Simulator({ setup, setSetup }: { setup: SetupState; setSetup: (s: Setup
   const run = async (runSeed: number) => {
     const strategiesForRun: RunStrategy[] = strategies.selection.flatMap((sel) => {
       const s = strategies.library.find((x) => x.id === sel.strategyId);
-      return s ? [{ strategy: s, color: sel.color }] : [];
+      if (!s) return [];
+      // #271: the strategy plays with its picks for this fight's choices (none outside such fights).
+      const config = configForRun(s.config, choices, sel.optionChoices);
+      return [{ strategy: { ...s, config }, color: sel.color }];
     });
     const config: RunConfig = {
       characterId: setup.characterId,
@@ -170,6 +176,8 @@ function Simulator({ setup, setSetup }: { setup: SetupState; setSetup: (s: Setup
             onConfig={strategies.setConfig}
             onDelete={strategies.remove}
             onClearAll={strategies.clearAll}
+            choices={choices}
+            onChoices={strategies.choices}
           />
         </div>
       </div>

@@ -1,6 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { SavedStrategy, StrategyColor, StrategyConfig } from '../engine/types';
-import { deselectStrategy, pruneSelection, selectStrategy, setColor, type Selection } from './lib/colors';
+import {
+  deselectStrategy,
+  pruneSelection,
+  selectStrategy,
+  setColor,
+  setOptionChoices,
+  type Selection,
+} from './lib/colors';
 import { loadSelection, saveSelection } from './lib/selectionStorage';
 import {
   DEFAULT_STRATEGIES,
@@ -68,6 +75,8 @@ export function useStrategies() {
         sel.some((s) => s.strategyId === id) ? deselectStrategy(sel, id) : selectStrategy(sel, id),
       ),
     color: (id: string, c: StrategyColor) => setSelection((sel) => setColor(sel, id, c)),
+    /** #271: a selected strategy's Curse of Knowledge (playerChoice) picks. */
+    choices: (id: string, choices: Record<string, number>) => setSelection((sel) => setOptionChoices(sel, id, choices)),
     add: (name: string, config: StrategyConfig) => {
       if (strategyProblem(library, config) !== null) return;
       const next = addUserStrategy(user, name, config, newId);

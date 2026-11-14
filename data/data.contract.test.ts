@@ -179,7 +179,7 @@ describe('#105 contract shapes', () => {
     );
   });
 
-  it('#271: playerChoice on an enemy move is declared but rejected as not simulated; its shape is checked', () => {
+  it('#271: accepts playerChoice on an enemy move; checks its shape and its options as enemy-move effects', () => {
     const d = fixture();
     d.enemies.nibbit.moves.hiss.effects.push({
       type: 'playerChoice',
@@ -189,7 +189,18 @@ describe('#105 contract shapes', () => {
         { label: 'Mind Rot 1', effects: [{ type: 'applyPower', power: 'mindRot', amount: 1 }] },
       ],
     });
-    expect(errorsOf(d)).toEqual([expect.stringMatching(/"playerChoice".*not simulated on enemy moves/)]);
+    expect(errorsOf(d)).toEqual([]);
+    d.enemies.nibbit.moves.butt.effects.push({
+      type: 'playerChoice',
+      id: 'c2',
+      options: [
+        { label: 'A', effects: [{ type: 'gainEnergy', amount: 1 }] },
+        { label: 'B', effects: [] },
+      ],
+    });
+    expect(errorsOf(d)).toContainEqual(
+      expect.stringMatching(/options\[0\]\.effects\[0\]\.type.*enemies have no energy/),
+    );
     const bad = fixture();
     bad.enemies.nibbit.moves.hiss.effects.push({
       type: 'playerChoice',

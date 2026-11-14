@@ -26,7 +26,7 @@ function isColor(c: unknown): c is StrategyColor {
 export function sanitizeSelection(raw: unknown, library: readonly SavedStrategy[]): Selection[] {
   if (!Array.isArray(raw)) return [];
   const ids = new Set(library.map((s) => s.id));
-  const kept: { strategyId: string; color: StrategyColor | null }[] = [];
+  const kept: { strategyId: string; color: StrategyColor | null; optionChoices?: Record<string, number> }[] = [];
   const usedColors = new Set<StrategyColor>();
   for (const x of raw) {
     if (kept.length >= MAX_STRATEGIES_PER_RUN) break;
@@ -36,15 +36,28 @@ export function sanitizeSelection(raw: unknown, library: readonly SavedStrategy[
     if (typeof id !== 'string' || !ids.has(id) || kept.some((k) => k.strategyId === id)) continue;
     const color = isColor(o.color) && !usedColors.has(o.color) ? o.color : null;
     if (color) usedColors.add(color);
-    kept.push({ strategyId: id, color });
+    const optionChoices = storedChoices(o.optionChoices);
+    kept.push({ strategyId: id, color, ...(optionChoices ? { optionChoices } : {}) });
   }
   return kept.map((k) => {
-    if (k.color) return { strategyId: k.strategyId, color: k.color };
+    const extra = k.optionChoices ? { optionChoices: k.optionChoices } : {};
+    if (k.color) return { strategyId: k.strategyId, color: k.color, ...extra };
     // Cap ≤ number of colors, so a free one always exists.
     const free = COLORS.find((c) => !usedColors.has(c)) as StrategyColor;
     usedColors.add(free);
-    return { strategyId: k.strategyId, color: free };
+    return { strategyId: k.strategyId, color: free, ...extra };
   });
+}
+
+/** #271: stored option picks: whole numbers 1–9 by id; anything else dropped. Undefined when none are left. */
+function storedChoices(raw: unknown): Record<string, number> | undefined {
+  if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) return undefined;
+  const out: Record<string, number> = {};
+  for (const [id, n] of Object.entries(raw)) {
+    if (/^[A-Za-z][A-Za-z0-9_]*$/.test(id) && typeof n === 'number' && Number.isInteger(n) && n > 0 && n <= 9)
+      out[id] = n;
+  }
+  return Object.keys(out).length > 0 ? out : undefined;
 }
 
 /** The stored selection, validated; the default selection when nothing valid is stored. */
@@ -72,7 +85,13 @@ export function saveSelection(storage: StorageLike | null, sel: readonly Selecti
   try {
     storage.setItem(
       SELECTION_STORAGE_KEY,
-      JSON.stringify(sel.map((s) => ({ strategyId: s.strategyId, color: s.color }))),
+      JSON.stringify(
+        sel.map((s) => ({
+          strategyId: s.strategyId,
+          color: s.color,
+          ...(s.optionChoices ? { optionChoices: s.optionChoices } : {}),
+        })),
+      ),
     );
     return true;
   } catch {
