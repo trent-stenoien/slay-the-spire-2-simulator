@@ -9,11 +9,12 @@
  * #5: a fight may have several enemies; the strategy picks the target of each card.
  *
  * ---------------------------------------------------------------------------
- * Contract map (#105): which addition serves which board card. Everything
- * listed here is declared but NOT simulated yet: the validator rejects it on
- * `simulated: true` cards and the engine throws "not simulated yet" if it is
- * reached. The branch for each card implements its part in engine/, data/
- * validate/lists.ts (move the effect out of the unsimulated set) and app/.
+ * Contract map (#105): which addition serves which board card. Each entry was declared
+ * ahead of its card; unless an entry still says "not simulated yet", its card is merged and
+ * the engine simulates it (data/validate/lists.ts holds the simulated lists). Anything still
+ * unsimulated is rejected by the validator on `simulated: true` cards, and the engine throws
+ * "not simulated yet" if it is reached. A card's branch implements its part in engine/,
+ * data/validate/lists.ts (move the effect out of the unsimulated set) and app/.
  *
  * Shared vocabulary: PileName, CardDestination, CardFilter, SelectMode,
  * Counter, PerCounter, Condition, CardSource, CardPool.
@@ -92,17 +93,17 @@
  *                     `fanOfKnives` (Shivs hit ALL enemies; Fan's "Add 4 Shivs" reuses `addCards`);
  *                     CombatCounters.shivsPlayedThisTurn (Phantom Blades); Effect `playCards`
  *                     `all` + `upgradeFirst` (Knife Trap: play every Shiv in the Exhaust pile,
- *                     filter `cardId: 'shiv'`, from 'exhaust'). Declared, not simulated yet.
+ *                     filter `cardId: 'shiv'`, from 'exhaust'). Simulated.
  *
  * Contract map (#215): v1 relics, potions, enemy powers, Void, golden scripting.
- * Same rule: declared, not simulated; validators list the new ids as valid but unsimulated.
+ * These were declared first; the ones below that say "Simulated" now run in the engine.
  *
  * #203 Enemies      — EnemyDef.startPowers (+ EnemyAscensionOverride.startPowers);
  *                     EnemyPowerId `artifact`, `strengthPerTurn`; GameEvent `negated`.
  *                     Self-buffs reuse `enemyGainStrength`; cards added to the player's
  *                     piles reuse `addCards` (source `card`) on an enemy move.
  * #213 Slippery     — EnemyPowerId `slippery` (via EnemyDef.startPowers).
- * #303 Slow         — EnemyPowerId `slow` (declared, not simulated yet).
+ * #303 Slow         — EnemyPowerId `slow` (simulated: enemy start power).
  * #204 Potions      — PotionDef, GameData.potions; CombatConfig.potions / RunConfig.potions;
  *                     PlayerState.potions; Strategy.usePotion + PotionUse; GameEvent `potion`.
  *                     Strength Potion = `gainStrength`, Fire Potion = `dealDamage`.
@@ -119,7 +120,7 @@
  *
  * #322 Summons     — Effect `spawnEnemies`; EnemyDef.onDeath (Phrog Parasite: 4 stunned Wrigglers);
  *                     RandomPattern.weights / noRepeatMoves (Twig Slime M); CyclePattern.startBySlot
- *                     (Wriggler). Declared, not simulated yet; validators reject the new fields in data.
+ *                     (Wriggler). Simulated.
  * #333 Spawn log   — GameEvent `spawn` (an enemy joined mid-fight; one per spawned enemy).
  *
  * #270 Boss player debuffs — PowerId `disintegration` (end of turn, take [amount] damage), `mindRot`
@@ -128,18 +129,16 @@
  *                     move's `applyPower` effect puts the power on the PLAYER (not the enemy).
  * #271 Knowledge Demon — Effect `playerChoice` (enemy moves only: the player takes one of the
  *                     options; Curse of Knowledge); StrategyConfig.optionChoices (per-strategy pick by
- *                     choice id, default option 0); GameEvent `heal.side` (an enemy heal). Declared, not
- *                     simulated yet; the validator rejects `playerChoice` in data.
+ *                     choice id, default option 0); GameEvent `heal.side` (an enemy heal). Simulated (heal side too).
  * #273 Aeonglass    — EnemyPowerId `witheringPresence` (reads CombatCounters.cardsPlayedThisCombat);
  *                     CardInstance.upgradeLevel; `addCards.upgradeLevel`; `xFromMoveUses` on `addCards` and
  *                     `enemyGainStrength` (EnemyState.moveUses); Effect `upgradeAllCopies` (enemy moves only;
- *                     sets EnemyState.createdCardLevels). Declared, not simulated yet; the validator rejects
- *                     them in data.
+ *                     sets EnemyState.createdCardLevels). Simulated on enemy moves.
  *
  * #272 The Insatiable — PowerId `sandpit` (player countdown: −1 at the end of the player's turn, loss at
  *                     0 checked at the start of The Insatiable's turn after Poison). Liquify Ground applies it
  *                     with `applyPower` on an enemy move; Frantic Escape adds 1 (`applyPower`) and raises its own
- *                     cost with `script` `increaseOwnCost` (#361). Declared, not simulated yet.
+ *                     cost with `script` `increaseOwnCost` (#361). Simulated.
  *
  * #5 Multi-enemy    — CombatConfig.enemyIds / RunConfig.enemyIds; CombatState.enemies (`enemy` is
  *                     the current one); StrategyView.intents; Decision / PotionUse `target`;
@@ -222,7 +221,7 @@ export type Effect =
    * that applied it dies (#5; with one enemy that ends the combat, so it lasts all fight).
    */
   | { type: 'applyShrink'; amount: number }
-  // ----- #105 additions below: declared, not simulated yet. -----
+  // ----- #105 additions below: declared ahead of their cards; see the Contract map for what is simulated. -----
   /** #106: the player loses `amount` HP (ignores Block). Counts toward hpLost and can kill (a loss) (#106). */
   | { type: 'loseHp'; amount: number }
   /** #107: draw `amount` cards (same hand-limit rule as the turn-start draw). */
@@ -263,7 +262,7 @@ export type Effect =
   /**
    * #273: `xFromMoveUses` (enemy moves only) adds X to `amount`, where X = how many times the acting enemy
    * made that move id BEFORE this use (0 on the first use; EnemyState.moveUses). Aeonglass's Increasing
-   * Intensity: 2 + X Strength. Not simulated yet.
+   * Intensity: 2 + X Strength. Simulated.
    */
   | { type: 'enemyGainStrength'; amount: number; xFromMoveUses?: string }
   /**
@@ -367,7 +366,7 @@ export type Effect =
       costThisCombat?: number;
       /**
        * #273: create the cards at this upgrade level (Wither+2 = 2); `upgraded: true` means level 1.
-       * Plus X with `xFromMoveUses` (see `enemyGainStrength`): Increasing Intensity's Wither+X. Not simulated yet.
+       * Plus X with `xFromMoveUses` (see `enemyGainStrength`): Increasing Intensity's Wither+X. Simulated on enemy moves (not on cards).
        */
       upgradeLevel?: number;
       xFromMoveUses?: string;
@@ -389,7 +388,7 @@ export type Effect =
   /**
    * #322: summon `count` enemies of `enemyId`, appended to the right of the living line-up. With
    * `stunned` they arrive Stunned and skip their first move (Wrigglers from Phrog Parasite). Enemy
-   * moves and `EnemyDef.onDeath` only; not simulated yet.
+   * moves and `EnemyDef.onDeath` only. Simulated.
    */
   | { type: 'spawnEnemies'; enemyId: string; count: number; stunned?: boolean }
   /**
@@ -397,13 +396,13 @@ export type Effect =
    * piles is raised to at least `level` (+ X with `xFromMoveUses`, see `enemyGainStrength`); copies already
    * higher keep their level. Also records that level in the acting enemy's EnemyState.createdCardLevels, so
    * cards of that id its powers create from then on start at it (Increasing Intensity: "Upgrade all Withers.
-   * Withering Presence effect now creates Withers+X"). Not simulated yet.
+   * Withering Presence effect now creates Withers+X"). Simulated.
    */
   | { type: 'upgradeAllCopies'; cardId: string; level: number; xFromMoveUses?: string }
   /**
    * #271: enemy moves only. The player takes exactly one of `options` (Curse of Knowledge: Disintegration 6
    * or Mind Rot 1). `id` names this use of the choice and is the key in StrategyConfig.optionChoices, so
-   * each use with different options needs its own id (curseOfKnowledge1..3). Not simulated yet.
+   * each use with different options needs its own id (curseOfKnowledge1..3). Simulated.
    */
   | { type: 'playerChoice'; id: string; options: PlayerChoiceOption[] }
   /** #206: the player loses `amount` energy now, never below 0 (Void, as a `drawn` trigger). */
@@ -655,7 +654,7 @@ export type PowerId =
   | 'helloWorld'
   /** Start of turn: transform [amount] card(s) in your hand (Entropy). */
   | 'entropy'
-  // #264 Silent temporary and next-turn powers (not simulated yet)
+  // #264 Silent temporary and next-turn powers (simulated)
   /** Gain [amount] Dexterity this turn; removed at end of turn like `strengthThisTurn` (Anticipate). */
   | 'dexterityThisTurn'
   /** Block is not removed at the start of your next turn; one turn only (Blur). */
@@ -670,7 +669,7 @@ export type PowerId =
   | 'doubleAttackNextTurn'
   /** Start of turn: lose [amount] Dexterity; Dexterity may go negative (Wraith Form). */
   | 'dexterityLossPerTurn'
-  // #266 Silent trigger powers (not simulated yet)
+  // #266 Silent trigger powers (simulated)
   /** Whenever you play a card, gain [amount] Block (Afterimage). */
   | 'afterimage'
   /** Whenever you play a card, deal [amount] damage to a random enemy (Serpent Form). */
@@ -683,7 +682,7 @@ export type PowerId =
   | 'wellLaidPlans'
   /** Weak enemies take double damage from Attacks (Tracking). Main release; the beta changed it to +50%. */
   | 'tracking'
-  // #268 (not simulated yet)
+  // #268 Master Planner (simulated)
   /** Whenever you play a Skill, it gains Sly (Master Planner). */
   | 'masterPlanner'
   // #263 Silent Poison powers
@@ -697,7 +696,7 @@ export type PowerId =
   | 'corrosiveWave'
   /** Every 3rd time you apply Poison, deal [amount] damage to ALL enemies (Outbreak). */
   | 'outbreak'
-  // #267 Silent Shiv powers (not simulated yet)
+  // #267 Silent Shiv powers (simulated)
   /** Each Shiv deals [amount] additional damage (Accuracy). Applies to every hit, like Strength (#267). */
   | 'accuracy'
   /** Start of turn: add [amount] Shiv(s) into your hand (Infinite Blades). */
@@ -706,7 +705,7 @@ export type PowerId =
   | 'phantomBlades'
   /** Shivs hit ALL enemies, as if `attack.allEnemies` (Fan of Knives). The power's amount is 1; stacking changes nothing. */
   | 'fanOfKnives'
-  // #270 boss player debuffs (Knowledge Demon's Curse of Knowledge; not simulated yet)
+  // #270 boss player debuffs (Knowledge Demon's Curse of Knowledge; simulated)
   /** End of turn: take [amount] damage; blockable, Intangible makes it 1 (Disintegration). */
   | 'disintegration'
   /** Start of turn: draw [amount] fewer cards (Mind Rot). */
@@ -715,7 +714,7 @@ export type PowerId =
   | 'sloth'
   /** Gain [amount] less energy at the start of each turn (Waste Away). */
   | 'wasteAway'
-  // #272 The Insatiable (not simulated yet)
+  // #272 The Insatiable (simulated)
   /**
    * In [amount] turns you are eaten and lose the combat (Sandpit). Put on the player by The Insatiable's
    * Liquify Ground (`applyPower` on an enemy move); Frantic Escape adds 1. Goes down by 1 at the end of
@@ -964,11 +963,11 @@ export interface CardDef {
   multiplayerOnly: boolean;
   /** Placeholder entry that is kept as data but never offered in the deck builder. */
   hidden?: boolean;
-  /** #108/#115: the card's own triggers (Drum of Battle, Howl from Beyond, curses, statuses). Not simulated yet. */
+  /** #108/#115: the card's own triggers (Drum of Battle, Howl from Beyond, curses, statuses). Simulated (see SIMULATED_TRIGGERS). */
   triggers?: CardTrigger[];
-  /** #111: the card can be played only while this holds (Clash). Not simulated yet. */
+  /** #111: the card can be played only while this holds (Clash). Simulated. */
   playableIf?: Condition;
-  /** #110: costs `amount` less per counter value, minimum 0 (Stomp: per Attack played this turn). Not simulated yet. */
+  /** #110: costs `amount` less per counter value, minimum 0 (Stomp: per Attack played this turn). Simulated. */
   costLessPer?: PerCounter;
   /** #137: most copies a deck may hold, Standard and Upgraded combined. Absent means no limit. */
   maxCopies?: number;
@@ -1036,7 +1035,7 @@ export interface CyclePattern {
    * #322: first move by the enemy's slot among same-id enemies in the fight: the 1st, 3rd ... start
    * with `odd`, the 2nd, 4th ... with `even` (Wriggler: Bite / Wriggle). Both are move ids. Replaces
    * the `start` choice for the first move; the cycle then continues from that move's place in `order`.
-   * Declared, not simulated yet.
+   * Simulated.
    */
   startBySlot?: { odd: string; even: string };
 }
@@ -1054,12 +1053,12 @@ export interface RandomPattern {
   noRepeat: boolean;
   /**
    * #322: relative pick weights by move id (default: every move equally likely; a move left out
-   * has weight 1). Twig Slime (M): Chomp 2, Sticky Shot 1 (67% / 33%). Declared, not simulated yet.
+   * has weight 1). Twig Slime (M): Chomp 2, Sticky Shot 1 (67% / 33%). Simulated.
    */
   weights?: Record<string, number>;
   /**
    * #322: only these moves may not repeat back-to-back; when absent, `noRepeat` applies to every
-   * move as before. Twig Slime (M): ['stickyShot']. Declared, not simulated yet.
+   * move as before. Twig Slime (M): ['stickyShot']. Simulated.
    */
   noRepeatMoves?: string[];
   /** Move ids played once, in this order, before random picks start (Sludge Spinner: Oil Spray). */
@@ -1114,7 +1113,7 @@ export interface EnemyDef {
   ascension: Record<string, EnemyAscensionOverride>;
   /** #203/#213: powers the enemy starts combat with (Cubex Construct: 1 artifact; Vantom: 8 slippery). */
   startPowers?: Partial<Record<EnemyPowerId, number>>;
-  /** #322: effects that run when this enemy dies (Phrog Parasite: spawn 4 stunned Wrigglers). Not simulated yet. */
+  /** #322: effects that run when this enemy dies (Phrog Parasite: spawn 4 stunned Wrigglers). Simulated. */
   onDeath?: Effect[];
   source: string;
   lastUpdateVersion: GameVersion;
@@ -1176,7 +1175,7 @@ export interface CardInstance {
   damageBonus?: number;
   /**
    * #273: upgrade level for cards that upgrade more than once (Wither+2). Absent = 1 when `upgraded`, else 0;
-   * when present, `upgraded` is `upgradeLevel > 0`. Not simulated yet.
+   * when present, `upgraded` is `upgradeLevel > 0`. Simulated.
    */
   upgradeLevel?: number;
   /** #116: true for cards created during combat rather than dealt from the deck. */
