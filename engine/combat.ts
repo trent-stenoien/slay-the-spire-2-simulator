@@ -124,7 +124,10 @@ function colossusReduction(powers: Partial<Record<PowerId, number>> | undefined,
 }
 
 /** Resolve a CardDef (optionally upgraded) into a CardInstance. */
-export function makeCardInstance(def: CardDef, upgraded: boolean, uid: number): CardInstance {
+export function makeCardInstance(def: CardDef, upgraded: boolean, uid: number, level?: number): CardInstance {
+  // #273: a level of 2 or more (Wither+2) is the upgraded card plus (level - 1) more upgrade steps.
+  if (level !== undefined && level >= 2) return makeLeveledInstance(def, level, uid);
+  if (level !== undefined) upgraded = level > 0;
   const up = upgraded ? def.upgraded : null;
   if (upgraded && !up) {
     throw new Error(`Card ${def.id} cannot be upgraded`);
@@ -157,6 +160,36 @@ export function makeCardInstance(def: CardDef, upgraded: boolean, uid: number): 
   if (def.playableIf) inst.playableIf = structuredClone(def.playableIf);
   return inst;
 }
+
+/**
+ * #273 (builder call): each upgrade level past the first adds the same step as the first upgrade did to
+ * every number that differs between the base and upgraded card (Wither 3, Wither+ 6, Wither+2 9, Wither+3 12).
+ * Effects are matched by position and type, in `effects` and in each trigger.
+ */
+function makeLeveledInstance(def: CardDef, level: number, uid: number): CardInstance {
+  const inst = makeCardInstance(def, true, uid);
+  const steps = level - 1;
+  const scale = (base: readonly Effect[] | undefined, up: Effect[]): void => {
+    up.forEach((e, i) => {
+      const b = base?.[i] as Record<string, unknown> | undefined;
+      if (!b || b.type !== e.type) return;
+      const rec = e as unknown as Record<string, unknown>;
+      for (const k of ['damage', 'amount', 'hits'] as const) {
+        const u = rec[k];
+        const v = b[k];
+        if (typeof u === 'number' && typeof v === 'number') rec[k] = u + steps * (u - v);
+      }
+    });
+  };
+  scale(def.effects, inst.effects);
+  inst.triggers?.forEach((t, i) => scale(def.triggers?.[i]?.effects, t.effects));
+  inst.name = `${def.name}+${level}`;
+  inst.upgradeLevel = level;
+  return inst;
+}
+
+/** #273: a card's upgrade level (absent = 1 when upgraded, else 0). */
+export const cardLevel = (c: CardInstance): number => c.upgradeLevel ?? (c.upgraded ? 1 : 0);
 
 // ---------------------------------------------------------------------------
 // Combat
@@ -423,6 +456,8 @@ export const INFERNO_HP_LOSS = 1;
 
 /** #113 Panache: every this many cards played in a turn (counted while the power is on). */
 export const PANACHE_CARDS = 5;
+/** #273: the status card Withering Presence adds (Aeonglass). */
+export const WITHER_ID = 'wither';
 
 /** #113 Automation: every this many cards drawn (counted while the power is on). */
 export const AUTOMATION_CARDS = 10;
@@ -1479,7 +1514,26 @@ class Combat {
     if (juggling > 0 && card.type === 'attack' && this.counters.attacksPlayedThisTurn === JUGGLING_ATTACK) {
       this.addCopies({ type: 'addCards', source: { kind: 'self' }, count: juggling, to: 'hand' }, card);
     }
+    this.witheringPresence();
     return null;
+  }
+
+  /**
+   * #273 Withering Presence (Aeonglass): every [amount] cards the player plays this combat (every card,
+   * any way it is played; Trent), each living enemy with the power adds a Wither to the Hand, at the level
+   * its Increasing Intensity has reached.
+   */
+  private witheringPresence(): void {
+    const played = this.counters.cardsPlayedThisCombat;
+    for (const enemy of this.enemies) {
+      const every = enemy.powers?.witheringPresence ?? 0;
+      if (enemy.hp <= 0 || every <= 0 || played % every !== 0) continue;
+      const def = this.data.cards[WITHER_ID];
+      if (!def) throw new Error(`Unknown card "${WITHER_ID}"`);
+      const c = this.createCard(def, false, enemy.createdCardLevels?.[WITHER_ID] ?? 0);
+      const to = this.placeCard(c, 'hand');
+      this.log?.push({ t: 'generated', uid: c.uid, cardId: c.cardId, to, source: 'card' });
+    }
   }
 
   /** What the strategy sees right now: current hand, energy and the enemies' intents (#5: combined in `intent`). */
@@ -1714,6 +1768,9 @@ class Combat {
       } else {
         log?.push({ t: 'enemyMove', moveId, name: move.name });
         died = this.resolveEffects('enemy', move.effects);
+        // #273: counted after the move, so `xFromMoveUses` reads the uses BEFORE this one (0 the first time).
+        const uses = (this.enemy.moveUses ??= {});
+        uses[moveId] = (uses[moveId] ?? 0) + 1;
       }
       // #329: the arrival Stun of a spawned enemy does not use up its opener (the pattern stays put).
       if (!(stunSkipped && this.arrivalStun.delete(i))) this.advancePattern(moveId);
@@ -2023,8 +2080,10 @@ class Combat {
         case 'enemyGainStrength':
           // #303: on an enemy move it is a self-buff (Bygone Effigy's Wake: +10 Strength), applied to the acting enemy.
           if (source !== 'player') {
-            this.enemy.strength += e.amount;
-            log?.push({ t: 'strength', side: 'enemy', amount: e.amount, total: this.enemy.strength });
+            // #273: Increasing Intensity gains 2 + X Strength.
+            const amount = e.amount + this.movesBefore(e.xFromMoveUses);
+            this.enemy.strength += amount;
+            log?.push({ t: 'strength', side: 'enemy', amount, total: this.enemy.strength });
             break;
           }
           died = this.onEnemies(false, () => {
@@ -2127,6 +2186,11 @@ class Combat {
             throw new Error(`Effect "moveSelf" is not simulated yet (when "${e.when}")`);
           }
           if (card) this.returning.push({ uid: card.uid, to: e.to });
+          break;
+        case 'upgradeAllCopies':
+          if (source === 'player')
+            throw new Error('Effect "upgradeAllCopies" is not simulated yet on cards (enemy moves only)');
+          count = this.upgradeAllCopies(e.cardId, e.level + this.movesBefore(e.xFromMoveUses));
           break;
         case 'upgradeCards':
           if (source !== 'player') throw new Error('Enemies do not upgrade cards');
@@ -2577,9 +2641,9 @@ class Combat {
   }
 
   /** #112: the card keeps its uid and place but becomes its upgraded version, keeping what it gained in combat. */
-  private upgradeInstance(c: CardInstance, pile: CardInstance[]): void {
+  private upgradeInstance(c: CardInstance, pile: CardInstance[], level?: number): void {
     const def = this.data.cards[c.cardId]!;
-    const next = makeCardInstance(def, true, c.uid);
+    const next = makeCardInstance(def, true, c.uid, level);
     if (c.generated) next.generated = true;
     if (c.damageBonus !== undefined) next.damageBonus = c.damageBonus;
     if (c.replay !== undefined) next.replay = c.replay;
@@ -2593,6 +2657,31 @@ class Combat {
     }
     pile[pile.indexOf(c)] = next;
     this.log?.push({ t: 'upgraded', uid: c.uid, cardId: c.cardId });
+  }
+
+  /** #273: X for `xFromMoveUses`: how many times the acting enemy made that move before this use. */
+  private movesBefore(moveId: string | undefined): number {
+    return moveId === undefined ? 0 : (this.enemy.moveUses?.[moveId] ?? 0);
+  }
+
+  /**
+   * #273 (builder call): every copy of `cardId` in all four piles below `level` is raised to it (a copy
+   * already higher keeps its level), and the acting enemy's powers create that card at `level` from now
+   * on (Increasing Intensity: "Upgrade all Withers"). Returns how many copies were upgraded.
+   */
+  private upgradeAllCopies(cardId: string, level: number): number {
+    const levels = (this.enemy.createdCardLevels ??= {});
+    levels[cardId] = Math.max(levels[cardId] ?? 0, level);
+    const p = this.player;
+    let n = 0;
+    for (const pile of [p.drawPile, p.hand, p.discardPile, p.exhaustPile]) {
+      for (const c of [...pile]) {
+        if (c.cardId !== cardId || cardLevel(c) >= level) continue;
+        this.upgradeInstance(c, pile, level);
+        n++;
+      }
+    }
+    return n;
   }
 
   /**
@@ -2996,8 +3085,8 @@ class Combat {
   }
 
   /** #116: a new card instance with a fresh uid, marked generated, with cost powers applied. */
-  private createCard(def: CardDef, upgraded: boolean): CardInstance {
-    const c = makeCardInstance(def, upgraded, this.nextUid++);
+  private createCard(def: CardDef, upgraded: boolean, level?: number): CardInstance {
+    const c = makeCardInstance(def, upgraded, this.nextUid++, level);
     c.generated = true;
     this.applyCostPowersTo(c);
     return c;
@@ -3043,6 +3132,11 @@ class Combat {
     const { source } = e;
     if (source.kind === 'self' || source.kind === 'copyOf') return this.addCopies(e, card);
     const upgraded = e.upgraded === true;
+    // #273: an explicit upgrade level (+ X uses of an enemy move: Increasing Intensity's Wither+X).
+    const level =
+      e.upgradeLevel !== undefined || e.xFromMoveUses !== undefined
+        ? (e.upgradeLevel ?? (upgraded ? 1 : 0)) + this.movesBefore(e.xFromMoveUses)
+        : undefined;
     let made = 0;
     for (let i = 0; i < e.count; i++) {
       let def: CardDef | undefined;
@@ -3074,7 +3168,7 @@ class Combat {
         }
         def = pool[this.rng.int(0, pool.length - 1)]!;
       }
-      this.finishCreated(this.createCard(def, upgraded), e);
+      this.finishCreated(this.createCard(def, upgraded, level), e);
       made++;
     }
     return made;
