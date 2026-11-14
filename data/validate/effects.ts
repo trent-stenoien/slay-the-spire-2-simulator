@@ -167,6 +167,19 @@ const CONTRACT_CHECKS: Record<ContractEffect, EffectCheck> = {
     r.int(e, 'count', 1, `${p}.count`);
     optBool(r, e, 'stunned', p);
   },
+  // #271: `id` keys StrategyConfig.optionChoices; at least two options, each a label and an effect list.
+  playerChoice: (r, e, p) => {
+    r.str(e, 'id', `${p}.id`);
+    const options = r.arr(e, 'options', `${p}.options`);
+    if (!options) return;
+    if (options.length < 2) r.add(`${p}.options`, 'must have at least 2 options');
+    options.forEach((o, i) => {
+      const op = `${p}.options[${i}]`;
+      if (!isObj(o)) return r.add(op, 'must be an object');
+      r.str(o, 'label', `${op}.label`);
+      checkEffects(r, o.effects, `${op}.effects`);
+    });
+  },
   drawUntil: (r, e, p) => {
     optBool(r, e, 'handFull', p);
     optFilter(r, e, 'stopOn', p);
