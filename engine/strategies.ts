@@ -2159,10 +2159,13 @@ export function blockIsLast(config: StrategyConfig): boolean {
  * when Attack ranks above Block). A self-damage card that would kill is never played (#106).
  */
 function decide(raw: StrategyView, config: StrategyConfig): Decision {
+  // #356: the Shiv kept for Phantom Blades is not played by any other rule either.
+  const held = heldShiv(raw);
+  const kept = held ? { ...raw, playable: raw.playable.filter((c) => c.uid !== held.uid) } : raw;
   const view = withSlyEffects(
     withoutWaitingForAttacks(
       withoutWaitingForBlock(
-        withoutGuardBroken(withoutLethal(withoutIdle(withoutNeverPlayed(withoutHeldBack(raw)))), config),
+        withoutGuardBroken(withoutLethal(withoutIdle(withoutNeverPlayed(withoutHeldBack(kept)))), config),
         config,
       ),
     ),
@@ -2178,32 +2181,70 @@ function decide(raw: StrategyView, config: StrategyConfig): Decision {
   return panic ? play(panic) : d;
 }
 
-/** #267: the Powers that make every Shiv hit harder or wider (Accuracy, Phantom Blades, Fan of Knives). */
-const SHIV_BOOSTERS: readonly string[] = ['accuracy', 'phantomBlades', 'fanOfKnives'];
+/** #267: the Powers that make every Shiv hit harder (Accuracy, Phantom Blades). Fan of Knives is not one (#356). */
+const SHIV_BOOSTERS: readonly string[] = ['accuracy', 'phantomBlades'];
 
 const isShivBooster = (c: Card): boolean =>
   c.type === 'power' && c.effects.some((e) => e.type === 'applyPower' && SHIV_BOOSTERS.includes(e.power));
 
+/** #356: would this Shiv kill a living enemy now (the target, or any enemy with Fan of Knives)? */
+function shivKills(view: StrategyView, card: Card): boolean {
+  const { player } = view.state;
+  const powers = player.powers;
+  const first = (player.counters?.shivsPlayedThisTurn ?? 0) === 0;
+  const bonus = (powers?.accuracy ?? 0) + (first ? (powers?.phantomBlades ?? 0) : 0);
+  const targets = (powers?.fanOfKnives ?? 0) > 0 && view.state.enemies ? view.state.enemies : [view.state.enemy];
+  return targets.some((en) => {
+    if (en.hp <= 0) return false;
+    let dmg = 0;
+    for (const e of card.effects) {
+      if (e.type !== 'attack') continue;
+      const perHit = attackDamage(
+        e.damage + (card.damageBonus ?? 0) + bonus,
+        player.strength,
+        player.debuffs.weak,
+        en.debuffs.vulnerable,
+        powers?.cruelty ?? 0,
+        player.shrink ?? 0,
+        0,
+        (powers?.tracking ?? 0) > 0 && en.debuffs.weak > 0,
+        1,
+        slowPercentOf({ enemy: en, counters: player.counters }),
+      );
+      dmg += perHit * attackHits(e, 0);
+    }
+    return dmg > 0 && dmg >= en.hp + en.block;
+  });
+}
+
+/**
+ * #356 (Trent, Nov 14), Phantom Blades: keep the LAST Shiv in hand (it Retains) so the first-Shiv bonus applies
+ * next turn too. Builder call, lowest risk: only while Phantom Blades is in play, no Infinite Blades (it makes a
+ * Shiv every turn anyway), and a Shiv was already played this turn (the bonus is used; holding the only Shiv
+ * would never play it). Not held when playing it kills an enemy (so it also covers lethal).
+ */
+function heldShiv(view: StrategyView): Card | undefined {
+  const { powers, counters } = view.state.player;
+  if ((powers?.phantomBlades ?? 0) <= 0 || (powers?.infiniteBlades ?? 0) > 0) return undefined;
+  if ((counters?.shivsPlayedThisTurn ?? 0) === 0) return undefined;
+  const shivs = view.playable.filter(isShivCard);
+  if (shivs.length !== 1 || shivKills(view, shivs[0]!)) return undefined;
+  return shivs[0];
+}
+
 /**
  * #267 (Trent, Nov 14): Shivs in hand are always played, unless playing one would kill the player (a Shiv
  * costs the player no HP, so only a self-damage check, as for every card, #106). First the Shiv Powers that
- * are affordable now (Accuracy, Phantom Blades, Fan of Knives), so the Shivs get their bonus; then a Shiv,
- * lowest uid first. Looks at the unfiltered view: held-back and waiting rules do not stop a Shiv.
+ * are affordable now (Accuracy, Phantom Blades), so the Shivs get their bonus; then a Shiv, lowest uid first.
+ * #356: Fan of Knives is NOT played first: Shivs already in hand go before it (it then follows by the usual
+ * Power ranking). Looks at the unfiltered view: held-back and waiting rules do not stop a Shiv.
  */
 function pickShivPlay(view: StrategyView): Card | undefined {
   const hp = view.state.player.hp;
-  const powers = view.state.player.powers;
-  // Fan of Knives does not stack: a second copy adds nothing.
-  const alreadyOn = (c: Card) =>
-    (powers?.fanOfKnives ?? 0) > 0 && c.effects.every((e) => e.type !== 'applyPower' || e.power === 'fanOfKnives');
-  const shivs = view.playable.filter((c) => isShivCard(c) && selfDamage(c) < hp);
+  const held = heldShiv(view);
+  const shivs = view.playable.filter((c) => isShivCard(c) && selfDamage(c) < hp && c.uid !== held?.uid);
   if (shivs.length === 0) return undefined;
-  return (
-    best(
-      view.playable.filter((c) => isShivBooster(c) && !alreadyOn(c)),
-      (c) => [-(c.cost ?? 0)],
-    ) ?? best(shivs, () => [])
-  );
+  return best(view.playable.filter(isShivBooster), (c) => [-(c.cost ?? 0)]) ?? best(shivs, () => []);
 }
 
 function decideWith(view: StrategyView, config: StrategyConfig, planning: boolean): Decision {

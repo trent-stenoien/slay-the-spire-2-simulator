@@ -17,7 +17,7 @@
       "count": 0,
       "all": true,
       "filter": {
-        "nameIncludes": "Shiv"
+        "cardId": "shiv"
       }
     }
   ],
@@ -30,7 +30,7 @@
         "count": 0,
         "all": true,
         "filter": {
-          "nameIncludes": "Shiv"
+          "cardId": "shiv"
         },
         "upgradeFirst": true
       }
