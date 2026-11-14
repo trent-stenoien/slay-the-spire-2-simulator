@@ -699,6 +699,25 @@ describe('UI polish (#254)', () => {
     expect(onEnemy).toHaveBeenCalledWith('knowledge_demon');
   });
 
+  it('#273: Act 3 is selectable once a Glory enemy exists; picking it selects Aeonglass', async () => {
+    expect(enemiesIn(gameData, 'glory').map((e) => e.id)).toContain('aeonglass');
+    const onEnemy = vi.fn();
+    render(
+      <SetupPanel
+        data={gameData}
+        setup={defaultSetup(gameData)}
+        onCharacter={() => {}}
+        onEnemy={onEnemy}
+        onAscension={() => {}}
+      />,
+    );
+    const act = screen.getByLabelText('Act') as HTMLSelectElement;
+    const act3 = [...act.options].find((o) => o.value === '3')!;
+    expect(act3.disabled).toBe(false);
+    await userEvent.selectOptions(act, '3');
+    expect(onEnemy).toHaveBeenCalledWith('aeonglass');
+  });
+
   it('the relic remove button is a plain unstyled button, still labelled', () => {
     render(
       <SetupPanel

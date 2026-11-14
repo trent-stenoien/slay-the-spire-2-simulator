@@ -433,7 +433,7 @@ has a test; new rules agreed on a card are added here. Details live in the linke
     A8 399) opens Curse of Knowledge, Slap 17 (A9 18), Knowledge Overwhelming 8x3 (9x3), Ponder 11 (13) + heal 30 +
     2 (3) Strength, three times, then repeats Slap, Knowledge Overwhelming, Ponder. Act 2 becomes selectable in the
     Setup picker. The enemy heal is logged as a `heal` event with side 'enemy' and the HP actually restored.
-61. **Curse of Knowledge choice (#271, Trent):** an enemy move's `playerChoice` gives the player one of its options.
+62. **Curse of Knowledge choice (#271, Trent):** an enemy move's `playerChoice` gives the player one of its options.
     The three uses offer Disintegration 6 or Mind Rot 1, Disintegration 7 or Sloth 3, Disintegration 8 or Waste
     Away 1 (Mind Rot / Sloth / Waste Away amounts from the status cards' text, builder's call until Trent confirms).
     Each strategy takes the option in `StrategyConfig.optionChoices[id]`; no pick, or an invalid one, takes option 0
@@ -441,6 +441,16 @@ has a test; new rules agreed on a card are added here. Details live in the linke
     (Done saves, Cancel keeps); the row shows "Takes: ..." with a Change button. Picks are stored with the
     selection, apply only in fights with that choice, and go into the strategy code as "~<id>.<n>" per non-zero
     pick (sorted by id), so log links reproduce them.
+
+## Act 3 bosses (#24)
+
+61. **Aeonglass (#273, Trent):** Act 3, Glory, boss; 512 HP (A8 535), starts with 3 Artifact. Cycle from turn 1:
+    Ebb 22 (A9 26) + 33 Block, Eye Lasers 11x2 (12x2), Increasing Intensity: shuffle 1 (A9 2) Wither into the
+    discard pile and gain 2 (3) Strength. Imported although the wiki marks it beta (Trent: it is in the full
+    release; raw v0.107.1 numbers win). Wither: Unplayable, end of turn in Hand take 3 damage (blockable). Act 3
+    becomes selectable in the Setup picker. Interim until the contract lands: no Withering Presence (every 6 cards
+    played, every card counts, add a Wither to the Hand), and Increasing Intensity ignores X (no Wither+X, no +X
+    Strength, no upgrading of existing Withers).
 
 ## Known failure points
 
