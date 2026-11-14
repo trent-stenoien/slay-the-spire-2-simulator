@@ -384,6 +384,8 @@ export const POWER_IDS = [
   'mindRot',
   'sloth',
   'wasteAway',
+  // #272 The Insatiable: declared, not simulated
+  'sandpit',
 ] as const;
 
 /** #215 adds artifact, strengthPerTurn, slippery; #303 adds slow (enemy start power, simulated in engine/combat.ts; not applicable by cards, so not in SIMULATED_ENEMY_POWERS). */
