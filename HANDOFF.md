@@ -17,18 +17,18 @@ PRs #336–#365: #256 docs, #295 golden combat 11, #284 Shiv play rule, #304 + #
 
 ## Waiting on Trent (questions are on the cards)
 
-- #339 (Questions): Q1 Up My Sleeve +2 pinned by Trent; Q4 second enemy that punishes many attacks ("Ion class"?); Q5 Storm of Steel timing. Answered so far: Shivs always first unless they'd kill the player; Storm of Steel = attack worth its Shivs' damage; Shadow Step vs Storm by synergies; Cloak and Dagger preferred over other Block; all attack factors (Strength, Thorns, Personal Hive, Fan, Shuriken, Kunai, Kusarigama) for every attack.
-- #347 (Questions): value Vulnerable over its duration: look-ahead horizon; how to estimate future damage.
-- #348 (Questions): per-enemy stats (avg turns, avg HP lost): source, key, fields, display.
-- Builder calls shipped, awaiting confirmation: #270 Disintegration stacks add, Sloth counts hand plays only; #269 Echoing Slash repeat kills chain, Bouncing Flask re-rolls each target; #271 Curse amounts Mind Rot 1 / Sloth 3 / Waste Away 1; #272 Sandpit loss checked at the enemy's turn start after Poison; #273 Wither +3 per level, X starts at 0, Ebb 22 (A9 26) vs brokenbuilds' 26 (32); #346 Nightmare doesn't copy this-turn cost changes, The Hunt's card rewards not shown in Results (card?); #267/#356 Phantom Blades keeps 1 Shiv.
-- Boss questions: #274 (debuffs/Block clear between phases? player debuffs carry? Nemesis: re-check phase 3 on the wiki); #276 (3 Chains of Binding = first 3 cards drawn each turn?). #275 Kaiser Crab: Trent wants it near the end of v2.
+- Builder calls shipped, awaiting confirmation: #270 Disintegration stacks add, Sloth counts hand plays only; #269 Echoing Slash repeat kills chain, Bouncing Flask re-rolls each target; #271 Curse amounts Mind Rot 1 / Sloth 3 / Waste Away 1; #272 Sandpit loss checked at the enemy's turn start after Poison; #273 Wither +3 per level, X starts at 0, Ebb 22 (A9 26) vs brokenbuilds' 26 (32); #346 Nightmare doesn't copy this-turn cost changes, The Hunt's card rewards not shown in Results; #267/#356 Phantom Blades keeps 1 Shiv.
+- #276: do 3 Chains of Binding bind the first 3 cards drawn each turn? #275 Kaiser Crab: Trent wants it near the end of v2.
+- #368 Up My Sleeve long-combat bonus: pinned by Trent (version future); don't build.
 
-## Next
+## Next (Ready; answers in each card's comments, Nov 14 pm)
 
-- #366 docs: refresh stale "not simulated yet" notes in engine/types.ts (in progress or next).
-- #274, #276 bosses once their questions are answered (or with builder calls); #275 last.
-- #323 Sly strategy credits Poison powers (Ready, low priority).
-- Possible small cards: golden harness can't check enemy HP after plays on a Poison-kill turn; `npm run shot` can't open modals or pick a boss (add a custom-URL option).
+- #339 Shiv makers and attack factors: Shivs first unless lethal to the player; Storm of Steel = attack worth its Shivs' damage, played after all other cards; Shadow Step vs Storm by synergies; Cloak and Dagger preferred over other Block; all attack factors for every attack; enemies that punish Skills (Infested Prism's Tainted, Test Subject phase 1), Attacks (Thorns: Spiny Toad, Toadpole), Powers (Globe Head), card count (Aeonglass), or reward card count (Bygone Effigy). Large: split into smaller PRs.
+- #347 value Vulnerable over its duration: use the enemy's next attack and the estimated extra damage on attacks played while it lasts.
+- #274 Test Subject: enemy debuffs and Block clear between phases; player buffs/debuffs carry; enemy Intangible ends at the end of the player's turn, player Intangible at the end of the enemy's turn.
+- #276 once answered (or with a builder call); #275 last; #323 (low priority).
+- #348 closed (not planned): golden combats are the benchmark; no per-enemy stats needed.
+- Possible small cards: golden harness can't check enemy HP after plays on a Poison-kill turn; `npm run shot` can't open modals or pick a boss.
 - After v2's cards: the full quality-review loop (docs/quality-loop.md).
 
 ## Working notes
