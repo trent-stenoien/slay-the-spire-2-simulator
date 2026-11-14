@@ -262,4 +262,12 @@ export const CONTRACT_EFFECT_SAMPLES: Effect[] = [
   { type: 'loseMaxHp', amount: 2 }, // Brightest Flame
   { type: 'script', id: 'perfectedStrike', values: [2] }, // Perfected Strike (#111)
   { type: 'spawnEnemies', enemyId: 'wriggler', count: 4, stunned: true }, // Phrog Parasite (#322)
+  {
+    type: 'playerChoice',
+    id: 'curseOfKnowledge1',
+    options: [
+      { label: 'Disintegration 6', effects: [{ type: 'applyPower', power: 'disintegration', amount: 6 }] },
+      { label: 'Mind Rot 1', effects: [{ type: 'applyPower', power: 'mindRot', amount: 1 }] },
+    ],
+  }, // Knowledge Demon's Curse of Knowledge (#271)
 ];
