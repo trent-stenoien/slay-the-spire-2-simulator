@@ -270,4 +270,5 @@ export const CONTRACT_EFFECT_SAMPLES: Effect[] = [
       { label: 'Mind Rot 1', effects: [{ type: 'applyPower', power: 'mindRot', amount: 1 }] },
     ],
   }, // Knowledge Demon's Curse of Knowledge (#271)
+  { type: 'upgradeAllCopies', cardId: 'wither', level: 1 }, // Aeonglass (#273)
 ];

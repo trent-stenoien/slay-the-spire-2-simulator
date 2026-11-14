@@ -130,6 +130,11 @@
  *                     options; Curse of Knowledge); StrategyConfig.optionChoices (per-strategy pick by
  *                     choice id, default option 0); GameEvent `heal.side` (an enemy heal). Declared, not
  *                     simulated yet; the validator rejects `playerChoice` in data.
+ * #273 Aeonglass    — EnemyPowerId `witheringPresence` (reads CombatCounters.cardsPlayedThisCombat);
+ *                     CardInstance.upgradeLevel; `addCards.upgradeLevel`; `xFromMoveUses` on `addCards` and
+ *                     `enemyGainStrength` (EnemyState.moveUses); Effect `upgradeAllCopies` (enemy moves only;
+ *                     sets EnemyState.createdCardLevels). Declared, not simulated yet; the validator rejects
+ *                     them in data.
  *
  * #5 Multi-enemy    — CombatConfig.enemyIds / RunConfig.enemyIds; CombatState.enemies (`enemy` is
  *                     the current one); StrategyView.intents; Decision / PotionUse `target`;
@@ -250,7 +255,12 @@ export type Effect =
   /** #110: the enemy loses `amount` HP directly (ignores Block and modifiers), like Poison damage. */
   | { type: 'enemyLoseHp'; amount: number }
   /** #169: the enemy gains `amount` Strength (Fight Me!); works like player Strength (`gainStrength` on an enemy move). */
-  | { type: 'enemyGainStrength'; amount: number }
+  /**
+   * #273: `xFromMoveUses` (enemy moves only) adds X to `amount`, where X = how many times the acting enemy
+   * made that move id BEFORE this use (0 on the first use; EnemyState.moveUses). Aeonglass's Increasing
+   * Intensity: 2 + X Strength. Not simulated yet.
+   */
+  | { type: 'enemyGainStrength'; amount: number; xFromMoveUses?: string }
   /**
    * #110: set the cost of cards in `piles` to `cost` (Enlightenment) for this
    * turn (CardInstance.costThisTurn) or the rest of combat (costThisCombat).
@@ -350,6 +360,12 @@ export type Effect =
       upgraded?: boolean;
       freeThisTurn?: boolean;
       costThisCombat?: number;
+      /**
+       * #273: create the cards at this upgrade level (Wither+2 = 2); `upgraded: true` means level 1.
+       * Plus X with `xFromMoveUses` (see `enemyGainStrength`): Increasing Intensity's Wither+X. Not simulated yet.
+       */
+      upgradeLevel?: number;
+      xFromMoveUses?: string;
     }
   /** #116: replace cards (Primal Force: all Attacks in hand → Giant Rock; Entropy: 1 random card). */
   | { type: 'transformCards'; from: PileName; count?: number; mode: SelectMode; filter?: CardFilter; into: CardSource }
@@ -371,6 +387,14 @@ export type Effect =
    * moves and `EnemyDef.onDeath` only; not simulated yet.
    */
   | { type: 'spawnEnemies'; enemyId: string; count: number; stunned?: boolean }
+  /**
+   * #273: enemy moves only. Every copy of `cardId` in the player's draw pile, hand, discard and exhaust
+   * piles is raised to at least `level` (+ X with `xFromMoveUses`, see `enemyGainStrength`); copies already
+   * higher keep their level. Also records that level in the acting enemy's EnemyState.createdCardLevels, so
+   * cards of that id its powers create from then on start at it (Increasing Intensity: "Upgrade all Withers.
+   * Withering Presence effect now creates Withers+X"). Not simulated yet.
+   */
+  | { type: 'upgradeAllCopies'; cardId: string; level: number; xFromMoveUses?: string }
   /**
    * #271: enemy moves only. The player takes exactly one of `options` (Curse of Knowledge: Disintegration 6
    * or Mind Rot 1). `id` names this use of the choice and is the key in StrategyConfig.optionChoices, so
@@ -709,7 +733,14 @@ export type EnemyPowerId =
    * Slow (#303, Bygone Effigy): each card the player plays this turn makes this enemy take 10% more Attack damage
    * (potions don't count); the count resets at the end of the player's turn. Declared only until #303 simulates it.
    */
-  | 'slow';
+  | 'slow'
+  /**
+   * #273 (Aeonglass): every [amount] cards the player plays (6), add a Wither to the player's Hand, at the
+   * level in EnemyState.createdCardLevels.wither (0 = plain Wither). Counts every card played, any way
+   * (Shivs, free plays, Powers, Sly, cards that play themselves from the Exhaust pile; Trent), i.e. each
+   * time CombatCounters.cardsPlayedThisCombat reaches a multiple of [amount]. Does not stack. Declared only.
+   */
+  | 'witheringPresence';
 
 /** Effects queued by a `schedule` effect. */
 export interface ScheduledEffect {
@@ -1130,6 +1161,11 @@ export interface CardInstance {
   replay?: number;
   /** #111: extra damage per hit gained in combat (Rampage, Maul, Thrash). */
   damageBonus?: number;
+  /**
+   * #273: upgrade level for cards that upgrade more than once (Wither+2). Absent = 1 when `upgraded`, else 0;
+   * when present, `upgraded` is `upgradeLevel > 0`. Not simulated yet.
+   */
+  upgradeLevel?: number;
   /** #116: true for cards created during combat rather than dealt from the deck. */
   generated?: boolean;
   /** #112: the card's rarity, for filters (Anointed). */
@@ -1187,6 +1223,10 @@ export interface EnemyState {
   nextMoveId?: string;
   /** #110/#115: enemy powers (temporary Strength loss, Stun), id → amount. Absent means none. */
   powers?: Partial<Record<EnemyPowerId, number>>;
+  /** #273: times this enemy has made each move, by move id (read by `xFromMoveUses`). Absent means none. */
+  moveUses?: Record<string, number>;
+  /** #273: upgrade level for cards of each id this enemy's powers create (`upgradeAllCopies`). Absent means 0. */
+  createdCardLevels?: Record<string, number>;
 }
 
 export interface CombatState {

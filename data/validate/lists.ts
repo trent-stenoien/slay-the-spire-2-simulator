@@ -59,6 +59,8 @@ export const CONTRACT_EFFECTS = [
   'spawnEnemies',
   // #271: enemy moves only (simulated there; rejected on cards).
   'playerChoice',
+  // #273: enemy moves only; not simulated yet.
+  'upgradeAllCopies',
   'script',
 ] as const;
 
@@ -392,7 +394,15 @@ export const ENEMY_POWER_IDS = [
   'strengthPerTurn',
   'slippery',
   'slow',
+  // #273: declared only (UNSIMULATED_ENEMY_START_POWERS).
+  'witheringPresence',
 ] as const;
+
+/** #273: enemy start powers declared in the contract but not simulated yet; the validator rejects them. */
+export const UNSIMULATED_ENEMY_START_POWERS = new Set<string>(['witheringPresence']);
+
+/** #273: effect fields declared in the contract but not simulated yet (any effect that has them is rejected). */
+export const UNSIMULATED_EFFECT_FIELDS = ['upgradeLevel', 'xFromMoveUses'] as const;
 
 export const TRIGGER_WHENS = ['exhausted', 'drawn', 'turnEndInHand', 'turnEndInExhaust'] as const;
 

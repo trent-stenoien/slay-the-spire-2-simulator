@@ -8,6 +8,8 @@ import {
   PATTERN_TYPES,
   NUMERIC_KEY,
   SIMULATED_POWERS,
+  UNSIMULATED_ENEMY_START_POWERS,
+  UNSIMULATED_EFFECT_FIELDS,
 } from './lists';
 import { type Obj, isOneOf, isObj, Reporter, checkTwoCharCode } from './shared';
 import { checkEffects } from './effects';
@@ -45,6 +47,10 @@ function checkEnemyOnlyEffects(r: Reporter, list: unknown, path: string): void {
     if (e.type === 'applyShrink' && typeof e.amount === 'number' && e.amount > 100) {
       r.add(`${path}[${i}].amount`, 'is a percent and must be at most 100');
     }
+    // #273: declared, not simulated yet.
+    for (const f of UNSIMULATED_EFFECT_FIELDS) {
+      if (f in e) r.add(`${path}[${i}].${f}`, 'is declared but not simulated yet (#273)');
+    }
     if (e.xTimes === true) r.add(`${path}[${i}].xTimes`, 'is only allowed on X-cost cards');
     // #271: a choice's options follow the same enemy-move rules.
     if (e.type === 'playerChoice' && Array.isArray(e.options)) {
@@ -69,6 +75,7 @@ function checkStartPowers(r: Reporter, v: unknown, path: string): void {
   for (const [id, amount] of Object.entries(v)) {
     if (!isOneOf(id, ENEMY_POWER_IDS))
       r.add(`${path}.${id}`, `is not a known enemy power (${ENEMY_POWER_IDS.join(', ')})`);
+    else if (UNSIMULATED_ENEMY_START_POWERS.has(id)) r.add(`${path}.${id}`, 'is declared but not simulated yet');
     if (typeof amount !== 'number' || !Number.isInteger(amount) || amount < 1) {
       r.add(`${path}.${id}`, 'must be a whole number of at least 1');
     }
