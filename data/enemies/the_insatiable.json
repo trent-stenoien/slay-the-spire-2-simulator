@@ -1,0 +1,44 @@
+{
+  "id": "the_insatiable",
+  "code": "Is",
+  "name": "The Insatiable",
+  "act": 2,
+  "zone": "hive",
+  "difficulty": "boss",
+  "hp": { "min": 321, "max": 321 },
+  "moves": {
+    "liquifyGround": {
+      "name": "Liquify Ground",
+      "effects": [
+        {
+          "type": "addCards",
+          "source": { "kind": "card", "cardId": "frantic_escape" },
+          "count": 3,
+          "to": "drawRandom"
+        },
+        { "type": "addCards", "source": { "kind": "card", "cardId": "frantic_escape" }, "count": 3, "to": "discard" }
+      ]
+    },
+    "thrash": { "name": "Thrash", "effects": [{ "type": "attack", "damage": 8, "hits": 2 }] },
+    "lungingBite": { "name": "Lunging Bite", "effects": [{ "type": "attack", "damage": 28, "hits": 1 }] },
+    "salivate": { "name": "Salivate", "effects": [{ "type": "gainStrength", "amount": 2 }] }
+  },
+  "pattern": {
+    "type": "cycle",
+    "order": ["thrash", "lungingBite", "salivate", "thrash"],
+    "start": "first",
+    "opener": ["liquifyGround"]
+  },
+  "ascension": {
+    "8": { "hp": { "min": 341, "max": 341 } },
+    "9": {
+      "moves": {
+        "thrash": { "effects": [{ "type": "attack", "damage": 9, "hits": 2 }] },
+        "lungingBite": { "effects": [{ "type": "attack", "damage": 31, "hits": 1 }] },
+        "salivate": { "effects": [{ "type": "gainStrength", "amount": 3 }] }
+      }
+    }
+  },
+  "source": "slaythespire.wiki.gg",
+  "lastUpdateVersion": "v0.107.1"
+}

@@ -434,6 +434,12 @@ has a test; new rules agreed on a card are added here. Details live in the linke
     2 (3) Strength, three times (the Curse offers Disintegration 6 or Mind Rot, 7 or Sloth, 8 or Waste Away), then
     repeats Slap, Knowledge Overwhelming, Ponder. Act 2 becomes selectable in the Setup picker. Interim until the
     per-strategy Curse choice lands: each Curse applies the Disintegration option. The enemy heal is not logged yet.
+61. **The Insatiable and Frantic Escape (#272, Trent):** The Insatiable (Act 2, Hive, boss, 321 HP, A8 341) opens
+    Liquify Ground (shuffles 6 Frantic Escape into the deck: 3 at random places in the draw pile, 3 into the discard
+    pile), then cycles Thrash 8x2 (A9 9x2), Lunging Bite 28 (31), Salivate +2 (3) Strength, Thrash. Frantic Escape
+    (status, cost 1, no Exhaust): each play raises that copy's cost by 1 for the rest of combat, through discard and
+    reshuffle. Interim until the Sandpit contract type lands: no Sandpit countdown (no loss to it), Frantic Escape
+    does not raise Sandpit, and strategies don't play Frantic Escape.
 
 ## Known failure points
 

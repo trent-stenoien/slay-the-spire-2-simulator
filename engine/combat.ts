@@ -2138,6 +2138,7 @@ class Combat {
           else if (source === 'player' && e.id === 'prolong') this.prolong();
           else if (source === 'player' && e.id === 'expectAFight') this.expectAFight();
           else if (source === 'player' && e.id === 'upMySleeve') this.upMySleeve(card);
+          else if (source === 'player' && e.id === 'increaseOwnCost') this.changeOwnCost(card, e.values?.[0] ?? 1);
           else if (source === 'player' && e.id === 'omnisliceSplash') died = this.omnisliceSplash();
           else if (source === 'player' && e.id === 'scheduledBlock') this.scheduledBlock(e.values?.[0] ?? 0);
           else if (source === 'player' && e.id === 'expose') died = this.expose();
@@ -2364,11 +2365,19 @@ class Combat {
    * own cost. A copy played for free this turn reduces the cost it had before it became free.
    */
   private upMySleeve(card: CardInstance | undefined): void {
+    this.changeOwnCost(card, -1);
+  }
+
+  /**
+   * #262/#272: change this copy's cost by `delta` for the rest of combat, never below 0 (Up My Sleeve −1,
+   * Frantic Escape +1). The new cost stays through discard and reshuffle (it is on the card instance).
+   */
+  private changeOwnCost(card: CardInstance | undefined, delta: number): void {
     if (!card || card.cost === null || card.xCost) return;
     const current = card.freeThisTurn
       ? (this.freeBackup.get(card.uid) ?? card.cost)
       : (card.costThisCombat ?? card.cost);
-    const next = Math.max(0, current - 1);
+    const next = Math.max(0, current + delta);
     card.costThisCombat = next;
     this.log?.push({ t: 'costChanged', uid: card.uid, cardId: card.cardId, cost: next, duration: 'combat' });
   }
