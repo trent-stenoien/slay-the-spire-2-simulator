@@ -59,7 +59,7 @@ export const CONTRACT_EFFECTS = [
   'spawnEnemies',
   // #271: enemy moves only (simulated there; rejected on cards).
   'playerChoice',
-  // #273: enemy moves only; not simulated yet.
+  // #273: enemy moves only (simulated there; rejected on cards).
   'upgradeAllCopies',
   'script',
 ] as const;
@@ -159,7 +159,13 @@ export const SIMULATED_TRIGGERS = new Set<string>(['exhausted', 'drawn', 'turnEn
 export const SIMULATED_CARD_SOURCES = new Set<string>(['self', 'copyOf']);
 
 /** #114: `addCards` fields the engine does not run for copies (#116 sets them on the cards it creates). */
-export const UNSIMULATED_ADD_CARDS_FIELDS = ['options', 'upgraded', 'freeThisTurn', 'costThisCombat'] as const;
+export const UNSIMULATED_ADD_CARDS_FIELDS = [
+  'options',
+  'upgraded',
+  'freeThisTurn',
+  'costThisCombat',
+  'upgradeLevel',
+] as const;
 
 export const UNSIMULATED_EFFECTS = new Set<string>(
   ['gainStars', ...CONTRACT_EFFECTS].filter((t) => !SIMULATED_CONTRACT_EFFECTS.has(t)),
@@ -396,15 +402,12 @@ export const ENEMY_POWER_IDS = [
   'strengthPerTurn',
   'slippery',
   'slow',
-  // #273: declared only (UNSIMULATED_ENEMY_START_POWERS).
+  // #273: Aeonglass's start power (simulated in engine/combat.ts).
   'witheringPresence',
 ] as const;
 
-/** #273: enemy start powers declared in the contract but not simulated yet; the validator rejects them. */
-export const UNSIMULATED_ENEMY_START_POWERS = new Set<string>(['witheringPresence']);
-
-/** #273: effect fields declared in the contract but not simulated yet (any effect that has them is rejected). */
-export const UNSIMULATED_EFFECT_FIELDS = ['upgradeLevel', 'xFromMoveUses'] as const;
+/** #273: `xFromMoveUses` reads an enemy's move uses, so a simulated card may not use it. */
+export const UNSIMULATED_EFFECT_FIELDS = ['xFromMoveUses'] as const;
 
 export const TRIGGER_WHENS = ['exhausted', 'drawn', 'turnEndInHand', 'turnEndInExhaust'] as const;
 
