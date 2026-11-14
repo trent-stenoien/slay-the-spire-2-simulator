@@ -253,6 +253,8 @@ export const SIMULATED_POWERS = new Set<string>([
   'mindRot',
   'sloth',
   'wasteAway',
+  // #272 The Insatiable
+  'sandpit',
 ]);
 
 /** CardFilter fields the engine matches on (every field of CardFilter since #113 enabled `nameIncludes`). */

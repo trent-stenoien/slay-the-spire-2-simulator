@@ -2171,6 +2171,9 @@ function decide(raw: StrategyView, config: StrategyConfig): Decision {
     ),
     config,
   );
+  // #272 (Trent): Sandpit at 2 or below: escape first.
+  const escape = pickSandpitEscape(raw, true);
+  if (escape) return play(escape);
   // #267 (Trent, Nov 14): Shivs in hand are always played, unless that would kill the player.
   const shiv = pickShivPlay(raw);
   if (shiv) return play(shiv);
@@ -2178,7 +2181,33 @@ function decide(raw: StrategyView, config: StrategyConfig): Decision {
   if (d.kind !== 'endTurn') return d;
   // #110: Panic Button is the last resort, once nothing else is left to play.
   const panic = pickPanic(raw);
-  return panic ? play(panic) : d;
+  if (panic) return play(panic);
+  // #272 (Trent): spare Energy left at the end of the turn goes on Frantic Escape.
+  const spare = pickSandpitEscape(raw, false);
+  return spare ? play(spare) : d;
+}
+
+/** #272: a card that raises Sandpit (Frantic Escape). */
+export function raisesSandpit(card: Card): boolean {
+  return card.effects.some((e) => e.type === 'applyPower' && e.power === 'sandpit' && e.amount > 0);
+}
+
+/** #272 (Trent): play Frantic Escape when Sandpit is at 2 or below (`urgent`), or with spare Energy. */
+export const SANDPIT_URGENT = 2;
+
+/**
+ * #272 (Trent): the cheapest playable Sandpit raiser. `urgent`: only while the player has Sandpit at
+ * SANDPIT_URGENT or below (it is played before anything else). Otherwise (spare Energy, nothing else to
+ * play) whenever Sandpit is on.
+ */
+function pickSandpitEscape(view: StrategyView, urgent: boolean): Card | undefined {
+  const sandpit = view.state.player.powers?.sandpit ?? 0;
+  if (sandpit <= 0 || (urgent && sandpit > SANDPIT_URGENT)) return undefined;
+  const hp = view.state.player.hp;
+  return best(
+    view.playable.filter((c) => raisesSandpit(c) && selfDamage(c) < hp),
+    (c) => [-(c.cost ?? 0)],
+  );
 }
 
 /** #267: the Powers that make every Shiv hit harder (Accuracy, Phantom Blades). Fan of Knives is not one (#356). */

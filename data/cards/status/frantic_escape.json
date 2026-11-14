@@ -9,7 +9,10 @@
   "xCost": false,
   "starCost": null,
   "keywords": [],
-  "effects": [{ "type": "script", "id": "increaseOwnCost", "values": [1] }],
+  "effects": [
+    { "type": "applyPower", "power": "sandpit", "amount": 1 },
+    { "type": "script", "id": "increaseOwnCost", "values": [1] }
+  ],
   "upgraded": null,
   "description": "Get farther away. / Increase Sandpit by 1. / Increase the cost of this card by 1.",
   "upgradedDescription": null,
