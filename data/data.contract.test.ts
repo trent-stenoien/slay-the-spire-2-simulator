@@ -179,6 +179,26 @@ describe('#105 contract shapes', () => {
     );
   });
 
+  it('#271: playerChoice on an enemy move is declared but rejected as not simulated; its shape is checked', () => {
+    const d = fixture();
+    d.enemies.nibbit.moves.hiss.effects.push({
+      type: 'playerChoice',
+      id: 'curseOfKnowledge1',
+      options: [
+        { label: 'Disintegration 6', effects: [{ type: 'applyPower', power: 'disintegration', amount: 6 }] },
+        { label: 'Mind Rot 1', effects: [{ type: 'applyPower', power: 'mindRot', amount: 1 }] },
+      ],
+    });
+    expect(errorsOf(d)).toEqual([expect.stringMatching(/"playerChoice".*not simulated on enemy moves/)]);
+    const bad = fixture();
+    bad.enemies.nibbit.moves.hiss.effects.push({
+      type: 'playerChoice',
+      id: 'x',
+      options: [{ label: 'One', effects: [] }],
+    });
+    expect(errorsOf(bad)).toContainEqual(expect.stringMatching(/options.*at least 2/));
+  });
+
   it('#271: accepts heal on an enemy move (the enemy heals itself)', () => {
     const d = fixture();
     d.enemies.nibbit.moves.hiss.effects.push({ type: 'heal', amount: 30 });

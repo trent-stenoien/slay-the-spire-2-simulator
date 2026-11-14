@@ -124,6 +124,9 @@ export function effectText(e: Effect): string {
     case 'spawnEnemies':
       // #322: declared only.
       return `Summon ${e.count} ${e.enemyId}${e.stunned ? ' (Stunned)' : ''}`;
+    case 'playerChoice':
+      // #271: declared only (Curse of Knowledge).
+      return `Choose one: ${e.options.map((o) => o.label).join(' or ')}`;
     case 'script':
       // #108: Fiend Fire, Thrash.
       if (e.id === 'fiendFire') return `Exhaust your Hand. Deal ${e.values?.[0] ?? 0} damage for each card Exhausted`;

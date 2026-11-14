@@ -126,6 +126,10 @@
  *                     (draw [amount] fewer), `sloth` (play at most [amount] cards per turn), `wasteAway`
  *                     ([amount] less energy per turn). Powers only, not status cards (Trent). An enemy
  *                     move's `applyPower` effect puts the power on the PLAYER (not the enemy).
+ * #271 Knowledge Demon — Effect `playerChoice` (enemy moves only: the player takes one of the
+ *                     options; Curse of Knowledge); StrategyConfig.optionChoices (per-strategy pick by
+ *                     choice id, default option 0); GameEvent `heal.side` (an enemy heal). Declared, not
+ *                     simulated yet; the validator rejects `playerChoice` in data.
  *
  * #5 Multi-enemy    — CombatConfig.enemyIds / RunConfig.enemyIds; CombatState.enemies (`enemy` is
  *                     the current one); StrategyView.intents; Decision / PotionUse `target`;
@@ -367,6 +371,12 @@ export type Effect =
    * moves and `EnemyDef.onDeath` only; not simulated yet.
    */
   | { type: 'spawnEnemies'; enemyId: string; count: number; stunned?: boolean }
+  /**
+   * #271: enemy moves only. The player takes exactly one of `options` (Curse of Knowledge: Disintegration 6
+   * or Mind Rot 1). `id` names this use of the choice and is the key in StrategyConfig.optionChoices, so
+   * each use with different options needs its own id (curseOfKnowledge1..3). Not simulated yet.
+   */
+  | { type: 'playerChoice'; id: string; options: PlayerChoiceOption[] }
   /** #206: the player loses `amount` energy now, never below 0 (Void, as a `drawn` trigger). */
   | { type: 'loseEnergy'; amount: number }
   /**
@@ -377,6 +387,13 @@ export type Effect =
   | { type: 'script'; id: string; values?: number[] };
 
 export type EffectType = Effect['type'];
+
+/** #271: one option of a `playerChoice` effect; `effects` resolve as the enemy move's (on the player). */
+export interface PlayerChoiceOption {
+  /** Shown in the per-strategy choice modal, e.g. "Disintegration 6". */
+  label: string;
+  effects: Effect[];
+}
 
 export type DebuffKind = 'vulnerable' | 'weak' | 'frail';
 
@@ -1295,6 +1312,12 @@ export interface StrategyConfig {
   allowThrough: number;
   /** #5: target priority; absent = 'lowestHp'. URL code: a trailing "i" for 'biggestAttack'. */
   target?: TargetPriority;
+  /**
+   * #271: the option index this strategy takes for each `playerChoice` effect, keyed by its `id`
+   * (Curse of Knowledge). An id left out, or an index out of range, takes option 0. The engine reads it
+   * from CombatConfig.strategy when a `playerChoice` resolves.
+   */
+  optionChoices?: Record<string, number>;
 }
 
 export type StrategyColor = 'blue' | 'green' | 'yellow' | 'red' | 'purple';
@@ -1366,8 +1389,11 @@ export type GameEvent =
   // ----- #105 additions: not emitted yet. -----
   /** #106: `side` lost HP not from an attack (Hemokinesis, Crimson Mantle, curses). Poison keeps `poisonDamage`. */
   | { t: 'loseHp'; side: Side; amount: number; hpAfter: number }
-  /** #115: the player healed. `amount` is the HP actually restored. #205: `source` = relic id when a relic healed. */
-  | { t: 'heal'; amount: number; hpAfter: number; source?: string }
+  /**
+   * #115: the player healed. `amount` is the HP actually restored. #205: `source` = relic id when a relic healed.
+   * #271: `side` 'enemy' = the current enemy healed itself (capped at its Max HP); absent = the player.
+   */
+  | { t: 'heal'; amount: number; hpAfter: number; source?: string; side?: Side }
   /** #115: the player's Max HP changed by `amount` (negative for a loss). */
   | { t: 'maxHp'; amount: number; maxHpAfter: number; hpAfter: number }
   /** #109/#110: a power on `side` changed by `amount` (negative to reduce); `total` after. */
