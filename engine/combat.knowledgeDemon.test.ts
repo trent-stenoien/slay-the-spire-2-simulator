@@ -101,7 +101,7 @@ describe('#271 Knowledge Demon data', () => {
     ]);
   });
 
-  it('Ponder heals the Demon (never above 379) and the Curse puts Disintegration on the player (interim option)', () => {
+  it('Ponder heals the Demon (never above 379), logged as an enemy heal of the HP restored', () => {
     const { strategy, hps } = strikerWithHp();
     const r = simulateCombat(
       demonData(),
@@ -112,10 +112,80 @@ describe('#271 Knowledge Demon data', () => {
     // 18 damage a turn: 361, 343, 325; on turn 4 the Strikes take it to 307, then Ponder heals 30 → 337.
     expect(hps.slice(0, 6)).toEqual([379, 361, 343, 325, 337, 319]);
     expect(Math.max(...hps)).toBeLessThanOrEqual(379);
-    expect(events(r.log, 'powerApplied').find((e) => e.power === 'disintegration')).toMatchObject({
-      side: 'player',
-      power: 'disintegration',
-      amount: 6,
-    });
+    expect(events(r.log, 'heal')[0]).toEqual({ t: 'heal', side: 'enemy', amount: 30, hpAfter: 337 });
+  });
+
+  it('a capped enemy heal logs only the HP restored', () => {
+    const r = logged(
+      demonData(),
+      { decide: () => ({ kind: 'endTurn' }) },
+      {
+        enemyId: 'knowledge_demon',
+        playerStart: { powers: { intangible: 999 } },
+      },
+    );
+    expect(events(r.log, 'heal')[0]).toEqual({ t: 'heal', side: 'enemy', amount: 0, hpAfter: 379 });
+  });
+});
+
+describe('#271 Curse of Knowledge: player choice', () => {
+  const run = (optionChoices?: Record<string, number>) =>
+    logged(
+      demonData(),
+      { decide: () => ({ kind: 'endTurn' }) },
+      {
+        enemyId: 'knowledge_demon',
+        playerStart: { powers: { intangible: 999 } },
+        strategy: {
+          order: ['attack', 'block', 'powers'],
+          allowThrough: 0,
+          ...(optionChoices ? { optionChoices } : {}),
+        },
+      },
+    );
+  const taken = (r: ReturnType<typeof run>) =>
+    events(r.log, 'powerApplied')
+      .filter((e) => e.power !== 'intangible')
+      .map((e) => `${e.power} ${e.amount}`);
+
+  it('without picks the strategy takes option 0 every time: Disintegration 6, 7, 8 (stacks add)', () => {
+    expect(taken(run())).toEqual(['disintegration 6', 'disintegration 7', 'disintegration 8']);
+  });
+
+  it('optionChoices picks per use: Mind Rot 1, Sloth 3, Waste Away 1 for option 1', () => {
+    expect(taken(run({ curseOfKnowledge1: 1, curseOfKnowledge2: 1, curseOfKnowledge3: 1 }))).toEqual([
+      'mindRot 1',
+      'sloth 3',
+      'wasteAway 1',
+    ]);
+    expect(taken(run({ curseOfKnowledge2: 1 }))).toEqual(['disintegration 6', 'sloth 3', 'disintegration 8']);
+  });
+
+  it('an out-of-range or non-integer pick takes option 0', () => {
+    expect(taken(run({ curseOfKnowledge1: 5, curseOfKnowledge2: -1, curseOfKnowledge3: 0.5 }))).toEqual([
+      'disintegration 6',
+      'disintegration 7',
+      'disintegration 8',
+    ]);
+  });
+
+  it('playerChoice on a card throws', () => {
+    const data = makeGameData();
+    data.cards.probe = {
+      ...data.cards.strike!,
+      id: 'probe',
+      code: 'Pr',
+      effects: [{ type: 'playerChoice', id: 'x', options: [] }],
+      upgraded: null,
+    };
+    const play: Strategy = {
+      decide: (v) => {
+        const c = v.playable.find((p) => p.cardId === 'probe');
+        return c ? { kind: 'play', uid: c.uid } : { kind: 'endTurn' };
+      },
+    };
+    expect(() => simulateCombat(data, cfg({ deck: deckOf(['probe', 5]) }), play)).toThrow(
+      /only simulated on enemy moves/,
+    );
   });
 });

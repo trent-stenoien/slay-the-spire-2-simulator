@@ -438,6 +438,11 @@ export const FASTEN_NAME = 'Defend';
  * One combat in progress. Each method is a named step of the turn order in CLAUDE.md; all
  * randomness goes through `rng`, and events are recorded only when logging is on.
  */
+/** #271: the option index a strategy takes for a `playerChoice`: its pick when a whole number in range, else 0. */
+export function optionIndex(pick: number | undefined, count: number): number {
+  return pick !== undefined && Number.isInteger(pick) && pick >= 0 && pick < count ? pick : 0;
+}
+
 class Combat {
   private readonly state: CombatState;
   private readonly log: GameEvent[] | null;
@@ -2006,6 +2011,13 @@ class Combat {
           if (source !== 'player') throw new Error('Effect "setCost" is not simulated yet on enemy moves');
           this.setCost(e);
           break;
+        case 'playerChoice': {
+          // #271: the player takes the option this strategy picked for this choice id (default option 0).
+          if (source !== 'enemy') throw new Error('Effect "playerChoice" is only simulated on enemy moves');
+          const option = e.options[optionIndex(this.config.strategy.optionChoices?.[e.id], e.options.length)];
+          if (option) died = this.resolveEffects('enemy', option.effects);
+          break;
+        }
         case 'heal':
           // #271 (Trent): on an enemy move the acting enemy heals itself (Knowledge Demon's Ponder),
           // capped at its Max HP. Every enemy heal is capped; there is no enemy overheal.
@@ -3133,12 +3145,14 @@ class Combat {
 
   /**
    * #271 (Trent): the current enemy heals `amount` HP, never past its Max HP (all enemy heals are
-   * capped). Not logged yet: the `heal` GameEvent has no side (contract addition requested).
+   * capped). Logged as a `heal` event with side 'enemy'; `amount` is the HP actually restored.
    */
   private enemyHeal(amount: number): void {
     const { enemy } = this;
     if (enemy.hp <= 0) return;
-    enemy.hp = Math.min(enemy.maxHp, enemy.hp + amount);
+    const restored = Math.max(0, Math.min(amount, enemy.maxHp - enemy.hp));
+    enemy.hp += restored;
+    this.log?.push({ t: 'heal', side: 'enemy', amount: restored, hpAfter: enemy.hp });
   }
 
   /**

@@ -14,9 +14,30 @@
       "name": "Curse of Knowledge",
       "effects": [
         {
-          "type": "applyPower",
-          "power": "disintegration",
-          "amount": 6
+          "type": "playerChoice",
+          "id": "curseOfKnowledge1",
+          "options": [
+            {
+              "label": "Disintegration 6",
+              "effects": [
+                {
+                  "type": "applyPower",
+                  "power": "disintegration",
+                  "amount": 6
+                }
+              ]
+            },
+            {
+              "label": "Mind Rot 1",
+              "effects": [
+                {
+                  "type": "applyPower",
+                  "power": "mindRot",
+                  "amount": 1
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -24,9 +45,30 @@
       "name": "Curse of Knowledge",
       "effects": [
         {
-          "type": "applyPower",
-          "power": "disintegration",
-          "amount": 7
+          "type": "playerChoice",
+          "id": "curseOfKnowledge2",
+          "options": [
+            {
+              "label": "Disintegration 7",
+              "effects": [
+                {
+                  "type": "applyPower",
+                  "power": "disintegration",
+                  "amount": 7
+                }
+              ]
+            },
+            {
+              "label": "Sloth 3",
+              "effects": [
+                {
+                  "type": "applyPower",
+                  "power": "sloth",
+                  "amount": 3
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -34,9 +76,30 @@
       "name": "Curse of Knowledge",
       "effects": [
         {
-          "type": "applyPower",
-          "power": "disintegration",
-          "amount": 8
+          "type": "playerChoice",
+          "id": "curseOfKnowledge3",
+          "options": [
+            {
+              "label": "Disintegration 8",
+              "effects": [
+                {
+                  "type": "applyPower",
+                  "power": "disintegration",
+                  "amount": 8
+                }
+              ]
+            },
+            {
+              "label": "Waste Away 1",
+              "effects": [
+                {
+                  "type": "applyPower",
+                  "power": "wasteAway",
+                  "amount": 1
+                }
+              ]
+            }
+          ]
         }
       ]
     },

@@ -10,6 +10,7 @@ import {
 } from '../../engine/types';
 import { Panel } from './Panel';
 import { COLORS, COLOR_HEX, isColorTaken, type Selection } from '../lib/colors';
+import { picksFor, type FightChoice } from '../lib/choices';
 import {
   defaultName,
   GROUP_LABEL,
@@ -33,12 +34,26 @@ interface Props {
   onConfig: (id: string, config: StrategyConfig) => void;
   onDelete: (id: string) => void;
   onClearAll: () => void;
+  /** #271: the fight's "choose one" effects (Curse of Knowledge); none = no choice buttons or modal. */
+  choices?: readonly FightChoice[];
+  /** #271: save a selected strategy's picks for `choices`. */
+  onChoices?: (id: string, picks: Record<string, number>) => void;
 }
 
 /** Saved-strategy library with per-run selection and colors. */
 export function StrategyPanel(props: Props) {
   const { library, selection, storageOk } = props;
   const full = selection.length >= MAX_STRATEGIES_PER_RUN;
+  const hasChoices = (props.choices?.length ?? 0) > 0 && props.onChoices !== undefined;
+  // #271 (Trent): with a choice in the fight, selecting a strategy opens its choice modal.
+  const [choosing, setChoosing] = useState<string | null>(null);
+  const toggle = (id: string) => {
+    const selecting = !selection.some((x) => x.strategyId === id);
+    props.onToggle(id);
+    if (selecting && hasChoices && !full) setChoosing(id);
+  };
+  const choosingStrategy = library.find((s) => s.id === choosing);
+  const choosingSel = selection.find((x) => x.strategyId === choosing);
   return (
     <Panel id="strat" title="Strategies" aside={`${selection.length}/${MAX_STRATEGIES_PER_RUN} selected`}>
       <div className="panel-actions">
@@ -59,9 +74,29 @@ export function StrategyPanel(props: Props) {
       )}
       <ul className="strat-list">
         {library.map((s) => (
-          <StrategyRow key={s.id} {...props} s={s} sel={selection.find((x) => x.strategyId === s.id)} full={full} />
+          <StrategyRow
+            key={s.id}
+            {...props}
+            onToggle={toggle}
+            s={s}
+            sel={selection.find((x) => x.strategyId === s.id)}
+            full={full}
+            onOpenChoices={hasChoices ? () => setChoosing(s.id) : undefined}
+          />
         ))}
       </ul>
+      {hasChoices && choosingStrategy && choosingSel && (
+        <ChoiceModal
+          name={choosingStrategy.name}
+          choices={props.choices!}
+          picks={choosingSel.optionChoices}
+          onDone={(picks) => {
+            props.onChoices!(choosingStrategy.id, picks);
+            setChoosing(null);
+          }}
+          onCancel={() => setChoosing(null)}
+        />
+      )}
       <NewStrategyForm library={library} powerNames={props.powerNames} onAdd={props.onAdd} />
     </Panel>
   );
@@ -96,7 +131,9 @@ function StrategyRow({
   onRename,
   onConfig,
   onDelete,
-}: Props & { s: SavedStrategy; sel: Selection | undefined; full: boolean }) {
+  choices,
+  onOpenChoices,
+}: Props & { s: SavedStrategy; sel: Selection | undefined; full: boolean; onOpenChoices?: () => void }) {
   const builtIn = isBuiltIn(s.id);
   const [editing, setEditing] = useState(false);
   const checked = sel !== undefined;
@@ -155,6 +192,14 @@ function StrategyRow({
               />
             );
           })}
+        </div>
+      )}
+      {sel && onOpenChoices && choices && (
+        <div className="strat-choices small">
+          <span className="muted">{choiceSummary(choices, sel.optionChoices)}</span>{' '}
+          <button type="button" className="btn-link" aria-label={`Choices for ${s.name}`} onClick={onOpenChoices}>
+            Change
+          </button>
         </div>
       )}
       {editing && !builtIn && (
@@ -512,5 +557,82 @@ function NewStrategyForm({
         </button>
       </div>
     </form>
+  );
+}
+
+/** #271: "Takes: Disintegration 6, Sloth 3, Disintegration 8" for the row under a selected strategy. */
+export function choiceSummary(choices: readonly FightChoice[], picks: Record<string, number> | undefined): string {
+  const p = picksFor(choices, picks);
+  return `Takes: ${choices.map((c) => c.options[p[c.id] ?? 0]).join(', ')}`;
+}
+
+/**
+ * #271 (Trent): per-strategy modal for the fight's "choose one" effects (Curse of Knowledge): one radio
+ * group per use, option 0 preselected when there is no pick yet. Done saves; Cancel or Escape keeps the old picks.
+ */
+export function ChoiceModal({
+  name,
+  choices,
+  picks,
+  onDone,
+  onCancel,
+}: {
+  name: string;
+  choices: readonly FightChoice[];
+  picks: Record<string, number> | undefined;
+  onDone: (picks: Record<string, number>) => void;
+  onCancel: () => void;
+}) {
+  const uid = useId();
+  const [draft, setDraft] = useState<Record<string, number>>(() => picksFor(choices, picks));
+  const doneRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => doneRef.current?.focus(), []);
+  return (
+    <div className="choice-overlay" onClick={(e) => e.target === e.currentTarget && onCancel()}>
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={`${uid}-title`}
+        className="feedback-dialog choice-dialog"
+        onKeyDown={(e) => e.key === 'Escape' && onCancel()}
+      >
+        <div className="feedback-head">
+          <h2 id={`${uid}-title`}>Choices for {name}</h2>
+          <button type="button" className="icon-btn" aria-label="Close" onClick={onCancel}>
+            ×
+          </button>
+        </div>
+        <p className="muted small">Which debuff this strategy takes each time the enemy offers a choice.</p>
+        {choices.map((c) => (
+          <fieldset key={c.id} className="feedback-type choice-group">
+            <legend>{c.title}</legend>
+            {c.options.map((label, i) => (
+              <label key={label}>
+                <input
+                  type="radio"
+                  name={`${uid}-${c.id}`}
+                  checked={(draft[c.id] ?? 0) === i}
+                  onChange={() => setDraft((d) => ({ ...d, [c.id]: i }))}
+                />{' '}
+                {label}
+              </label>
+            ))}
+          </fieldset>
+        ))}
+        <div className="feedback-actions">
+          <button type="button" className="btn" onClick={onCancel}>
+            Cancel
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary"
+            ref={doneRef}
+            onClick={() => onDone(picksFor(choices, draft))}
+          >
+            Done
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }

@@ -431,9 +431,16 @@ has a test; new rules agreed on a card are added here. Details live in the linke
 60. **Enemy heal and Knowledge Demon (#271, Trent):** every enemy heal is capped at the enemy's Max HP (no enemy
     overheal); a `heal` effect on an enemy move heals the acting enemy. Knowledge Demon (Act 2, Hive, boss; 379 HP,
     A8 399) opens Curse of Knowledge, Slap 17 (A9 18), Knowledge Overwhelming 8x3 (9x3), Ponder 11 (13) + heal 30 +
-    2 (3) Strength, three times (the Curse offers Disintegration 6 or Mind Rot, 7 or Sloth, 8 or Waste Away), then
-    repeats Slap, Knowledge Overwhelming, Ponder. Act 2 becomes selectable in the Setup picker. Interim until the
-    per-strategy Curse choice lands: each Curse applies the Disintegration option. The enemy heal is not logged yet.
+    2 (3) Strength, three times, then repeats Slap, Knowledge Overwhelming, Ponder. Act 2 becomes selectable in the
+    Setup picker. The enemy heal is logged as a `heal` event with side 'enemy' and the HP actually restored.
+62. **Curse of Knowledge choice (#271, Trent):** an enemy move's `playerChoice` gives the player one of its options.
+    The three uses offer Disintegration 6 or Mind Rot 1, Disintegration 7 or Sloth 3, Disintegration 8 or Waste
+    Away 1 (Mind Rot / Sloth / Waste Away amounts from the status cards' text, builder's call until Trent confirms).
+    Each strategy takes the option in `StrategyConfig.optionChoices[id]`; no pick, or an invalid one, takes option 0
+    (Disintegration). With Knowledge Demon in the fight, selecting a strategy opens a modal to pick each use
+    (Done saves, Cancel keeps); the row shows "Takes: ..." with a Change button. Picks are stored with the
+    selection, apply only in fights with that choice, and go into the strategy code as "~<id>.<n>" per non-zero
+    pick (sorted by id), so log links reproduce them.
 
 ## Act 3 bosses (#24)
 
