@@ -133,7 +133,7 @@ export const SIMULATED_COUNTERS = new Set<string>([
   'lastAttackDamage',
 ]);
 
-/** `script` ids the engine runs (#108 Fiend Fire, Thrash; #116 primalForcePlus; #114 playSelf; #110 prolong; #111 perfectedStrike; #246 expectAFight; #262 upMySleeve; #283 omnisliceSplash; #260 expose, malaise; #268 handTrick, nightmare). */
+/** `script` ids the engine runs (#108 Fiend Fire, Thrash; #116 primalForcePlus; #114 playSelf; #110 prolong; #111 perfectedStrike; #246 expectAFight; #262 upMySleeve; #272 increaseOwnCost; #283 omnisliceSplash; #260 expose, malaise; #268 handTrick, nightmare). */
 export const SIMULATED_SCRIPTS = new Set<string>([
   'fiendFire',
   'thrash',
@@ -143,6 +143,7 @@ export const SIMULATED_SCRIPTS = new Set<string>([
   'perfectedStrike',
   'expectAFight',
   'upMySleeve',
+  'increaseOwnCost',
   'omnisliceSplash',
   'scheduledBlock',
   'expose',
