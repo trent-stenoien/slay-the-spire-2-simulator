@@ -1,0 +1,59 @@
+{
+  "id": "aeonglass",
+  "code": "Ae",
+  "name": "Aeonglass",
+  "act": 3,
+  "zone": "glory",
+  "difficulty": "boss",
+  "hp": { "min": 512, "max": 512 },
+  "startPowers": { "artifact": 3 },
+  "moves": {
+    "ebb": {
+      "name": "Ebb",
+      "effects": [
+        { "type": "attack", "damage": 22, "hits": 1 },
+        { "type": "gainBlock", "amount": 33 }
+      ]
+    },
+    "eyeLasers": {
+      "name": "Eye Lasers",
+      "effects": [{ "type": "attack", "damage": 11, "hits": 2 }]
+    },
+    "increasingIntensity": {
+      "name": "Increasing Intensity",
+      "effects": [
+        { "type": "addCards", "source": { "kind": "card", "cardId": "wither" }, "count": 1, "to": "discard" },
+        { "type": "enemyGainStrength", "amount": 2 }
+      ]
+    }
+  },
+  "pattern": {
+    "type": "cycle",
+    "order": ["ebb", "eyeLasers", "increasingIntensity"],
+    "start": "first"
+  },
+  "ascension": {
+    "8": { "hp": { "min": 535, "max": 535 } },
+    "9": {
+      "moves": {
+        "ebb": {
+          "effects": [
+            { "type": "attack", "damage": 26, "hits": 1 },
+            { "type": "gainBlock", "amount": 33 }
+          ]
+        },
+        "eyeLasers": {
+          "effects": [{ "type": "attack", "damage": 12, "hits": 2 }]
+        },
+        "increasingIntensity": {
+          "effects": [
+            { "type": "addCards", "source": { "kind": "card", "cardId": "wither" }, "count": 2, "to": "discard" },
+            { "type": "enemyGainStrength", "amount": 3 }
+          ]
+        }
+      }
+    }
+  },
+  "source": "slaythespire.wiki.gg",
+  "lastUpdateVersion": "v0.107.1"
+}

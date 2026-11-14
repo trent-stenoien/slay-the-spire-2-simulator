@@ -435,6 +435,16 @@ has a test; new rules agreed on a card are added here. Details live in the linke
     repeats Slap, Knowledge Overwhelming, Ponder. Act 2 becomes selectable in the Setup picker. Interim until the
     per-strategy Curse choice lands: each Curse applies the Disintegration option. The enemy heal is not logged yet.
 
+## Act 3 bosses (#24)
+
+61. **Aeonglass (#273, Trent):** Act 3, Glory, boss; 512 HP (A8 535), starts with 3 Artifact. Cycle from turn 1:
+    Ebb 22 (A9 26) + 33 Block, Eye Lasers 11x2 (12x2), Increasing Intensity: shuffle 1 (A9 2) Wither into the
+    discard pile and gain 2 (3) Strength. Imported although the wiki marks it beta (Trent: it is in the full
+    release; raw v0.107.1 numbers win). Wither: Unplayable, end of turn in Hand take 3 damage (blockable). Act 3
+    becomes selectable in the Setup picker. Interim until the contract lands: no Withering Presence (every 6 cards
+    played, every card counts, add a Wither to the Hand), and Increasing Intensity ignores X (no Wither+X, no +X
+    Strength, no upgrading of existing Withers).
+
 ## Known failure points
 
 - **Scared Block stress deck:** starter + Burning Pact + Purity + True Grit+ vs Nibbit A0 must stay at
