@@ -131,6 +131,11 @@
  *                     choice id, default option 0); GameEvent `heal.side` (an enemy heal). Declared, not
  *                     simulated yet; the validator rejects `playerChoice` in data.
  *
+ * #272 The Insatiable — PowerId `sandpit` (player countdown: −1 at the end of the player's turn, loss at
+ *                     0 checked at the start of The Insatiable's turn after Poison). Liquify Ground applies it
+ *                     with `applyPower` on an enemy move; Frantic Escape adds 1 (`applyPower`) and raises its own
+ *                     cost with `script` `increaseOwnCost` (#361). Declared, not simulated yet.
+ *
  * #5 Multi-enemy    — CombatConfig.enemyIds / RunConfig.enemyIds; CombatState.enemies (`enemy` is
  *                     the current one); StrategyView.intents; Decision / PotionUse `target`;
  *                     StrategyConfig.target + TargetPriority; `allEnemies` on applyVulnerable /
@@ -685,7 +690,15 @@ export type PowerId =
   /** You cannot play more than [amount] cards from your hand each turn (Sloth). */
   | 'sloth'
   /** Gain [amount] less energy at the start of each turn (Waste Away). */
-  | 'wasteAway';
+  | 'wasteAway'
+  // #272 The Insatiable (not simulated yet)
+  /**
+   * In [amount] turns you are eaten and lose the combat (Sandpit). Put on the player by The Insatiable's
+   * Liquify Ground (`applyPower` on an enemy move); Frantic Escape adds 1. Goes down by 1 at the end of
+   * the player's turn; at 0 the combat is lost at the start of The Insatiable's turn, after Poison (so a
+   * Poison kill still wins). Fairy in a Bottle and Lizard Tail do not prevent it.
+   */
+  | 'sandpit';
 
 /** Enemy powers, stored in EnemyState.powers. */
 export type EnemyPowerId =
